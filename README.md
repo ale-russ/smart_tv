@@ -1,1 +1,1 @@
-"# smart_tv" 
+# Samsung_smart_tv
