@@ -10,4 +10,9 @@
         <infolink>T-INFOLINK2021-1000</infolink>
     </tv-info>
     <feature name="http://tizen.org/feature/screen.size.all"/>
+    <privileges>
+        <privilege>http://tizen.org/privilege/mediastorage</privilege>
+        <privilege>http://tizen.org/privilege/externalstorage</privilege>
+        <privilege>http://tizen.org/privilege/internet</privilege>
+    </privileges>
 </manifest>

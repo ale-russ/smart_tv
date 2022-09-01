@@ -37,6 +37,9 @@ dependencies:
 
   video_player: ^2.4.7
   video_player_web_hls: ^0.1.11+4
+  video_player_tizen: ^2.4.0
+
+  progress_indicators: ^1.0.0
 
 dev_dependencies:
   flutter_test:

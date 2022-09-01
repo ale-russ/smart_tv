@@ -18,6 +18,8 @@ class _LoginPageState extends State<LoginPage> {
 
   final _formKey = GlobalKey<FormState>();
 
+  FocusNode passwordFocus = FocusNode();
+
   bool isValid = false;
 
   @override
@@ -55,6 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: 400,
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
+                  autofocus: true,
                   controller: emailController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
@@ -78,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.all(10),
                 width: 400,
                 child: TextFormField(
+                  focusNode: passwordFocus,
                   obscureText: true,
                   controller: passwordController,
                   decoration: const InputDecoration(
@@ -100,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const LandingPage()))
+                              builder: (context) => LandingPage()))
                     }
                 },
                 child: const Text('Login'),
