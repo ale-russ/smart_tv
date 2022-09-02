@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:smart_tv/landing_page.dart';
-import 'package:smart_tv/login_page.dart';
-import 'package:android_tv/features/authentication/view/login_page.dart';
-import 'package:android_tv/features/movie_list/view/landingPage.dart';
-import 'package:flutter/material.dart';
+import 'package:smart_tv/features/authentication/view/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import '';
-import 'features/screen/homeScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +27,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: LoginPage(), //const HomeScreen()
+        // home: LoginPage(), //const HomeScreen()
+        home: const LoginPage(),
         debugShowCheckedModeBanner: false,
       ),
     );

@@ -2,54 +2,57 @@
 
 import 'package:smart_tv/features/movie_list/model/movies_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../movie_detail/view/movie_detail.dart';
 
-class LandingPage extends StatefulWidget {
-  LandingPage({
-    Key? key,
-  }) : super(key: key);
+// class LandingPage extends StatefulWidget {
+//   LandingPage({
+//     Key? key,
+//   }) : super(key: key);
 
-  @override
-  _LandingPageState createState() => _LandingPageState();
-}
+//   @override
+//   _LandingPageState createState() => _LandingPageState();
+// }
 
-class _LandingPageState extends State<LandingPage> {
-  @override
+class LandingPage extends StatelessWidget {
+  LandingPage({Key? key}) : super(key: key);
+
   List<IconData> sideIcons = [
     Icons.search,
     Icons.favorite,
     Icons.home,
     Icons.movie
   ];
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
         body: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-                width: MediaQuery.of(context).size.width * 0.15,
-                //color: Colors.red,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 90.0),
-                  child: ListView.separated(
-                    itemCount: sideIcons.length,
-                    itemBuilder: (BuildContext context, int index) => Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Icon(
-                        sideIcons[index],
-                        color: Colors.white,
-                      ),
-                    ),
-                    separatorBuilder: (BuildContext context, int index) =>
-                        SizedBox(
-                      height: 50,
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.15,
+              //color: Colors.red,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 90.0),
+                child: ListView.separated(
+                  itemCount: sideIcons.length,
+                  itemBuilder: (BuildContext context, int index) => Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Icon(
+                      sideIcons[index],
+                      color: Colors.white,
                     ),
                   ),
-                )),
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const SizedBox(
+                    height: 50,
+                  ),
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: Column(
@@ -60,11 +63,11 @@ class _LandingPageState extends State<LandingPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Recommended",
                         style: TextStyle(color: Colors.white),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       SingleChildScrollView(
@@ -110,7 +113,8 @@ class _LandingPageState extends State<LandingPage> {
                                     ),
                                   ),
                               separatorBuilder:
-                                  (BuildContext context, int index) => SizedBox(
+                                  (BuildContext context, int index) =>
+                                      const SizedBox(
                                         width: 10,
                                       )),
                         ),
