@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:smart_tv/landing_page.dart';
 import 'package:smart_tv/login_page.dart';
+import 'package:android_tv/features/authentication/view/login_page.dart';
+import 'package:android_tv/features/movie_list/view/landingPage.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import '';
+import 'features/screen/homeScreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,15 +16,26 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Shortcuts(
+      shortcuts: {
+        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
+      },
+      child: GetMaterialApp(
+        title: 'Kabbe Movies',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: LoginPage(), //const HomeScreen()
+        debugShowCheckedModeBanner: false,
       ),
-      home: const HomePage(title: 'Flutter Tizen Demo'),
     );
   }
 }

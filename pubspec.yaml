@@ -40,6 +40,9 @@ dependencies:
   video_player_tizen: ^2.4.0
 
   progress_indicators: ^1.0.0
+  get: ^4.6.5
+  email_validator: ^2.1.17
+  
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +70,9 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/
+    # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
