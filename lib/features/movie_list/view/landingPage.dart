@@ -15,44 +15,49 @@ import '../../movie_detail/view/movie_detail.dart';
 //   _LandingPageState createState() => _LandingPageState();
 // }
 
+List<IconData> sideIcons = [
+  Icons.home,
+  Icons.movie,
+  Icons.search,
+  Icons.favorite,
+];
+
 class LandingPage extends StatelessWidget {
   LandingPage({Key? key}) : super(key: key);
 
-  List<IconData> sideIcons = [
-    Icons.search,
-    Icons.favorite,
-    Icons.home,
-    Icons.movie
-  ];
+  final bool displayDrawer = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: displayDrawer ? SideDrawer() : null,
         backgroundColor: Colors.black,
         body: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.15,
-              //color: Colors.red,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 90.0),
-                child: ListView.separated(
-                  itemCount: sideIcons.length,
-                  itemBuilder: (BuildContext context, int index) => Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Icon(
-                      sideIcons[index],
-                      color: Colors.white,
+                width: MediaQuery.of(context).size.width * 0.15,
+                //color: Colors.red,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 90.0),
+                  child: ListView.separated(
+                    itemCount: sideIcons.length,
+                    itemBuilder: (BuildContext context, int index) => Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          sideIcons[index],
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(
+                      height: 50,
                     ),
                   ),
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const SizedBox(
-                    height: 50,
-                  ),
-                ),
-              ),
-            ),
+                )),
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
               child: Column(
@@ -85,7 +90,7 @@ class LandingPage extends StatelessWidget {
                               itemBuilder: (BuildContext context, int index) =>
                                   GestureDetector(
                                     onTap: () => Get.to(() => MovieDetail(
-                                          movieTitle: movieList[index].title,
+                                          imageUrl: movieList[index].title,
                                           movieUrl: movieList[index].imgUrl,
                                         )),
                                     child: Stack(
@@ -99,15 +104,16 @@ class LandingPage extends StatelessWidget {
                                                   .width *
                                               0.2,
                                           decoration: BoxDecoration(
-                                              //color: Colors.black54,
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                              color: Colors.red,
-                                              image: DecorationImage(
-                                                  image: AssetImage(
-                                                    movieList[index].imgUrl,
-                                                  ),
-                                                  fit: BoxFit.cover)),
+                                            //color: Colors.black54,
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                            // color: Colors.red,
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                  movieList[index].imgUrl,
+                                                ),
+                                                fit: BoxFit.cover),
+                                          ),
                                         )
                                       ],
                                     ),
@@ -126,5 +132,37 @@ class LandingPage extends StatelessWidget {
             ),
           ],
         ));
+  }
+}
+
+class SideDrawer extends StatelessWidget {
+  const SideDrawer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+        child: ListView(
+      children: [
+        DrawerHeader(
+          child: ListView.separated(
+            itemCount: sideIcons.length,
+            itemBuilder: (BuildContext context, int index) => Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  sideIcons[index],
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            separatorBuilder: (BuildContext context, int index) =>
+                const SizedBox(
+              height: 50,
+            ),
+          ),
+        )
+      ],
+    ));
   }
 }
