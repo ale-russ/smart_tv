@@ -3,6 +3,7 @@
 import 'package:smart_tv/features/movie_list/model/movies_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/upcoming_movies/upcoming_movies.dart';
 
 import '../../movie_detail/view/movie_detail.dart';
 
@@ -37,20 +38,67 @@ class LandingPage extends StatelessWidget {
               //color: Colors.red,
               child: Padding(
                 padding: const EdgeInsets.only(top: 90.0),
-                child: ListView.separated(
-                  itemCount: sideIcons.length,
-                  itemBuilder: (BuildContext context, int index) => Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Icon(
-                      sideIcons[index],
-                      color: Colors.white,
+                child: ListView(
+                  scrollDirection: Axis.vertical,
+                  children: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.home,
+                          color: Colors.amber,
+                          size: 30,
+                        )),
+                    SizedBox(
+                      height: 30,
                     ),
-                  ),
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const SizedBox(
-                    height: 50,
-                  ),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.search,
+                          color: Colors.amber,
+                          size: 30,
+                        )),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.favorite,
+                          color: Colors.amber,
+                          size: 30,
+                        )),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Upcoming()));
+                        },
+                        icon: Icon(
+                          Icons.movie,
+                          color: Colors.amber,
+                          size: 30,
+                        )),
+                  ],
+                  // itemCount: sideIcons.length,
+                  // itemBuilder: (BuildContext context, int index) => Padding(
+                  // padding: const EdgeInsets.all(10.0),
+                  // child: GestureDetector(
+                  //   onTap: () {},
+                  //   child: Icon(
+                  //     sideIcons[index],
+                  //     color: Colors.white,
+                  //   ),
+                  // ),
                 ),
+                //  separatorBuilder: (BuildContext context, int index) =>
+                //   const SizedBox(
+                // height: 50,
+                // ),
               ),
             ),
             Padding(
