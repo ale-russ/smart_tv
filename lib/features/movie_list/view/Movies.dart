@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
@@ -49,30 +50,82 @@ class _MoviesPage extends State<MoviesPage> {
     });
   }
 
+  List<IconData> sideIcons = [
+    Icons.search,
+    Icons.favorite,
+    Icons.home,
+    Icons.movie
+  ];
+
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        //
-        title: const Modified_text(
-          text: 'Smart-TV App ',
-          size: 20,
-          color: Colors.amber,
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          //
+          title: const Modified_text(
+            text: 'Smart-TV App ',
+            size: 20,
+            color: Colors.amber,
+          ),
+          backgroundColor: Colors.transparent,
         ),
-        backgroundColor: Colors.transparent,
-      ),
-      body: ListView(
-        children: [
-          TrendingMovies(
-            trending: trendingmovies,
+        body: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: 100,
+            color: Colors.amber,
+            child: Column(
+              children: [
+                NavigationRail(destinations: const <NavigationRailDestination>[
+                  NavigationRailDestination(
+                    icon: Icon(Icons.home),
+                    label: Text("Home"),
+                  ),
+                ], selectedIndex: _selectedIndex)
+              ],
+            ),
           ),
-          TopRated(
-            toprated: topratedmovies,
-          ),
-          TV(tv: tv),
-        ],
-      ),
-    );
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 0.0),
+              child: Column(children: [
+                Container(
+                  //height: MediaQuery.of(context).size.height,
+                  margin: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: Colors.blueGrey,
+                    ),
+                  ),
+                ),
+                Container(),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: 700,
+                    child: ListView(
+                      children: [
+                        TrendingMovies(
+                          trending: trendingmovies,
+                        ),
+                        TopRated(
+                          toprated: topratedmovies,
+                        ),
+                        TV(tv: tv),
+                        SizedBox(
+                          height: 100,
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ]),
+            ),
+          )
+        ]));
   }
 }
