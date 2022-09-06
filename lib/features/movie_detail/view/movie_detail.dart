@@ -5,10 +5,12 @@ class MovieDetail extends StatefulWidget {
     Key? key,
     required this.imageUrl,
     required this.movieUrl,
+    required this.movieTitle,
   }) : super(key: key);
 
   final String movieUrl;
   final String imageUrl;
+  final String movieTitle;
 
   @override
   State<MovieDetail> createState() => _MovieDetailState(imageUrl, movieUrl);

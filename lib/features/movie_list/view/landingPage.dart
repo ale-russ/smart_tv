@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
+import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
 import 'package:smart_tv/features/movie_list/model/movies_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,233 +8,173 @@ import 'package:smart_tv/features/upcoming_movies/upcoming_movies.dart';
 
 import '../../movie_detail/view/movie_detail.dart';
 
-// class LandingPage extends StatefulWidget {
-//   LandingPage({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   _LandingPageState createState() => _LandingPageState();
-// }
-
-List<IconData> sideIcons = [
-  Icons.home,
-  Icons.movie,
-  Icons.search,
-  Icons.favorite,
-];
-
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
   LandingPage({Key? key}) : super(key: key);
 
-  final bool displayDrawer = true;
+  @override
+  State<LandingPage> createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
+  List<IconData> sideIcons = [
+    Icons.search,
+    Icons.favorite,
+    Icons.home,
+    Icons.movie
+  ];
+
+  List<Content>? movies;
+
+  MovieController controller = Get.put(MovieController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: displayDrawer ? SideDrawer() : null,
-        backgroundColor: Colors.black,
-        body: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      drawer: Drawer(
+        child: Column(
           children: [
-            SizedBox(
-<<<<<<< HEAD
-                width: MediaQuery.of(context).size.width * 0.15,
-                //color: Colors.red,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 90.0),
-                  child: ListView.separated(
-                    itemCount: sideIcons.length,
-                    itemBuilder: (BuildContext context, int index) => Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          sideIcons[index],
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const SizedBox(
-                      height: 50,
-                    ),
-                  ),
-                )),
-=======
+            const DrawerHeader(child: Text("Open this")),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
+                ),
+              ),
               width: MediaQuery.of(context).size.width * 0.15,
-              //color: Colors.red,
               child: Padding(
                 padding: const EdgeInsets.only(top: 90.0),
-                child: ListView(
+                child: ListView.separated(
                   scrollDirection: Axis.vertical,
-                  children: [
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.home,
-                          color: Colors.amber,
-                          size: 30,
-                        )),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.search,
-                          color: Colors.amber,
-                          size: 30,
-                        )),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.favorite,
-                          color: Colors.amber,
-                          size: 30,
-                        )),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    IconButton(
+                  itemCount: sideIcons.length,
+                  separatorBuilder: (context, index) => const SizedBox(),
+                  itemBuilder: ((context, index) => IconButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Upcoming()));
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return LandingPage();
+                              },
+                            ),
+                          );
                         },
                         icon: Icon(
-                          Icons.movie,
+                          sideIcons[index],
                           color: Colors.amber,
-                          size: 30,
-                        )),
-                  ],
-                  // itemCount: sideIcons.length,
-                  // itemBuilder: (BuildContext context, int index) => Padding(
-                  // padding: const EdgeInsets.all(10.0),
-                  // child: GestureDetector(
-                  //   onTap: () {},
-                  //   child: Icon(
-                  //     sideIcons[index],
-                  //     color: Colors.white,
-                  //   ),
-                  // ),
-                ),
-                //  separatorBuilder: (BuildContext context, int index) =>
-                //   const SizedBox(
-                // height: 50,
-                // ),
-              ),
-            ),
->>>>>>> fd88acc9bf297eac5975f845e67caba5e1d86f9a
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.08,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Recommended",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.30,
-                          width: MediaQuery.of(context).size.width * 0.80,
-                          decoration: BoxDecoration(
-                            // color: Colors.blue,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: movieList.length,
-                              itemBuilder: (BuildContext context, int index) =>
-                                  GestureDetector(
-                                    onTap: () => Get.to(() => MovieDetail(
-                                          imageUrl: movieList[index].title,
-                                          movieUrl: movieList[index].imgUrl,
-                                        )),
-                                    child: Stack(
-                                      children: [
-                                        Container(
-                                          height: MediaQuery.of(context)
-                                              .size
-                                              .height,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          decoration: BoxDecoration(
-                                            //color: Colors.black54,
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                            // color: Colors.red,
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                  movieList[index].imgUrl,
-                                                ),
-                                                fit: BoxFit.cover),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                              separatorBuilder:
-                                  (BuildContext context, int index) =>
-                                      const SizedBox(
-                                        width: 10,
-                                      )),
+                          size: 15,
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      )),
+                ),
               ),
             ),
           ],
-        ));
-  }
-}
-
-class SideDrawer extends StatelessWidget {
-  const SideDrawer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-        child: ListView(
-      children: [
-        DrawerHeader(
-          child: ListView.separated(
-            itemCount: sideIcons.length,
-            itemBuilder: (BuildContext context, int index) => Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  sideIcons[index],
-                  color: Colors.white,
+        ),
+      ),
+      backgroundColor: Colors.black,
+      body:
+          // Row(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: [
+          // Container(
+          //   decoration: BoxDecoration(
+          //       border: Border.all(
+          //     color: Colors.grey,
+          //   )),
+          //   width: MediaQuery.of(context).size.width * 0.15,
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(top: 90.0),
+          //     child: ListView.separated(
+          //       scrollDirection: Axis.vertical,
+          //       itemCount: sideIcons.length,
+          //       separatorBuilder: (context, index) => const SizedBox(),
+          //       itemBuilder: ((context, index) => IconButton(
+          //             onPressed: () {
+          //               Navigator.pushReplacement(
+          //                 context,
+          //                 MaterialPageRoute(
+          //                   builder: (BuildContext context) {
+          //                     return LandingPage();
+          //                   },
+          //                 ),
+          //               );
+          //             },
+          //             icon: Icon(
+          //               sideIcons[index],
+          //               color: Colors.amber,
+          //               size: 15,
+          //             ),
+          //           )),
+          //     ),
+          //   ),
+          // ),
+          Padding(
+        padding: const EdgeInsets.only(left: 10.0),
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.7,
+              margin: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: Colors.blueGrey,
                 ),
               ),
             ),
-            separatorBuilder: (BuildContext context, int index) =>
-                const SizedBox(
-              height: 50,
+            Container(
+              height: 20,
+              margin: const EdgeInsets.only(top: 20),
+              child: const Text(
+                "Recommended",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
-          ),
-        )
-      ],
-    ));
+            FutureBuilder<MoviesList>(
+              future: controller.fetchMovies(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const SizedBox.shrink();
+                } else if (snapshot.hasError) {
+                  return const Padding(
+                    padding: EdgeInsets.only(top: 18.0),
+                    child: Text("Error"),
+                  );
+                } else if (snapshot.data?.movies!.isEmpty ?? true) {
+                  return const SizedBox.shrink();
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    height: 100,
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: snapshot.data!.movies!.length,
+                      separatorBuilder: (context, index) => const SizedBox(
+                        width: 10,
+                      ),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          width: 200,
+                          child: snapshot.data!.movies![index].url.isNotEmpty
+                              ? Image.network(snapshot.data!.movies![index].url)
+                              : const Placeholder(
+                                  color: Colors.yellow,
+                                  fallbackHeight: 200,
+                                ),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              },
+            )
+          ],
+        ),
+      ),
+      //   ],
+      // )
+    );
   }
 }

@@ -42,6 +42,9 @@ dependencies:
   progress_indicators: ^1.0.0
   get: ^4.6.5
   email_validator: ^2.1.17
+
+  # http requests
+  http: ^0.13.5
   
 
 dev_dependencies:

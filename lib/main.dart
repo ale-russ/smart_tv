@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
         ),
         // home: LoginPage(), //const HomeScreen()
         home: LandingPage(),
+        // home: HomePage(title: "Login page"),
         debugShowCheckedModeBanner: false,
       ),
     );
@@ -45,9 +46,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      // appBar: AppBar(
+      //   title: Text(title),
+      // ),
       body: LoginPage(),
     );
   }

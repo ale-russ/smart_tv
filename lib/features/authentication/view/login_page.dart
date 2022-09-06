@@ -63,27 +63,10 @@ class _LoginPageState extends State<LoginPage> {
         ),
         side: BorderSide(color: Theme.of(context).dividerColor),
       ),
-      // ButtonStyle(
-      //   textStyle: MaterialStateProperty.all<TextStyle>(
-      //     const TextStyle(
-      //       fontSize: 18,
-      //       fontWeight: FontWeight.w600,
-      //     ),
-      //   ),
-      //   shape: MaterialStateProperty.all<OutlinedBorder?>(
-      //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-      //   ),
-      //   side: MaterialStateProperty.resolveWith<BorderSide?>(
-      //     (Set<MaterialState> states) {
-      //       if (states.contains(MaterialState.focused)) {
-      //         return BorderSide(color: Theme.of(context).dividerColor);
-      //       }
-      //       return null;
-      //     },
-      //   ),
-      // ),
       onPressed: () {
-        formKey!.currentState!.validate() ? Get.to(() => LandingPage()) : null;
+        formKey!.currentState!.validate()
+            ? Get.to(() => LandingPage())
+            : "Error Please";
       },
       child: const Center(child: Text("Login")),
     );
@@ -112,77 +95,75 @@ class _LoginPageState extends State<LoginPage> {
               child: Padding(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.1),
-                child: Shortcuts(
-                  shortcuts: {
-                    LogicalKeySet(LogicalKeyboardKey.select):
-                        const ActivateIntent(),
-                    LogicalKeySet(LogicalKeyboardKey.arrowLeft):
-                        LeftbuttonIntent(),
-                    LogicalKeySet(LogicalKeyboardKey.arrowLeft):
-                        RightbuttonIntent(),
-                    LogicalKeySet(LogicalKeyboardKey.arrowLeft):
-                        UpbuttonIntent(),
-                    LogicalKeySet(LogicalKeyboardKey.arrowLeft):
-                        DownbuttonIntent(),
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(25)),
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    height: MediaQuery.of(context).size.height / 1.2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(36.0),
-                      child: Form(
-                        key: formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            const Image(
-                              image: AssetImage(
-                                "assets/images/logo.png",
-                              ),
-                              width: 70,
-                              height: 70,
+                child:
+                    // Shortcuts(
+                    //   shortcuts: {
+                    //     LogicalKeySet(LogicalKeyboardKey.select):
+                    //         const ActivateIntent(),
+                    //     LogicalKeySet(LogicalKeyboardKey.arrowLeft):
+                    //         LeftbuttonIntent(),
+                    //     LogicalKeySet(LogicalKeyboardKey.arrowLeft):
+                    //         RightbuttonIntent(),
+                    //     LogicalKeySet(LogicalKeyboardKey.arrowLeft):
+                    //         UpbuttonIntent(),
+                    //     LogicalKeySet(LogicalKeyboardKey.arrowLeft):
+                    //         DownbuttonIntent(),
+                    //   },
+                    //   child:
+                    Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(25)),
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: MediaQuery.of(context).size.height / 1.2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(36.0),
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Image(
+                            image: AssetImage(
+                              "assets/images/logo.png",
                             ),
-                            const SizedBox(height: 18.0),
-                            Actions(
-                                actions: <Type, Action<Intent>>{
-                                  DownbuttonIntent:
-                                      CallbackAction<DownbuttonIntent>(
-                                          onInvoke: (Intent) =>
-                                              _changeNodeFocus(
-                                                  context, _emailNode!))
-                                },
-                                child: FormTextField(
-                                    emailNode: _emailNode,
-                                    obsecure: false,
-                                    hint: 'Email',
-                                    controller:
-                                        loginController.emailController)),
-                            const SizedBox(height: 24.0),
-                            FormTextField(
-                                emailNode: _passwordNode,
-                                obsecure: true,
-                                hint: 'Password',
-                                controller: loginController.passwordController),
-                            const SizedBox(
-                              height: 36.0,
-                            ),
-                            loginButton,
-                            // const SizedBox(
-                            //   height: 16.0,
-                            // ),
-                          ],
-                        ),
+                            width: 70,
+                            height: 70,
+                          ),
+                          const SizedBox(height: 18.0),
+                          Actions(
+                              actions: <Type, Action<Intent>>{
+                                DownbuttonIntent:
+                                    CallbackAction<DownbuttonIntent>(
+                                        onInvoke: (Intent) => _changeNodeFocus(
+                                            context, _emailNode!))
+                              },
+                              child: FormTextField(
+                                  emailNode: _emailNode,
+                                  obsecure: false,
+                                  hint: 'Email',
+                                  controller: loginController.emailController)),
+                          const SizedBox(height: 24.0),
+                          FormTextField(
+                            emailNode: _passwordNode,
+                            obsecure: true,
+                            hint: 'Password',
+                            controller: loginController.passwordController,
+                          ),
+                          const SizedBox(
+                            height: 36.0,
+                          ),
+                          loginButton
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          )
+          ),
+          // )
         ],
       ),
     );
