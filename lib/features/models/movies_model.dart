@@ -11,19 +11,20 @@ int index = 0;
 List<ContainerCard> Movies = [
   ContainerCard(
       imageUrl: "assets/images/movie4.jpg",
-      cardTitle: 'action movie',
+      cardTitle: 'wall-e',
       albums: albums),
   ContainerCard(
-      imageUrl: "assets/images/movie5.jpg",
-      cardTitle: 'romanti cmovies',
-      albums: albums),
+    imageUrl: "assets/images/movie5.jpg",
+    cardTitle: 'Alien',
+    albums: albums,
+  ),
   ContainerCard(
       imageUrl: "assets/images/movie6.jpg",
-      cardTitle: 'honor movies',
+      cardTitle: 'Deadpool',
       albums: albums),
   ContainerCard(
       imageUrl: 'assets/images/movie7.jpg',
-      cardTitle: 'coria film',
+      cardTitle: 'Free guy',
       albums: albums),
   ContainerCard(
       imageUrl: "assets/images/movie8.jpg",

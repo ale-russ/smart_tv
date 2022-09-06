@@ -1,0 +1,12 @@
+{
+  "movies": [
+    {"id": 1, "title": "The Godfather", "director":"Francis Ford Coppola", "rating": 9.1,"url":"https://www.imdb.com/title/tt0068646/", "img_url":"../data/img/The_Matrix.jpg"},
+    {"id": 2, "title": "Samaritan", "director": "Julies Avery", "rating": 8.8, "url":"https://www.imdb.com/title/tt5500218/","img_url":"../data/img/The_Matrix.jpg"},
+    {"id": 3, "title": "The Lord of The Rings", "director": "Peter Jackson", "rating": 9.0, "url":"https://www.imdb.com/title/tt0120737/","img_url":"../data/img/The_Matrix.jpg"},
+    {"id": 4, "title": "The Matrix", "director":"Lana Wachowski", "rating": 7.8, "url":"https://www.rottentomatoes.com/m/matrix","img_url":"../data/img/The_Matrix.jpg"},
+    {"id": 5, "title": "King Arthur", "director":"Guy Richi", "rating": 8.3, "url":"https://www.imdb.com/title/tt1972591/","img_url":"../data/img/The_Matrix.jpg"},
+    {"id": 6, "title": "Good Fellas", "director":"Martin Scorsese", "rating": 9.1, "url":"https://www.imdb.com/title/tt0099685/","img_url":"../data/img/The_Matrix.jpg"},
+    {"id": 7, "title": "The_Matrix.jpg", "director":"James Cameron", "rating": 8.6,"url":"https://www.imdb.com/title/tt0099685/","img_url":"../data/img/The_Matrix.jpg"},
+    {"id": 8, "title": "The Witcher", "director":"Tomasz Baginski", "rating": 8.8, "url":"https://www.imdb.com/title/tt0099685/","img_url":"../data/img/The_Matrix.jpg"}
+  ]
+}

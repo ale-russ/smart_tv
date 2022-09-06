@@ -13,12 +13,12 @@ import 'package:tmdb_api/tmdb_api.dart';
 
 import '../widgets/trending.dart';
 
-class MoviesList extends StatefulWidget {
+class MoviesPage extends StatefulWidget {
   @override
-  _MoviesList createState() => _MoviesList();
+  _MoviesPage createState() => _MoviesPage();
 }
 
-class _MoviesList extends State<MoviesList> {
+class _MoviesPage extends State<MoviesPage> {
   final String apikey = 'f8242645e5c75f1aa66afeaeb47494e3';
   final String readaccesstoken =
       'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmODI0MjY0NWU1Yzc1ZjFhYTY2YWZlYWViNDc0OTRlMyIsInN1YiI6IjYzMTY0ZWU3YmExMzFiMDA4MWQxYWMwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0rthKmQIVTLgh9wFN7qkpMcmacpy1Juxib-KhJKXtEw';
@@ -57,97 +57,27 @@ class _MoviesList extends State<MoviesList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          //
-          title: const Modified_text(
-            text: 'Smart-TV App ',
-            size: 20,
-            color: Colors.amber,
-          ),
-          backgroundColor: Colors.transparent,
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        //
+        title: const Modified_text(
+          text: 'Smart-TV App ',
+          size: 20,
+          color: Colors.amber,
         ),
-        body: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.10,
-              //color: Colors.red,
-              child: Padding(
-                  padding: const EdgeInsets.only(top: 90.0),
-                  child: NavigationRail(
-                      backgroundColor: Colors.transparent,
-                      indicatorColor: Colors.transparent,
-                      onDestinationSelected: (value) {
-                        setState(() {
-                          _selectedIndex = index;
-                        });
-                      },
-                      destinations: [
-                        const NavigationRailDestination(
-                            icon: Icon(
-                              Icons.home,
-                              color: Colors.amber,
-                            ),
-                            label: Text('Home')),
-                        const NavigationRailDestination(
-                            icon: Icon(Icons.search, color: Colors.amber),
-                            label: Text('search')),
-                        const NavigationRailDestination(
-                            icon: Icon(Icons.favorite, color: Colors.amber),
-                            label: Text('Favorite')),
-                        const NavigationRailDestination(
-                            icon: Icon(Icons.movie, color: Colors.amber),
-                            label: Text('Home')),
-                      ],
-                      selectedIndex: _selectedIndex)),
-            ),
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: Column(
-                  children: [
-                    Container(
-                        //  height: MediaQuery.of(context).size.height,
-                        ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Container(
-                            height: MediaQuery.of(context).size.height,
-                            width: MediaQuery.of(context).size.width * 0.80,
-                            decoration: BoxDecoration(
-                              // color: Colors.blue,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: ListView(
-                              children: [
-                                TrendingMovies(
-                                  trending: trendingmovies,
-                                ),
-                                TopRated(
-                                  toprated: topratedmovies,
-                                ),
-                                TV(tv: tv),
-                                const SizedBox(
-                                  height: 100,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ));
+        backgroundColor: Colors.transparent,
+      ),
+      body: ListView(
+        children: [
+          TrendingMovies(
+            trending: trendingmovies,
+          ),
+          TopRated(
+            toprated: topratedmovies,
+          ),
+          TV(tv: tv),
+        ],
+      ),
+    );
   }
 }

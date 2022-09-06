@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
-import 'features/movie_list/view/Movies.dart';
+import 'package:smart_tv/features/movie_list/view/Movies.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +29,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         // home: LoginPage(), //const HomeScreen()
-        home: MoviesList(),
+        // home: LandingPage(),
+        home: MoviesPage(),
+        // home: HomePage(title: "Login page"),
         debugShowCheckedModeBanner: false,
       ),
     );
@@ -45,9 +46,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      // appBar: AppBar(
+      //   title: Text(title),
+      // ),
       body: LoginPage(),
     );
   }

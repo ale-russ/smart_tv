@@ -42,11 +42,23 @@ dependencies:
   progress_indicators: ^1.0.0
   get: ^4.6.5
   email_validator: ^2.1.17
+<<<<<<< HEAD
   side_navigation: ^1.0.2
   tmdb_api: ^2.1.4
   google_fonts: ^3.0.1
   easy_sidemenu: ^0.3.1
   
+=======
+
+  # http requests
+  http: ^0.13.5
+
+  # google-fonts
+  google_fonts: ^3.0.1
+
+  # tmdb_api
+  tmdb_api: ^2.1.4
+>>>>>>> eb00bddd50fab645800dcc7ef5345fe4ab5eb160
   
 
 dev_dependencies:
