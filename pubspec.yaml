@@ -45,6 +45,12 @@ dependencies:
 
   # http requests
   http: ^0.13.5
+
+  # google-fonts
+  google_fonts: ^3.0.1
+
+  # tmdb_api
+  tmdb_api: ^2.1.4
   
 
 dev_dependencies:

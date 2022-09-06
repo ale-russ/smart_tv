@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/movie_list/view/Movies.dart';
 import 'package:smart_tv/features/movie_list/view/landingPage.dart';
+import 'package:smart_tv/features/screen/movieScreen.dart';
 import 'package:smart_tv/features/upcoming_movies/upcoming_movies.dart';
 
 void main() {
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         // home: LoginPage(), //const HomeScreen()
-        home: LandingPage(),
+        // home: LandingPage(),
+        home: MoviesPage(),
         // home: HomePage(title: "Login page"),
         debugShowCheckedModeBanner: false,
       ),
