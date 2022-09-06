@@ -1,7 +1,9 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
@@ -49,12 +51,34 @@ class _MoviesPage extends State<MoviesPage> {
     });
   }
 
+  int _selectedIndex = 0;
+  NavigationRailLabelType labelType = NavigationRailLabelType.all;
+  bool showLeading = false;
+  bool showTrailing = false;
+  double groupAlignment = 0;
+
+  List<IconData> sideIcons = [
+    Icons.home,
+    Icons.movie,
+    Icons.search,
+    Icons.favorite,
+  ];
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> _pages = [
+      Movies(
+          trendingmovies: trendingmovies,
+          topratedmovies: topratedmovies,
+          tv: tv),
+      TrendingMovies(trending: trendingmovies),
+      TopRated(toprated: topratedmovies),
+    ];
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        //
+        leading: null,
         title: const Modified_text(
           text: 'Smart-TV App ',
           size: 20,
@@ -62,17 +86,114 @@ class _MoviesPage extends State<MoviesPage> {
         ),
         backgroundColor: Colors.transparent,
       ),
-      body: ListView(
+      body: Row(
         children: [
-          TrendingMovies(
-            trending: trendingmovies,
+          NavRail(
+            selectedIndex: _selectedIndex,
+            groupAlignment: groupAlignment,
+            callback: (index) => setState(() {
+              _selectedIndex = index;
+            }),
           ),
-          TopRated(
-            toprated: topratedmovies,
+          const VerticalDivider(),
+          Expanded(
+            child: _pages[_selectedIndex],
           ),
-          TV(tv: tv),
         ],
       ),
+    );
+  }
+}
+
+typedef void setIndexCallback(int index);
+
+class NavRail extends StatelessWidget {
+  NavRail({
+    Key? key,
+    required int selectedIndex,
+    required this.groupAlignment,
+    this.callback,
+  }) : super(key: key);
+
+  int? _selectedIndex;
+  final double groupAlignment;
+
+  final setIndexCallback? callback;
+
+  @override
+  Widget build(BuildContext context) {
+    return NavigationRail(
+      backgroundColor: Colors.black,
+      selectedIndex: _selectedIndex,
+      minWidth: 30,
+      groupAlignment: groupAlignment,
+      onDestinationSelected: (int index) {
+        _selectedIndex = index;
+        callback!(index);
+      },
+      destinations: const [
+        NavigationRailDestination(
+          icon: Icon(
+            Icons.home,
+            color: Colors.white,
+          ),
+          selectedIcon: Icon(
+            Icons.home,
+            color: Colors.amber,
+          ),
+          label: Text("Home"),
+        ),
+        NavigationRailDestination(
+          icon: Icon(
+            Icons.movie,
+            color: Colors.white,
+          ),
+          selectedIcon: Icon(
+            Icons.movie,
+            color: Colors.amber,
+          ),
+          label: Text("Movies"),
+        ),
+        NavigationRailDestination(
+          icon: Icon(
+            Icons.search,
+            color: Colors.white,
+          ),
+          selectedIcon: Icon(
+            Icons.search,
+            color: Colors.amber,
+          ),
+          label: Text("Search"),
+        ),
+      ],
+    );
+  }
+}
+
+class Movies extends StatelessWidget {
+  const Movies({
+    Key? key,
+    required this.trendingmovies,
+    required this.topratedmovies,
+    required this.tv,
+  }) : super(key: key);
+
+  final List trendingmovies;
+  final List topratedmovies;
+  final List tv;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        TrendingMovies(
+          trending: trendingmovies,
+        ),
+        TopRated(
+          toprated: topratedmovies,
+        ),
+        TV(tv: tv),
+      ],
     );
   }
 }
