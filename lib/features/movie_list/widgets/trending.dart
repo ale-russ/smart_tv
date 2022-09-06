@@ -42,17 +42,20 @@ class TrendingMovies extends StatelessWidget {
                 },
                 child: trending[index]['title'] != null
                     ? Container(
-                        width: 140,
+                        padding: EdgeInsets.all(5),
+                        width: 250,
                         child: Column(
                           children: [
                             Container(
-                                height: 200,
+                                width: 250,
+                                height: 140,
                                 decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
                                     image: DecorationImage(
                                         image: NetworkImage(
                                             'https://image.tmdb.org/t/p/w500' +
-                                                trending[index]
-                                                    ['poster_path'])))),
+                                                trending[index]['poster_path']),
+                                        fit: BoxFit.cover))),
                             Container(
                               child: Modified_text(
                                 text: trending[index]['title'] != null
