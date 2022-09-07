@@ -1,9 +1,11 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
+import 'package:easy_sidemenu/easy_sidemenu.dart';
+import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
@@ -67,6 +69,8 @@ class _MoviesPage extends State<MoviesPage> {
       //print(controller.allVideo[0]);
     });
   }
+
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {

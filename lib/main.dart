@@ -3,9 +3,6 @@ import 'package:smart_tv/features/authentication/view/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/movie_list/view/Movies.dart';
-import 'package:smart_tv/features/movie_list/view/landingPage.dart';
-import 'package:smart_tv/features/screen/movieScreen.dart';
-import 'package:smart_tv/features/upcoming_movies/upcoming_movies.dart';
 
 void main() {
   runApp(const MyApp());
