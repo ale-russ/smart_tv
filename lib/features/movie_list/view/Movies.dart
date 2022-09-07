@@ -1,8 +1,9 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 
@@ -52,17 +53,6 @@ class _MoviesPage extends State<MoviesPage> {
   }
 
   int _selectedIndex = 0;
-  NavigationRailLabelType labelType = NavigationRailLabelType.all;
-  bool showLeading = false;
-  bool showTrailing = false;
-  double groupAlignment = 0;
-
-  List<IconData> sideIcons = [
-    Icons.home,
-    Icons.movie,
-    Icons.search,
-    Icons.favorite,
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +80,7 @@ class _MoviesPage extends State<MoviesPage> {
         children: [
           NavRail(
             selectedIndex: _selectedIndex,
-            groupAlignment: groupAlignment,
+            groupAlignment: 0,
             callback: (index) => setState(() {
               _selectedIndex = index;
             }),
