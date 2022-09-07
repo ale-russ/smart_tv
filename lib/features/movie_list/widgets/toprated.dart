@@ -27,6 +27,9 @@ class TopRated extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
+                  for (var element in toprated) {
+                    print(element);
+                  }
                   Navigator.push(
                       context,
                       MaterialPageRoute(
