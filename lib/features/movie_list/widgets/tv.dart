@@ -52,8 +52,9 @@ class TV extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                               image: DecorationImage(
                                   image: NetworkImage(
-                                      'https://image.tmdb.org/t/p/w500' +
-                                          tv[index]['backdrop_path']),
+                                    'https://image.tmdb.org/t/p/w500' +
+                                        tv[index]['backdrop_path'],
+                                  ),
                                   fit: BoxFit.cover))),
                       SizedBox(
                         height: 10,

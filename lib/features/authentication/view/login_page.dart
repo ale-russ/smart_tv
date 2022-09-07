@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 import 'package:smart_tv/features/authentication/controller/login_controller.dart';
+import 'package:smart_tv/features/movie_list/view/Movies.dart';
 import 'package:smart_tv/features/movie_list/view/landingPage.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       onPressed: () {
         formKey!.currentState!.validate()
-            ? Get.to(() => LandingPage())
+            ? Get.to(() => MoviesPage())
             : "Error Please";
       },
       child: const Center(child: Text("Login")),

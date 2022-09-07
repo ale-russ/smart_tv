@@ -8,13 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.2"
-  badges:
-    dependency: transitive
-    description:
-      name: badges
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -85,16 +78,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.6"
-<<<<<<< HEAD
-  easy_sidemenu:
-    dependency: "direct main"
-    description:
-      name: easy_sidemenu
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.1"
-=======
->>>>>>> eb00bddd50fab645800dcc7ef5345fe4ab5eb160
   email_validator:
     dependency: "direct main"
     description:
@@ -299,13 +282,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  side_navigation:
-    dependency: "direct main"
-    description:
-      name: side_navigation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   sky_engine:
     dependency: transitive
     description: flutter
