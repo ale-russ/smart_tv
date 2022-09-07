@@ -110,61 +110,62 @@ class _SeatchPageState extends State<SeatchPage> {
               itemCount: mController.localSearch.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => Description(
-                                bannerurl: 'https://image.tmdb.org/t/p/w500' +
-                                    mController.localSearch[index]
-                                        ['backdrop_path'],
-                                description: mController.localSearch[index]
-                                    ['overview'],
-                                launch_on: mController.localSearch[index]
-                                    ['release_date'],
-                                name: mController.localSearch[index]['title'],
-                                posterurl: 'https://image.tmdb.org/t/p/w500' +
-                                    mController.localSearch[index]
-                                        ['backdrop_path'],
-                                vote: mController.localSearch[index]
-                                        ['vote_average']
-                                    .toString()))));
-                  },
-                  child: mController.localSearch.length > 0
-                      ? Obx(
-                          () {
-                            return Container(
-                              width: 140,
-                              child: Column(
-                                children: [
-                                  Container(
-                                      height: 200,
-                                      decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                  'https://image.tmdb.org/t/p/w500' +
-                                                      mController.localSearch[
-                                                              index]
-                                                          ['poster_path'])))),
-                                  Container(
-                                    child: Modified_text(
-                                      text: mController.localSearch[index]
-                                                  ['title'] !=
-                                              null
-                                          ? mController.localSearch[index]
-                                              ['title']
-                                          : 'Loading',
-                                      color: Colors.white60,
-                                      size: 15,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        )
-                      : Container(),
+                return Obx(
+                  () => InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => Description(
+                                  bannerurl: 'https://image.tmdb.org/t/p/w500' +
+                                      mController.localSearch[index]
+                                          ['backdrop_path'],
+                                  description: mController.localSearch[index]
+                                      ['overview'],
+                                  launch_on: mController.localSearch[index]
+                                      ['release_date'],
+                                  name: mController.localSearch[index]['title'],
+                                  posterurl: 'https://image.tmdb.org/t/p/w500' +
+                                      mController.localSearch[index]
+                                          ['backdrop_path'],
+                                  vote: mController.localSearch[index]
+                                          ['vote_average']
+                                      .toString()))));
+                    },
+                    child: mController.localSearch.length > 0
+                        ? Container(
+                            width: 140,
+                            child: Column(
+                              children: [
+                                Container(
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: mController
+                                                            .localSearch[index]
+                                                        ['poster_path'] !=
+                                                    null
+                                                ? NetworkImage(
+                                                    'https://image.tmdb.org/t/p/w500' +
+                                                        mController.localSearch[
+                                                                index]
+                                                            ['poster_path'])
+                                                : NetworkImage(
+                                                    "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-7509.jpg")))),
+                                Container(
+                                  child: Modified_text(
+                                    text: mController.localSearch[index]
+                                            ['title'] ??
+                                        'Loading',
+                                    color: Colors.white60,
+                                    size: 15,
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        : Container(),
+                  ),
                 );
               },
             ),
