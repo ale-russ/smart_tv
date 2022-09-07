@@ -7,7 +7,10 @@ import 'package:smart_tv/features/movie_list/utilits/text.dart';
 class TrendingMovies extends StatelessWidget {
   final List trending;
 
-  const TrendingMovies({Key? key, required this.trending}) : super(key: key);
+  const TrendingMovies({
+    Key? key,
+    required this.trending,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,7 +21,7 @@ class TrendingMovies extends StatelessWidget {
           size: 26,
           color: Colors.white70,
         ),
-        Container(
+        SizedBox(
           height: 270,
           child: ListView.builder(
             itemCount: trending.length,

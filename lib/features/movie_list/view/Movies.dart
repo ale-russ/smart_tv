@@ -29,11 +29,11 @@ class _MoviesPage extends State<MoviesPage> {
   final String apikey = 'f8242645e5c75f1aa66afeaeb47494e3';
   final String readaccesstoken =
       'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmODI0MjY0NWU1Yzc1ZjFhYTY2YWZlYWViNDc0OTRlMyIsInN1YiI6IjYzMTY0ZWU3YmExMzFiMDA4MWQxYWMwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0rthKmQIVTLgh9wFN7qkpMcmacpy1Juxib-KhJKXtEw';
-  List trendingmovies = [];
-  List topratedmovies = [];
-  List tv = [];
-  List allVideo = [];
-  List searchresult = [];
+  // List trendingmovies = [];
+  // List topratedmovies = [];
+  // List tv = [];
+  // List allVideo = [];
+  // List searchresult = [];
   MoviesController controller = Get.put(MoviesController());
 
   @override
@@ -67,11 +67,6 @@ class _MoviesPage extends State<MoviesPage> {
       controller.searchresult = searchResult['results'];
       controller.allVideo = allMovies['results'];
       print(controller.searchresult);
-
-      // controller.allVideo.addAll(tv);
-      // controller.allVideo.addAll(controller.topratedmovies);
-      // controller.allVideo.addAll(controller.trendingmovies);
-      //print(controller.allVideo[0]);
     });
   }
 
@@ -82,28 +77,25 @@ class _MoviesPage extends State<MoviesPage> {
   bool showTrailing = false;
   double groupAlignment = 0;
 
-  List<IconData> sideIcons = [
-    Icons.home,
-    Icons.movie,
-    Icons.search,
-    Icons.favorite,
-  ];
-
   @override
   Widget build(BuildContext context) {
     List<Widget> _pages = [
       Movies(
-          trendingmovies: trendingmovies,
-          topratedmovies: topratedmovies,
-          tv: tv),
-      TrendingMovies(trending: trendingmovies),
-      TopRated(toprated: topratedmovies),
+          trendingmovies: controller.trendingmovies,
+          topratedmovies: controller.topratedmovies,
+          tv: controller.tv),
+      TrendingMovies(trending: controller.trendingmovies),
+      TopRated(toprated: controller.topratedmovies),
+      TV(tv: controller.topratedmovies),
     ];
 
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        leading: null,
+        centerTitle: true,
+        leading: GetPlatform.isDesktop
+            ? IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back))
+            : SizedBox.shrink(),
         title: const Modified_text(
           text: 'Smart-TV App ',
           size: 20,
@@ -113,13 +105,6 @@ class _MoviesPage extends State<MoviesPage> {
       ),
       body: Row(
         children: [
-          TrendingMovies(
-            trending: controller.trendingmovies,
-          ),
-          TopRated(
-            toprated: controller.topratedmovies,
-          ),
-          TV(tv: controller.topratedmovies),
           NavRail(
             selectedIndex: _selectedIndex,
             groupAlignment: groupAlignment,
