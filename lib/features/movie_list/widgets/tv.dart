@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
+import 'package:smart_tv/features/search/search.dart';
 
 import 'description.dart';
 
@@ -14,10 +16,15 @@ class TV extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Modified_text(
-          text: "Popular TV Shows ",
-          size: 26,
-          color: Colors.white70,
+        InkWell(
+          onTap: () => Get.to(SeatchPage(
+            number: 1,
+          )),
+          child: const Modified_text(
+            text: "Popular TV Shows ",
+            size: 26,
+            color: Colors.white70,
+          ),
         ),
         Container(
           height: 200,
@@ -27,6 +34,9 @@ class TV extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
+                  for (var element in tv) {
+                    print(element);
+                  }
                   Navigator.push(
                       context,
                       MaterialPageRoute(
