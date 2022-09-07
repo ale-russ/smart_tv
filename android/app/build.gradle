@@ -44,7 +44,11 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+<<<<<<< HEAD
         applicationId "com.example.smart_tv"
+=======
+        applicationId "com.example.android_tv"
+>>>>>>> ebcde7c2fbdf1b3c815092b293e6bc7458e5ef9c
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion flutter.minSdkVersion

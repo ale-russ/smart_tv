@@ -1,8 +1,15 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
+import 'package:easy_sidemenu/easy_sidemenu.dart';
+
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 
@@ -11,6 +18,7 @@ import 'package:smart_tv/features/movie_list/widgets/tv.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 import '../widgets/trending.dart';
+import 'movie_controller.dart';
 
 class MoviesPage extends StatefulWidget {
   @override
@@ -24,6 +32,9 @@ class _MoviesPage extends State<MoviesPage> {
   List trendingmovies = [];
   List topratedmovies = [];
   List tv = [];
+  List allVideo = [];
+  List searchresult = [];
+  MoviesController controller = Get.put(MoviesController());
 
   @override
   void initState() {
@@ -42,16 +53,30 @@ class _MoviesPage extends State<MoviesPage> {
 
     Map trendingresult = await tmdbWithCustomLogs.v3.trending.getTrending();
     Map topratedresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
-    Map tvresult = await tmdbWithCustomLogs.v3.tv.getPopular();
-    print(tv);
+    Map searchResult = await tmdbWithCustomLogs.v3.search
+        .queryMovies("A", includeAdult: true, page: 3);
+    Map allMovies = await tmdbWithCustomLogs.v3.discover
+        .getMovies(sortBy: SortMoviesBy.orginalTitleAsc);
+    //Map testing = await tmdbWithCustomLogs.v3.search.q
+    Map tvresult = await tmdbWithCustomLogs.v3.search.queryMovies("hulk");
+    //print(tv);
     setState(() {
-      trendingmovies = trendingresult['results'];
-      topratedmovies = topratedresult['results'];
-      tv = tvresult['results'];
+      controller.trendingmovies = trendingresult['results'];
+      controller.topratedmovies = topratedresult['results'];
+      controller.tv = tvresult['results'];
+      controller.searchresult = searchResult['results'];
+      controller.allVideo = allMovies['results'];
+      print(controller.searchresult);
+
+      // controller.allVideo.addAll(tv);
+      // controller.allVideo.addAll(controller.topratedmovies);
+      // controller.allVideo.addAll(controller.trendingmovies);
+      //print(controller.allVideo[0]);
     });
   }
 
   int _selectedIndex = 0;
+
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
   bool showLeading = false;
   bool showTrailing = false;
@@ -88,6 +113,13 @@ class _MoviesPage extends State<MoviesPage> {
       ),
       body: Row(
         children: [
+          TrendingMovies(
+            trending: controller.trendingmovies,
+          ),
+          TopRated(
+            toprated: controller.topratedmovies,
+          ),
+          TV(tv: controller.topratedmovies),
           NavRail(
             selectedIndex: _selectedIndex,
             groupAlignment: groupAlignment,

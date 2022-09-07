@@ -74,9 +74,10 @@ app.put("/updateMovie:id", function(rq, res) {
   })
 })
 
-var server = app.listen(8080, function() {
-  var host = server.address().address
-  var port = server.address.port
+var server = app.listen(8080, 
+  function() {
+  var host = "localhost" //server.address().address
+  var port = 8080//server.address.port
 
-  console.log("Server is running at http://localhost", host, port)
+  console.log("Server is running at http://localhost::8080", host, port)
 })
