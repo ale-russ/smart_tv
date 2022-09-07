@@ -20,7 +20,7 @@ class TopRated extends StatelessWidget {
           color: Colors.white70,
         ),
         Container(
-          height: 270,
+          height: 200,
           child: ListView.builder(
             itemCount: toprated.length,
             scrollDirection: Axis.horizontal,
