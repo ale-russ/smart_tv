@@ -78,6 +78,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.6"
+
+  easy_sidemenu:
+    dependency: "direct main"
+    description:
+      name: easy_sidemenu
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.1"
+
   email_validator:
     dependency: "direct main"
     description:
