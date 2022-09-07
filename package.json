@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "mock-server-local": "^2.6.7"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
