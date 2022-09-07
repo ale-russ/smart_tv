@@ -1,6 +1,10 @@
-// ignore_for_file: unused_import, prefer_const_literals_to_create_immutables
+// ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
+
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+
+
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,6 +14,7 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 
@@ -17,6 +22,7 @@ import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 import 'package:smart_tv/features/movie_list/widgets/tv.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
+import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
 import 'movie_controller.dart';
 
@@ -29,11 +35,7 @@ class _MoviesPage extends State<MoviesPage> {
   final String apikey = 'f8242645e5c75f1aa66afeaeb47494e3';
   final String readaccesstoken =
       'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmODI0MjY0NWU1Yzc1ZjFhYTY2YWZlYWViNDc0OTRlMyIsInN1YiI6IjYzMTY0ZWU3YmExMzFiMDA4MWQxYWMwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0rthKmQIVTLgh9wFN7qkpMcmacpy1Juxib-KhJKXtEw';
-  // List trendingmovies = [];
-  // List topratedmovies = [];
-  // List tv = [];
-  // List allVideo = [];
-  // List searchresult = [];
+ 
   MoviesController controller = Get.put(MoviesController());
 
   @override
@@ -76,6 +78,20 @@ class _MoviesPage extends State<MoviesPage> {
   }
 
   int _selectedIndex = 0;
+  NavigationRailLabelType labelType = NavigationRailLabelType.all;
+  bool showLeading = false;
+  bool showTrailing = false;
+  double groupAlignment = 0;
+  final selectedColor = Colors.white;
+  final unselectedColor = Colors.white60;
+  final labelStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
+
+  List<IconData> sideIcons = [
+    Icons.home,
+    Icons.movie,
+    Icons.search,
+    Icons.favorite,
+  ];
 
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
   bool showLeading = false;
@@ -114,21 +130,16 @@ class _MoviesPage extends State<MoviesPage> {
       body: Row(
         children: [
 
-          TrendingMovies(
-            trending: controller.trendingmovies,
+          Container(
+            child: NavRail(
+              selectedIndex: _selectedIndex,
+              groupAlignment: groupAlignment,
+              callback: (index) => setState(() {
+                _selectedIndex = index;
+              }),
+            ),
           ),
-          TopRated(
-            toprated: controller.topratedmovies,
-          ),
-          TV(tv: controller.topratedmovies),
 
-          NavRail(
-            selectedIndex: _selectedIndex,
-            groupAlignment: groupAlignment,
-            callback: (index) => setState(() {
-              _selectedIndex = index;
-            }),
-          ),
           const VerticalDivider(),
           Expanded(
             child: _pages[_selectedIndex],
@@ -140,6 +151,7 @@ class _MoviesPage extends State<MoviesPage> {
 }
 
 typedef void setIndexCallback(int index);
+
 
 class NavRail extends StatelessWidget {
   NavRail({
@@ -203,6 +215,7 @@ class NavRail extends StatelessWidget {
     );
   }
 }
+
 
 class Movies extends StatelessWidget {
   const Movies({
