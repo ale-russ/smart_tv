@@ -70,7 +70,7 @@ class _MoviesPage extends State<MoviesPage> {
   double groupAlignment = 0;
   final selectedColor = Colors.white;
   final unselectedColor = Colors.white60;
-  final labelStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
+  final labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
 
   @override
   Widget build(BuildContext context) {
