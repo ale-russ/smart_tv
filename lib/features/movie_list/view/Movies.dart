@@ -71,13 +71,37 @@ class _MoviesPage extends State<MoviesPage> {
   }
 
   int _selectedIndex = 0;
+  NavigationRailLabelType labelType = NavigationRailLabelType.all;
+  bool showLeading = false;
+  bool showTrailing = false;
+  double groupAlignment = 0;
+  final selectedColor = Colors.white;
+  final unselectedColor = Colors.white60;
+  final labelStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
+
+  List<IconData> sideIcons = [
+    Icons.home,
+    Icons.movie,
+    Icons.search,
+    Icons.favorite,
+  ];
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _pages = [
+      Movies(
+          trendingmovies: controller.trendingmovies,
+          topratedmovies: controller.topratedmovies,
+          tv: controller.tv),
+      TrendingMovies(trending: controller.trendingmovies),
+      TopRated(toprated: controller.topratedmovies),
+    ];
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        //
+        automaticallyImplyLeading: false,
+        leading: null,
         title: const Modified_text(
           text: 'Smart-TV App ',
           size: 20,
@@ -85,17 +109,53 @@ class _MoviesPage extends State<MoviesPage> {
         ),
         backgroundColor: Colors.transparent,
       ),
-      body: ListView(
+      body: Row(
         children: [
-          TrendingMovies(
-            trending: controller.trendingmovies,
+          Container(
+            child: NavRail(
+              selectedIndex: _selectedIndex,
+              groupAlignment: groupAlignment,
+              callback: (index) => setState(() {
+                _selectedIndex = index;
+              }),
+            ),
           ),
-          TopRated(
-            toprated: controller.topratedmovies,
+          const VerticalDivider(),
+          Expanded(
+            child: _pages[_selectedIndex],
           ),
-          TV(tv: controller.topratedmovies),
         ],
       ),
+    );
+  }
+}
+
+typedef void setIndexCallback(int index);
+
+class Movies extends StatelessWidget {
+  const Movies({
+    Key? key,
+    required this.trendingmovies,
+    required this.topratedmovies,
+    required this.tv,
+  }) : super(key: key);
+
+  final List trendingmovies;
+  final List topratedmovies;
+  final List tv;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        TrendingMovies(
+          trending: trendingmovies,
+        ),
+        TopRated(
+          toprated: topratedmovies,
+        ),
+        TV(tv: tv),
+      ],
     );
   }
 }
