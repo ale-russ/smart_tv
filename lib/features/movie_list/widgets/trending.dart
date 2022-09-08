@@ -30,9 +30,10 @@ class TrendingMovies extends StatelessWidget {
               return InkWell(
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => Description(
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) => Center(
+                            child: Description(
                               bannerurl: 'https://image.tmdb.org/t/p/w500' +
                                   trending[index]['backdrop_path'],
                               description: trending[index]['overview'],
@@ -40,12 +41,15 @@ class TrendingMovies extends StatelessWidget {
                               name: trending[index]['title'],
                               posterurl: 'https://image.tmdb.org/t/p/w500' +
                                   trending[index]['backdrop_path'],
-                              vote: trending[index]['vote_average']
-                                  .toString()))));
+                              vote: trending[index]['vote_average'].toString(),
+                            ),
+                          )),
+                    ),
+                  );
                 },
                 child: trending[index]['title'] != null
                     ? Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         width: 250,
                         child: Column(
                           children: [
@@ -59,11 +63,9 @@ class TrendingMovies extends StatelessWidget {
                                             'https://image.tmdb.org/t/p/w500' +
                                                 trending[index]['poster_path']),
                                         fit: BoxFit.cover))),
-                            Container(
+                            SizedBox(
                               child: Modified_text(
-                                text: trending[index]['title'] != null
-                                    ? trending[index]['title']
-                                    : 'Loading',
+                                text: trending[index]['title'] ?? 'Loading',
                                 color: Colors.white60,
                                 size: 15,
                               ),

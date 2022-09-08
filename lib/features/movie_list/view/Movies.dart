@@ -13,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
+import 'package:smart_tv/features/movie_list/view/favorites.dart';
 import 'package:smart_tv/features/movie_list/view/movie_controller.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
@@ -53,14 +54,10 @@ class _MoviesPage extends State<MoviesPage> {
     Map trendingresult = await tmdbWithCustomLogs.v3.trending.getTrending();
     Map topratedresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
     Map tvresult = await tmdbWithCustomLogs.v3.tv.getPopular();
-    // print(tv);
     setState(() {
       controller.trendingmovies = trendingresult['results'];
       controller.topratedmovies = topratedresult['results'];
       controller.tv = tvresult['results'];
-      // controller.searchresult = searchResult['results'];
-      // controller.allVideo = allMovies['results'];
-      print(controller.searchresult);
     });
   }
 
@@ -82,18 +79,18 @@ class _MoviesPage extends State<MoviesPage> {
           tv: controller.tv),
       TrendingMovies(trending: controller.trendingmovies),
       TopRated(toprated: controller.topratedmovies),
+      const Favorites(),
+      const ProfilePage(),
     ];
 
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         centerTitle: true,
-        leading: GetPlatform.isDesktop
-            ? IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.arrow_back),
-              )
-            : const SizedBox.shrink(),
+        leading: IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.arrow_back),
+        ),
         title: const Modified_text(
           text: 'Smart-TV App ',
           size: 20,

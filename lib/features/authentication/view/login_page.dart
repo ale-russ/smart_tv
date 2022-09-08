@@ -37,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
     if (_emailNode == null) {
       _emailNode = FocusNode();
       _passwordNode = FocusNode();
+      _buttonNode = FocusNode();
       FocusScope.of(context).requestFocus(_emailNode);
     }
   }
@@ -96,75 +97,77 @@ class _LoginPageState extends State<LoginPage> {
               child: Padding(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.1),
-                child:
-                    // Shortcuts(
-                    //   shortcuts: {
-                    //     LogicalKeySet(LogicalKeyboardKey.select):
-                    //         const ActivateIntent(),
-                    //     LogicalKeySet(LogicalKeyboardKey.arrowLeft):
-                    //         LeftbuttonIntent(),
-                    //     LogicalKeySet(LogicalKeyboardKey.arrowLeft):
-                    //         RightbuttonIntent(),
-                    //     LogicalKeySet(LogicalKeyboardKey.arrowLeft):
-                    //         UpbuttonIntent(),
-                    //     LogicalKeySet(LogicalKeyboardKey.arrowLeft):
-                    //         DownbuttonIntent(),
-                    //   },
-                    //   child:
-                    Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(25)),
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  height: MediaQuery.of(context).size.height / 1.2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(36.0),
-                    child: Form(
-                      key: formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          const Image(
-                            image: AssetImage(
-                              "assets/images/logo.png",
+                child: Shortcuts(
+                  shortcuts: {
+                    LogicalKeySet(LogicalKeyboardKey.select):
+                        const ActivateIntent(),
+                    LogicalKeySet(LogicalKeyboardKey.arrowLeft):
+                        LeftbuttonIntent(),
+                    LogicalKeySet(LogicalKeyboardKey.arrowLeft):
+                        RightbuttonIntent(),
+                    LogicalKeySet(LogicalKeyboardKey.arrowLeft):
+                        UpbuttonIntent(),
+                    LogicalKeySet(LogicalKeyboardKey.arrowLeft):
+                        DownbuttonIntent(),
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(25)),
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: MediaQuery.of(context).size.height / 1.2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(36.0),
+                      child: Form(
+                        key: formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Image(
+                              image: AssetImage(
+                                "assets/images/logo.png",
+                              ),
+                              width: 70,
+                              height: 70,
                             ),
-                            width: 70,
-                            height: 70,
-                          ),
-                          const SizedBox(height: 18.0),
-                          Actions(
-                              actions: <Type, Action<Intent>>{
-                                DownbuttonIntent:
-                                    CallbackAction<DownbuttonIntent>(
-                                        onInvoke: (Intent) => _changeNodeFocus(
-                                            context, _emailNode!))
-                              },
-                              child: FormTextField(
+                            const SizedBox(height: 18.0),
+                            Actions(
+                                actions: <Type, Action<Intent>>{
+                                  DownbuttonIntent:
+                                      CallbackAction<DownbuttonIntent>(
+                                          onInvoke: (Intent) =>
+                                              _changeNodeFocus(
+                                                  context, _emailNode!))
+                                },
+                                child: FormTextField(
                                   emailNode: _emailNode,
                                   obsecure: false,
                                   hint: 'Email',
-                                  controller: loginController.emailController)),
-                          const SizedBox(height: 24.0),
-                          FormTextField(
-                            emailNode: _passwordNode,
-                            obsecure: true,
-                            hint: 'Password',
-                            controller: loginController.passwordController,
-                          ),
-                          const SizedBox(
-                            height: 36.0,
-                          ),
-                          loginButton
-                        ],
+                                  controller: loginController.emailController,
+                                  type: DownbuttonIntent,
+                                )),
+                            const SizedBox(height: 24.0),
+                            FormTextField(
+                              emailNode: _passwordNode,
+                              obsecure: true,
+                              hint: 'Password',
+                              controller: loginController.passwordController,
+                              type: DownbuttonIntent,
+                            ),
+                            const SizedBox(
+                              height: 36.0,
+                            ),
+                            loginButton
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          // )
+          )
         ],
       ),
     );
@@ -172,13 +175,15 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class FormTextField extends StatelessWidget {
-  const FormTextField(
-      {Key? key,
-      required FocusNode? emailNode,
-      required bool obsecure,
-      required this.hint,
-      required this.controller})
-      : _emailNode = emailNode,
+  const FormTextField({
+    Key? key,
+    required FocusNode? emailNode,
+    required bool obsecure,
+    required this.hint,
+    required this.controller,
+    // required this.intent,
+    required this.type,
+  })  : _emailNode = emailNode,
         _obsecure = obsecure,
         super(key: key);
 
@@ -186,34 +191,50 @@ class FormTextField extends StatelessWidget {
   final bool _obsecure;
   final String? hint;
   final TextEditingController controller;
+
+  final Type type;
+
+  onChangeFocus(BuildContext context, FocusNode? focusNode) {
+    FocusScope.of(context).requestFocus(focusNode);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: _obsecure,
-      focusNode: _emailNode,
-      controller: controller,
-      style: const TextStyle(fontSize: 16.0),
-      validator: hint == 'Email'
-          ? (email) {
-              if (!EmailValidator.validate(email!)) {
-                return "Invalide email address ";
-              } else {
-                return null;
-              }
-            }
-          : (password) {
-              if (password!.length < 6 ||
-                  !password.contains(RegExp(r'[0-9]'))) {
-                return "Password should be numbers with 6 characters";
-              } else {
-                return null;
-              }
-            },
-      decoration: InputDecoration(
-          contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: hint,
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+    return Actions(
+      actions: <Type, Action<Intent>>{
+        type: CallbackAction<ButtonActivateIntent>(
+            onInvoke: onChangeFocus(context, _emailNode))
+      },
+      child: Focus(
+        focusNode: _emailNode,
+        child: TextFormField(
+          obscureText: _obsecure,
+          focusNode: _emailNode,
+          controller: controller,
+          style: const TextStyle(fontSize: 16.0),
+          validator: hint == 'Email'
+              ? (email) {
+                  if (!EmailValidator.validate(email!)) {
+                    return "Invalide email address ";
+                  } else {
+                    return null;
+                  }
+                }
+              : (password) {
+                  if (password!.length < 6 ||
+                      !password.contains(RegExp(r'[0-9]'))) {
+                    return "Password should be numbers with 6 characters";
+                  } else {
+                    return null;
+                  }
+                },
+          decoration: InputDecoration(
+              contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              hintText: hint,
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(32.0))),
+        ),
+      ),
     );
   }
 }

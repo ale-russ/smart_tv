@@ -13,7 +13,10 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text('Profile page'),
+      child: Text(
+        'Profile page',
+        style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+      ),
     );
   }
 }
