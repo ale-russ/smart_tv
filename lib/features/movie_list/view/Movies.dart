@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 
-
-
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
@@ -13,7 +11,6 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
@@ -35,7 +32,7 @@ class _MoviesPage extends State<MoviesPage> {
   final String apikey = 'f8242645e5c75f1aa66afeaeb47494e3';
   final String readaccesstoken =
       'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmODI0MjY0NWU1Yzc1ZjFhYTY2YWZlYWViNDc0OTRlMyIsInN1YiI6IjYzMTY0ZWU3YmExMzFiMDA4MWQxYWMwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0rthKmQIVTLgh9wFN7qkpMcmacpy1Juxib-KhJKXtEw';
- 
+
   MoviesController controller = Get.put(MoviesController());
 
   @override
@@ -93,27 +90,27 @@ class _MoviesPage extends State<MoviesPage> {
     Icons.favorite,
   ];
 
-  NavigationRailLabelType labelType = NavigationRailLabelType.all;
-  bool showLeading = false;
-  bool showTrailing = false;
-  double groupAlignment = 0;
+  // NavigationRailLabelType labelType = NavigationRailLabelType.all;
+  // bool showLeading = false;
+  // bool showTrailing = false;
+  // double groupAlignment = 0;
 
-  List<IconData> sideIcons = [
-    Icons.home,
-    Icons.movie,
-    Icons.search,
-    Icons.favorite,
-  ];
-  
+  // List<IconData> sideIcons = [
+  //   Icons.home,
+  //   Icons.movie,
+  //   Icons.search,
+  //   Icons.favorite,
+  // ];
+
   @override
   Widget build(BuildContext context) {
     List<Widget> _pages = [
       Movies(
-          trendingmovies: trendingmovies,
-          topratedmovies: topratedmovies,
-          tv: tv),
-      TrendingMovies(trending: trendingmovies),
-      TopRated(toprated: topratedmovies),
+          trendingmovies: controller.trendingmovies,
+          topratedmovies: controller.topratedmovies,
+          tv: controller.tv),
+      TrendingMovies(trending: controller.trendingmovies),
+      TopRated(toprated: controller.topratedmovies),
     ];
 
     return Scaffold(
@@ -129,7 +126,6 @@ class _MoviesPage extends State<MoviesPage> {
       ),
       body: Row(
         children: [
-
           Container(
             child: NavRail(
               selectedIndex: _selectedIndex,
@@ -139,7 +135,6 @@ class _MoviesPage extends State<MoviesPage> {
               }),
             ),
           ),
-
           const VerticalDivider(),
           Expanded(
             child: _pages[_selectedIndex],
@@ -151,7 +146,6 @@ class _MoviesPage extends State<MoviesPage> {
 }
 
 typedef void setIndexCallback(int index);
-
 
 class NavRail extends StatelessWidget {
   NavRail({
@@ -215,7 +209,6 @@ class NavRail extends StatelessWidget {
     );
   }
 }
-
 
 class Movies extends StatelessWidget {
   const Movies({
