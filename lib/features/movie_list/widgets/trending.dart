@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:smart_tv/features/movie_list/widgets/description.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 
@@ -10,9 +11,10 @@ class TrendingMovies extends StatelessWidget {
 
   TrendingMovies({Key? key, required this.trending}) : super(key: key);
 
-  _setfistfocus(BuildContext context) {
+  _setfirstfocus(BuildContext context) {
     nodes ??= List.filled(trending.length, FocusNode());
     print(trending.length);
+
     FocusScope.of(context).requestFocus(nodes![0]);
     print("this is " + nodes![0].hasFocus.toString());
   }
@@ -20,7 +22,7 @@ class TrendingMovies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (nodes == null) {
-      _setfistfocus(context);
+      _setfirstfocus(context);
     }
     return Container(
       padding: const EdgeInsets.all(10),
@@ -37,7 +39,8 @@ class TrendingMovies extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               print("this " + trending.length.toString());
-              print(nodes![index].hasFocus);
+              print(
+                  index.toString() + "  " + nodes![index].hasFocus.toString());
               return InkWell(
                 onTap: () => OnMovieTap(context, index),
                 child: trending[index]['title'] != null
@@ -46,9 +49,8 @@ class TrendingMovies extends StatelessWidget {
                         index: index,
                         trending: trending,
                         borderColor: !nodes![index].hasFocus
-                            ? Colors.black
-                            : Colors.blueAccent,
-                      )
+                            ? Colors.blueAccent
+                            : Colors.black)
                     : Container(),
               );
             },

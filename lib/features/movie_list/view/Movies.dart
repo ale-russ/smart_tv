@@ -27,11 +27,7 @@ class _MoviesPage extends State<MoviesPage> {
   final String apikey = 'f8242645e5c75f1aa66afeaeb47494e3';
   final String readaccesstoken =
       'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmODI0MjY0NWU1Yzc1ZjFhYTY2YWZlYWViNDc0OTRlMyIsInN1YiI6IjYzMTY0ZWU3YmExMzFiMDA4MWQxYWMwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0rthKmQIVTLgh9wFN7qkpMcmacpy1Juxib-KhJKXtEw';
-  // List trendingmovies = [];
-  // List topratedmovies = [];
-  // List tv = [];
-  // List allVideo = [];
-  // List searchresult = [];
+
   List<FocusNode>? focusNodes;
   MoviesController controller = Get.put(MoviesController());
 
@@ -65,7 +61,7 @@ class _MoviesPage extends State<MoviesPage> {
       controller.tv = tvresult['results'];
       controller.searchresult = searchResult['results'];
       controller.allVideo = allMovies['results'];
-      print(controller.searchresult);
+      print("controller.searchresult");
       focusNodes = List.filled(controller.trendingmovies.length, FocusNode());
 
       // controller.allVideo.addAll(tv);
@@ -91,15 +87,28 @@ class _MoviesPage extends State<MoviesPage> {
     Icons.favorite,
   ];
 
+  FocusNode? _sideBar;
+  FocusNode? _pageNode;
+  _setFirstFocus(BuildContext context) {
+    if (_sideBar == null) {
+      _sideBar = FocusNode();
+      _pageNode = FocusNode();
+      FocusScope.of(context).requestFocus(_sideBar);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_sideBar == null) {
+      _setFirstFocus(context);
+    }
     List<Widget> _pages = [
       Movies(
           trendingmovies: controller.trendingmovies,
           topratedmovies: controller.topratedmovies,
           tv: controller.tv),
       SeatchPage(number: 0),
-      // TrendingMovies(trending: controller.trendingmovies),
+      TrendingMovies(trending: controller.trendingmovies),
       TopRated(toprated: controller.topratedmovies),
       ProfilePage()
     ];
