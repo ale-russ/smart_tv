@@ -19,6 +19,7 @@ import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 import 'package:smart_tv/features/movie_list/widgets/tv.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
+import '../../profile/views/profile.dart';
 import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
 import 'movie_controller.dart';
@@ -76,19 +77,7 @@ class _MoviesPage extends State<MoviesPage> {
   double groupAlignment = 0;
   final selectedColor = Colors.white;
   final unselectedColor = Colors.white60;
-  final labelStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
-
-  List<IconData> sideIcons = [
-    Icons.home,
-    Icons.movie,
-    Icons.search,
-    Icons.favorite,
-  ];
-
-  // NavigationRailLabelType labelType = NavigationRailLabelType.all;
-  // bool showLeading = false;
-  // bool showTrailing = false;
-  // double groupAlignment = 0;
+  final labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +89,7 @@ class _MoviesPage extends State<MoviesPage> {
       TrendingMovies(trending: controller.trendingmovies),
       TopRated(toprated: controller.topratedmovies),
       TV(tv: controller.topratedmovies),
+      const ProfilePage(),
     ];
 
     return Scaffold(
@@ -107,8 +97,11 @@ class _MoviesPage extends State<MoviesPage> {
       appBar: AppBar(
         centerTitle: true,
         leading: GetPlatform.isDesktop
-            ? IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back))
-            : SizedBox.shrink(),
+            ? IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.arrow_back),
+              )
+            : const SizedBox.shrink(),
         title: const Modified_text(
           text: 'Smart-TV App ',
           size: 20,
@@ -118,7 +111,7 @@ class _MoviesPage extends State<MoviesPage> {
       ),
       body: Row(
         children: [
-          Container(
+          SizedBox(
             child: NavRail(
               selectedIndex: _selectedIndex,
               groupAlignment: groupAlignment,
@@ -137,7 +130,7 @@ class _MoviesPage extends State<MoviesPage> {
   }
 }
 
-typedef void setIndexCallback(int index);
+typedef setIndexCallback = void Function(int index);
 
 class NavRail extends StatelessWidget {
   NavRail({
@@ -161,7 +154,9 @@ class NavRail extends StatelessWidget {
       groupAlignment: groupAlignment,
       onDestinationSelected: (int index) {
         _selectedIndex = index;
-        callback!(index);
+        callback!(
+          index,
+        );
       },
       destinations: const [
         NavigationRailDestination(
@@ -196,6 +191,17 @@ class NavRail extends StatelessWidget {
             color: Colors.amber,
           ),
           label: Text("Search"),
+        ),
+        NavigationRailDestination(
+          icon: Icon(
+            Icons.person,
+            color: Colors.white,
+          ),
+          selectedIcon: Icon(
+            Icons.person,
+            color: Colors.amber,
+          ),
+          label: Text("Profile"),
         ),
       ],
     );
