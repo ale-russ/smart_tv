@@ -42,6 +42,7 @@ class TV extends StatelessWidget {
                                   tv[index]['backdrop_path'],
                               vote: tv[index]['vote_average'].toString()))));
                 },
+<<<<<<< HEAD
                 child: tv[index]['title'] != null
                     ? Container(
                         padding: EdgeInsets.all(5),
@@ -68,6 +69,36 @@ class TV extends StatelessWidget {
                               ),
                             )
                           ],
+=======
+                child: Container(
+                  padding: EdgeInsets.all(5),
+                  width: 250,
+                  child: Column(
+                    children: [
+                      Container(
+                          width: 250,
+                          height: 140,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                  image: tv[index]['backdrop_path'] != null
+                                      ? NetworkImage(
+                                          'https://image.tmdb.org/t/p/w500' +
+                                              tv[index]['backdrop_path'])
+                                      : NetworkImage(
+                                          "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-7509.jpg"),
+                                  fit: BoxFit.cover))),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        child: Modified_text(
+                          text: tv[index]['original_name'] != null
+                              ? tv[index]['original_name']
+                              : 'Loading',
+                          color: Colors.white60,
+                          size: 15,
+>>>>>>> remoteNavigation_feature
                         ),
                       )
                     : Container(),

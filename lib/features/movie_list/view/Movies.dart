@@ -18,9 +18,10 @@ import 'package:smart_tv/features/movie_list/view/movie_controller.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 import 'package:smart_tv/features/movie_list/widgets/tv.dart';
+import 'package:smart_tv/features/search/search.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
-import '../../profile/views/profile.dart';
+import '../../profile/screen/profile_page.dart';
 import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
 
@@ -34,6 +35,7 @@ class _MoviesPage extends State<MoviesPage> {
   final String readaccesstoken =
       'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmODI0MjY0NWU1Yzc1ZjFhYTY2YWZlYWViNDc0OTRlMyIsInN1YiI6IjYzMTY0ZWU3YmExMzFiMDA4MWQxYWMwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0rthKmQIVTLgh9wFN7qkpMcmacpy1Juxib-KhJKXtEw';
 
+  List<FocusNode>? focusNodes;
   MoviesController controller = Get.put(MoviesController());
 
   @override
@@ -58,6 +60,15 @@ class _MoviesPage extends State<MoviesPage> {
       controller.trendingmovies = trendingresult['results'];
       controller.topratedmovies = topratedresult['results'];
       controller.tv = tvresult['results'];
+      controller.searchresult = searchResult['results'];
+      controller.allVideo = allMovies['results'];
+      print("controller.searchresult");
+      focusNodes = List.filled(controller.trendingmovies.length, FocusNode());
+
+      // controller.allVideo.addAll(tv);
+      // controller.allVideo.addAll(controller.topratedmovies);
+      // controller.allVideo.addAll(controller.trendingmovies);
+      //print(controller.allVideo[0]);
     });
   }
 
@@ -68,29 +79,46 @@ class _MoviesPage extends State<MoviesPage> {
   double groupAlignment = 0;
   final selectedColor = Colors.white;
   final unselectedColor = Colors.white60;
-  final labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
+  final labelStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
+
+  List<IconData> sideIcons = [
+    Icons.home,
+    Icons.movie,
+    Icons.search,
+    Icons.favorite,
+  ];
+
+  FocusNode? _sideBar;
+  FocusNode? _pageNode;
+  _setFirstFocus(BuildContext context) {
+    if (_sideBar == null) {
+      _sideBar = FocusNode();
+      _pageNode = FocusNode();
+      FocusScope.of(context).requestFocus(_sideBar);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_sideBar == null) {
+      _setFirstFocus(context);
+    }
     List<Widget> _pages = [
       Movies(
           trendingmovies: controller.trendingmovies,
           topratedmovies: controller.topratedmovies,
           tv: controller.tv),
+      SeatchPage(number: 0),
       TrendingMovies(trending: controller.trendingmovies),
       TopRated(toprated: controller.topratedmovies),
-      const Favorites(),
-      const ProfilePage(),
+      ProfilePage()
     ];
 
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.arrow_back),
-        ),
+        automaticallyImplyLeading: false,
+        leading: null,
         title: const Modified_text(
           text: 'Smart-TV App ',
           size: 20,
@@ -101,10 +129,9 @@ class _MoviesPage extends State<MoviesPage> {
       body: Row(
         children: [
           Container(
-            color: Colors.transparent,
             child: NavRail(
               selectedIndex: _selectedIndex,
-              // groupAlignment: groupAlignment,
+              groupAlignment: groupAlignment,
               callback: (index) => setState(() {
                 _selectedIndex = index;
               }),
@@ -133,12 +160,12 @@ class Movies extends StatelessWidget {
   final List trendingmovies;
   final List topratedmovies;
   final List tv;
-
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         TrendingMovies(
+          //nodeLength: focusNode.length,
           trending: trendingmovies,
         ),
         TopRated(
