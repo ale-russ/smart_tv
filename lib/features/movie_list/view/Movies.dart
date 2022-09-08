@@ -10,8 +10,11 @@ import 'package:smart_tv/features/movie_list/utilits/text.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 import 'package:smart_tv/features/movie_list/widgets/tv.dart';
+import 'package:smart_tv/features/search/search.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
+import '../../profile/screen/profile_page.dart';
+import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
 import 'movie_controller.dart';
 
@@ -29,6 +32,7 @@ class _MoviesPage extends State<MoviesPage> {
   // List tv = [];
   // List allVideo = [];
   // List searchresult = [];
+  List<FocusNode>? focusNodes;
   MoviesController controller = Get.put(MoviesController());
 
   @override
@@ -62,6 +66,7 @@ class _MoviesPage extends State<MoviesPage> {
       controller.searchresult = searchResult['results'];
       controller.allVideo = allMovies['results'];
       print(controller.searchresult);
+      focusNodes = List.filled(controller.trendingmovies.length, FocusNode());
 
       // controller.allVideo.addAll(tv);
       // controller.allVideo.addAll(controller.topratedmovies);
@@ -93,8 +98,10 @@ class _MoviesPage extends State<MoviesPage> {
           trendingmovies: controller.trendingmovies,
           topratedmovies: controller.topratedmovies,
           tv: controller.tv),
-      TrendingMovies(trending: controller.trendingmovies),
+      SeatchPage(number: 0),
+      // TrendingMovies(trending: controller.trendingmovies),
       TopRated(toprated: controller.topratedmovies),
+      ProfilePage()
     ];
 
     return Scaffold(
@@ -143,12 +150,12 @@ class Movies extends StatelessWidget {
   final List trendingmovies;
   final List topratedmovies;
   final List tv;
-
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         TrendingMovies(
+          //nodeLength: focusNode.length,
           trending: trendingmovies,
         ),
         TopRated(

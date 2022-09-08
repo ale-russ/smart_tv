@@ -95,14 +95,22 @@ class _SeatchPageState extends State<SeatchPage> {
                       //   //   }
 
                       // }
+
                     }
+                    if (controller.text == "") {
+                      mController.localSearch.value.clear;
+                      print("help");
+                    }
+                    setState(() {});
                   },
                 )),
           ),
-          const Modified_text(
-            text: "search result ",
-            size: 26,
-            color: Colors.white70,
+          Center(
+            child: const Modified_text(
+              text: "search result ",
+              size: 16,
+              color: Colors.white70,
+            ),
           ),
           Container(
             height: 270,

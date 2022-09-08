@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 //import 'package:password_validator/password_validator.dart';
 
+import '../../movie_list/view/Movies.dart';
 import '../controller/login_controller.dart';
 
 class LeftbuttonIntent extends Intent {}
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       onPressed: () {
         formKey!.currentState!.validate()
-            ? Get.to(() => LandingPage())
+            ? Get.to(() => MoviesPage()) //LandingPage())
             : "Error Please";
       },
       child: const Center(child: Text("Login")),

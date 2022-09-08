@@ -61,9 +61,12 @@ class TV extends StatelessWidget {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://image.tmdb.org/t/p/w500' +
-                                          tv[index]['backdrop_path']),
+                                  image: tv[index]['backdrop_path'] != null
+                                      ? NetworkImage(
+                                          'https://image.tmdb.org/t/p/w500' +
+                                              tv[index]['backdrop_path'])
+                                      : NetworkImage(
+                                          "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-7509.jpg"),
                                   fit: BoxFit.cover))),
                       SizedBox(
                         height: 10,
