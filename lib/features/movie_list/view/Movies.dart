@@ -1,16 +1,25 @@
-// ignore_for_file: unused_import, prefer_const_literals_to_create_immutables
+// ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
+
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
+
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
+import 'package:smart_tv/features/movie_list/view/movie_controller.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 import 'package:smart_tv/features/movie_list/widgets/tv.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
+import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
 
 class MoviesPage extends StatefulWidget {
@@ -22,9 +31,8 @@ class _MoviesPage extends State<MoviesPage> {
   final String apikey = 'f8242645e5c75f1aa66afeaeb47494e3';
   final String readaccesstoken =
       'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmODI0MjY0NWU1Yzc1ZjFhYTY2YWZlYWViNDc0OTRlMyIsInN1YiI6IjYzMTY0ZWU3YmExMzFiMDA4MWQxYWMwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0rthKmQIVTLgh9wFN7qkpMcmacpy1Juxib-KhJKXtEw';
-  List trendingmovies = [];
-  List topratedmovies = [];
-  List tv = [];
+
+  MoviesController controller = Get.put(MoviesController());
 
   @override
   void initState() {
@@ -44,25 +52,35 @@ class _MoviesPage extends State<MoviesPage> {
     Map trendingresult = await tmdbWithCustomLogs.v3.trending.getTrending();
     Map topratedresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
     Map tvresult = await tmdbWithCustomLogs.v3.tv.getPopular();
-    print(tv);
+    // print(tv);
     setState(() {
-      trendingmovies = trendingresult['results'];
-      topratedmovies = topratedresult['results'];
-      tv = tvresult['results'];
+      controller.trendingmovies = trendingresult['results'];
+      controller.topratedmovies = topratedresult['results'];
+      controller.tv = tvresult['results'];
+      // controller.searchresult = searchResult['results'];
+      // controller.allVideo = allMovies['results'];
+      print(controller.searchresult);
     });
   }
 
   int _selectedIndex = 0;
+  NavigationRailLabelType labelType = NavigationRailLabelType.all;
+  bool showLeading = false;
+  bool showTrailing = false;
+  double groupAlignment = 0;
+  final selectedColor = Colors.white;
+  final unselectedColor = Colors.white60;
+  final labelStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
 
   @override
   Widget build(BuildContext context) {
     List<Widget> _pages = [
       Movies(
-          trendingmovies: trendingmovies,
-          topratedmovies: topratedmovies,
-          tv: tv),
-      TrendingMovies(trending: trendingmovies),
-      TopRated(toprated: topratedmovies),
+          trendingmovies: controller.trendingmovies,
+          topratedmovies: controller.topratedmovies,
+          tv: controller.tv),
+      TrendingMovies(trending: controller.trendingmovies),
+      TopRated(toprated: controller.topratedmovies),
     ];
 
     return Scaffold(
@@ -78,12 +96,15 @@ class _MoviesPage extends State<MoviesPage> {
       ),
       body: Row(
         children: [
-          NavRail(
-            selectedIndex: _selectedIndex,
-            groupAlignment: 0,
-            callback: (index) => setState(() {
-              _selectedIndex = index;
-            }),
+          Container(
+            color: Colors.transparent,
+            child: NavRail(
+              selectedIndex: _selectedIndex,
+              // groupAlignment: groupAlignment,
+              callback: (index) => setState(() {
+                _selectedIndex = index;
+              }),
+            ),
           ),
           const VerticalDivider(),
           Expanded(
@@ -96,69 +117,6 @@ class _MoviesPage extends State<MoviesPage> {
 }
 
 typedef void setIndexCallback(int index);
-
-class NavRail extends StatelessWidget {
-  NavRail({
-    Key? key,
-    required int selectedIndex,
-    required this.groupAlignment,
-    this.callback,
-  }) : super(key: key);
-
-  int? _selectedIndex;
-  final double groupAlignment;
-
-  final setIndexCallback? callback;
-
-  @override
-  Widget build(BuildContext context) {
-    return NavigationRail(
-      backgroundColor: Colors.black,
-      selectedIndex: _selectedIndex,
-      minWidth: 30,
-      groupAlignment: groupAlignment,
-      onDestinationSelected: (int index) {
-        _selectedIndex = index;
-        callback!(index);
-      },
-      destinations: const [
-        NavigationRailDestination(
-          icon: Icon(
-            Icons.home,
-            color: Colors.white,
-          ),
-          selectedIcon: Icon(
-            Icons.home,
-            color: Colors.amber,
-          ),
-          label: Text("Home"),
-        ),
-        NavigationRailDestination(
-          icon: Icon(
-            Icons.movie,
-            color: Colors.white,
-          ),
-          selectedIcon: Icon(
-            Icons.movie,
-            color: Colors.amber,
-          ),
-          label: Text("Movies"),
-        ),
-        NavigationRailDestination(
-          icon: Icon(
-            Icons.search,
-            color: Colors.white,
-          ),
-          selectedIcon: Icon(
-            Icons.search,
-            color: Colors.amber,
-          ),
-          label: Text("Search"),
-        ),
-      ],
-    );
-  }
-}
 
 class Movies extends StatelessWidget {
   const Movies({

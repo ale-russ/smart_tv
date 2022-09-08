@@ -19,7 +19,7 @@ class TrendingMovies extends StatelessWidget {
           color: Colors.white70,
         ),
         Container(
-          height: 270,
+          height: 200,
           child: ListView.builder(
             itemCount: trending.length,
             scrollDirection: Axis.horizontal,
