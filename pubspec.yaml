@@ -51,6 +51,8 @@ dependencies:
 
   # tmdb_api
   tmdb_api: ^2.1.4
+
+  # side menu 
   easy_sidemenu: ^0.3.1
   
 

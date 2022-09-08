@@ -6,7 +6,6 @@ import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
@@ -14,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
+import 'package:smart_tv/features/movie_list/view/movie_controller.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 import 'package:smart_tv/features/movie_list/widgets/tv.dart';
@@ -22,7 +22,6 @@ import 'package:tmdb_api/tmdb_api.dart';
 import '../../profile/views/profile.dart';
 import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
-import 'movie_controller.dart';
 
 class MoviesPage extends StatefulWidget {
   @override
@@ -53,19 +52,14 @@ class _MoviesPage extends State<MoviesPage> {
 
     Map trendingresult = await tmdbWithCustomLogs.v3.trending.getTrending();
     Map topratedresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
-    Map searchResult = await tmdbWithCustomLogs.v3.search
-        .queryMovies("A", includeAdult: true, page: 3);
-    Map allMovies = await tmdbWithCustomLogs.v3.discover
-        .getMovies(sortBy: SortMoviesBy.orginalTitleAsc);
-    //Map testing = await tmdbWithCustomLogs.v3.search.q
-    Map tvresult = await tmdbWithCustomLogs.v3.search.queryMovies("hulk");
-    //print(tv);
+    Map tvresult = await tmdbWithCustomLogs.v3.tv.getPopular();
+    // print(tv);
     setState(() {
       controller.trendingmovies = trendingresult['results'];
       controller.topratedmovies = topratedresult['results'];
       controller.tv = tvresult['results'];
-      controller.searchresult = searchResult['results'];
-      controller.allVideo = allMovies['results'];
+      // controller.searchresult = searchResult['results'];
+      // controller.allVideo = allMovies['results'];
       print(controller.searchresult);
     });
   }
@@ -88,8 +82,6 @@ class _MoviesPage extends State<MoviesPage> {
           tv: controller.tv),
       TrendingMovies(trending: controller.trendingmovies),
       TopRated(toprated: controller.topratedmovies),
-      TV(tv: controller.topratedmovies),
-      const ProfilePage(),
     ];
 
     return Scaffold(
@@ -111,10 +103,11 @@ class _MoviesPage extends State<MoviesPage> {
       ),
       body: Row(
         children: [
-          SizedBox(
+          Container(
+            color: Colors.transparent,
             child: NavRail(
               selectedIndex: _selectedIndex,
-              groupAlignment: groupAlignment,
+              // groupAlignment: groupAlignment,
               callback: (index) => setState(() {
                 _selectedIndex = index;
               }),
@@ -130,83 +123,7 @@ class _MoviesPage extends State<MoviesPage> {
   }
 }
 
-typedef setIndexCallback = void Function(int index);
-
-class NavRail extends StatelessWidget {
-  NavRail({
-    Key? key,
-    required int selectedIndex,
-    required this.groupAlignment,
-    this.callback,
-  }) : super(key: key);
-
-  int? _selectedIndex;
-  final double groupAlignment;
-
-  final setIndexCallback? callback;
-
-  @override
-  Widget build(BuildContext context) {
-    return NavigationRail(
-      backgroundColor: Colors.black,
-      selectedIndex: _selectedIndex,
-      minWidth: 30,
-      groupAlignment: groupAlignment,
-      onDestinationSelected: (int index) {
-        _selectedIndex = index;
-        callback!(
-          index,
-        );
-      },
-      destinations: const [
-        NavigationRailDestination(
-          icon: Icon(
-            Icons.home,
-            color: Colors.white,
-          ),
-          selectedIcon: Icon(
-            Icons.home,
-            color: Colors.amber,
-          ),
-          label: Text("Home"),
-        ),
-        NavigationRailDestination(
-          icon: Icon(
-            Icons.movie,
-            color: Colors.white,
-          ),
-          selectedIcon: Icon(
-            Icons.movie,
-            color: Colors.amber,
-          ),
-          label: Text("Movies"),
-        ),
-        NavigationRailDestination(
-          icon: Icon(
-            Icons.search,
-            color: Colors.white,
-          ),
-          selectedIcon: Icon(
-            Icons.search,
-            color: Colors.amber,
-          ),
-          label: Text("Search"),
-        ),
-        NavigationRailDestination(
-          icon: Icon(
-            Icons.person,
-            color: Colors.white,
-          ),
-          selectedIcon: Icon(
-            Icons.person,
-            color: Colors.amber,
-          ),
-          label: Text("Profile"),
-        ),
-      ],
-    );
-  }
-}
+typedef void setIndexCallback(int index);
 
 class Movies extends StatelessWidget {
   const Movies({
