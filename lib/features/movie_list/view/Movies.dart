@@ -130,7 +130,7 @@ class _MoviesPage extends State<MoviesPage> {
           SizedBox(
             child: NavRail(
               selectedIndex: _selectedIndex,
-              groupAlignment: groupAlignment,
+              // groupAlignment: groupAlignment,
               callback: (index) => setState(() {
                 _selectedIndex = index;
               }),

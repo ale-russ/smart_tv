@@ -30,7 +30,7 @@ app.get('/listUsers', function(req,res){
   }) 
 })
 
-app.get("/listUsers/?email", function(err, user){
+app.get("/listUsers/:email", function(err, user){
   fs.readFile(__dirname + "/" + "users.json","utf-8", function(err, data){
     users = JSON.parse(data);
   
