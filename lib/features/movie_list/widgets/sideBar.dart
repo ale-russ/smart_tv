@@ -1,38 +1,4 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-
-import '../utilits/text.dart';
-import '../view/Movies.dart';
-
-class NavRail extends StatefulWidget {
-  NavRail({
-    Key? key,
-    required int selectedIndex,
-    // required this.groupAlignment,
-    this.callback,
-  }) : super(key: key);
-
-  final setIndexCallback? callback;
-
-  @override
-  State<NavRail> createState() => _NavRailState();
-}
-
-class _NavRailState extends State<NavRail> {
-  int? _selectedIndex;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: 100,
-      color: Colors.transparent,
-      child: Focus(
-        child: Container(
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            NavigationRail(
-              labelType: NavigationRailLabelType.selected,
-=======
 import 'package:flutter/services.dart';
 
 import '../../../config/intentFiles/down_intent.dart';
@@ -89,147 +55,135 @@ class NavRail extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         width: 100,
         color: Colors.transparent,
-        child: Container(
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            NavigationRail(
-              labelType: NavigationRailLabelType.all,
->>>>>>> remoteNavigation_feature
-              groupAlignment: -0.5,
-              backgroundColor: Colors.transparent,
-              // selectedLabelTextStyle: labelStyle.copyWith(color: selectedColor),
-              // unselectedLabelTextStyle:
-              //       labelStyle.copyWith(color: unselectedColor),
-              selectedIndex: _selectedIndex,
-              minWidth: 45,
-<<<<<<< HEAD
-              selectedIconTheme: IconThemeData(color: Colors.amber, size: 35),
-=======
-              selectedIconTheme: IconThemeData(color: Colors.amber, size: 10),
->>>>>>> remoteNavigation_feature
-              unselectedIconTheme: IconThemeData(color: Colors.white, size: 30),
-              // groupAlignment: groupAlignment,
-              onDestinationSelected: (int index) {
-                _selectedIndex = index;
-<<<<<<< HEAD
-                widget.callback!(index);
-              },
-              destinations: const [
-                NavigationRailDestination(
-                    icon: Icon(
-                      Icons.home_rounded,
-                      //size: 30,
-=======
-                callback!(index);
-              },
-              destinations: [
-                NavigationRailDestination(
-                    icon: Actions(
-                      actions: <Type, Action<Intent>>{
-                        DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                            onInvoke: (Intent) =>
-                                _changeNodeFocus(context, _search!))
-                      },
-                      child: Focus(
-                        focusNode: _home!,
-                        child: Icon(
-                          Icons.home_rounded,
-                          color:
-                              _home!.hasFocus ? Colors.blueAccent : Colors.grey,
-                          //size: 30,
-                        ),
-                      ),
->>>>>>> remoteNavigation_feature
-                    ),
-                    label: Modified_text(
-                        text: 'Home', color: Colors.white, size: 15)),
-                NavigationRailDestination(
-<<<<<<< HEAD
-                  icon: Icon(
-                    Icons.search_rounded,
-=======
+        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          NavigationRail(
+            labelType: NavigationRailLabelType.all,
+            groupAlignment: -0.5,
+            backgroundColor: Colors.transparent,
+            // selectedLabelTextStyle: labelStyle.copyWith(color: selectedColor),
+            // unselectedLabelTextStyle:
+            //       labelStyle.copyWith(color: unselectedColor),
+            selectedIndex: _selectedIndex,
+            minWidth: 45,
+            selectedIconTheme:
+                const IconThemeData(color: Colors.amber, size: 10),
+            unselectedIconTheme:
+                const IconThemeData(color: Colors.white, size: 30),
+            // groupAlignment: groupAlignment,
+            onDestinationSelected: (int index) {
+              // _selectedIndex = index;
+              callback!(index);
+            },
+            destinations: [
+              NavigationRailDestination(
                   icon: Actions(
                     actions: <Type, Action<Intent>>{
                       DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                          onInvoke: (Intent) =>
-                              _changeNodeFocus(context, _upcoming!)),
-                      UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                          onInvoke: (Intent) =>
-                              _changeNodeFocus(context, _home!))
-                    },
-                    child: Focus(
-                      focusNode: _search,
-                      child: Icon(
-                        Icons.search_rounded,
-                        color:
-                            _search!.hasFocus ? Colors.blueAccent : Colors.grey,
-                      ),
-                    ),
->>>>>>> remoteNavigation_feature
-                  ),
-                  label: Modified_text(
-                      text: 'Search', color: Colors.white, size: 15),
-                ),
-                NavigationRailDestination(
-<<<<<<< HEAD
-                  icon: Icon(
-                    Icons.movie,
-                  ),
-                  label: Modified_text(
-                      text: 'Upcomming', color: Colors.white, size: 15),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(
-                    Icons.favorite_border,
-                  ),
-                  label: Modified_text(
-                      text: 'Favorite', color: Colors.white, size: 15),
-                ),
-                NavigationRailDestination(
-=======
-                  icon: Actions(
-                    actions: <Type, Action<Intent>>{
-                      DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                          onInvoke: (Intent) =>
-                              _changeNodeFocus(context, _profile!)),
-                      UpbuttonIntent: CallbackAction<UpbuttonIntent>(
                           onInvoke: (Intent) =>
                               _changeNodeFocus(context, _search!))
                     },
                     child: Focus(
-                      focusNode: _upcoming,
+                      focusNode: _home!,
                       child: Icon(
-                        Icons.movie,
-                        color: _upcoming!.hasFocus
-                            ? Colors.blueAccent
-                            : Colors.grey,
+                        Icons.home_rounded,
+                        color:
+                            _home!.hasFocus ? Colors.blueAccent : Colors.grey,
+                        //size: 30,
                       ),
                     ),
                   ),
                   label: const Modified_text(
-                      text: 'Upcomming', color: Colors.white, size: 15),
-                ),
-                NavigationRailDestination(
-                  icon: Focus(
-                    focusNode: _profile,
+                      text: 'Home', color: Colors.white, size: 15)),
+              NavigationRailDestination(
+                icon: Actions(
+                  actions: <Type, Action<Intent>>{
+                    DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                        onInvoke: (Intent) =>
+                            _changeNodeFocus(context, _upcoming!)),
+                    UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                        onInvoke: (Intent) => _changeNodeFocus(context, _home!))
+                  },
+                  child: Focus(
+                    focusNode: _search,
                     child: Icon(
-                      Icons.favorite_border,
+                      Icons.search_rounded,
                       color:
-                          _profile!.hasFocus ? Colors.blueAccent : Colors.grey,
+                          _search!.hasFocus ? Colors.blueAccent : Colors.grey,
                     ),
                   ),
-                  label: const Modified_text(
-                      text: 'Profile', color: Colors.white, size: 15),
                 ),
-                const NavigationRailDestination(
->>>>>>> remoteNavigation_feature
-                    icon: Icon(Icons.person),
-                    label: Modified_text(
-                        text: 'Profile', color: Colors.white, size: 15))
-              ],
-            ),
-          ]),
-        ),
+                label: const Modified_text(
+                    text: 'Search', color: Colors.white, size: 15),
+              ),
+              NavigationRailDestination(
+                icon: Actions(
+                  actions: <Type, Action<Intent>>{
+                    DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                        onInvoke: (Intent) =>
+                            _changeNodeFocus(context, _profile!)),
+                    UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                        onInvoke: (Intent) =>
+                            _changeNodeFocus(context, _search!))
+                  },
+                  child: Focus(
+                    focusNode: _upcoming,
+                    child: Icon(
+                      Icons.movie,
+                      color:
+                          _upcoming!.hasFocus ? Colors.blueAccent : Colors.grey,
+                    ),
+                  ),
+                ),
+                label: const Modified_text(
+                    text: 'Upcomming', color: Colors.white, size: 15),
+              ),
+              NavigationRailDestination(
+                icon: Focus(
+                  focusNode: _profile,
+                  child: Icon(
+                    Icons.favorite_border,
+                    color: _profile!.hasFocus ? Colors.blueAccent : Colors.grey,
+                  ),
+                ),
+                label: const Modified_text(
+                    text: 'Favorites', color: Colors.white, size: 15),
+              ),
+              const NavigationRailDestination(
+                icon: Icon(Icons.person),
+                label: Modified_text(
+                  text: 'Profile',
+                  color: Colors.white,
+                  size: 15,
+                ),
+              ),
+            ],
+          ),
+        ]),
       ),
     );
   }
+  // NavigationRailDestination navDestination(
+  //     BuildContext context, FocusNode focusNode, Type type) {
+  //   return NavigationRailDestination(
+  //     icon: Actions(
+  //       actions: <Type, Action<Intent>>{
+  //         DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+  //             onInvoke: (Intent) => _changeNodeFocus(context, _search!))
+  //       },
+  //       child: Focus(
+  //         focusNode: _home!,
+  //         child: Icon(
+  //           Icons.home_rounded,
+  //           color: _home!.hasFocus ? Colors.blueAccent : Colors.grey,
+  //           //size: 30,
+  //         ),
+  //       ),
+  //     ),
+  //     label: const Modified_text(
+  //       text: 'Home',
+  //       color: Colors.white,
+  //       size: 15,
+  //     ),
+  //   );
+  // }
 }

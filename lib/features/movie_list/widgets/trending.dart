@@ -62,17 +62,20 @@ class TrendingMovies extends StatelessWidget {
 
   OnMovieTap(BuildContext context, int index) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: ((context) => Description(
-                bannerurl: 'https://image.tmdb.org/t/p/w500' +
-                    trending[index]['backdrop_path'],
-                description: trending[index]['overview'],
-                launch_on: trending[index]['release_date'],
-                name: trending[index]['title'],
-                posterurl: 'https://image.tmdb.org/t/p/w500' +
-                    trending[index]['backdrop_path'],
-                vote: trending[index]['vote_average'].toString()))));
+      context,
+      MaterialPageRoute(
+        builder: ((context) => Description(
+              bannerurl:
+                  "https://image.tmdb.org/t/p/w500${trending[index]['backdrop_path']}",
+              description: trending[index]['overview'],
+              lauchOn: trending[index]['release_date'],
+              name: trending[index]['title'],
+              posterurl: 'https://image.tmdb.org/t/p/w500' +
+                  trending[index]['backdrop_path'],
+              vote: trending[index]['vote_average'].toString(),
+            )),
+      ),
+    );
   }
 }
 
@@ -96,7 +99,7 @@ class MovieCard extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(color: borderColor // Colors.blueAccent,
               )),
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       width: 250,
       child: Column(
         children: [
@@ -106,14 +109,13 @@ class MovieCard extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                      image: NetworkImage('https://image.tmdb.org/t/p/w500' +
-                          trending[index]['poster_path']),
+                      image: NetworkImage(
+                        "https://image.tmdb.org/t/p/w500${trending[index]['backdrop_path']}",
+                      ),
                       fit: BoxFit.cover))),
-          Container(
+          SizedBox(
             child: Modified_text(
-              text: trending[index]['title'] != null
-                  ? trending[index]['title']
-                  : 'Loading',
+              text: trending[index]['title'] ?? 'Loading',
               color: Colors.white60,
               size: 15,
             ),

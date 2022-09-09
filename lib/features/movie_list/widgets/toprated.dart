@@ -19,7 +19,7 @@ class TopRated extends StatelessWidget {
           size: 26,
           color: Colors.white70,
         ),
-        Container(
+        SizedBox(
           height: 200,
           child: ListView.builder(
             itemCount: toprated.length,
@@ -31,21 +31,23 @@ class TopRated extends StatelessWidget {
                     print(element);
                   }
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => Description(
-                              bannerurl: 'https://image.tmdb.org/t/p/w500' +
-                                  toprated[index]['backdrop_path'],
-                              description: toprated[index]['overview'],
-                              launch_on: toprated[index]['release_date'],
-                              name: toprated[index]['title'],
-                              posterurl: 'https://image.tmdb.org/t/p/w500' +
-                                  toprated[index]['backdrop_path'],
-                              vote: toprated[index]['vote_average']
-                                  .toString()))));
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) => Description(
+                            bannerurl:
+                                "https://image.tmdb.org/t/p/w500${toprated[index]['backdrop_path']}",
+                            description: toprated[index]['overview'],
+                            lauchOn: toprated[index]['release_date'],
+                            name: toprated[index]['title'],
+                            posterurl:
+                                "https://image.tmdb.org/t/p/w500${toprated[index]['backdrop_path']}",
+                            vote: toprated[index]['vote_average'].toString(),
+                          )),
+                    ),
+                  );
                 },
                 child: Container(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   width: 250,
                   child: Column(
                     children: [
@@ -56,14 +58,12 @@ class TopRated extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                               image: DecorationImage(
                                   image: NetworkImage(
-                                      'https://image.tmdb.org/t/p/w500' +
-                                          toprated[index]['poster_path']),
+                                    "https://image.tmdb.org/t/p/w500${toprated[index]['poster_path']}",
+                                  ),
                                   fit: BoxFit.cover))),
                       Container(
                         child: Modified_text(
-                          text: toprated[index]['title'] != null
-                              ? toprated[index]['title']
-                              : 'Loading',
+                          text: toprated[index]['title'] ?? 'Loading',
                           color: Colors.white60,
                           size: 15,
                         ),

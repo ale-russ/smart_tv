@@ -1,20 +1,12 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
-
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
-import 'package:smart_tv/features/movie_list/view/favorites.dart';
-import 'package:smart_tv/features/movie_list/view/movie_controller.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 import 'package:smart_tv/features/movie_list/widgets/tv.dart';
@@ -24,6 +16,7 @@ import 'package:tmdb_api/tmdb_api.dart';
 import '../../profile/screen/profile_page.dart';
 import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
+import 'movie_controller.dart';
 
 class MoviesPage extends StatefulWidget {
   @override
@@ -37,6 +30,8 @@ class _MoviesPage extends State<MoviesPage> {
 
   List<FocusNode>? focusNodes;
   MoviesController controller = Get.put(MoviesController());
+
+  bool hasData = false;
 
   @override
   void initState() {
@@ -55,20 +50,24 @@ class _MoviesPage extends State<MoviesPage> {
 
     Map trendingresult = await tmdbWithCustomLogs.v3.trending.getTrending();
     Map topratedresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
-    Map tvresult = await tmdbWithCustomLogs.v3.tv.getPopular();
+    Map searchResult = await tmdbWithCustomLogs.v3.search
+        .queryMovies("A", includeAdult: true, page: 3);
+    Map allMovies = await tmdbWithCustomLogs.v3.discover
+        .getMovies(sortBy: SortMoviesBy.orginalTitleAsc);
+    //Map testing = await tmdbWithCustomLogs.v3.search.q
+    Map tvresult = await tmdbWithCustomLogs.v3.search.queryMovies("hulk");
+    //print(tv);
     setState(() {
       controller.trendingmovies = trendingresult['results'];
       controller.topratedmovies = topratedresult['results'];
       controller.tv = tvresult['results'];
       controller.searchresult = searchResult['results'];
       controller.allVideo = allMovies['results'];
+      if (controller.trendingmovies.isNotEmpty) {
+        hasData = true;
+      }
       print("controller.searchresult");
       focusNodes = List.filled(controller.trendingmovies.length, FocusNode());
-
-      // controller.allVideo.addAll(tv);
-      // controller.allVideo.addAll(controller.topratedmovies);
-      // controller.allVideo.addAll(controller.trendingmovies);
-      //print(controller.allVideo[0]);
     });
   }
 
@@ -79,7 +78,7 @@ class _MoviesPage extends State<MoviesPage> {
   double groupAlignment = 0;
   final selectedColor = Colors.white;
   final unselectedColor = Colors.white60;
-  final labelStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
+  final labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
 
   List<IconData> sideIcons = [
     Icons.home,
@@ -128,7 +127,7 @@ class _MoviesPage extends State<MoviesPage> {
       ),
       body: Row(
         children: [
-          Container(
+          SizedBox(
             child: NavRail(
               selectedIndex: _selectedIndex,
               groupAlignment: groupAlignment,
@@ -139,7 +138,18 @@ class _MoviesPage extends State<MoviesPage> {
           ),
           const VerticalDivider(),
           Expanded(
-            child: _pages[_selectedIndex],
+            child: !hasData
+                ? const Center(
+                    child: Text(
+                      "Page is loading...",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                : _pages[_selectedIndex],
           ),
         ],
       ),

@@ -209,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
 class FormTextField extends StatelessWidget {
   const FormTextField(
       {Key? key,
-      required FocusNode? emailNode,
+      FocusNode? emailNode,
       required bool obsecure,
       required this.hint,
       required this.controller})

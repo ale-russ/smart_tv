@@ -22,9 +22,29 @@ app.get('/listMovies', function(req, res){
   });
 })
 
+// Hanlde GET method for listing all users
+app.get('/listUsers', function(req,res){
+  fs.readFile(__dirname + "/" + "users.json", function(err, data) {
+    console.log("Data is " + data);
+    res.send(data);
+  }) 
+})
+
+app.get("/listUsers/?email", function(err, user){
+  fs.readFile(__dirname + "/" + "users.json","utf-8", function(err, data){
+    users = JSON.parse(data);
+  
+    // var user = users["user" + req.pamas.email];
+    // var user = users.find(users['email', req.params.email]);
+    var user = users.find(user => user.email == email);
+    console.log(user);
+    res.end(JSON.stringify(user))
+  })
+}, )
+
 // Handle GET method to get only one record
 app.get('/:id', function(req, res) {
-  fs.readFile(__dirname + "/" +"db.json", function(err, data){
+  fs.readFile(__dirname + "/" +"db.json", "utf-8", function(err, data){
     movies = JSON.parse(data);
     console.log(req.params.id);
     var movie = movies["movie" + req.params.id];
