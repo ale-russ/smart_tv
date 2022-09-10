@@ -183,22 +183,25 @@ class Movies extends StatefulWidget {
 
 class _MoviesState extends State<Movies> {
   MoviesController controller = Get.find();
+  Color textColor = Colors.white70;
   Color borderColor = Colors.black;
 
-  setfirstFocus(BuildContext context) {
-    if (controller.rightPage!.hasFocus) {
+  _setFirstFocus(BuildContext context) {
+    if (controller.trendingNode == null) {
+      controller.trendingNode = FocusNode();
+      FocusScope.of(context).requestFocus(controller.trendingNode);
       setState(() {
-        borderColor = Colors.blue;
+        textColor = Colors.blue;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!controller.rightPage!.hasFocus) {
-      setfirstFocus(context);
-      print("side clicked should work please ");
-    }
+    // if (controller.trendingNode == null) {
+    //   _setFirstFocus(context);
+    //   print("side clicked should work please ");
+    // }
     return Container(
       decoration:
           BoxDecoration(border: Border.all(color: controller.borderColor)),

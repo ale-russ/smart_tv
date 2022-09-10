@@ -12,5 +12,6 @@ class MoviesController extends GetxController {
   FocusNode? topRatedNode;
   FocusNode? tvShowsNode;
   FocusNode? rightPage;
+  //FocusNode? trendingNode;
   Color borderColor = Colors.black;
 }

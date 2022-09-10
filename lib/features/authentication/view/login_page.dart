@@ -28,6 +28,8 @@ class _LoginPageState extends State<LoginPage> {
   FocusNode? _imageNode;
   LoginController loginController = Get.put(LoginController());
   GlobalKey<FormState>? formKey = GlobalKey<FormState>();
+  bool keyboardV = false;
+
   _setFirstFocus(BuildContext context) {
     if (_imageNode == null) {
       _emailNode = FocusNode();
@@ -38,6 +40,8 @@ class _LoginPageState extends State<LoginPage> {
       print(_emailNode!.hasFocus);
       print(_passwordNode!.hasFocus);
       print(_buttonNode!.hasFocus);
+      //print(WidgetsBinding.instance.window.viewInsets.bottom);
+
     }
   }
 
@@ -111,7 +115,9 @@ class _LoginPageState extends State<LoginPage> {
               child: Center(
                 child: Padding(
                   padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.1),
+                      top: keyboardV
+                          ? MediaQuery.of(context).size.height * 0.01
+                          : MediaQuery.of(context).size.height * 0.1),
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -149,14 +155,20 @@ class _LoginPageState extends State<LoginPage> {
                                 actions: <Type, Action<Intent>>{
                                   DownbuttonIntent:
                                       CallbackAction<DownbuttonIntent>(
-                                          onInvoke: (Intent) =>
-                                              _changeNodeFocus(
-                                                  context, _passwordNode!)),
+                                          onInvoke: (Intent) {
+                                    _changeNodeFocus(context, _passwordNode!);
+                                    setState(() {
+                                      keyboardV = true;
+                                    });
+                                  }),
                                   UpbuttonIntent:
                                       CallbackAction<UpbuttonIntent>(
-                                          onInvoke: (Intent) =>
-                                              _changeNodeFocus(
-                                                  context, _imageNode!))
+                                          onInvoke: (Intent) {
+                                    _changeNodeFocus(context, _imageNode!);
+                                    setState(() {
+                                      keyboardV = false;
+                                    });
+                                  })
                                 },
                                 child: FormTextField(
                                     emailNode: _emailNode,
@@ -168,12 +180,20 @@ class _LoginPageState extends State<LoginPage> {
                             Actions(
                               actions: <Type, Action<Intent>>{
                                 UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                                    onInvoke: (Intent) =>
-                                        _changeNodeFocus(context, _emailNode!)),
+                                    onInvoke: (Intent) {
+                                  _changeNodeFocus(context, _emailNode!);
+                                  setState(() {
+                                    keyboardV = false;
+                                  });
+                                }),
                                 DownbuttonIntent:
                                     CallbackAction<DownbuttonIntent>(
-                                        onInvoke: (Intent) => _changeNodeFocus(
-                                            context, _buttonNode!))
+                                        onInvoke: (Intent) {
+                                  _changeNodeFocus(context, _buttonNode!);
+                                  setState(() {
+                                    keyboardV = false;
+                                  });
+                                })
                               },
                               child: FormTextField(
                                 emailNode: _passwordNode,
@@ -187,8 +207,12 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             Actions(actions: <Type, Action<Intent>>{
                               UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                                  onInvoke: (Intent) =>
-                                      _changeNodeFocus(context, _passwordNode!))
+                                  onInvoke: (Intent) {
+                                _changeNodeFocus(context, _passwordNode!);
+                                setState(() {
+                                  keyboardV = true;
+                                });
+                              })
                             }, child: loginButton)
                           ],
                         ),
@@ -209,7 +233,7 @@ class _LoginPageState extends State<LoginPage> {
 class FormTextField extends StatelessWidget {
   const FormTextField(
       {Key? key,
-      FocusNode? emailNode,
+      required FocusNode? emailNode,
       required bool obsecure,
       required this.hint,
       required this.controller})

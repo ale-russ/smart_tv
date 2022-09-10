@@ -82,6 +82,7 @@ class _NavRailState extends State<NavRail> {
         homeColor = upComingColor = profileColor = Colors.white;
       });
     } else if (name == "upComing") {
+      print("this is upcomning please");
       setState(() {
         upComingColor = Colors.blue;
         searchColor = homeColor = profileColor = Colors.white;
@@ -91,6 +92,9 @@ class _NavRailState extends State<NavRail> {
         profileColor = Colors.blue;
         searchColor = upComingColor = homeColor = Colors.white;
       });
+    } else if (name == "right page") {
+      FocusScope.of(context).unfocus();
+      FocusScope.of(context).requestFocus(focus);
     }
     print("home on change " + _home!.hasFocus.toString());
     print("search on change " + _search!.hasFocus.toString());

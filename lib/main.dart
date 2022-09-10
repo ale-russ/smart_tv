@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         ),
         // home: LoginPage(), //const HomeScreen()
         // home: LandingPage(),
-        home: MoviesPage(), //const LoginPage(),
+        home: const LoginPage(), //MoviesPage(), //
         // home: HomePage(title: "Login page"),
         debugShowCheckedModeBanner: false,
       ),
