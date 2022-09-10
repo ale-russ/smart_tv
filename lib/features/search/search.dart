@@ -65,13 +65,13 @@ class _SeatchPageState extends State<SeatchPage> {
                 width: MediaQuery.of(context).size.width * 0.5,
                 height: MediaQuery.of(context).size.height * 0.06,
                 color: Colors.white,
-                //decoration: BoxDecoration(),
+                // decoration: BoxDecoration(),
                 child: TextField(
                   autofocus: true,
                   controller: controller,
-                  decoration: new InputDecoration(
+                  decoration: const InputDecoration(
                       fillColor: Colors.white,
-                      prefixIcon: new Icon(Icons.search),
+                      prefixIcon: Icon(Icons.search),
                       hintText: 'Search...'),
                   onChanged: (search) async {
                     Map searchResult =
@@ -83,28 +83,32 @@ class _SeatchPageState extends State<SeatchPage> {
                       searchResults = searchResult['results'];
                       mController.localSearch.value = searchResults!;
                       print("object");
-                      // for (var item in searchResults!) {
-
-                      //   // if (!mController.localSearch.contains(item))
-                      //   //   setState(() {
-                      //   //     mController.localSearch.add(item);
-                      //   //   });
-                      //   // else if (mController.localSearch.contains(item)) {
-                      //   //   mController.localSearch.remove(item);
-
-                      //   //   }
-
-                      // }
+                      for (var item in searchResults!) {
+                        if (!mController.localSearch.contains(item)) {
+                          setState(() {
+                            mController.localSearch.add(item);
+                          });
+                        } else if (mController.localSearch.contains(item)) {
+                          mController.localSearch.remove(item);
+                        }
+                      }
                     }
+                    if (controller.text == "") {
+                      mController.localSearch.value.clear;
+                      print("help");
+                    }
+                    setState(() {});
                   },
                 )),
           ),
-          const Modified_text(
-            text: "search result ",
-            size: 26,
-            color: Colors.white70,
+          const Center(
+            child: Modified_text(
+              text: "search result ",
+              size: 16,
+              color: Colors.white70,
+            ),
           ),
-          Container(
+          SizedBox(
             height: 270,
             child: ListView.builder(
               itemCount: mController.localSearch.length,
@@ -114,45 +118,45 @@ class _SeatchPageState extends State<SeatchPage> {
                   () => InkWell(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => Description(
-                                  bannerurl: 'https://image.tmdb.org/t/p/w500' +
-                                      mController.localSearch[index]
-                                          ['backdrop_path'],
-                                  description: mController.localSearch[index]
-                                      ['overview'],
-                                  launch_on: mController.localSearch[index]
-                                      ['release_date'],
-                                  name: mController.localSearch[index]['title'],
-                                  posterurl: 'https://image.tmdb.org/t/p/w500' +
-                                      mController.localSearch[index]
-                                          ['backdrop_path'],
-                                  vote: mController.localSearch[index]
-                                          ['vote_average']
-                                      .toString()))));
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => Description(
+                                bannerurl:
+                                    "https://image.tmdb.org/t/p/w500${mController.localSearch[index]['backdrop_path']}",
+                                description: mController.localSearch[index]
+                                    ['overview'],
+                                lauchOn: mController.localSearch[index]
+                                    ['release_date'],
+                                name: mController.localSearch[index]['title'],
+                                posterurl:
+                                    "https://image.tmdb.org/t/p/w500${mController.localSearch[index]['backdrop_path']}",
+                                vote: mController.localSearch[index]
+                                        ['vote_average']
+                                    .toString(),
+                              )),
+                        ),
+                      );
                     },
-                    child: mController.localSearch.length > 0
-                        ? Container(
+                    child: mController.localSearch.isNotEmpty
+                        ? SizedBox(
                             width: 140,
                             child: Column(
                               children: [
                                 Container(
-                                    height: 200,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: mController
-                                                            .localSearch[index]
-                                                        ['poster_path'] !=
-                                                    null
-                                                ? NetworkImage(
-                                                    'https://image.tmdb.org/t/p/w500' +
-                                                        mController.localSearch[
-                                                                index]
-                                                            ['poster_path'])
-                                                : NetworkImage(
-                                                    "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-7509.jpg")))),
-                                Container(
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: mController.localSearch[index]
+                                                  ['poster_path'] !=
+                                              null
+                                          ? NetworkImage(
+                                              "https://image.tmdb.org/t/p/w500${mController.localSearch[index]['poster_path']}")
+                                          : const NetworkImage(
+                                              "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-7509.jpg"),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
                                   child: Modified_text(
                                     text: mController.localSearch[index]
                                             ['title'] ??
@@ -215,9 +219,9 @@ class _SearchBarState extends State<SearchBar> {
           child: TextField(
             autofocus: true,
             controller: widget.controller,
-            decoration: new InputDecoration(
+            decoration: const InputDecoration(
                 fillColor: Colors.white,
-                prefixIcon: new Icon(Icons.search),
+                prefixIcon: Icon(Icons.search),
                 hintText: 'Search...'),
             onChanged: (search) async {
               Map searchResult =
@@ -227,10 +231,11 @@ class _SearchBarState extends State<SearchBar> {
                 print("clicked");
                 searchResults = searchResult['results'];
                 for (var item in searchResults!) {
-                  if (!mController.localSearch.contains(item))
+                  if (!mController.localSearch.contains(item)) {
                     setState(() {
                       mController.localSearch.add(item);
                     });
+                  }
                   // else if (mController.localSearch.contains(item)) {
                   //   mController.localSearch.remove(item);
 

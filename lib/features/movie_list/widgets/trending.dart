@@ -1,8 +1,9 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings, prefer_if_null_operators, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
-import 'package:smart_tv/features/movie_list/widgets/description.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
+
+import 'description.dart';
 
 class TrendingMovies extends StatelessWidget {
   final List trending;
@@ -18,7 +19,7 @@ class TrendingMovies extends StatelessWidget {
           size: 26,
           color: Colors.white70,
         ),
-        Container(
+        SizedBox(
           height: 200,
           child: ListView.builder(
             itemCount: trending.length,
@@ -26,49 +27,50 @@ class TrendingMovies extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
+                  for (var element in trending) {
+                    print(element);
+                  }
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) => Description(
-                              bannerurl: 'https://image.tmdb.org/t/p/w500' +
-                                  trending[index]['backdrop_path'],
-                              description: trending[index]['overview'],
-                              launch_on: trending[index]['release_date'],
-                              name: trending[index]['title'],
-                              posterurl: 'https://image.tmdb.org/t/p/w500' +
-                                  trending[index]['backdrop_path'],
-                              vote: trending[index]['vote_average']
-                                  .toString()))));
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) => Description(
+                            bannerurl:
+                                "https://image.tmdb.org/t/p/w500${trending[index]['backdrop_path']}",
+                            description: trending[index]['overview'],
+                            lauchOn: trending[index]['release_date'],
+                            name: trending[index]['title'],
+                            posterurl:
+                                "https://image.tmdb.org/t/p/w500${trending[index]['backdrop_path']}",
+                            vote: trending[index]['vote_average'].toString(),
+                          )),
+                    ),
+                  );
                 },
-                child: trending[index]['title'] != null
-                    ? Container(
-                        padding: EdgeInsets.all(5),
-                        width: 250,
-                        child: Column(
-                          children: [
-                            Container(
-                                width: 250,
-                                height: 140,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            'https://image.tmdb.org/t/p/w500' +
-                                                trending[index]['poster_path']),
-                                        fit: BoxFit.cover))),
-                            Container(
-                              child: Modified_text(
-                                text: trending[index]['title'] != null
-                                    ? trending[index]['title']
-                                    : 'Loading',
-                                color: Colors.white60,
-                                size: 15,
-                              ),
-                            )
-                          ],
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  width: 250,
+                  child: Column(
+                    children: [
+                      Container(
+                          width: 250,
+                          height: 140,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                    "https://image.tmdb.org/t/p/w500${trending[index]['poster_path']}",
+                                  ),
+                                  fit: BoxFit.cover))),
+                      Container(
+                        child: Modified_text(
+                          text: trending[index]['title'] ?? 'Loading',
+                          color: Colors.white60,
+                          size: 15,
                         ),
                       )
-                    : Container(),
+                    ],
+                  ),
+                ),
               );
             },
           ),

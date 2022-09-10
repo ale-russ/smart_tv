@@ -1,14 +1,17 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:get/get.dart';
 import 'package:smart_tv/features/movie_list/model/movies_model.dart';
-import 'package:smart_tv/features/movie_list/service/landing_service.dart';
-import 'package:tmdb_api/tmdb_api.dart';
 
 class MovieController extends GetxController {
   Content? contents;
+  FocusNode? trendingNode;
+  FocusNode? topRatedNode;
+  FocusNode? tvShowsNode;
+  FocusNode? rightPage;
 
   Future<MoviesList> fetchMovies() async {
     final response =
