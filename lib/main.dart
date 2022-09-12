@@ -20,11 +20,11 @@ class MyApp extends StatelessWidget {
     return Shortcuts(
       shortcuts: {
         LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
+        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
+        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
+        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
+        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
+        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
       },
       child: GetMaterialApp(
         title: 'Kabbe Movies',
@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
         ),
         // home: LoginPage(), //const HomeScreen()
         // home: LandingPage(),
-        // home: MoviesPage(),
-        home: HomePage(title: "Login page"),
+        home: const LoginPage(), //MoviesPage(),
+        // home: HomePage(title: "Login page"),
         debugShowCheckedModeBanner: false,
       ),
     );
