@@ -66,7 +66,7 @@ class _MoviesPage extends State<MoviesPage> {
       if (controller.trendingmovies.isNotEmpty) {
         hasData = true;
       }
-      print("controller.searchresult");
+      // print("controller.searchresult");
       focusNodes = List.filled(controller.trendingmovies.length, FocusNode());
     });
   }
@@ -128,12 +128,16 @@ class _MoviesPage extends State<MoviesPage> {
       body: Row(
         children: [
           SizedBox(
-            child: NavRail(
-              selectedIndex: _selectedIndex,
-              // groupAlignment: groupAlignment,
-              callback: (index) => setState(() {
-                _selectedIndex = index;
-              }),
+            child: Focus(
+              focusNode: _sideBar,
+              child: NavRail(
+                selectedIndex: _selectedIndex,
+                // groupAlignment: groupAlignment,
+                sideNode: _sideBar!,
+                callback: (index) => setState(() {
+                  _selectedIndex = index;
+                }),
+              ),
             ),
           ),
           const VerticalDivider(),
@@ -149,7 +153,9 @@ class _MoviesPage extends State<MoviesPage> {
                       ),
                     ),
                   )
-                : _pages[_selectedIndex],
+                : Focus(
+                    focusNode: controller.rightPage,
+                    child: _pages[_selectedIndex]),
           ),
         ],
       ),
@@ -159,7 +165,7 @@ class _MoviesPage extends State<MoviesPage> {
 
 typedef void setIndexCallback(int index);
 
-class Movies extends StatelessWidget {
+class Movies extends StatefulWidget {
   const Movies({
     Key? key,
     required this.trendingmovies,
@@ -171,18 +177,45 @@ class Movies extends StatelessWidget {
   final List topratedmovies;
   final List tv;
   @override
+  State<Movies> createState() => _MoviesState();
+}
+
+class _MoviesState extends State<Movies> {
+  MoviesController controller = Get.find();
+  Color textColor = Colors.white70;
+  Color borderColor = Colors.black;
+
+  _setFirstFocus(BuildContext context) {
+    if (controller.trendingNode == null) {
+      controller.trendingNode = FocusNode();
+      FocusScope.of(context).requestFocus(controller.trendingNode);
+      setState(() {
+        textColor = Colors.blue;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        TrendingMovies(
-          //nodeLength: focusNode.length,
-          trending: trendingmovies,
-        ),
-        TopRated(
-          toprated: topratedmovies,
-        ),
-        TV(tv: tv),
-      ],
+    // if (controller.trendingNode == null) {
+    //   _setFirstFocus(context);
+    //   print("side clicked should work please ");
+    // }
+    return Container(
+      decoration:
+          BoxDecoration(border: Border.all(color: controller.borderColor)),
+      child: ListView(
+        children: [
+          TrendingMovies(
+            //nodeLength: focusNode.length,
+            trending: widget.trendingmovies,
+          ),
+          TopRated(
+            toprated: widget.topratedmovies,
+          ),
+          TV(tv: widget.tv),
+        ],
+      ),
     );
   }
 }

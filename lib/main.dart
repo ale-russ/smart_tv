@@ -31,10 +31,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        // home: LoginPage(), //const HomeScreen()
-        // home: LandingPage(),
-        home: const LoginPage(), //MoviesPage(),
-        // home: HomePage(title: "Login page"),
+        home: const LoginPage(), //MoviesPage(), //
         debugShowCheckedModeBanner: false,
       ),
     );
