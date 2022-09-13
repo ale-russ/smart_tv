@@ -1,6 +1,9 @@
 // ignore_for_file: unused_import, prefer_const_literals_to_create_immutables
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+//import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
@@ -16,7 +19,7 @@ import 'package:tmdb_api/tmdb_api.dart';
 import '../../profile/screen/profile_page.dart';
 import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
-import 'movie_controller.dart';
+import '../controller/movie_controller.dart';
 
 class MoviesPage extends StatefulWidget {
   @override
@@ -24,51 +27,18 @@ class MoviesPage extends StatefulWidget {
 }
 
 class _MoviesPage extends State<MoviesPage> {
-  final String apikey = 'f8242645e5c75f1aa66afeaeb47494e3';
-  final String readaccesstoken =
-      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmODI0MjY0NWU1Yzc1ZjFhYTY2YWZlYWViNDc0OTRlMyIsInN1YiI6IjYzMTY0ZWU3YmExMzFiMDA4MWQxYWMwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0rthKmQIVTLgh9wFN7qkpMcmacpy1Juxib-KhJKXtEw';
-
   List<FocusNode>? focusNodes;
   MoviesController controller = Get.put(MoviesController());
 
   bool hasData = false;
+  RxBool data = false.obs;
+
+  List<Widget> pages = [];
 
   @override
-  void initState() {
-    super.initState();
-    loadmovies();
-  }
-
-  loadmovies() async {
-    TMDB tmdbWithCustomLogs = TMDB(
-      ApiKeys(apikey, readaccesstoken),
-      logConfig: const ConfigLogger(
-        showLogs: true,
-        showErrorLogs: true,
-      ),
-    );
-
-    Map trendingresult = await tmdbWithCustomLogs.v3.trending.getTrending();
-    Map topratedresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
-    Map searchResult = await tmdbWithCustomLogs.v3.search
-        .queryMovies("A", includeAdult: true, page: 3);
-    Map allMovies = await tmdbWithCustomLogs.v3.discover
-        .getMovies(sortBy: SortMoviesBy.orginalTitleAsc);
-    //Map testing = await tmdbWithCustomLogs.v3.search.q
-    Map tvresult = await tmdbWithCustomLogs.v3.search.queryMovies("hulk");
-    //print(tv);
-    setState(() {
-      controller.trendingmovies = trendingresult['results'];
-      controller.topratedmovies = topratedresult['results'];
-      controller.tv = tvresult['results'];
-      controller.searchresult = searchResult['results'];
-      controller.allVideo = allMovies['results'];
-      if (controller.trendingmovies.isNotEmpty) {
-        hasData = true;
-      }
-      print("controller.searchresult");
-      focusNodes = List.filled(controller.trendingmovies.length, FocusNode());
-    });
+  void setState(VoidCallback fn) {
+    focusNodes = List.filled(controller.trendingmovies.length, FocusNode());
+    super.setState(fn);
   }
 
   int _selectedIndex = 0;
@@ -79,13 +49,6 @@ class _MoviesPage extends State<MoviesPage> {
   final selectedColor = Colors.white;
   final unselectedColor = Colors.white60;
   final labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
-
-  List<IconData> sideIcons = [
-    Icons.home,
-    Icons.movie,
-    Icons.search,
-    Icons.favorite,
-  ];
 
   FocusNode? _sideBar;
   FocusNode? _pageNode;
@@ -99,19 +62,17 @@ class _MoviesPage extends State<MoviesPage> {
 
   @override
   Widget build(BuildContext context) {
+    controller.loadmovies();
+
     if (_sideBar == null) {
       _setFirstFocus(context);
     }
-    List<Widget> _pages = [
-      Movies(
-          trendingmovies: controller.trendingmovies,
-          topratedmovies: controller.topratedmovies,
-          tv: controller.tv),
-      SeatchPage(number: 0),
-      TrendingMovies(trending: controller.trendingmovies),
-      TopRated(toprated: controller.topratedmovies),
-      ProfilePage()
-    ];
+
+    Timer(const Duration(seconds: 15), () {
+      if (controller.trendingmovies.isNotEmpty) {
+        data.value = true;
+      }
+    });
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -125,33 +86,43 @@ class _MoviesPage extends State<MoviesPage> {
         ),
         backgroundColor: Colors.transparent,
       ),
-      body: Row(
-        children: [
-          SizedBox(
-            child: NavRail(
-              selectedIndex: _selectedIndex,
-              // groupAlignment: groupAlignment,
-              callback: (index) => setState(() {
-                _selectedIndex = index;
-              }),
-            ),
-          ),
-          const VerticalDivider(),
-          Expanded(
-            child: !hasData
-                ? const Center(
-                    child: Text(
-                      "Page is loading...",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  )
-                : _pages[_selectedIndex],
-          ),
-        ],
+      body: Obx(
+        (() {
+          List<Widget> pages = [
+            Movies(
+                trendingmovies: controller.trendingmovies,
+                topratedmovies: controller.topratedmovies,
+                tv: controller.tv),
+            SeatchPage(number: 0),
+            TrendingMovies(trending: controller.trendingmovies),
+            TopRated(toprated: controller.topratedmovies),
+            ProfilePage()
+          ];
+          return Row(
+            children: [
+              SizedBox(
+                child: Focus(
+                  focusNode: _sideBar,
+                  child: NavRail(
+                    selectedIndex: _selectedIndex,
+                    sideNode: _sideBar!,
+                    callback: (index) => setState(() {
+                      _selectedIndex = index;
+                    }),
+                  ),
+                ),
+              ),
+              const VerticalDivider(),
+              Expanded(
+                child: data.isFalse
+                    ? const Center(child: CircularProgressIndicator())
+                    : Focus(
+                        focusNode: controller.rightPage,
+                        child: pages[_selectedIndex]),
+              ),
+            ],
+          );
+        }),
       ),
     );
   }
@@ -159,7 +130,7 @@ class _MoviesPage extends State<MoviesPage> {
 
 typedef void setIndexCallback(int index);
 
-class Movies extends StatelessWidget {
+class Movies extends StatefulWidget {
   const Movies({
     Key? key,
     required this.trendingmovies,
@@ -170,19 +141,47 @@ class Movies extends StatelessWidget {
   final List trendingmovies;
   final List topratedmovies;
   final List tv;
+
+  @override
+  State<Movies> createState() => _MoviesState();
+}
+
+class _MoviesState extends State<Movies> {
+  MoviesController controller = Get.find();
+  Color textColor = Colors.white70;
+  Color borderColor = Colors.black;
+
+  _setFirstFocus(BuildContext context) {
+    if (controller.trendingNode == null) {
+      controller.trendingNode = FocusNode();
+      FocusScope.of(context).requestFocus(controller.trendingNode);
+      setState(() {
+        textColor = Colors.blue;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        TrendingMovies(
-          //nodeLength: focusNode.length,
-          trending: trendingmovies,
-        ),
-        TopRated(
-          toprated: topratedmovies,
-        ),
-        TV(tv: tv),
-      ],
+    if (controller.trendingNode == null) {
+      _setFirstFocus(context);
+      print("side clicked should work please ");
+    }
+    return Container(
+      decoration:
+          BoxDecoration(border: Border.all(color: controller.borderColor)),
+      child: ListView(
+        children: [
+          TrendingMovies(
+            //nodeLength: focusNode.length,
+            trending: widget.trendingmovies,
+          ),
+          TopRated(
+            toprated: widget.topratedmovies,
+          ),
+          TV(tv: widget.tv),
+        ],
+      ),
     );
   }
 }

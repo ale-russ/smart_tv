@@ -1,13 +1,11 @@
 // import 'dart:ffi';
-import 'dart:ui';
+// import 'dart:ui';
 
 import 'package:smart_tv/features/authentication/controller/login_controller.dart';
-import 'package:smart_tv/features/movie_list/view/landingPage.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-//import 'package:password_validator/password_validator.dart';
 
 import '../../../config/intentFiles/down_intent.dart';
 import '../../../config/intentFiles/up_intent.dart';
@@ -28,6 +26,8 @@ class _LoginPageState extends State<LoginPage> {
   FocusNode? _imageNode;
   LoginController loginController = Get.put(LoginController());
   GlobalKey<FormState>? formKey = GlobalKey<FormState>();
+  bool keyboardV = false;
+
   _setFirstFocus(BuildContext context) {
     if (_imageNode == null) {
       _emailNode = FocusNode();
@@ -96,7 +96,6 @@ class _LoginPageState extends State<LoginPage> {
               width: double.infinity,
               height: double.infinity,
               decoration: BoxDecoration(
-                //color: Colors.black54,
                 image: DecorationImage(
                     image: const AssetImage(
                       "assets/images/background3.jpg",
@@ -105,13 +104,14 @@ class _LoginPageState extends State<LoginPage> {
                     colorFilter: ColorFilter.mode(
                         Colors.black.withOpacity(0.9), BlendMode.dstATop)),
               ),
-              //child: Text("this is the main text I am going to use "),
             ),
             SingleChildScrollView(
               child: Center(
                 child: Padding(
                   padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.1),
+                      top: keyboardV
+                          ? MediaQuery.of(context).size.height * 0.01
+                          : MediaQuery.of(context).size.height * 0.1),
                   child: Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -149,14 +149,22 @@ class _LoginPageState extends State<LoginPage> {
                                 actions: <Type, Action<Intent>>{
                                   DownbuttonIntent:
                                       CallbackAction<DownbuttonIntent>(
-                                          onInvoke: (Intent) =>
-                                              _changeNodeFocus(
-                                                  context, _passwordNode!)),
+                                          onInvoke: (Intent) => {
+                                                _changeNodeFocus(
+                                                    context, _passwordNode!),
+                                                setState(() {
+                                                  keyboardV = true;
+                                                }),
+                                              }),
                                   UpbuttonIntent:
                                       CallbackAction<UpbuttonIntent>(
-                                          onInvoke: (Intent) =>
-                                              _changeNodeFocus(
-                                                  context, _imageNode!))
+                                          onInvoke: (Intent) => {
+                                                _changeNodeFocus(
+                                                    context, _imageNode!),
+                                                setState(() {
+                                                  keyboardV = false;
+                                                }),
+                                              })
                                 },
                                 child: FormTextField(
                                     emailNode: _emailNode,
@@ -168,12 +176,22 @@ class _LoginPageState extends State<LoginPage> {
                             Actions(
                               actions: <Type, Action<Intent>>{
                                 UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                                    onInvoke: (Intent) =>
-                                        _changeNodeFocus(context, _emailNode!)),
+                                    onInvoke: (Intent) => {
+                                          _changeNodeFocus(
+                                              context, _emailNode!),
+                                          setState(() {
+                                            keyboardV = false;
+                                          }),
+                                        }),
                                 DownbuttonIntent:
                                     CallbackAction<DownbuttonIntent>(
-                                        onInvoke: (Intent) => _changeNodeFocus(
-                                            context, _buttonNode!))
+                                        onInvoke: (Intent) => {
+                                              _changeNodeFocus(
+                                                  context, _buttonNode!),
+                                              setState(() {
+                                                keyboardV = false;
+                                              }),
+                                            })
                               },
                               child: FormTextField(
                                 emailNode: _passwordNode,
@@ -187,8 +205,13 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             Actions(actions: <Type, Action<Intent>>{
                               UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                                  onInvoke: (Intent) =>
-                                      _changeNodeFocus(context, _passwordNode!))
+                                  onInvoke: (Intent) => {
+                                        _changeNodeFocus(
+                                            context, _passwordNode!),
+                                        setState(() {
+                                          keyboardV = true;
+                                        }),
+                                      })
                             }, child: loginButton)
                           ],
                         ),
