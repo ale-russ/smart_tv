@@ -9,6 +9,7 @@ import 'package:smart_tv/features/movie_list/controller/landing_controller.dart'
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
+import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 import 'package:smart_tv/features/movie_list/widgets/tv.dart';
@@ -78,7 +79,7 @@ class _MoviesPage extends State<MoviesPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: null,
-        title: const Modified_text(
+        title: const ModifiedText(
           text: 'Smart-TV App ',
           size: 20,
           color: Colors.amber,
@@ -93,8 +94,14 @@ class _MoviesPage extends State<MoviesPage> {
                 topratedmovies: controller.topratedmovies,
                 tv: controller.tv),
             SeatchPage(number: 0),
-            TrendingMovies(trending: controller.trendingmovies),
-            TopRated(toprated: controller.topratedmovies),
+            // TrendingMovies(trending: controller.trendingmovies),
+            ComingSoon(
+              movie: controller.trendingmovies,
+            ),
+            ComingSoon(
+              movie: controller.tv,
+            ),
+            // TopRated(toprated: controller.topratedmovies),
             ProfilePage()
           ];
           return Row(
@@ -114,7 +121,10 @@ class _MoviesPage extends State<MoviesPage> {
               const VerticalDivider(),
               Expanded(
                 child: data.isFalse
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                        color: Colors.amberAccent,
+                      ))
                     : Focus(
                         focusNode: controller.rightPage,
                         child: pages[_selectedIndex]),
@@ -166,21 +176,21 @@ class _MoviesState extends State<Movies> {
       _setFirstFocus(context);
       print("side clicked should work please ");
     }
-    return Container(
-      decoration:
-          BoxDecoration(border: Border.all(color: controller.borderColor)),
-      child: ListView(
-        children: [
-          TrendingMovies(
-            //nodeLength: focusNode.length,
-            trending: widget.trendingmovies,
-          ),
-          TopRated(
-            toprated: widget.topratedmovies,
-          ),
-          TV(tv: widget.tv),
-        ],
-      ),
+    return ListView(
+      padding: const EdgeInsets.only(bottom: 40),
+      shrinkWrap: true,
+      children: [
+        TrendingMovies(
+          //nodeLength: focusNode.length,
+          trending: widget.trendingmovies,
+        ),
+        TopRated(
+          toprated: widget.topratedmovies,
+        ),
+        TV(
+          tv: widget.tv,
+        ),
+      ],
     );
   }
 }
