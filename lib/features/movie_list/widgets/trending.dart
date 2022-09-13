@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
-import 'package:smart_tv/features/movie_list/view/movie_controller.dart';
+import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 
 import 'description.dart';
 

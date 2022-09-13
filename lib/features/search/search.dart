@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 import '../movie_list/utilits/text.dart';
-import '../movie_list/view/movie_controller.dart';
+import '../movie_list/controller/movie_controller.dart';
 import '../movie_list/widgets/description.dart';
 
 class SeatchPage extends StatefulWidget {

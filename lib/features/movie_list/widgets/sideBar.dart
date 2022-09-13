@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/config/intentFiles/right_intent.dart';
-import 'package:smart_tv/features/movie_list/view/movie_controller.dart';
+import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 
 import '../../../config/intentFiles/down_intent.dart';
 import '../../../config/intentFiles/up_intent.dart';
