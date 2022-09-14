@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 //import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +17,9 @@ import 'package:smart_tv/features/movie_list/widgets/tv.dart';
 import 'package:smart_tv/features/search/search.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
+import '../../../config/intentFiles/down_intent.dart';
+import '../../../config/intentFiles/right_intent.dart';
+import '../../../config/intentFiles/up_intent.dart';
 import '../../profile/screen/profile_page.dart';
 import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
@@ -36,10 +40,10 @@ class _MoviesPage extends State<MoviesPage> {
   List<Widget> pages = [];
 
   @override
-  void setState(VoidCallback fn) {
-    focusNodes = List.filled(controller.trendingmovies.length, FocusNode());
-    super.setState(fn);
-  }
+  // void setState(VoidCallback fn) {
+  //   focusNodes = List.filled(controller.trendingmovies.length, FocusNode());
+  //   super.setState(fn);
+  // }
 
   int _selectedIndex = 0;
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
@@ -53,10 +57,44 @@ class _MoviesPage extends State<MoviesPage> {
   FocusNode? _sideBar;
   FocusNode? _pageNode;
   _setFirstFocus(BuildContext context) {
-    if (_sideBar == null) {
-      _sideBar = FocusNode();
-      _pageNode = FocusNode();
-      FocusScope.of(context).requestFocus(_sideBar);
+    if (controller.sideNodes!.isEmpty) {
+      // _sideBar = FocusNode();
+      // _pageNode = FocusNode();
+      print("inside the setfirstfocus");
+      for (var i = 0; i < 5; i++) {
+        var temp = FocusNode();
+        controller.sideNodes!.add(temp);
+      }
+      for (var i = 0; i < controller.trendingmovies.length; i++) {
+        var temp = FocusNode();
+        controller.trendingNodes!.add(temp);
+      }
+      for (var i = 0; i < controller.topratedmovies.length; i++) {
+        var temp = FocusNode();
+        controller.topRatedNodes!.add(temp);
+      }
+      for (var i = 0; i < controller.tv.length; i++) {
+        var temp = FocusNode();
+        controller.tvShowsNodes!.add(temp);
+      }
+      FocusScope.of(context).requestFocus(controller.sideNodes![0]);
+      controller.side = true;
+      setState(() {});
+    }
+  }
+
+  _changeNodeFocus(BuildContext build, String direction) {
+    if (direction == "Down") {
+      controller.DownNavActions(context);
+      setState(() {});
+    } else if (direction == "Up") {
+      controller.UpNavActions(context);
+      setState(() {});
+    } else if (direction == "Right") {
+      controller.RightNavActions(context);
+      setState(() {});
+    } else if (direction == "Left") {
+      controller.LeftNavActions(context);
     }
   }
 
@@ -64,11 +102,11 @@ class _MoviesPage extends State<MoviesPage> {
   Widget build(BuildContext context) {
     controller.loadmovies();
 
-    if (_sideBar == null) {
+    if (controller.sideNodes!.isEmpty) {
       _setFirstFocus(context);
     }
 
-    Timer(const Duration(seconds: 15), () {
+    Timer(const Duration(seconds: 5), () {
       if (controller.trendingmovies.isNotEmpty) {
         data.value = true;
       }
@@ -98,33 +136,69 @@ class _MoviesPage extends State<MoviesPage> {
             TopRated(toprated: controller.topratedmovies),
             ProfilePage()
           ];
-          return Row(
-            children: [
-              SizedBox(
-                child: Focus(
-                  focusNode: _sideBar,
-                  child: NavRail(
-                    selectedIndex: _selectedIndex,
-                    sideNode: _sideBar!,
-                    callback: (index) => setState(() {
-                      _selectedIndex = index;
-                    }),
+          return Shortcuts(
+            shortcuts: {
+              LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+              LogicalKeySet(LogicalKeyboardKey.arrowRight): RightbuttonIntent(),
+              // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
+              LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
+              LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
+            },
+            child: Actions(
+              actions: <Type, Action<Intent>>{
+                DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                    onInvoke: (Intent) => _changeNodeFocus(context, "Down")),
+                UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                    onInvoke: (Intent) => _changeNodeFocus(context, "Up")),
+                RightbuttonIntent: CallbackAction<RightbuttonIntent>(
+                    onInvoke: (Intent) => _changeNodeFocus(context, "Right")),
+              },
+              child: Row(
+                children: [
+                  SizedBox(
+                    child: NavRail(
+                      selectedIndex: _selectedIndex,
+                      //sideNode: controller.sideNode!,
+                      callback: (index) => setState(() {
+                        _selectedIndex = index;
+                      }),
+                    ),
                   ),
-                ),
+                  const VerticalDivider(),
+                  Expanded(
+                    child: data.isFalse
+                        ? const Center(child: CircularProgressIndicator())
+                        : pages[_selectedIndex],
+                  ),
+                ],
               ),
-              const VerticalDivider(),
-              Expanded(
-                child: data.isFalse
-                    ? const Center(child: CircularProgressIndicator())
-                    : Focus(
-                        focusNode: controller.rightPage,
-                        child: pages[_selectedIndex]),
-              ),
-            ],
+            ),
           );
         }),
       ),
     );
+  }
+
+  DownNavActions() {
+    if (controller.side == true) {
+      if (controller.navSelectedIndex < 4) {
+        print("inside teh change focus down ${controller.navSelectedIndex}");
+        FocusScope.of(context).requestFocus(
+            controller.sideNodes![controller.navSelectedIndex + 1]);
+        controller.navSelectedIndex++;
+      }
+    } else if (controller.trend == true) {
+      FocusScope.of(context).requestFocus(controller.topRatedNodes![0]);
+      print("top");
+      controller.trend = false;
+      controller.top = true;
+    } else if (controller.top == true) {
+      FocusScope.of(context).requestFocus(controller.tvShowsNodes![0]);
+      print("top");
+      controller.top = false;
+      controller.tvShow = true;
+    }
+    setState(() {});
   }
 }
 
@@ -151,22 +225,25 @@ class _MoviesState extends State<Movies> {
   Color textColor = Colors.white70;
   Color borderColor = Colors.black;
 
-  _setFirstFocus(BuildContext context) {
-    if (controller.trendingNode == null) {
-      controller.trendingNode = FocusNode();
-      FocusScope.of(context).requestFocus(controller.trendingNode);
-      setState(() {
-        textColor = Colors.blue;
-      });
-    }
-  }
+  // _setFirstFocus(BuildContext context) {
+  //   if (controller.sideNode == null) {
+  //     controller.sideNode = FocusNode();
+  //     FocusScope.of(context).requestFocus(controller.sideNode);
+  //     setState(() {
+  //       textColor = Colors.blue;
+  //       // controller.homeColor = Colors.blue;
+  //       // controller.searchColor =
+  //       //     controller.upComingColor = controller.profileColor = Colors.white;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
-    if (controller.trendingNode == null) {
-      _setFirstFocus(context);
-      print("side clicked should work please ");
-    }
+    // if (controller.trendingNode == null) {
+    //   _setFirstFocus(context);
+    //   print("side clicked should work please ");
+    // }
     return Container(
       decoration:
           BoxDecoration(border: Border.all(color: controller.borderColor)),

@@ -28,58 +28,62 @@ class TrendingMovies extends StatefulWidget {
 class _TrendingMoviesState extends State<TrendingMovies> {
   Color textColor = Colors.white70;
   MoviesController controller = Get.find();
-  // _setFirstFocus(BuildContext context) {
-  //   if (controller.trendingNode == null) {
-  //     controller.trendingNode = FocusNode();
-  //     FocusScope.of(context).requestFocus(controller.trendingNode);
-  //     setState(() {
-  //       textColor = Colors.blue;
-  //     });
-  //   }
-  // }
+
+  @override
+  void initState() {
+    if (controller.trendingNodes!.isEmpty) {
+      for (var i = 0; i < controller.trendingmovies.length; i++) {
+        var temp = FocusNode();
+        controller.trendingNodes!.add(temp);
+      }
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     // if (controller.trendingNode == null) {
     //   _setFirstFocus(context);
     // }
-    return Focus(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Modified_text(
-              text: "Trending Movies",
-              size: 26,
-              color: textColor // Colors.white70,
-              ),
-          SizedBox(
-            height: 200,
-            child: ListView.builder(
-              itemCount: widget.trending.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    for (var element in widget.trending) {
-                      print(element);
-                    }
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: ((context) => Description(
-                              bannerurl:
-                                  "https://image.tmdb.org/t/p/w500${widget.trending[index]['backdrop_path']}",
-                              description: widget.trending[index]['overview'],
-                              lauchOn: widget.trending[index]['release_date'],
-                              name: widget.trending[index]['title'],
-                              posterurl:
-                                  "https://image.tmdb.org/t/p/w500${widget.trending[index]['backdrop_path']}",
-                              vote: widget.trending[index]['vote_average']
-                                  .toString(),
-                            )),
-                      ),
-                    );
-                  },
+    return Container(
+      padding: const EdgeInsets.all(10),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Modified_text(
+            text: "Trending Movies",
+            size: 26,
+            color: textColor // Colors.white70,
+            ),
+        SizedBox(
+          height: 200,
+          child: ListView.builder(
+            itemCount: widget.trending.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  for (var element in widget.trending) {
+                    print(element);
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) => Description(
+                            bannerurl:
+                                "https://image.tmdb.org/t/p/w500${widget.trending[index]['backdrop_path']}",
+                            description: widget.trending[index]['overview'],
+                            lauchOn: widget.trending[index]['release_date'],
+                            name: widget.trending[index]['title'],
+                            posterurl:
+                                "https://image.tmdb.org/t/p/w500${widget.trending[index]['backdrop_path']}",
+                            vote: widget.trending[index]['vote_average']
+                                .toString(),
+                          )),
+                    ),
+                  );
+                },
+                child: Focus(
+                  focusNode: controller.trendingNodes![index],
                   child: Container(
                     padding: const EdgeInsets.all(5),
                     width: 250,
@@ -89,6 +93,11 @@ class _TrendingMoviesState extends State<TrendingMovies> {
                             width: 250,
                             height: 140,
                             decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: controller
+                                            .trendingNodes![index].hasFocus
+                                        ? Colors.blue
+                                        : Colors.black),
                                 borderRadius: BorderRadius.circular(20),
                                 image: DecorationImage(
                                     image: NetworkImage(
@@ -105,12 +114,12 @@ class _TrendingMoviesState extends State<TrendingMovies> {
                       ],
                     ),
                   ),
-                );
-              },
-            ),
-          )
-        ]),
-      ),
+                ),
+              );
+            },
+          ),
+        )
+      ]),
     );
   }
 

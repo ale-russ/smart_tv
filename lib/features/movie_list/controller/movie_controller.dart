@@ -46,10 +46,85 @@ class MoviesController extends GetxController {
     print("tv is ${trendingmovies.length}");
   }
 
-  FocusNode? trendingNode;
-  FocusNode? topRatedNode;
-  FocusNode? tvShowsNode;
-  FocusNode? rightPage;
+  List<FocusNode>? trendingNodes = [];
+  List<FocusNode>? topRatedNodes = [];
+  List<FocusNode>? tvShowsNodes = [];
+  List<FocusNode>? sideNodes = [];
+  bool side = false;
+  bool trend = false;
+  bool top = false;
+  bool tvShow = false;
+  int navSelectedIndex = 0;
+  int trendingIndex = 0;
+  int topIndex = 0;
+  int tvIndex = 0;
+  // FocusNode? rightPage;
+  // List<FocusNode>? rightPages;
+  // FocusNode? topRatedNode;
+  // FocusNode? trendingNode;
+  // FocusNode? tvShowNode;
+  // FocusNode? sideNode;
+  Color homeColor = Colors.white;
+  Color searchColor = Colors.white;
+  Color upComingColor = Colors.white;
+  Color profileColor = Colors.white;
   //FocusNode? trendingNode;
   Color borderColor = Colors.black;
+  DownNavActions(BuildContext context) {
+    if (side == true) {
+      if (navSelectedIndex < 4) {
+        print("inside teh change focus down ${navSelectedIndex}");
+        FocusScope.of(context).requestFocus(sideNodes![navSelectedIndex + 1]);
+        navSelectedIndex++;
+      }
+    } else if (trend == true) {
+      FocusScope.of(context).requestFocus(topRatedNodes![0]);
+      print("top");
+      trend = false;
+      top = true;
+    } else if (top == true) {
+      FocusScope.of(context).requestFocus(tvShowsNodes![0]);
+      print("top");
+      top = false;
+      tvShow = true;
+    }
+  }
+
+  UpNavActions(BuildContext context) {
+    if (side == true) {
+      if (navSelectedIndex > -1) {
+        print("inside teh change focus down ${navSelectedIndex}");
+        FocusScope.of(context).requestFocus(sideNodes![navSelectedIndex - 1]);
+        navSelectedIndex--;
+      }
+    }
+  }
+
+  RightNavActions(BuildContext context) {
+    if (side == true) {
+      FocusScope.of(context).requestFocus(trendingNodes![0]);
+      side = false;
+      trend = true;
+    } else if (trend == true) {
+      if (trendingIndex < trendingmovies.length - 1) {
+        FocusScope.of(context).requestFocus(trendingNodes![trendingIndex + 1]);
+        trendingIndex++;
+      }
+    } else if (top == true) {
+      if (topIndex < topratedmovies.length - 1) {
+        FocusScope.of(context).requestFocus(topRatedNodes![topIndex + 1]);
+        topIndex++;
+      }
+    } else if (tvShow == true) {
+      if (tvIndex < tv.length - 1) {
+        print(tv.length);
+        print(tvShow);
+        FocusScope.of(context).requestFocus(tvShowsNodes![tvIndex + 1]);
+        tvIndex++;
+      }
+    }
+    print("out of range");
+  }
+
+  LeftNavActions(BuildContext context) {}
 }
