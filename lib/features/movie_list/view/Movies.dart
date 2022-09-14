@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 //import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_tv/config/intentFiles/left_intent.dart';
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:smart_tv/features/models/movies_model.dart';
@@ -77,8 +78,10 @@ class _MoviesPage extends State<MoviesPage> {
         var temp = FocusNode();
         controller.tvShowsNodes!.add(temp);
       }
+      controller.searchNode = FocusNode();
       FocusScope.of(context).requestFocus(controller.sideNodes![0]);
       controller.side = true;
+
       setState(() {});
     }
   }
@@ -95,6 +98,7 @@ class _MoviesPage extends State<MoviesPage> {
       setState(() {});
     } else if (direction == "Left") {
       controller.LeftNavActions(context);
+      setState(() {});
     }
   }
 
@@ -140,7 +144,7 @@ class _MoviesPage extends State<MoviesPage> {
             shortcuts: {
               LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
               LogicalKeySet(LogicalKeyboardKey.arrowRight): RightbuttonIntent(),
-              // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
+              LogicalKeySet(LogicalKeyboardKey.arrowLeft): LeftbuttonIntent(),
               LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
               LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
             },
@@ -152,6 +156,8 @@ class _MoviesPage extends State<MoviesPage> {
                     onInvoke: (Intent) => _changeNodeFocus(context, "Up")),
                 RightbuttonIntent: CallbackAction<RightbuttonIntent>(
                     onInvoke: (Intent) => _changeNodeFocus(context, "Right")),
+                LeftbuttonIntent: CallbackAction<LeftbuttonIntent>(
+                    onInvoke: (Intent) => _changeNodeFocus(context, "Left")),
               },
               child: Row(
                 children: [

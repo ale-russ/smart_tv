@@ -50,14 +50,18 @@ class MoviesController extends GetxController {
   List<FocusNode>? topRatedNodes = [];
   List<FocusNode>? tvShowsNodes = [];
   List<FocusNode>? sideNodes = [];
+  List<FocusNode>? searchNodes = [];
   bool side = false;
   bool trend = false;
   bool top = false;
   bool tvShow = false;
+  bool searchResult = false;
+  bool searchField = false;
   int navSelectedIndex = 0;
   int trendingIndex = 0;
   int topIndex = 0;
   int tvIndex = 0;
+  FocusNode? searchNode;
   // FocusNode? rightPage;
   // List<FocusNode>? rightPages;
   // FocusNode? topRatedNode;
@@ -87,6 +91,10 @@ class MoviesController extends GetxController {
       print("top");
       top = false;
       tvShow = true;
+    } else if (searchField == true) {
+      FocusScope.of(context).requestFocus(searchNodes![0]);
+      searchField = false;
+      searchResult = true;
     }
   }
 
@@ -97,6 +105,14 @@ class MoviesController extends GetxController {
         FocusScope.of(context).requestFocus(sideNodes![navSelectedIndex - 1]);
         navSelectedIndex--;
       }
+    } else if (top == true) {
+      FocusScope.of(context).requestFocus(trendingNodes![0]);
+      trend = true;
+      top = false;
+    } else if (tvShow == true) {
+      FocusScope.of(context).requestFocus(topRatedNodes![0]);
+      top = true;
+      tvShow = false;
     }
   }
 
@@ -126,5 +142,38 @@ class MoviesController extends GetxController {
     print("out of range");
   }
 
-  LeftNavActions(BuildContext context) {}
+  LeftNavActions(BuildContext context) {
+    if (trend == true) {
+      if (trendingIndex <= 0) {
+        FocusScope.of(context).requestFocus(sideNodes![0]);
+        side = true;
+        trend = false;
+      } else {
+        FocusScope.of(context).requestFocus(trendingNodes![trendingIndex - 1]);
+        trendingIndex--;
+      }
+    } else if (top == true) {
+      if (topIndex <= 0) {
+        FocusScope.of(context).requestFocus(sideNodes![0]);
+        side = true;
+        top = false;
+      } else {
+        FocusScope.of(context).requestFocus(topRatedNodes![topIndex - 1]);
+        topIndex--;
+      }
+    } else if (tvShow == true) {
+      if (trendingIndex <= 0) {
+        FocusScope.of(context).requestFocus(sideNodes![0]);
+        side = true;
+        tvShow = false;
+      } else {
+        FocusScope.of(context).requestFocus(tvShowsNodes![tvIndex - 1]);
+        tvIndex--;
+      }
+    } else {
+      FocusScope.of(context).requestFocus(sideNodes![0]);
+      side = true;
+      searchNode!.unfocus();
+    }
+  }
 }

@@ -37,7 +37,7 @@ class _TVState extends State<TV> {
       padding: const EdgeInsets.all(10),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Modified_text(
-          text: "Trending Movies",
+          text: "Tv Shows",
           size: 26,
           color: Colors.white70,
         ),
