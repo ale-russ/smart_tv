@@ -48,7 +48,7 @@ class Description extends StatelessWidget {
                   ),
                   Positioned(
                     bottom: 5,
-                    child: Modified_text(
+                    child: ModifiedText(
                         text: '⭐Average Rating - $vote',
                         color: Colors.white60,
                         size: 20),
@@ -57,11 +57,11 @@ class Description extends StatelessWidget {
               )),
           Container(
             padding: const EdgeInsets.all(10),
-            child: Modified_text(text: name, color: Colors.white60, size: 15),
+            child: ModifiedText(text: name, color: Colors.white60, size: 15),
           ),
           Container(
             padding: const EdgeInsets.only(left: 5),
-            child: Modified_text(
+            child: ModifiedText(
                 text: 'Releasing On - $lauchOn',
                 color: Colors.white60,
                 size: 15),
@@ -76,7 +76,7 @@ class Description extends StatelessWidget {
               ),
               Flexible(
                 child: Container(
-                  child: Modified_text(
+                  child: ModifiedText(
                       text: description, color: Colors.white60, size: 15),
                 ),
               ),

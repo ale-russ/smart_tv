@@ -27,7 +27,7 @@ class TrendingMovies extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Modified_text(
+        const ModifiedText(
           text: "Trending Movies",
           size: 26,
           color: Colors.white70,
@@ -115,7 +115,7 @@ class MovieCard extends StatelessWidget {
                       ),
                       fit: BoxFit.cover))),
           SizedBox(
-            child: Modified_text(
+            child: ModifiedText(
               text: trending[index]['title'] ?? 'Loading',
               color: Colors.white60,
               size: 15,

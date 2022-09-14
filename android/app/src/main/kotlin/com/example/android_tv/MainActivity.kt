@@ -1,4 +1,4 @@
-package com.example.android_tv
+package com.kabbee.kabbeeplustv
 
 import io.flutter.embedding.android.FlutterActivity
 
