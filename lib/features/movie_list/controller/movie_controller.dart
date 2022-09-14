@@ -7,6 +7,8 @@ const String readaccesstoken =
     'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmODI0MjY0NWU1Yzc1ZjFhYTY2YWZlYWViNDc0OTRlMyIsInN1YiI6IjYzMTY0ZWU3YmExMzFiMDA4MWQxYWMwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0rthKmQIVTLgh9wFN7qkpMcmacpy1Juxib-KhJKXtEw';
 
 class MoviesController extends GetxController {
+  final String movieUrl = "https://image.tmdb.org/t/p/w500";
+
   List trendingmovies = [].obs;
   List topratedmovies = [].obs;
   List tv = [].obs;

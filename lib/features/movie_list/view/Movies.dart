@@ -27,7 +27,8 @@ class MoviesPage extends StatefulWidget {
 }
 
 class _MoviesPage extends State<MoviesPage> {
-  List<FocusNode>? focusNodes;
+  List<FocusNode>? rightFocusNodes;
+  FocusNode? firstFocus = FocusNode();
   MoviesController controller = Get.put(MoviesController());
 
   bool hasData = false;
@@ -37,7 +38,9 @@ class _MoviesPage extends State<MoviesPage> {
 
   @override
   void setState(VoidCallback fn) {
-    focusNodes = List.filled(controller.trendingmovies.length, FocusNode());
+    rightFocusNodes =
+        List.filled(controller.trendingmovies.length, FocusNode());
+    firstFocus = rightFocusNodes!.first;
     super.setState(fn);
   }
 
@@ -56,7 +59,8 @@ class _MoviesPage extends State<MoviesPage> {
     if (_sideBar == null) {
       _sideBar = FocusNode();
       _pageNode = FocusNode();
-      FocusScope.of(context).requestFocus(_sideBar);
+      // firstFocus = rightFocusNodes!.first;
+      FocusScope.of(context).requestFocus(firstFocus);
     }
   }
 
@@ -90,18 +94,18 @@ class _MoviesPage extends State<MoviesPage> {
         (() {
           List<Widget> pages = [
             Movies(
-                trendingmovies: controller.trendingmovies,
-                topratedmovies: controller.topratedmovies,
-                tv: controller.tv),
-            SeatchPage(number: 0),
-            // TrendingMovies(trending: controller.trendingmovies),
+              trendingmovies: controller.trendingmovies,
+              topratedmovies: controller.topratedmovies,
+              tv: controller.tv,
+              focusNode: firstFocus,
+            ),
+            SearchPage(number: 0),
             ComingSoon(
               movie: controller.trendingmovies,
             ),
             ComingSoon(
               movie: controller.tv,
             ),
-            // TopRated(toprated: controller.topratedmovies),
             ProfilePage()
           ];
           return Row(
@@ -126,8 +130,9 @@ class _MoviesPage extends State<MoviesPage> {
                         color: Colors.amberAccent,
                       ))
                     : Focus(
-                        focusNode: controller.rightPage,
-                        child: pages[_selectedIndex]),
+                        focusNode: firstFocus,
+                        child: pages[_selectedIndex],
+                      ),
               ),
             ],
           );
@@ -145,11 +150,13 @@ class Movies extends StatefulWidget {
     required this.trendingmovies,
     required this.topratedmovies,
     required this.tv,
+    this.focusNode,
   }) : super(key: key);
 
   final List trendingmovies;
   final List topratedmovies;
   final List tv;
+  final FocusNode? focusNode;
 
   @override
   State<Movies> createState() => _MoviesState();
@@ -182,6 +189,7 @@ class _MoviesState extends State<Movies> {
       children: [
         TrendingMovies(
           //nodeLength: focusNode.length,
+          focusNode: widget.focusNode,
           trending: widget.trendingmovies,
         ),
         TopRated(

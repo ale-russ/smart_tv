@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
       shortcuts: {
         LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
         LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowDown): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowRight): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowUp): const ActivateIntent(),
         // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
       },
       child: GetMaterialApp(

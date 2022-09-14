@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:smart_tv/features/movie_list/widgets/description.dart';
 
-final String url = "https://image.tmdb.org/t/p/w500";
+// final String controller.movieUrl = "https://image.tmdb.org/t/p/w500";
 
 class MoviesTile extends StatelessWidget {
   MoviesTile({
@@ -15,6 +17,8 @@ class MoviesTile extends StatelessWidget {
   final List? movie;
 
   Color textColor = Colors.white;
+
+  MoviesController controller = Get.put(MoviesController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +42,13 @@ class MoviesTile extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: ((context) => Description(
-                            bannerurl: "$url${movie![index]['backdrop_path']}",
+                            bannerurl:
+                                "${controller.movieUrl}${movie![index]['backdrop_path']}",
                             description: movie![index]['overview'],
                             lauchOn: movie![index]['release_date'],
                             name: movie![index]['title'],
-                            posterurl: "$url${movie![index]['backdrop_path']}",
+                            posterurl:
+                                "${controller.movieUrl}${movie![index]['backdrop_path']}",
                             vote: movie![index]['vote_average'].toString(),
                           )),
                     ),
@@ -63,7 +69,7 @@ class MoviesTile extends StatelessWidget {
                               Border.all(color: Colors.grey.withOpacity(0.3)),
                           image: DecorationImage(
                             image: NetworkImage(
-                              "$url${movie![index]['poster_path']}",
+                              "${controller.movieUrl}${movie![index]['poster_path']}",
                             ),
                             fit: BoxFit.fill,
                           ),
@@ -95,6 +101,8 @@ class ComingSoon extends StatelessWidget {
 
   int? count;
 
+  MoviesController controller = Get.put(MoviesController());
+
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width < 650) {
@@ -123,11 +131,13 @@ class ComingSoon extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: ((context) => Description(
-                            bannerurl: "$url${movie![index]['backdrop_path']}",
+                            bannerurl:
+                                "${controller.movieUrl}${movie![index]['backdrop_path']}",
                             description: movie![index]['overview'],
                             lauchOn: movie![index]['release_date'],
                             name: movie![index]['title'],
-                            posterurl: "$url${movie![index]['backdrop_path']}",
+                            posterurl:
+                                "${controller.movieUrl}${movie![index]['backdrop_path']}",
                             vote: movie![index]['vote_average'].toString(),
                           )),
                     ),
@@ -148,7 +158,7 @@ class ComingSoon extends StatelessWidget {
                               Border.all(color: Colors.grey.withOpacity(0.3)),
                           image: DecorationImage(
                             image: NetworkImage(
-                              "$url${movie![index]['poster_path']}",
+                              "${controller.movieUrl}${movie![index]['poster_path']}",
                             ),
                             fit: BoxFit.fill,
                           ),
