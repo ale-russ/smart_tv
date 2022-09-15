@@ -119,7 +119,7 @@ class _SeatchPageState extends State<SeatchPage> {
                 )),
           ),
           const Center(
-            child: Modified_text(
+            child: ModifiedText(
               text: "search result ",
               size: 16,
               color: Colors.white70,
@@ -181,7 +181,7 @@ class _SeatchPageState extends State<SeatchPage> {
                                     ),
                                   ),
                                   SizedBox(
-                                    child: Modified_text(
+                                    child: ModifiedText(
                                       text: mController.localSearch[index]
                                               ['title'] ??
                                           'Loading',

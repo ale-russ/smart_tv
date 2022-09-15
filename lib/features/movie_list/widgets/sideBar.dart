@@ -169,7 +169,7 @@ class _NavRailState extends State<NavRail> {
                     //size: 30,
                   ),
                 ),
-                label: const Modified_text(
+                label: const ModifiedText(
                     text: 'Home', color: Colors.white, size: 15)),
             NavigationRailDestination(
               icon: Focus(
@@ -182,7 +182,7 @@ class _NavRailState extends State<NavRail> {
                           : Colors.grey,
                 ),
               ),
-              label: const Modified_text(
+              label: const ModifiedText(
                   text: 'Search', color: Colors.white, size: 15),
             ),
             NavigationRailDestination(
@@ -195,7 +195,7 @@ class _NavRailState extends State<NavRail> {
                       : Colors.grey,
                 ),
               ),
-              label: const Modified_text(
+              label: const ModifiedText(
                   text: 'Upcomming', color: Colors.white, size: 15),
             ),
             NavigationRailDestination(
@@ -208,7 +208,7 @@ class _NavRailState extends State<NavRail> {
                       : Colors.grey,
                 ),
               ),
-              label: const Modified_text(
+              label: const ModifiedText(
                   text: 'Favorites', color: Colors.white, size: 15),
             ),
             NavigationRailDestination(
@@ -220,7 +220,7 @@ class _NavRailState extends State<NavRail> {
                         ? Colors.amber
                         : Colors.grey,
                   )),
-              label: Modified_text(
+              label: ModifiedText(
                 text: 'Profile',
                 color: Colors.white,
                 size: 15,
