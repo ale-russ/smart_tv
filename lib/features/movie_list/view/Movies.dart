@@ -61,12 +61,13 @@ class _MoviesPage extends State<MoviesPage> {
     if (controller.sideNodes!.isEmpty) {
       // _sideBar = FocusNode();
       // _pageNode = FocusNode();
-      print("inside the setfirstfocus");
+      //print("inside the setfirstfocus");
       for (var i = 0; i < 5; i++) {
         var temp = FocusNode();
         controller.sideNodes!.add(temp);
       }
       for (var i = 0; i < controller.trendingmovies.length; i++) {
+        print("inside the setfirstfocusff ${controller.trendingmovies.length}");
         var temp = FocusNode();
         controller.trendingNodes!.add(temp);
       }
@@ -110,7 +111,8 @@ class _MoviesPage extends State<MoviesPage> {
       _setFirstFocus(context);
     }
 
-    Timer(const Duration(seconds: 5), () {
+    Timer(const Duration(seconds: 10), () {
+      print("timer");
       if (controller.trendingmovies.isNotEmpty) {
         data.value = true;
       }
@@ -254,6 +256,7 @@ class _MoviesState extends State<Movies> {
       decoration:
           BoxDecoration(border: Border.all(color: controller.borderColor)),
       child: ListView(
+        controller: controller.homePageScrollController,
         children: [
           TrendingMovies(
             //nodeLength: focusNode.length,

@@ -144,12 +144,16 @@ class _NavRailState extends State<NavRail> {
           //       labelStyle.copyWith(color: unselectedColor),
           selectedIndex: controller.navSelectedIndex,
           minWidth: 45,
-          selectedIconTheme: const IconThemeData(color: Colors.amber, size: 10),
+          selectedIconTheme: const IconThemeData(
+            color: Colors.amber,
+          ),
           unselectedIconTheme:
               const IconThemeData(color: Colors.white, size: 30),
           // groupAlignment: groupAlignment,
           onDestinationSelected: (int index) {
             // _selectedIndex = index;
+            controller.navSelectedIndex = index;
+            print(controller.navSelectedIndex);
             widget.callback!(index);
           },
           destinations: [
@@ -160,7 +164,7 @@ class _NavRailState extends State<NavRail> {
                     Icons.home_rounded,
                     color: //homeColor
                         controller.sideNodes![0].hasFocus
-                            ? Colors.blueAccent
+                            ? Colors.amber
                             : Colors.grey,
                     //size: 30,
                   ),
@@ -174,7 +178,7 @@ class _NavRailState extends State<NavRail> {
                   Icons.search_rounded,
                   color: //searchColor
                       controller.sideNodes![1].hasFocus
-                          ? Colors.blueAccent
+                          ? Colors.amber
                           : Colors.grey,
                 ),
               ),
@@ -187,7 +191,7 @@ class _NavRailState extends State<NavRail> {
                 child: Icon(
                   Icons.movie,
                   color: controller.sideNodes![2].hasFocus
-                      ? Colors.blueAccent
+                      ? Colors.amber
                       : Colors.grey,
                 ),
               ),
@@ -200,7 +204,7 @@ class _NavRailState extends State<NavRail> {
                 child: Icon(
                   Icons.favorite_border,
                   color: controller.sideNodes![3].hasFocus
-                      ? Colors.blueAccent
+                      ? Colors.amber
                       : Colors.grey,
                 ),
               ),
@@ -213,7 +217,7 @@ class _NavRailState extends State<NavRail> {
                   child: Icon(
                     Icons.person,
                     color: controller.sideNodes![4].hasFocus
-                        ? Colors.blueAccent
+                        ? Colors.amber
                         : Colors.grey,
                   )),
               label: Modified_text(

@@ -42,6 +42,7 @@ class _TopRatedState extends State<TopRated> {
         SizedBox(
           height: 200,
           child: ListView.builder(
+            controller: controller.topRatedScrollController,
             itemCount: widget.toprated.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
@@ -81,7 +82,7 @@ class _TopRatedState extends State<TopRated> {
                                 border: Border.all(
                                     color: controller
                                             .topRatedNodes![index].hasFocus
-                                        ? Colors.blue
+                                        ? Colors.amber
                                         : Colors.black),
                                 borderRadius: BorderRadius.circular(20),
                                 image: DecorationImage(

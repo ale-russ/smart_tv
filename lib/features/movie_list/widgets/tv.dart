@@ -44,6 +44,7 @@ class _TVState extends State<TV> {
         SizedBox(
           height: 200,
           child: ListView.builder(
+            controller: controller.tvShowScrollController,
             itemCount: widget.tv.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
@@ -80,7 +81,7 @@ class _TVState extends State<TV> {
                                   border: Border.all(
                                       color: controller
                                               .tvShowsNodes![index].hasFocus
-                                          ? Colors.blue
+                                          ? Colors.amber
                                           : Colors.black),
                                   borderRadius: BorderRadius.circular(20),
                                   image: DecorationImage(

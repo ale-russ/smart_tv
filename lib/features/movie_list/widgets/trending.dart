@@ -57,6 +57,7 @@ class _TrendingMoviesState extends State<TrendingMovies> {
         SizedBox(
           height: 200,
           child: ListView.builder(
+            controller: controller.trendingScrollController,
             itemCount: widget.trending.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
@@ -96,7 +97,7 @@ class _TrendingMoviesState extends State<TrendingMovies> {
                                 border: Border.all(
                                     color: controller
                                             .trendingNodes![index].hasFocus
-                                        ? Colors.blue
+                                        ? Colors.amber
                                         : Colors.black),
                                 borderRadius: BorderRadius.circular(20),
                                 image: DecorationImage(
