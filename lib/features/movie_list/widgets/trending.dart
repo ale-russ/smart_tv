@@ -54,6 +54,9 @@ class _TrendingMoviesState extends State<TrendingMovies> {
         child: MoviesTile(
           title: "Trending Movies",
           movie: widget.trending,
+          nodes: controller.trendingNodes,
+          borderColor: Colors.grey.withOpacity(0.3),
+          scrollController: controller.trendingScrollController,
         ),
       ),
     );

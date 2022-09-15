@@ -69,8 +69,10 @@ class _MoviesPage extends State<MoviesPage> {
       }
       for (var i = 0; i < controller.trendingmovies.length; i++) {
         print("inside the setfirstfocusff ${controller.trendingmovies.length}");
+        var temp1 = FocusNode();
         var temp = FocusNode();
         controller.trendingNodes!.add(temp);
+        controller.comingNodes!.add(temp);
       }
       for (var i = 0; i < controller.topratedmovies.length; i++) {
         var temp = FocusNode();
@@ -194,27 +196,27 @@ class _MoviesPage extends State<MoviesPage> {
     );
   }
 
-  DownNavActions() {
-    if (controller.side == true) {
-      if (controller.navSelectedIndex < 4) {
-        print("inside teh change focus down ${controller.navSelectedIndex}");
-        FocusScope.of(context).requestFocus(
-            controller.sideNodes![controller.navSelectedIndex + 1]);
-        controller.navSelectedIndex++;
-      }
-    } else if (controller.trend == true) {
-      FocusScope.of(context).requestFocus(controller.topRatedNodes![0]);
-      print("top");
-      controller.trend = false;
-      controller.top = true;
-    } else if (controller.top == true) {
-      FocusScope.of(context).requestFocus(controller.tvShowsNodes![0]);
-      print("top");
-      controller.top = false;
-      controller.tvShow = true;
-    }
-    setState(() {});
-  }
+  // DownNavActions() {
+  //   if (controller.side == true) {
+  //     if (controller.navSelectedIndex < 4) {
+  //       print("inside teh change focus down ${controller.navSelectedIndex}");
+  //       FocusScope.of(context).requestFocus(
+  //           controller.sideNodes![controller.navSelectedIndex + 1]);
+  //       controller.navSelectedIndex++;
+  //     }
+  //   } else if (controller.trend == true) {
+  //     FocusScope.of(context).requestFocus(controller.topRatedNodes![0]);
+  //     print("top");
+  //     controller.trend = false;
+  //     controller.top = true;
+  //   } else if (controller.top == true) {
+  //     FocusScope.of(context).requestFocus(controller.tvShowsNodes![0]);
+  //     print("top");
+  //     controller.top = false;
+  //     controller.tvShow = true;
+  //   }
+  //   setState(() {});
+  // }
 }
 
 typedef void setIndexCallback(int index);
@@ -240,25 +242,8 @@ class _MoviesState extends State<Movies> {
   Color textColor = Colors.white70;
   Color borderColor = Colors.black;
 
-  // _setFirstFocus(BuildContext context) {
-  //   if (controller.sideNode == null) {
-  //     controller.sideNode = FocusNode();
-  //     FocusScope.of(context).requestFocus(controller.sideNode);
-  //     setState(() {
-  //       textColor = Colors.blue;
-  //       // controller.homeColor = Colors.blue;
-  //       // controller.searchColor =
-  //       //     controller.upComingColor = controller.profileColor = Colors.white;
-  //     });
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // if (controller.trendingNode == null) {
-    //   _setFirstFocus(context);
-    //   print("side clicked should work please ");
-    // }
     return Container(
       decoration:
           BoxDecoration(border: Border.all(color: controller.borderColor)),
@@ -266,7 +251,6 @@ class _MoviesState extends State<Movies> {
         controller: controller.homePageScrollController,
         children: [
           TrendingMovies(
-            //nodeLength: focusNode.length,
             trending: widget.trendingmovies,
           ),
           TopRated(

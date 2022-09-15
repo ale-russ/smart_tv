@@ -39,41 +39,36 @@ class MoviesController extends GetxController {
     topratedmovies = topratedresult['results'];
     tv = tvresult['results'];
 
-    print("tv is ${trendingmovies.length}");
+    //print("tv is ${trendingmovies.length}");
   }
 
   ScrollController trendingScrollController = new ScrollController();
   ScrollController tvShowScrollController = new ScrollController();
   ScrollController topRatedScrollController = new ScrollController();
   ScrollController homePageScrollController = new ScrollController();
+  ScrollController comingPageScrollController = new ScrollController();
 
   List<FocusNode>? trendingNodes = [];
   List<FocusNode>? topRatedNodes = [];
   List<FocusNode>? tvShowsNodes = [];
   List<FocusNode>? sideNodes = [];
   List<FocusNode>? searchNodes = [];
+  List<FocusNode>? comingNodes = [];
   bool side = false;
   bool trend = false;
   bool top = false;
   bool tvShow = false;
+  bool coming = false;
   bool searchResult = false;
   bool searchField = false;
   int navSelectedIndex = 0;
+  int clickedIndex = 0;
   int trendingIndex = 0;
   int topIndex = 0;
   int tvIndex = 0;
+  int comingIndex = 0;
   FocusNode? searchNode;
-  // FocusNode? rightPage;
-  // List<FocusNode>? rightPages;
-  // FocusNode? topRatedNode;
-  // FocusNode? trendingNode;
-  // FocusNode? tvShowNode;
-  // FocusNode? sideNode;
-  Color homeColor = Colors.white;
-  Color searchColor = Colors.white;
-  Color upComingColor = Colors.white;
-  Color profileColor = Colors.white;
-  //FocusNode? trendingNode;
+
   Color borderColor = Colors.black;
   DownNavActions(BuildContext context) {
     if (side == true) {
@@ -83,8 +78,10 @@ class MoviesController extends GetxController {
         navSelectedIndex++;
       }
     } else if (trend == true) {
+      topRatedScrollController.animateTo(0,
+          duration: Duration(seconds: 1), curve: Curves.ease);
       FocusScope.of(context).requestFocus(topRatedNodes![0]);
-      print("top");
+      //print("top");
       homePageScrollController.animateTo(homePageScrollController.offset + 180,
           duration: Duration(seconds: 1), curve: Curves.ease);
       //trendingScrollController.jumpTo(5);
@@ -93,7 +90,8 @@ class MoviesController extends GetxController {
       trendingIndex = 0;
     } else if (top == true) {
       FocusScope.of(context).requestFocus(tvShowsNodes![0]);
-      print("top");
+      tvShowScrollController.animateTo(0,
+          duration: Duration(seconds: 1), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset + 180,
           duration: Duration(seconds: 1), curve: Curves.ease);
       top = false;
@@ -103,6 +101,18 @@ class MoviesController extends GetxController {
       FocusScope.of(context).requestFocus(searchNodes![0]);
       searchField = false;
       searchResult = true;
+    } else if (coming == true) {
+      if (comingIndex + 3 < comingNodes!.length) {
+        FocusScope.of(context).requestFocus(comingNodes![comingIndex + 3]);
+        comingIndex = comingIndex + 3;
+        comingPageScrollController.animateTo(
+            comingPageScrollController.offset + 200,
+            duration: Duration(seconds: 1),
+            curve: Curves.ease);
+      } else {
+        FocusScope.of(context)
+            .requestFocus(comingNodes![comingNodes!.length - 1]);
+      }
     }
   }
 
@@ -115,41 +125,62 @@ class MoviesController extends GetxController {
       }
     } else if (top == true) {
       FocusScope.of(context).requestFocus(trendingNodes![0]);
+      trendingScrollController.animateTo(0,
+          duration: Duration(seconds: 1), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset - 180,
           duration: Duration(seconds: 1), curve: Curves.ease);
       trend = true;
       top = false;
     } else if (tvShow == true) {
       FocusScope.of(context).requestFocus(topRatedNodes![0]);
+      topRatedScrollController.animateTo(0,
+          duration: Duration(seconds: 1), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset - 180,
           duration: Duration(seconds: 1), curve: Curves.ease);
       top = true;
       tvShow = false;
+    } else if (coming == true) {
+      if (comingIndex - 3 > 0) {
+        FocusScope.of(context).requestFocus(comingNodes![comingIndex - 3]);
+        comingIndex = comingIndex - 3;
+        comingPageScrollController.animateTo(
+            comingPageScrollController.offset - 200,
+            duration: Duration(seconds: 1),
+            curve: Curves.ease);
+      } else {
+        FocusScope.of(context).requestFocus(comingNodes![0]);
+        comingIndex = 0;
+      }
     }
   }
 
   RightNavActions(BuildContext context) {
     if (side == true) {
-      if (navSelectedIndex == 1) {
+      if (clickedIndex == 1) {
         FocusScope.of(context).requestFocus(searchNode);
         side = false;
         searchField = true;
         //trend = true;
-      } else if (navSelectedIndex == 3) {
+      } else if (clickedIndex == 3) {
         FocusScope.of(context).requestFocus(topRatedNodes![0]);
+
         side = false;
         top = true;
-      } else if (navSelectedIndex == 4) {
+      } else if (clickedIndex == 4) {
         print("in the profile node");
-      } else {
-        FocusScope.of(context).requestFocus(trendingNodes![0]);
+      } else if (clickedIndex == 2) {
+        FocusScope.of(context).requestFocus(comingNodes![0]);
         side = false;
-        trend = true;
+        coming = true;
+
+        // comingPageScrollController.animateTo(0,
+        //     duration: Duration(seconds: 1), curve: Curves.ease);
       }
       navSelectedIndex = 0;
     } else if (trend == true) {
       if (trendingIndex < trendingmovies.length - 1) {
         FocusScope.of(context).requestFocus(trendingNodes![trendingIndex + 1]);
+        print("trening nodess");
         trendingScrollController.animateTo(
             trendingScrollController.offset + 230,
             curve: Curves.ease,
@@ -159,17 +190,28 @@ class MoviesController extends GetxController {
     } else if (top == true) {
       if (topIndex < topratedmovies.length - 1) {
         FocusScope.of(context).requestFocus(topRatedNodes![topIndex + 1]);
+        topRatedScrollController.animateTo(
+            topRatedScrollController.offset + 230,
+            curve: Curves.ease,
+            duration: Duration(seconds: 1));
         topIndex++;
       }
     } else if (tvShow == true) {
       if (tvIndex < tv.length - 1) {
-        print(tv.length);
-        print(tvShow);
+        tvShowScrollController.animateTo(tvShowScrollController.offset + 230,
+            curve: Curves.ease, duration: Duration(seconds: 1));
         FocusScope.of(context).requestFocus(tvShowsNodes![tvIndex + 1]);
         tvIndex++;
       }
+    } else if (coming == true) {
+      print("testing");
+      if (comingIndex < trendingmovies.length - 1) {
+        FocusScope.of(context).requestFocus(comingNodes![comingIndex + 1]);
+
+        comingIndex++;
+      }
     }
-    print("out of range");
+    //print("out of range");
   }
 
   LeftNavActions(BuildContext context) {
@@ -193,7 +235,7 @@ class MoviesController extends GetxController {
         top = false;
       } else {
         FocusScope.of(context).requestFocus(topRatedNodes![topIndex - 1]);
-        FocusScope.of(context).requestFocus(topRatedNodes![trendingIndex - 1]);
+        // FocusScope.of(context).requestFocus(topRatedNodes![trendingIndex - 1]);
         topRatedScrollController.animateTo(
             trendingScrollController.offset - 230,
             curve: Curves.ease,
@@ -211,6 +253,18 @@ class MoviesController extends GetxController {
             curve: Curves.ease, duration: Duration(seconds: 1));
 
         tvIndex--;
+      }
+    } else if (coming == true) {
+      if (comingIndex % 3 == 0) {
+        FocusScope.of(context).requestFocus(sideNodes![0]);
+        coming = false;
+        side = true;
+      } else {
+        if (comingIndex > 0) {
+          FocusScope.of(context).requestFocus(comingNodes![comingIndex - 1]);
+
+          comingIndex--;
+        }
       }
     } else {
       FocusScope.of(context).requestFocus(sideNodes![0]);

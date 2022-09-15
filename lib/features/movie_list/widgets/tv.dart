@@ -39,6 +39,9 @@ class _TVState extends State<TV> {
       child: MoviesTile(
         movie: widget.tv,
         title: "Tv Shows",
+        nodes: controller.tvShowsNodes,
+        borderColor: Colors.grey.withOpacity(0.3),
+        scrollController: controller.tvShowScrollController,
       ),
     );
   }

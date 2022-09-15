@@ -83,48 +83,43 @@ class _NavRailState extends State<NavRail> {
     _profile!.dispose();
   }
 
-  _changeNodeFocus(BuildContext context, FocusNode focus, String name) {
-    FocusScope.of(context).requestFocus(focus);
-    print(name);
-    if (name == "home") {
-      setState(() {
-        homeColor = Colors.blue;
-        searchColor = upComingColor = profileColor = Colors.white;
-      });
-    } else if (name == "search") {
-      setState(() {
-        searchColor = Colors.blue;
-        homeColor = upComingColor = profileColor = Colors.white;
-      });
-    } else if (name == "upComing") {
-      print("this is upcomning please");
-      setState(() {
-        upComingColor = Colors.blue;
-        searchColor = homeColor = profileColor = Colors.white;
-      });
-    } else if (name == "profile") {
-      setState(() {
-        profileColor = Colors.blue;
-        searchColor = upComingColor = homeColor = Colors.white;
-      });
-    } else if (name == "right page") {
-      FocusScope.of(context).unfocus();
-      FocusScope.of(context).requestFocus(focus);
-    }
-    print("home on change " + _home!.hasFocus.toString());
-    print("search on change " + _search!.hasFocus.toString());
-    print("object" + focus.hasFocus.toString());
-  }
+  // _changeNodeFocus(BuildContext context, FocusNode focus, String name) {
+  //   FocusScope.of(context).requestFocus(focus);
+  //   print(name);
+  //   if (name == "home") {
+  //     setState(() {
+  //       homeColor = Colors.blue;
+  //       searchColor = upComingColor = profileColor = Colors.white;
+  //     });
+  //   } else if (name == "search") {
+  //     setState(() {
+  //       searchColor = Colors.blue;
+  //       homeColor = upComingColor = profileColor = Colors.white;
+  //     });
+  //   } else if (name == "upComing") {
+  //     print("this is upcomning please");
+  //     setState(() {
+  //       upComingColor = Colors.blue;
+  //       searchColor = homeColor = profileColor = Colors.white;
+  //     });
+  //   } else if (name == "profile") {
+  //     setState(() {
+  //       profileColor = Colors.blue;
+  //       searchColor = upComingColor = homeColor = Colors.white;
+  //     });
+  //   } else if (name == "right page") {
+  //     FocusScope.of(context).unfocus();
+  //     FocusScope.of(context).requestFocus(focus);
+  //   }
+  //   print("home on change " + _home!.hasFocus.toString());
+  //   print("search on change " + _search!.hasFocus.toString());
+  //   print("object" + focus.hasFocus.toString());
+  // }
 
   int? _selectedIndex;
 
   @override
   Widget build(BuildContext context) {
-    // if (controller.sideNode!.hasFocus) {
-    //   _setFirstFocus(context);
-    // } else {
-    //   print(" please ${controller.sideNode!.hasFocus}");
-    // }
     return Container(
       decoration: BoxDecoration(
           color: Colors.transparent,
@@ -151,9 +146,9 @@ class _NavRailState extends State<NavRail> {
               const IconThemeData(color: Colors.white, size: 30),
           // groupAlignment: groupAlignment,
           onDestinationSelected: (int index) {
-            // _selectedIndex = index;
-            controller.navSelectedIndex = index;
-            print(controller.navSelectedIndex);
+            // controller.navSelectedIndex = index;
+            controller.clickedIndex = index;
+            //print(controller.navSelectedIndex);
             widget.callback!(index);
           },
           destinations: [

@@ -37,6 +37,9 @@ class _TopRatedState extends State<TopRated> {
       child: MoviesTile(
         movie: widget.toprated,
         title: "Top Rated Movies",
+        nodes: controller.topRatedNodes!,
+        borderColor: Colors.grey.withOpacity(0.3),
+        scrollController: controller.topRatedScrollController,
       ),
     );
   }
