@@ -47,6 +47,7 @@ class MoviesController extends GetxController {
   ScrollController topRatedScrollController = new ScrollController();
   ScrollController homePageScrollController = new ScrollController();
   ScrollController comingPageScrollController = new ScrollController();
+  ScrollController favPageScrollController = new ScrollController();
 
   List<FocusNode>? trendingNodes = [];
   List<FocusNode>? topRatedNodes = [];
@@ -54,13 +55,19 @@ class MoviesController extends GetxController {
   List<FocusNode>? sideNodes = [];
   List<FocusNode>? searchNodes = [];
   List<FocusNode>? comingNodes = [];
+  List<FocusNode>? favNodes = [];
+  List<FocusNode>? profileNodes = [];
   bool side = false;
   bool trend = false;
   bool top = false;
   bool tvShow = false;
   bool coming = false;
+  bool fav = false;
   bool searchResult = false;
   bool searchField = false;
+  bool profile = false;
+  int profileIndex = 0;
+  int favIndex = 0;
   int navSelectedIndex = 0;
   int clickedIndex = 0;
   int trendingIndex = 0;
@@ -79,11 +86,11 @@ class MoviesController extends GetxController {
       }
     } else if (trend == true) {
       topRatedScrollController.animateTo(0,
-          duration: Duration(seconds: 1), curve: Curves.ease);
+          duration: Duration(milliseconds: 800), curve: Curves.ease);
       FocusScope.of(context).requestFocus(topRatedNodes![0]);
       //print("top");
       homePageScrollController.animateTo(homePageScrollController.offset + 180,
-          duration: Duration(seconds: 1), curve: Curves.ease);
+          duration: Duration(milliseconds: 800), curve: Curves.ease);
       //trendingScrollController.jumpTo(5);
       trend = false;
       top = true;
@@ -91,9 +98,9 @@ class MoviesController extends GetxController {
     } else if (top == true) {
       FocusScope.of(context).requestFocus(tvShowsNodes![0]);
       tvShowScrollController.animateTo(0,
-          duration: Duration(seconds: 1), curve: Curves.ease);
+          duration: Duration(microseconds: 50), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset + 180,
-          duration: Duration(seconds: 1), curve: Curves.ease);
+          duration: Duration(microseconds: 50), curve: Curves.ease);
       top = false;
       tvShow = true;
       topIndex = 0;
@@ -107,13 +114,22 @@ class MoviesController extends GetxController {
         comingIndex = comingIndex + 3;
         comingPageScrollController.animateTo(
             comingPageScrollController.offset + 200,
-            duration: Duration(seconds: 1),
+            duration: Duration(microseconds: 50),
             curve: Curves.ease);
       } else {
         FocusScope.of(context)
             .requestFocus(comingNodes![comingNodes!.length - 1]);
       }
+    } else if (profile == true) {
+      print("inside profile ");
+      if (profileIndex < profileNodes!.length - 1) {
+        FocusScope.of(context).requestFocus(profileNodes![profileIndex + 1]);
+        profileIndex++;
+      }
+    } else {
+      print("I know hwy is is coming here ");
     }
+    print("down");
   }
 
   UpNavActions(BuildContext context) {
@@ -126,17 +142,17 @@ class MoviesController extends GetxController {
     } else if (top == true) {
       FocusScope.of(context).requestFocus(trendingNodes![0]);
       trendingScrollController.animateTo(0,
-          duration: Duration(seconds: 1), curve: Curves.ease);
+          duration: Duration(microseconds: 50), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset - 180,
-          duration: Duration(seconds: 1), curve: Curves.ease);
+          duration: Duration(microseconds: 50), curve: Curves.ease);
       trend = true;
       top = false;
     } else if (tvShow == true) {
       FocusScope.of(context).requestFocus(topRatedNodes![0]);
       topRatedScrollController.animateTo(0,
-          duration: Duration(seconds: 1), curve: Curves.ease);
+          duration: Duration(microseconds: 50), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset - 180,
-          duration: Duration(seconds: 1), curve: Curves.ease);
+          duration: Duration(microseconds: 50), curve: Curves.ease);
       top = true;
       tvShow = false;
     } else if (coming == true) {
@@ -145,11 +161,18 @@ class MoviesController extends GetxController {
         comingIndex = comingIndex - 3;
         comingPageScrollController.animateTo(
             comingPageScrollController.offset - 200,
-            duration: Duration(seconds: 1),
+            duration: Duration(microseconds: 50),
             curve: Curves.ease);
       } else {
         FocusScope.of(context).requestFocus(comingNodes![0]);
         comingIndex = 0;
+      }
+    } else if (profile == true) {
+      if (profileIndex > 0) {
+        FocusScope.of(context).requestFocus(profileNodes![profileIndex - 1]);
+        profileIndex--;
+        // favPageScrollController.animateTo(favPageScrollController.offset - 200,
+        //     duration: Duration(microseconds: 50), curve: Curves.ease);
       }
     }
   }
@@ -162,12 +185,14 @@ class MoviesController extends GetxController {
         searchField = true;
         //trend = true;
       } else if (clickedIndex == 3) {
-        FocusScope.of(context).requestFocus(topRatedNodes![0]);
-
+        FocusScope.of(context).requestFocus(comingNodes![0]);
         side = false;
-        top = true;
+        coming = true;
       } else if (clickedIndex == 4) {
-        print("in the profile node");
+        FocusScope.of(context).requestFocus(profileNodes![0]);
+        print("i dont know how it is coming here ");
+        side = false;
+        profile = true;
       } else if (clickedIndex == 2) {
         FocusScope.of(context).requestFocus(comingNodes![0]);
         side = false;
@@ -175,6 +200,10 @@ class MoviesController extends GetxController {
 
         // comingPageScrollController.animateTo(0,
         //     duration: Duration(seconds: 1), curve: Curves.ease);
+      } else {
+        FocusScope.of(context).requestFocus(trendingNodes![0]);
+        trend = true;
+        side = false;
       }
       navSelectedIndex = 0;
     } else if (trend == true) {
@@ -184,7 +213,7 @@ class MoviesController extends GetxController {
         trendingScrollController.animateTo(
             trendingScrollController.offset + 230,
             curve: Curves.ease,
-            duration: Duration(seconds: 1));
+            duration: Duration(microseconds: 100));
         trendingIndex++;
       }
     } else if (top == true) {
@@ -193,13 +222,13 @@ class MoviesController extends GetxController {
         topRatedScrollController.animateTo(
             topRatedScrollController.offset + 230,
             curve: Curves.ease,
-            duration: Duration(seconds: 1));
+            duration: Duration(microseconds: 50));
         topIndex++;
       }
     } else if (tvShow == true) {
       if (tvIndex < tv.length - 1) {
         tvShowScrollController.animateTo(tvShowScrollController.offset + 230,
-            curve: Curves.ease, duration: Duration(seconds: 1));
+            curve: Curves.ease, duration: Duration(microseconds: 50));
         FocusScope.of(context).requestFocus(tvShowsNodes![tvIndex + 1]);
         tvIndex++;
       }
@@ -209,6 +238,12 @@ class MoviesController extends GetxController {
         FocusScope.of(context).requestFocus(comingNodes![comingIndex + 1]);
 
         comingIndex++;
+      }
+    } else if (fav == true) {
+      if (favIndex < topratedmovies.length - 1) {
+        FocusScope.of(context).requestFocus(favNodes![favIndex + 1]);
+
+        favIndex++;
       }
     }
     //print("out of range");
@@ -225,7 +260,7 @@ class MoviesController extends GetxController {
         trendingScrollController.animateTo(
             trendingScrollController.offset - 230,
             curve: Curves.ease,
-            duration: Duration(seconds: 1));
+            duration: Duration(microseconds: 50));
         trendingIndex--;
       }
     } else if (top == true) {
@@ -239,7 +274,7 @@ class MoviesController extends GetxController {
         topRatedScrollController.animateTo(
             trendingScrollController.offset - 230,
             curve: Curves.ease,
-            duration: Duration(seconds: 1));
+            duration: Duration(microseconds: 50));
         topIndex--;
       }
     } else if (tvShow == true) {
@@ -250,7 +285,7 @@ class MoviesController extends GetxController {
       } else {
         FocusScope.of(context).requestFocus(tvShowsNodes![tvIndex - 1]);
         tvShowScrollController.animateTo(trendingScrollController.offset - 230,
-            curve: Curves.ease, duration: Duration(seconds: 1));
+            curve: Curves.ease, duration: Duration(microseconds: 50));
 
         tvIndex--;
       }
@@ -269,7 +304,8 @@ class MoviesController extends GetxController {
     } else {
       FocusScope.of(context).requestFocus(sideNodes![0]);
       side = true;
-      searchNode!.unfocus();
+      profile = false;
+      profileIndex = 0;
     }
   }
 }
