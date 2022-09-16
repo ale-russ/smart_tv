@@ -15,10 +15,10 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-import '../../../config/intentFiles/down_intent.dart';
-import '../../../config/intentFiles/left_intent.dart';
-import '../../../config/intentFiles/right_intent.dart';
-import '../../../config/intentFiles/up_intent.dart';
+import '../../../config/intentFiles/button_intents.dart';
+// import '../../../config/intentFiles/left_intent.dart';
+// import '../../../config/intentFiles/right_intent.dart';
+// import '../../../config/intentFiles/up_intent.dart';
 
 class Description extends StatefulWidget {
   final String name, description, bannerurl, posterurl, vote, lauchOn;

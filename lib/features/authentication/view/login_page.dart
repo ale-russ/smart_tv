@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../../config/intentFiles/down_intent.dart';
-import '../../../config/intentFiles/up_intent.dart';
+import '../../../config/intentFiles/button_intents.dart';
+// import '../../../config/intentFiles/up_intent.dart';
 import '../../movie_list/view/Movies.dart';
 import '../controller/login_controller.dart';
 
