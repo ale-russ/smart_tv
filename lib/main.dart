@@ -9,7 +9,9 @@ import 'features/movie_list/view/Movies.dart';
 // import 'package:smart_tv/features/screen/movieScreen.dart';
 // import 'package:smart_tv/features/upcoming_movies/upcoming_movies.dart';
 
-void main() {
+void main(List<String>? args) {
+  debugPrint('args: $args');
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
