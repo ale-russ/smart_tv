@@ -5,7 +5,7 @@ import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:smart_tv/config/intentFiles/right_intent.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 
-import '../../../config/intentFiles/down_intent.dart';
+// import '../../../config/intentFiles/down_intent.dart';
 import '../../../config/intentFiles/up_intent.dart';
 import '../utilits/text.dart';
 import '../view/Movies.dart';
@@ -124,6 +124,11 @@ class _NavRailState extends State<NavRail> {
   // }
 
   int? _selectedIndex;
+  int? index;
+
+  final selectedColor = Colors.amber;
+  final unselectedColor = Colors.white;
+  final labelStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 15);
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +143,7 @@ class _NavRailState extends State<NavRail> {
       // color: Colors.transparent,
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         NavigationRail(
-          labelType: NavigationRailLabelType.all,
+          labelType: NavigationRailLabelType.selected,
           groupAlignment: -0.5,
           backgroundColor: Colors.transparent,
           // selectedLabelTextStyle: labelStyle.copyWith(color: selectedColor),
@@ -150,7 +155,7 @@ class _NavRailState extends State<NavRail> {
             color: Colors.amber,
           ),
           unselectedIconTheme:
-              const IconThemeData(color: Colors.white, size: 30),
+              const IconThemeData(color: Colors.white, size: 45),
           // groupAlignment: groupAlignment,
           onDestinationSelected: (int index) {
             // controller.navSelectedIndex = index;
@@ -222,7 +227,7 @@ class _NavRailState extends State<NavRail> {
                         ? Colors.amber
                         : Colors.grey,
                   )),
-              label: ModifiedText(
+              label: const ModifiedText(
                 text: 'Profile',
                 color: Colors.white,
                 size: 15,

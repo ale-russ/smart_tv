@@ -160,6 +160,17 @@ class _DescriptionState extends State<Description> {
                         ),
                       ),
                       Positioned(
+                        right: 100,
+                        bottom: 18,
+                        child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.play_circle_sharp,
+                              color: Colors.amber,
+                              size: 100,
+                            )),
+                      ),
+                      Positioned(
                         bottom: 5,
                         child: Focus(
                           focusNode: controller.descNodes![1],
