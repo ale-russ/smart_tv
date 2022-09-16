@@ -93,23 +93,23 @@ class _DescriptionState extends State<Description> {
                           aspectRatio: _videoPlayerController.value.aspectRatio,
                           child: VideoPlayer(_videoPlayerController),
                         ),
-                  Center(
-                    child: IconButton(
-                      icon: Icon(
-                        !_videoPlayerController.value.isPlaying
-                            ? Icons.play_circle_fill_rounded
-                            : Icons.pause_circle_filled_rounded,
-                        color: Colors.amber,
-                        size: 40,
-                      ),
-                      onPressed: () async {
-                        _videoPlayerController.value.isPlaying
-                            ? _videoPlayerController.pause()
-                            : _videoPlayerController.play();
-                        log("Video is ${_videoPlayerController.value}");
-                      },
-                    ),
-                  ),
+                  // Center(
+                  //     // child: IconButton(
+                  //     //   icon: Icon(
+                  //     //     !_videoPlayerController.value.isPlaying
+                  //     //         ? Icons.play_circle_fill_rounded
+                  //     //         : Icons.pause_circle_filled_rounded,
+                  //     //     color: Colors.amber,
+                  //     //     size: 60,
+                  //     //   ),
+                  //     //   onPressed: () async {
+                  //     //     _videoPlayerController.value.isPlaying
+                  //     //         ? _videoPlayerController.pause()
+                  //     //         : _videoPlayerController.play();
+                  //     //     log("Video is ${_videoPlayerController.value}");
+                  //     //   },
+                  //     // ),
+                  //     ),
                   Positioned(
                     bottom: 5,
                     child: ModifiedText(
@@ -117,6 +117,17 @@ class _DescriptionState extends State<Description> {
                         color: Colors.white60,
                         size: 20),
                   ),
+                  Positioned(
+                    right: 100,
+                    bottom: 18,
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.play_circle_sharp,
+                          color: Colors.amber,
+                          size: 100,
+                        )),
+                  )
                 ],
               )),
           Container(

@@ -124,6 +124,11 @@ class _NavRailState extends State<NavRail> {
   }
 
   int? _selectedIndex;
+  int? index;
+
+  final selectedColor = Colors.amber;
+  final unselectedColor = Colors.white;
+  final labelStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 15);
 
   @override
   Widget build(BuildContext context) {
@@ -150,20 +155,23 @@ class _NavRailState extends State<NavRail> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             NavigationRail(
-              labelType: NavigationRailLabelType.all,
+              labelType: NavigationRailLabelType.selected,
               groupAlignment: -0.5,
               backgroundColor: Colors.transparent,
-              // selectedLabelTextStyle: labelStyle.copyWith(color: selectedColor),
-              // unselectedLabelTextStyle:
-              //       labelStyle.copyWith(color: unselectedColor),
+
+              selectedLabelTextStyle: labelStyle.copyWith(color: selectedColor),
+              unselectedLabelTextStyle:
+                  labelStyle.copyWith(color: unselectedColor),
+
               selectedIndex: _selectedIndex,
               minWidth: 45,
               selectedIconTheme:
-                  const IconThemeData(color: Colors.amber, size: 10),
+                  const IconThemeData(color: Colors.amber, size: 45),
               unselectedIconTheme:
-                  const IconThemeData(color: Colors.white, size: 30),
+                  const IconThemeData(color: Colors.white70, size: 30),
               // groupAlignment: groupAlignment,
               onDestinationSelected: (int index) {
+                _selectedIndex = index;
                 widget.callback!(index);
               },
               destinations: [
@@ -193,7 +201,7 @@ class _NavRailState extends State<NavRail> {
                       focusNode: _home!,
                       child: Icon(
                         Icons.home_rounded,
-                        color: _home!.hasFocus ? Colors.amber : Colors.grey,
+                        //  color: _home!.hasFocus ? Colors.amber : Colors.grey,
                       ),
                     ),
                   ),
@@ -234,7 +242,7 @@ class _NavRailState extends State<NavRail> {
                       focusNode: _upcoming,
                       child: Icon(
                         Icons.movie,
-                        color: _upcoming!.hasFocus ? Colors.amber : Colors.grey,
+                        // color: _upcoming!.hasFocus ? Colors.amber : Colors.grey,
                       ),
                     ),
                   ),
@@ -263,8 +271,8 @@ class _NavRailState extends State<NavRail> {
                       focusNode: _favorites,
                       child: Icon(
                         Icons.favorite_border,
-                        color:
-                            _favorites!.hasFocus ? Colors.amber : Colors.grey,
+                        // color:
+                        //     _favorites!.hasFocus ? Colors.amber : Colors.grey,
                       ),
                     ),
                   ),
@@ -289,7 +297,7 @@ class _NavRailState extends State<NavRail> {
                       focusNode: _profile,
                       child: Icon(
                         Icons.person,
-                        color: _profile!.hasFocus ? Colors.amber : Colors.grey,
+                        //  color: _profile!.hasFocus ? Colors.amber : Colors.grey,
                       ),
                     ),
                   ),
@@ -332,11 +340,12 @@ class _NavRailState extends State<NavRail> {
         )
       },
       child: Focus(
-        // focusNode: _search,
-        focusNode: node,
-        child: Icon(Icons.search_rounded,
-            color: _search!.hasFocus ? Colors.amber : Colors.grey),
-      ),
+          // focusNode: _search,
+          focusNode: node,
+          child: Icon(
+            Icons.search_rounded,
+            // color: _search!.hasFocus ? Colors.amber : Colors.grey),
+          )),
     );
   }
 }

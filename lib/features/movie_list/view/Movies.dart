@@ -9,6 +9,7 @@ import 'package:smart_tv/features/movie_list/controller/landing_controller.dart'
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
+import 'package:smart_tv/features/movie_list/widgets/Movie_card.dart';
 import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
@@ -114,12 +115,19 @@ class _MoviesPage extends State<MoviesPage> {
                 child: Focus(
                   focusNode: _sideBar,
                   child: NavRail(
-                    selectedIndex: _selectedIndex,
+                    selectedIndex: index,
                     sideNode: _sideBar!,
                     callback: (index) => setState(() {
                       _selectedIndex = index;
                     }),
                   ),
+                  // child: NavRail(
+                  //   selectedIndex: index,
+                  //   sideNode: _sideBar!,
+                  //   callback: (index) => setState(() {
+                  //     _selectedIndex = index;
+                  //   }),
+                  // ),
                 ),
               ),
               const VerticalDivider(),
@@ -187,6 +195,7 @@ class _MoviesState extends State<Movies> {
       padding: const EdgeInsets.only(bottom: 40),
       shrinkWrap: true,
       children: [
+        Movie_card(),
         TrendingMovies(
           //nodeLength: focusNode.length,
           focusNode: widget.focusNode,
