@@ -17,6 +17,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  MoviesController Mcontroller = Get.find();
   List? searchResults;
   String? apikey = 'f8242645e5c75f1aa66afeaeb47494e3';
   String? readaccesstoken =
@@ -45,12 +46,26 @@ class _SearchPageState extends State<SearchPage> {
 
   void initState() {
     super.initState();
+    Mcontroller.trend = false;
+    Mcontroller.side = false;
+    Mcontroller.top = false;
+    Mcontroller.tvShow = false;
     loadmovies();
   }
 
   _SearchPageState();
   @override
   Widget build(BuildContext context) {
+    if (!Mcontroller.searchNode!.hasFocus) {
+      FocusScope.of(context).requestFocus(Mcontroller.searchNode);
+      setState(() {});
+    }
+    if (Mcontroller.searchNodes!.isEmpty &&
+        Mcontroller.localSearch.isNotEmpty) {
+      for (var i = 0; i < Mcontroller.localSearch.length; i++) {
+        Mcontroller.searchNodes!.add(FocusNode());
+      }
+    }
     return Scaffold(
       backgroundColor: Colors.black,
       body: Container(
@@ -68,7 +83,8 @@ class _SearchPageState extends State<SearchPage> {
                 color: Colors.white,
                 // decoration: BoxDecoration(),
                 child: TextField(
-                  autofocus: true,
+                  //autofocus: true,
+                  focusNode: Mcontroller.searchNode,
                   controller: controller,
                   decoration: const InputDecoration(
                       fillColor: Colors.white,
@@ -88,6 +104,7 @@ class _SearchPageState extends State<SearchPage> {
                         if (!mController.localSearch.contains(item)) {
                           setState(() {
                             mController.localSearch.add(item);
+                            mController.searchNodes!.add(FocusNode());
                           });
                         } else if (mController.localSearch.contains(item)) {
                           mController.localSearch.remove(item);
@@ -139,34 +156,42 @@ class _SearchPageState extends State<SearchPage> {
                       );
                     },
                     child: mController.localSearch.isNotEmpty
-                        ? SizedBox(
-                            width: 140,
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: mController.localSearch[index]
-                                                  ['poster_path'] !=
-                                              null
-                                          ? NetworkImage(
-                                              "https://image.tmdb.org/t/p/w500${mController.localSearch[index]['poster_path']}")
-                                          : const NetworkImage(
-                                              "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-7509.jpg"),
+                        ? Focus(
+                            //focusNode: Mcontroller.searchNodes![0],
+                            child: SizedBox(
+                              width: 140,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: false // Mcontroller
+                                              // .searchNodes![index].hasFocus
+                                              ? Colors.blue
+                                              : Colors.black),
+                                      image: DecorationImage(
+                                        image: mController.localSearch[index]
+                                                    ['poster_path'] !=
+                                                null
+                                            ? NetworkImage(
+                                                "https://image.tmdb.org/t/p/w500${mController.localSearch[index]['poster_path']}")
+                                            : const NetworkImage(
+                                                "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-7509.jpg"),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  child: ModifiedText(
-                                    text: mController.localSearch[index]
-                                            ['title'] ??
-                                        'Loading',
-                                    color: Colors.white60,
-                                    size: 15,
-                                  ),
-                                )
-                              ],
+                                  SizedBox(
+                                    child: ModifiedText(
+                                      text: mController.localSearch[index]
+                                              ['title'] ??
+                                          'Loading',
+                                      color: Colors.white60,
+                                      size: 15,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           )
                         : Container(),

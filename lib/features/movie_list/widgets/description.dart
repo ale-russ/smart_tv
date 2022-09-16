@@ -7,12 +7,18 @@ import 'package:flutter/services.dart';
 // import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:video_player/video_player.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+
+import '../../../config/intentFiles/down_intent.dart';
+import '../../../config/intentFiles/left_intent.dart';
+import '../../../config/intentFiles/right_intent.dart';
+import '../../../config/intentFiles/up_intent.dart';
 
 class Description extends StatefulWidget {
   final String name, description, bannerurl, posterurl, vote, lauchOn;
@@ -37,7 +43,8 @@ class _DescriptionState extends State<Description> {
   bool? _webviewAvailable;
 
   WebViewController? _webViewController;
-  String filePathe = 'assets/playvideo.html';
+  //String filePathe = 'assets/playvideo.html';
+  MoviesController controller = Get.find();
 
   @override
   void initState() {
@@ -56,6 +63,22 @@ class _DescriptionState extends State<Description> {
     _videoPlayerController.dispose();
   }
 
+  _changeNodeFocus(BuildContext build, String direction) {
+    if (direction == "Down") {
+      controller.DownNavActions(context);
+      setState(() {});
+    } else if (direction == "Up") {
+      controller.UpNavActions(context);
+      setState(() {});
+    } else if (direction == "Right") {
+      controller.RightNavActions(context);
+      setState(() {});
+    } else if (direction == "Left") {
+      controller.LeftNavActions(context);
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,84 +95,126 @@ class _DescriptionState extends State<Description> {
                 )
               : const SizedBox.shrink()),
       backgroundColor: Colors.black,
-      body: ListView(
-        children: [
-          SizedBox(
-              height: 500,
-              child: Stack(
-                children: [
-                  !_videoPlayerController.value.isInitialized
-                      ? Positioned(
-                          child: SizedBox(
-                            height: 500,
-                            width: MediaQuery.of(context).size.width,
-                            child: Image.network(
-                              widget.bannerurl,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        )
-                      : AspectRatio(
-                          aspectRatio: _videoPlayerController.value.aspectRatio,
-                          child: VideoPlayer(_videoPlayerController),
-                        ),
-                  Center(
-                    child: IconButton(
-                      icon: Icon(
-                        !_videoPlayerController.value.isPlaying
-                            ? Icons.play_circle_fill_rounded
-                            : Icons.pause_circle_filled_rounded,
-                        color: Colors.amber,
-                        size: 40,
-                      ),
-                      onPressed: () async {
-                        _videoPlayerController.value.isPlaying
-                            ? _videoPlayerController.pause()
-                            : _videoPlayerController.play();
-                        log("Video is ${_videoPlayerController.value}");
-                      },
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 5,
-                    child: ModifiedText(
-                        text: '⭐Average Rating - ${widget.vote}',
-                        color: Colors.white60,
-                        size: 20),
-                  ),
-                ],
-              )),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: ModifiedText(
-                text: widget.name, color: Colors.white60, size: 15),
-          ),
-          Container(
-            padding: const EdgeInsets.only(left: 5),
-            child: ModifiedText(
-                text: 'Releasing On - ${widget.lauchOn}',
-                color: Colors.white60,
-                size: 15),
-          ),
-          Row(
+      body: Shortcuts(
+        shortcuts: {
+          LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+          LogicalKeySet(LogicalKeyboardKey.arrowRight): RightbuttonIntent(),
+          LogicalKeySet(LogicalKeyboardKey.arrowLeft): LeftbuttonIntent(),
+          LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
+          LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
+        },
+        child: Actions(
+          actions: <Type, Action<Intent>>{
+            DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                onInvoke: (Intent) => _changeNodeFocus(context, "Down")),
+            UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                onInvoke: (Intent) => _changeNodeFocus(context, "Up")),
+            RightbuttonIntent: CallbackAction<RightbuttonIntent>(
+                onInvoke: (Intent) => _changeNodeFocus(context, "Right")),
+            LeftbuttonIntent: CallbackAction<LeftbuttonIntent>(
+                onInvoke: (Intent) => _changeNodeFocus(context, "Left")),
+          },
+          child: ListView(
+            controller: controller.descPageScrollController,
             children: [
-              Container(
-                margin: const EdgeInsets.all(5),
-                height: 200,
-                width: 100,
-                child: Image.network(widget.posterurl),
-              ),
-              Flexible(
+              SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: Stack(
+                    children: [
+                      !_videoPlayerController.value.isInitialized
+                          ? Positioned(
+                              child: SizedBox(
+                                height: 500,
+                                width: MediaQuery.of(context).size.width,
+                                child: Image.network(
+                                  widget.bannerurl,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            )
+                          : AspectRatio(
+                              aspectRatio:
+                                  _videoPlayerController.value.aspectRatio,
+                              child: VideoPlayer(_videoPlayerController),
+                            ),
+                      Center(
+                        child: Focus(
+                          focusNode: controller.descNodes![0],
+                          child: IconButton(
+                            icon: Icon(
+                              !_videoPlayerController.value.isPlaying
+                                  ? Icons.play_circle_fill_rounded
+                                  : Icons.pause_circle_filled_rounded,
+                              color: controller.descNodes![0].hasFocus
+                                  ? Colors.amber
+                                  : Colors.white,
+                              size: 40,
+                            ),
+                            onPressed: () async {
+                              _videoPlayerController.value.isPlaying
+                                  ? _videoPlayerController.pause()
+                                  : _videoPlayerController.play();
+                              log("Video is ${_videoPlayerController.value}");
+                            },
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 5,
+                        child: Focus(
+                          focusNode: controller.descNodes![1],
+                          child: ModifiedText(
+                              text: '⭐Average Rating - ${widget.vote}',
+                              color: controller.descNodes![1].hasFocus
+                                  ? Colors.amber
+                                  : Colors.white60,
+                              size: 20),
+                        ),
+                      ),
+                    ],
+                  )),
+              Focus(
+                focusNode: controller.descNodes![2],
                 child: Container(
+                  padding: const EdgeInsets.all(10),
                   child: ModifiedText(
-                      text: widget.description,
+                      text: widget.name, color: Colors.white60, size: 15),
+                ),
+              ),
+              Focus(
+                focusNode: controller.descNodes![3],
+                child: Container(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: ModifiedText(
+                      text: 'Releasing On - ${widget.lauchOn}',
                       color: Colors.white60,
                       size: 15),
                 ),
               ),
+              Focus(
+                focusNode: controller.descNodes![4],
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(5),
+                      height: 200,
+                      width: 100,
+                      child: Image.network(widget.posterurl),
+                    ),
+                    Flexible(
+                      child: Container(
+                        child: ModifiedText(
+                            text: widget.description,
+                            color: Colors.white60,
+                            size: 15),
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }

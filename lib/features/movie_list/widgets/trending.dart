@@ -36,27 +36,30 @@ class TrendingMovies extends StatefulWidget {
 class _TrendingMoviesState extends State<TrendingMovies> {
   Color textColor = Colors.white70;
   MoviesController controller = Get.find();
-  _setFirstFocus(BuildContext context) {
-    if (controller.trendingNode == null) {
-      controller.trendingNode = FocusNode();
-      FocusScope.of(context).requestFocus(controller.trendingNode);
-      setState(() {
-        textColor = Colors.blue;
-      });
+
+  @override
+  void initState() {
+    if (controller.trendingNodes!.isEmpty) {
+      for (var i = 0; i < controller.trendingmovies.length; i++) {
+        var temp = FocusNode();
+        controller.trendingNodes!.add(temp);
+      }
     }
+
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (controller.trendingNode == null) {
-      _setFirstFocus(context);
-    }
     return Focus(
       child: Container(
         // padding: const EdgeInsets.all(0),
         child: MoviesTile(
           title: "Trending Movies",
           movie: widget.trending,
+          nodes: controller.trendingNodes,
+          borderColor: Colors.grey.withOpacity(0.3),
+          scrollController: controller.trendingScrollController,
         ),
       ),
     );

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
+import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
+import 'package:smart_tv/features/profile/controllers/user_controller.dart';
+
+import '../../movie_list/controller/movie_controller.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key? key}) : super(key: key);
@@ -15,6 +19,14 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _sexController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
   FocusNode? _firstNameNode = FocusNode();
+  MoviesController controller = Get.find();
+  @override
+  void initState() {
+    for (var i = 0; i < 4; i++) {
+      controller.profileNodes!.add(FocusNode());
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,18 +64,22 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ProfileTextFields(
+                    focusNode: controller.profileNodes![0],
                     textController: _firstNameController,
                     label: "Alem",
                   ),
                   ProfileTextFields(
+                    focusNode: controller.profileNodes![1],
                     textController: _lastNameController,
                     label: "Russom",
                   ),
                   ProfileTextFields(
+                    focusNode: controller.profileNodes![2],
                     textController: _sexController,
                     label: "Male",
                   ),
                   ProfileTextFields(
+                    focusNode: controller.profileNodes![3],
                     textController: _countryController,
                     label: "Ethiopia",
                   ),
@@ -82,28 +98,39 @@ class ProfileTextFields extends StatelessWidget {
     Key? key,
     required this.textController,
     required this.label,
+    required this.focusNode,
   }) : super(key: key);
 
   final TextEditingController textController;
   final String? label;
+  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 16),
-      child: SizedBox(
-        height: 30,
-        width: 300,
-        child: TextFormField(
-          focusNode: FocusNode(),
-          initialValue: label,
-          // controller: textController,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.grey.withOpacity(0.9),
-            // label: label,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
+    return Focus(
+      focusNode: focusNode,
+      child: Container(
+        margin: const EdgeInsets.only(top: 16),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            border: focusNode.hasFocus
+                ? Border.all(width: 2.0, color: Colors.amber)
+                : null),
+        child: SizedBox(
+          height: 30,
+          width: 300,
+          child: TextFormField(
+            initialValue: label,
+            // controller: textController,
+
+            decoration: InputDecoration(
+              focusColor: Colors.amber,
+              filled: true,
+              fillColor: Colors.grey.withOpacity(0.9),
+              // label: label,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
             ),
           ),
         ),
