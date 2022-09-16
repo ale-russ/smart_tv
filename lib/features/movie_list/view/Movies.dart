@@ -167,13 +167,13 @@ class _MoviesPage extends State<MoviesPage> {
             child: Actions(
               actions: <Type, Action<Intent>>{
                 DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                    onInvoke: (Intent) => _changeNodeFocus(context, "Down")),
+                    onInvoke: (intent) => _changeNodeFocus(context, "Down")),
                 UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                    onInvoke: (Intent) => _changeNodeFocus(context, "Up")),
+                    onInvoke: (intent) => _changeNodeFocus(context, "Up")),
                 RightbuttonIntent: CallbackAction<RightbuttonIntent>(
-                    onInvoke: (Intent) => _changeNodeFocus(context, "Right")),
+                    onInvoke: (intent) => _changeNodeFocus(context, "Right")),
                 LeftbuttonIntent: CallbackAction<LeftbuttonIntent>(
-                    onInvoke: (Intent) => _changeNodeFocus(context, "Left")),
+                    onInvoke: (intent) => _changeNodeFocus(context, "Left")),
               },
               child: Row(
                 children: [
@@ -188,7 +188,10 @@ class _MoviesPage extends State<MoviesPage> {
                   const VerticalDivider(),
                   Expanded(
                     child: data.isFalse
-                        ? const Center(child: CircularProgressIndicator())
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                            color: Colors.amber,
+                          ))
                         : pages[_selectedIndex],
                   ),
                 ],

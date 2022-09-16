@@ -146,16 +146,13 @@ class _NavRailState extends State<NavRail> {
           labelType: NavigationRailLabelType.selected,
           groupAlignment: -0.5,
           backgroundColor: Colors.transparent,
-          // selectedLabelTextStyle: labelStyle.copyWith(color: selectedColor),
-          // unselectedLabelTextStyle:
-          //       labelStyle.copyWith(color: unselectedColor),
+          selectedLabelTextStyle: labelStyle.copyWith(color: selectedColor),
+          unselectedLabelTextStyle: labelStyle.copyWith(color: unselectedColor),
           selectedIndex: controller.navSelectedIndex,
           minWidth: 45,
-          selectedIconTheme: const IconThemeData(
-            color: Colors.amber,
-          ),
+          selectedIconTheme: const IconThemeData(color: Colors.amber, size: 45),
           unselectedIconTheme:
-              const IconThemeData(color: Colors.white, size: 45),
+              const IconThemeData(color: Colors.white, size: 30),
           // groupAlignment: groupAlignment,
           onDestinationSelected: (int index) {
             // controller.navSelectedIndex = index;
