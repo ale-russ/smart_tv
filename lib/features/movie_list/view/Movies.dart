@@ -180,7 +180,6 @@ class _MoviesPage extends State<MoviesPage> {
                   SizedBox(
                     child: NavRail(
                       selectedIndex: _selectedIndex,
-                      //sideNode: controller.sideNode!,
                       callback: (index) => setState(() {
                         _selectedIndex = index;
                       }),

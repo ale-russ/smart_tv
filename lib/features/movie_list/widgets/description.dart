@@ -137,7 +137,9 @@ class _DescriptionState extends State<Description> {
                                   _videoPlayerController.value.aspectRatio,
                               child: VideoPlayer(_videoPlayerController),
                             ),
-                      Center(
+                      Positioned(
+                        right: 100,
+                        bottom: MediaQuery.of(context).size.height * 0.3,
                         child: Focus(
                           focusNode: controller.descNodes![0],
                           child: IconButton(
@@ -148,7 +150,7 @@ class _DescriptionState extends State<Description> {
                               color: controller.descNodes![0].hasFocus
                                   ? Colors.amber
                                   : Colors.white,
-                              size: 40,
+                              size: 100,
                             ),
                             onPressed: () async {
                               _videoPlayerController.value.isPlaying
@@ -158,17 +160,6 @@ class _DescriptionState extends State<Description> {
                             },
                           ),
                         ),
-                      ),
-                      Positioned(
-                        right: 100,
-                        bottom: 18,
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.play_circle_sharp,
-                              color: Colors.amber,
-                              size: 100,
-                            )),
                       ),
                       Positioned(
                         bottom: 5,

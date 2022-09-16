@@ -8,7 +8,7 @@ class Movie_card extends StatelessWidget {
     return Container(
       height: 500,
       width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           image: DecorationImage(
               image: NetworkImage(
                   'https://i.pinimg.com/236x/a7/bf/b8/a7bfb8ae91e72da82248bdd3361a12f6.jpg'),
