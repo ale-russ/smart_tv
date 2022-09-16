@@ -33,7 +33,8 @@ class MoviesPage extends StatefulWidget {
 }
 
 class _MoviesPage extends State<MoviesPage> {
-  List<FocusNode>? focusNodes;
+  List<FocusNode>? rightFocusNodes;
+  FocusNode? firstFocus = FocusNode();
   MoviesController controller = Get.put(MoviesController());
 
   bool hasData = false;
@@ -63,6 +64,9 @@ class _MoviesPage extends State<MoviesPage> {
       // _sideBar = FocusNode();
       // _pageNode = FocusNode();
       //print("inside the setfirstfocus");
+      for (var i = 0; i < 5; i++) {
+        controller.descNodes!.add(FocusNode());
+      }
       for (var i = 0; i < 5; i++) {
         var temp = FocusNode();
         controller.sideNodes!.add(temp);
@@ -137,18 +141,18 @@ class _MoviesPage extends State<MoviesPage> {
         (() {
           List<Widget> pages = [
             Movies(
-                trendingmovies: controller.trendingmovies,
-                topratedmovies: controller.topratedmovies,
-                tv: controller.tv),
-            SeatchPage(number: 0),
-            // TrendingMovies(trending: controller.trendingmovies),
+              trendingmovies: controller.trendingmovies,
+              topratedmovies: controller.topratedmovies,
+              tv: controller.tv,
+              focusNode: firstFocus,
+            ),
+            SearchPage(number: 0),
             ComingSoon(
               movie: controller.trendingmovies,
             ),
             ComingSoon(
               movie: controller.tv,
             ),
-            // TopRated(toprated: controller.topratedmovies),
             ProfilePage()
           ];
           return Shortcuts(
@@ -195,28 +199,6 @@ class _MoviesPage extends State<MoviesPage> {
       ),
     );
   }
-
-  // DownNavActions() {
-  //   if (controller.side == true) {
-  //     if (controller.navSelectedIndex < 4) {
-  //       print("inside teh change focus down ${controller.navSelectedIndex}");
-  //       FocusScope.of(context).requestFocus(
-  //           controller.sideNodes![controller.navSelectedIndex + 1]);
-  //       controller.navSelectedIndex++;
-  //     }
-  //   } else if (controller.trend == true) {
-  //     FocusScope.of(context).requestFocus(controller.topRatedNodes![0]);
-  //     print("top");
-  //     controller.trend = false;
-  //     controller.top = true;
-  //   } else if (controller.top == true) {
-  //     FocusScope.of(context).requestFocus(controller.tvShowsNodes![0]);
-  //     print("top");
-  //     controller.top = false;
-  //     controller.tvShow = true;
-  //   }
-  //   setState(() {});
-  // }
 }
 
 typedef void setIndexCallback(int index);
@@ -227,11 +209,13 @@ class Movies extends StatefulWidget {
     required this.trendingmovies,
     required this.topratedmovies,
     required this.tv,
+    this.focusNode,
   }) : super(key: key);
 
   final List trendingmovies;
   final List topratedmovies;
   final List tv;
+  final FocusNode? focusNode;
 
   @override
   State<Movies> createState() => _MoviesState();

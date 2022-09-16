@@ -7,6 +7,8 @@ const String readaccesstoken =
     'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1NzMyMDc2N2Q4M2FkZmE5ZjZhZGJlN2Q5NTgyYzlhMiIsInN1YiI6IjYzMTcyZWRiYTg0YTQ3MDA4ZWEyZDQ2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.LEUuMeDszPWfsJdUynN-mX_tHu2dhdXEd05CdJS0qYA';
 
 class MoviesController extends GetxController {
+  final String movieUrl = "https://image.tmdb.org/t/p/w500";
+
   List trendingmovies = [].obs;
   List topratedmovies = [].obs;
   List tv = [].obs;
@@ -48,6 +50,7 @@ class MoviesController extends GetxController {
   ScrollController homePageScrollController = new ScrollController();
   ScrollController comingPageScrollController = new ScrollController();
   ScrollController favPageScrollController = new ScrollController();
+  ScrollController descPageScrollController = new ScrollController();
 
   List<FocusNode>? trendingNodes = [];
   List<FocusNode>? topRatedNodes = [];
@@ -57,6 +60,7 @@ class MoviesController extends GetxController {
   List<FocusNode>? comingNodes = [];
   List<FocusNode>? favNodes = [];
   List<FocusNode>? profileNodes = [];
+  List<FocusNode>? descNodes = [];
   bool side = false;
   bool trend = false;
   bool top = false;
@@ -66,6 +70,8 @@ class MoviesController extends GetxController {
   bool searchResult = false;
   bool searchField = false;
   bool profile = false;
+  bool desc = false;
+  int descIndex = 0;
   int profileIndex = 0;
   int favIndex = 0;
   int navSelectedIndex = 0;
@@ -77,6 +83,10 @@ class MoviesController extends GetxController {
   FocusNode? searchNode;
 
   Color borderColor = Colors.black;
+  void unFocus() {
+    side = coming = fav = profile = top = trend = tvShow = false;
+  }
+
   DownNavActions(BuildContext context) {
     if (side == true) {
       if (navSelectedIndex < 4) {
@@ -126,8 +136,16 @@ class MoviesController extends GetxController {
         FocusScope.of(context).requestFocus(profileNodes![profileIndex + 1]);
         profileIndex++;
       }
-    } else {
-      print("I know hwy is is coming here ");
+    } else if (desc == true) {
+      if (descIndex < descNodes!.length - 1) {
+        FocusScope.of(context).requestFocus(descNodes![descIndex + 1]);
+        descIndex++;
+        descPageScrollController.animateTo(
+            descPageScrollController.offset + 150,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.ease);
+      } else
+        print("I know hwy is is coming here ");
     }
     print("down");
   }
@@ -174,6 +192,16 @@ class MoviesController extends GetxController {
         // favPageScrollController.animateTo(favPageScrollController.offset - 200,
         //     duration: Duration(microseconds: 50), curve: Curves.ease);
       }
+    } else if (desc == true) {
+      if (descIndex > 0) {
+        FocusScope.of(context).requestFocus(descNodes![descIndex - 1]);
+        descIndex--;
+        descPageScrollController.animateTo(
+            descPageScrollController.offset - 150,
+            duration: Duration(milliseconds: 500),
+            curve: Curves.ease);
+      } else
+        print("I know hwy is is coming here ");
     }
   }
 

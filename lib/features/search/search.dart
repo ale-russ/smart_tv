@@ -6,17 +6,17 @@ import '../movie_list/utilits/text.dart';
 import '../movie_list/controller/movie_controller.dart';
 import '../movie_list/widgets/description.dart';
 
-class SeatchPage extends StatefulWidget {
-  SeatchPage({
+class SearchPage extends StatefulWidget {
+  SearchPage({
     Key? key,
     required this.number,
   }) : super(key: key);
   final number;
   @override
-  State<SeatchPage> createState() => _SeatchPageState();
+  State<SearchPage> createState() => _SearchPageState();
 }
 
-class _SeatchPageState extends State<SeatchPage> {
+class _SearchPageState extends State<SearchPage> {
   MoviesController Mcontroller = Get.find();
   List? searchResults;
   String? apikey = 'f8242645e5c75f1aa66afeaeb47494e3';
@@ -53,7 +53,7 @@ class _SeatchPageState extends State<SeatchPage> {
     loadmovies();
   }
 
-  _SeatchPageState();
+  _SearchPageState();
   @override
   Widget build(BuildContext context) {
     if (!Mcontroller.searchNode!.hasFocus) {
@@ -69,6 +69,7 @@ class _SeatchPageState extends State<SeatchPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Container(
+        color: Colors.grey,
         padding: const EdgeInsets.all(10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           // SearchBar(

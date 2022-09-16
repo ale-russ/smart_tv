@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:smart_tv/config/intentFiles/right_intent.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 
@@ -46,6 +47,9 @@ class _NavRailState extends State<NavRail> {
   FocusNode? _upcoming;
   Color upComingColor = Colors.white;
 
+  FocusNode? _favorites;
+  Color favoriteColor = Colors.white;
+
   FocusNode? _profile;
   Color profileColor = Colors.white;
 
@@ -54,6 +58,7 @@ class _NavRailState extends State<NavRail> {
       _home = FocusNode();
       _search = FocusNode();
       _upcoming = FocusNode();
+      _favorites = FocusNode();
       _profile = FocusNode();
       //controller.rightPage = FocusNode();
       FocusScope.of(context).requestFocus(_home);
@@ -76,11 +81,13 @@ class _NavRailState extends State<NavRail> {
     }
   }
 
+  @override
   void dispose() {
     _home!.dispose();
     _search!.dispose();
     _upcoming!.dispose();
     _profile!.dispose();
+    super.dispose();
   }
 
   // _changeNodeFocus(BuildContext context, FocusNode focus, String name) {

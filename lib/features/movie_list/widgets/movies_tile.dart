@@ -4,7 +4,7 @@ import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:smart_tv/features/movie_list/widgets/description.dart';
 
-final String url = "https://image.tmdb.org/t/p/w500";
+// final String controller.movieUrl = "https://image.tmdb.org/t/p/w500";
 
 class MoviesTile extends StatelessWidget {
   MoviesTile({
@@ -23,6 +23,8 @@ class MoviesTile extends StatelessWidget {
   final ScrollController scrollController;
 
   Color textColor = Colors.white;
+
+  MoviesController controller = Get.put(MoviesController());
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +45,20 @@ class MoviesTile extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
+                  FocusScope.of(context).requestFocus(controller.descNodes![0]);
+                  controller.desc = true;
+                  controller.unFocus();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: ((context) => Description(
-                            bannerurl: "$url${movie![index]['backdrop_path']}",
+                            bannerurl:
+                                "${controller.movieUrl}${movie![index]['backdrop_path']}",
                             description: movie![index]['overview'],
                             lauchOn: movie![index]['release_date'],
                             name: movie![index]['title'],
-                            posterurl: "$url${movie![index]['backdrop_path']}",
+                            posterurl:
+                                "${controller.movieUrl}${movie![index]['backdrop_path']}",
                             vote: movie![index]['vote_average'].toString(),
                           )),
                     ),
@@ -75,7 +82,7 @@ class MoviesTile extends StatelessWidget {
                                 : Border.all(color: borderColor),
                             image: DecorationImage(
                               image: NetworkImage(
-                                "$url${movie![index]['poster_path']}",
+                                "${controller.movieUrl}${movie![index]['poster_path']}",
                               ),
                               fit: BoxFit.fill,
                             ),
@@ -124,6 +131,8 @@ class _ComingSoonState extends State<ComingSoon> {
 
   int? count;
 
+  MoviesController mController = Get.put(MoviesController());
+
   @override
   Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width < 650) {
@@ -154,12 +163,12 @@ class _ComingSoonState extends State<ComingSoon> {
                     MaterialPageRoute(
                       builder: ((context) => Description(
                             bannerurl:
-                                "$url${widget.movie![index]['backdrop_path']}",
+                                "${mController.movieUrl}${widget.movie![index]['backdrop_path']}",
                             description: widget.movie![index]['overview'],
                             lauchOn: widget.movie![index]['release_date'],
                             name: widget.movie![index]['title'],
                             posterurl:
-                                "$url${widget.movie![index]['backdrop_path']}",
+                                "${mController.movieUrl}${widget.movie![index]['backdrop_path']}",
                             vote:
                                 widget.movie![index]['vote_average'].toString(),
                           )),
@@ -185,7 +194,7 @@ class _ComingSoonState extends State<ComingSoon> {
                                     color: Colors.grey.withOpacity(0.3)),
                             image: DecorationImage(
                               image: NetworkImage(
-                                "$url${widget.movie![index]['poster_path']}",
+                                "${mController.movieUrl}${widget.movie![index]['poster_path']}",
                               ),
                               fit: BoxFit.fill,
                             ),

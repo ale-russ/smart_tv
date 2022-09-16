@@ -13,7 +13,13 @@ class TrendingMovies extends StatefulWidget {
   final List trending;
   List<FocusNode>? nodes;
 
-  TrendingMovies({Key? key, required this.trending}) : super(key: key);
+  TrendingMovies({
+    Key? key,
+    required this.trending,
+    this.focusNode,
+  }) : super(key: key);
+
+  FocusNode? focusNode = FocusNode();
 
   _setfirstfocus(BuildContext context) {
     nodes ??= List.filled(trending.length, FocusNode());
@@ -45,9 +51,6 @@ class _TrendingMoviesState extends State<TrendingMovies> {
 
   @override
   Widget build(BuildContext context) {
-    // if (controller.trendingNode == null) {
-    //   _setFirstFocus(context);
-    // }
     return Focus(
       child: Container(
         // padding: const EdgeInsets.all(0),
