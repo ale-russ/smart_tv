@@ -3,13 +3,16 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-//import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
+import 'package:smart_tv/features/movie_list/widgets/Movie_card.dart';
 import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
@@ -17,6 +20,9 @@ import 'package:smart_tv/features/movie_list/widgets/tv.dart';
 import 'package:smart_tv/features/search/search.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
+import '../../../config/intentFiles/button_intents.dart';
+
+import '../../common/controller/intent_controllers.dart';
 import '../../profile/screen/profile_page.dart';
 import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
@@ -28,19 +34,15 @@ class MoviesPage extends StatefulWidget {
 }
 
 class _MoviesPage extends State<MoviesPage> {
-  List<FocusNode>? focusNodes;
+  List<FocusNode>? rightFocusNodes;
+  FocusNode? firstFocus = FocusNode();
   MoviesController controller = Get.put(MoviesController());
+  final IntentController _controller = Get.put(IntentController());
 
   bool hasData = false;
   RxBool data = false.obs;
 
   List<Widget> pages = [];
-
-  @override
-  void setState(VoidCallback fn) {
-    focusNodes = List.filled(controller.trendingmovies.length, FocusNode());
-    super.setState(fn);
-  }
 
   int _selectedIndex = 0;
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
@@ -54,10 +56,50 @@ class _MoviesPage extends State<MoviesPage> {
   FocusNode? _sideBar;
   FocusNode? _pageNode;
   _setFirstFocus(BuildContext context) {
-    if (_sideBar == null) {
-      _sideBar = FocusNode();
-      _pageNode = FocusNode();
-      FocusScope.of(context).requestFocus(_sideBar);
+    if (_controller.sideNodes!.isEmpty) {
+      for (var i = 0; i < 5; i++) {
+        _controller.descNodes!.add(FocusNode());
+      }
+      for (var i = 0; i < 5; i++) {
+        var temp = FocusNode();
+        _controller.sideNodes!.add(temp);
+      }
+      for (var i = 0; i < controller.trendingmovies.length; i++) {
+        print("inside the setfirstfocusff ${controller.trendingmovies.length}");
+        var temp1 = FocusNode();
+        var temp = FocusNode();
+        _controller.trendingNodes!.add(temp);
+        _controller.comingNodes!.add(temp);
+      }
+      for (var i = 0; i < controller.topratedmovies.length; i++) {
+        var temp = FocusNode();
+        _controller.topRatedNodes!.add(temp);
+      }
+      for (var i = 0; i < controller.tv.length; i++) {
+        var temp = FocusNode();
+        _controller.tvShowsNodes!.add(temp);
+      }
+      _controller.searchNode = FocusNode();
+      FocusScope.of(context).requestFocus(_controller.sideNodes![0]);
+      _controller.side = true;
+
+      setState(() {});
+    }
+  }
+
+  _changeNodeFocus(BuildContext build, String direction) {
+    if (direction == "Down") {
+      _controller.DownNavActions(context);
+      setState(() {});
+    } else if (direction == "Up") {
+      _controller.UpNavActions(context);
+      setState(() {});
+    } else if (direction == "Right") {
+      _controller.RightNavActions(context);
+      setState(() {});
+    } else if (direction == "Left") {
+      _controller.LeftNavActions(context);
+      setState(() {});
     }
   }
 
@@ -65,11 +107,12 @@ class _MoviesPage extends State<MoviesPage> {
   Widget build(BuildContext context) {
     controller.loadmovies();
 
-    if (_sideBar == null) {
+    if (_controller.sideNodes!.isEmpty) {
       _setFirstFocus(context);
     }
 
-    Timer(const Duration(seconds: 15), () {
+    Timer(const Duration(seconds: 10), () {
+      print("timer");
       if (controller.trendingmovies.isNotEmpty) {
         data.value = true;
       }
@@ -91,46 +134,61 @@ class _MoviesPage extends State<MoviesPage> {
         (() {
           List<Widget> pages = [
             Movies(
-                trendingmovies: controller.trendingmovies,
-                topratedmovies: controller.topratedmovies,
-                tv: controller.tv),
-            SeatchPage(number: 0),
-            // TrendingMovies(trending: controller.trendingmovies),
+              trendingmovies: controller.trendingmovies,
+              topratedmovies: controller.topratedmovies,
+              tv: controller.tv,
+              focusNode: firstFocus,
+            ),
+            SearchPage(number: 0),
             ComingSoon(
               movie: controller.trendingmovies,
             ),
             ComingSoon(
               movie: controller.tv,
             ),
-            // TopRated(toprated: controller.topratedmovies),
             ProfilePage()
           ];
-          return Row(
-            children: [
-              SizedBox(
-                child: Focus(
-                  focusNode: _sideBar,
-                  child: NavRail(
-                    selectedIndex: _selectedIndex,
-                    sideNode: _sideBar!,
-                    callback: (index) => setState(() {
-                      _selectedIndex = index;
-                    }),
+          return Shortcuts(
+            shortcuts: {
+              LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+              LogicalKeySet(LogicalKeyboardKey.arrowRight): RightbuttonIntent(),
+              LogicalKeySet(LogicalKeyboardKey.arrowLeft): LeftbuttonIntent(),
+              LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
+              LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
+            },
+            child: Actions(
+              actions: <Type, Action<Intent>>{
+                DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                    onInvoke: (intent) => _changeNodeFocus(context, "Down")),
+                UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                    onInvoke: (intent) => _changeNodeFocus(context, "Up")),
+                RightbuttonIntent: CallbackAction<RightbuttonIntent>(
+                    onInvoke: (intent) => _changeNodeFocus(context, "Right")),
+                LeftbuttonIntent: CallbackAction<LeftbuttonIntent>(
+                    onInvoke: (intent) => _changeNodeFocus(context, "Left")),
+              },
+              child: Row(
+                children: [
+                  SizedBox(
+                    child: NavRail(
+                      selectedIndex: _selectedIndex,
+                      callback: (index) => setState(() {
+                        _selectedIndex = index;
+                      }),
+                    ),
                   ),
-                ),
+                  const VerticalDivider(),
+                  Expanded(
+                    child: data.isFalse
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                            color: Colors.amber,
+                          ))
+                        : pages[_selectedIndex],
+                  ),
+                ],
               ),
-              const VerticalDivider(),
-              Expanded(
-                child: data.isFalse
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                        color: Colors.amberAccent,
-                      ))
-                    : Focus(
-                        focusNode: controller.rightPage,
-                        child: pages[_selectedIndex]),
-              ),
-            ],
+            ),
           );
         }),
       ),
@@ -141,16 +199,20 @@ class _MoviesPage extends State<MoviesPage> {
 typedef void setIndexCallback(int index);
 
 class Movies extends StatefulWidget {
-  const Movies({
+  Movies({
     Key? key,
     required this.trendingmovies,
     required this.topratedmovies,
     required this.tv,
+    this.focusNode,
   }) : super(key: key);
 
   final List trendingmovies;
   final List topratedmovies;
   final List tv;
+  final FocusNode? focusNode;
+
+  final IntentController _controller = Get.find();
 
   @override
   State<Movies> createState() => _MoviesState();
@@ -161,37 +223,24 @@ class _MoviesState extends State<Movies> {
   Color textColor = Colors.white70;
   Color borderColor = Colors.black;
 
-  _setFirstFocus(BuildContext context) {
-    if (controller.trendingNode == null) {
-      controller.trendingNode = FocusNode();
-      FocusScope.of(context).requestFocus(controller.trendingNode);
-      setState(() {
-        textColor = Colors.blue;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (controller.trendingNode == null) {
-      _setFirstFocus(context);
-      print("side clicked should work please ");
-    }
-    return ListView(
-      padding: const EdgeInsets.only(bottom: 40),
-      shrinkWrap: true,
-      children: [
-        TrendingMovies(
-          //nodeLength: focusNode.length,
-          trending: widget.trendingmovies,
-        ),
-        TopRated(
-          toprated: widget.topratedmovies,
-        ),
-        TV(
-          tv: widget.tv,
-        ),
-      ],
+    return Container(
+      decoration:
+          BoxDecoration(border: Border.all(color: controller.borderColor)),
+      child: ListView(
+        controller: widget._controller.homePageScrollController,
+        children: [
+          // const Movie_card(),
+          TrendingMovies(
+            trending: widget.trendingmovies,
+          ),
+          TopRated(
+            toprated: widget.topratedmovies,
+          ),
+          TV(tv: widget.tv),
+        ],
+      ),
     );
   }
 }
