@@ -7,6 +7,7 @@ import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 
+import '../../common/controller/intent_controllers.dart';
 import 'description.dart';
 
 class TrendingMovies extends StatefulWidget {
@@ -36,13 +37,14 @@ class TrendingMovies extends StatefulWidget {
 class _TrendingMoviesState extends State<TrendingMovies> {
   Color textColor = Colors.white70;
   MoviesController controller = Get.find();
+  IntentController _intentController = Get.find();
 
   @override
   void initState() {
-    if (controller.trendingNodes!.isEmpty) {
+    if (_intentController.trendingNodes!.isEmpty) {
       for (var i = 0; i < controller.trendingmovies.length; i++) {
         var temp = FocusNode();
-        controller.trendingNodes!.add(temp);
+        _intentController.trendingNodes!.add(temp);
       }
     }
 
@@ -57,9 +59,9 @@ class _TrendingMoviesState extends State<TrendingMovies> {
         child: MoviesTile(
           title: "Trending Movies",
           movie: widget.trending,
-          nodes: controller.trendingNodes,
+          nodes: _intentController.trendingNodes,
           borderColor: Colors.grey.withOpacity(0.3),
-          scrollController: controller.trendingScrollController,
+          scrollController: _intentController.trendingScrollController,
         ),
       ),
     );

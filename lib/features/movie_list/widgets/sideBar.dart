@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:smart_tv/config/intentFiles/right_intent.dart';
+import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 
 // import '../../../config/intentFiles/down_intent.dart';
@@ -39,6 +40,9 @@ class NavRail extends StatefulWidget {
 class _NavRailState extends State<NavRail> {
   FocusNode? _home;
   MoviesController controller = Get.find();
+
+  IntentController _intentController = Get.find();
+
   Color homeColor = Colors.white;
 
   FocusNode? _search;
@@ -141,98 +145,103 @@ class _NavRailState extends State<NavRail> {
       height: MediaQuery.of(context).size.height,
       width: 100,
       // color: Colors.transparent,
-      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-        NavigationRail(
-          labelType: NavigationRailLabelType.selected,
-          groupAlignment: -0.5,
-          backgroundColor: Colors.transparent,
-          selectedLabelTextStyle: labelStyle.copyWith(color: selectedColor),
-          unselectedLabelTextStyle: labelStyle.copyWith(color: unselectedColor),
-          selectedIndex: controller.navSelectedIndex,
-          minWidth: 45,
-          selectedIconTheme: const IconThemeData(color: Colors.amber, size: 45),
-          unselectedIconTheme:
-              const IconThemeData(color: Colors.white, size: 30),
-          // groupAlignment: groupAlignment,
-          onDestinationSelected: (int index) {
-            // controller.navSelectedIndex = index;
-            controller.clickedIndex = index;
-            //print(controller.navSelectedIndex);
-            widget.callback!(index);
-          },
-          destinations: [
-            NavigationRailDestination(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          NavigationRail(
+            labelType: NavigationRailLabelType.selected,
+            groupAlignment: -0.5,
+            backgroundColor: Colors.transparent,
+            selectedLabelTextStyle: labelStyle.copyWith(color: selectedColor),
+            unselectedLabelTextStyle:
+                labelStyle.copyWith(color: unselectedColor),
+            selectedIndex: _intentController.navSelectedIndex,
+            minWidth: 45,
+            selectedIconTheme:
+                const IconThemeData(color: Colors.amber, size: 45),
+            unselectedIconTheme:
+                const IconThemeData(color: Colors.white, size: 30),
+            // groupAlignment: groupAlignment,
+            onDestinationSelected: (int index) {
+              // controller.navSelectedIndex = index;
+              _intentController.clickedIndex = index;
+              //print(controller.navSelectedIndex);
+              widget.callback!(index);
+            },
+            destinations: [
+              NavigationRailDestination(
+                  icon: Focus(
+                    focusNode: _intentController.sideNodes![0],
+                    child: Icon(
+                      Icons.home_rounded,
+                      color: //homeColor
+                          _intentController.sideNodes![0].hasFocus
+                              ? Colors.amber
+                              : Colors.grey,
+                      //size: 30,
+                    ),
+                  ),
+                  label: const ModifiedText(
+                      text: 'Home', color: Colors.white, size: 15)),
+              NavigationRailDestination(
                 icon: Focus(
-                  focusNode: controller.sideNodes![0],
+                  focusNode: _intentController.sideNodes![1],
                   child: Icon(
-                    Icons.home_rounded,
-                    color: //homeColor
-                        controller.sideNodes![0].hasFocus
+                    Icons.search_rounded,
+                    color: //searchColor
+                        _intentController.sideNodes![1].hasFocus
                             ? Colors.amber
                             : Colors.grey,
-                    //size: 30,
                   ),
                 ),
                 label: const ModifiedText(
-                    text: 'Home', color: Colors.white, size: 15)),
-            NavigationRailDestination(
-              icon: Focus(
-                focusNode: controller.sideNodes![1],
-                child: Icon(
-                  Icons.search_rounded,
-                  color: //searchColor
-                      controller.sideNodes![1].hasFocus
-                          ? Colors.amber
-                          : Colors.grey,
-                ),
+                    text: 'Search', color: Colors.white, size: 15),
               ),
-              label: const ModifiedText(
-                  text: 'Search', color: Colors.white, size: 15),
-            ),
-            NavigationRailDestination(
-              icon: Focus(
-                focusNode: controller.sideNodes![2],
-                child: Icon(
-                  Icons.movie,
-                  color: controller.sideNodes![2].hasFocus
-                      ? Colors.amber
-                      : Colors.grey,
-                ),
-              ),
-              label: const ModifiedText(
-                  text: 'Upcomming', color: Colors.white, size: 15),
-            ),
-            NavigationRailDestination(
-              icon: Focus(
-                focusNode: controller.sideNodes![3],
-                child: Icon(
-                  Icons.favorite_border,
-                  color: controller.sideNodes![3].hasFocus
-                      ? Colors.amber
-                      : Colors.grey,
-                ),
-              ),
-              label: const ModifiedText(
-                  text: 'Favorites', color: Colors.white, size: 15),
-            ),
-            NavigationRailDestination(
-              icon: Focus(
-                  focusNode: controller.sideNodes![4],
+              NavigationRailDestination(
+                icon: Focus(
+                  focusNode: _intentController.sideNodes![2],
                   child: Icon(
-                    Icons.person,
-                    color: controller.sideNodes![4].hasFocus
+                    Icons.movie,
+                    color: _intentController.sideNodes![2].hasFocus
                         ? Colors.amber
                         : Colors.grey,
-                  )),
-              label: const ModifiedText(
-                text: 'Profile',
-                color: Colors.white,
-                size: 15,
+                  ),
+                ),
+                label: const ModifiedText(
+                    text: 'Upcomming', color: Colors.white, size: 15),
               ),
-            ),
-          ],
-        ),
-      ]),
+              NavigationRailDestination(
+                icon: Focus(
+                  focusNode: _intentController.sideNodes![3],
+                  child: Icon(
+                    Icons.favorite_border,
+                    color: _intentController.sideNodes![3].hasFocus
+                        ? Colors.amber
+                        : Colors.grey,
+                  ),
+                ),
+                label: const ModifiedText(
+                    text: 'Favorites', color: Colors.white, size: 15),
+              ),
+              NavigationRailDestination(
+                icon: Focus(
+                    focusNode: _intentController.sideNodes![4],
+                    child: Icon(
+                      Icons.person,
+                      color: _intentController.sideNodes![4].hasFocus
+                          ? Colors.amber
+                          : Colors.grey,
+                    )),
+                label: const ModifiedText(
+                  text: 'Profile',
+                  color: Colors.white,
+                  size: 15,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

@@ -4,10 +4,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-//import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:smart_tv/config/intentFiles/left_intent.dart';
+
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:smart_tv/features/models/movies_model.dart';
@@ -21,8 +21,8 @@ import 'package:smart_tv/features/search/search.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
-// import '../../../config/intentFiles/right_intent.dart';
-// import '../../../config/intentFiles/up_intent.dart';
+
+import '../../common/controller/intent_controllers.dart';
 import '../../profile/screen/profile_page.dart';
 import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
@@ -37,17 +37,12 @@ class _MoviesPage extends State<MoviesPage> {
   List<FocusNode>? rightFocusNodes;
   FocusNode? firstFocus = FocusNode();
   MoviesController controller = Get.put(MoviesController());
+  final IntentController _controller = Get.put(IntentController());
 
   bool hasData = false;
   RxBool data = false.obs;
 
   List<Widget> pages = [];
-
-  @override
-  // void setState(VoidCallback fn) {
-  //   focusNodes = List.filled(controller.trendingmovies.length, FocusNode());
-  //   super.setState(fn);
-  // }
 
   int _selectedIndex = 0;
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
@@ -61,35 +56,32 @@ class _MoviesPage extends State<MoviesPage> {
   FocusNode? _sideBar;
   FocusNode? _pageNode;
   _setFirstFocus(BuildContext context) {
-    if (controller.sideNodes!.isEmpty) {
-      // _sideBar = FocusNode();
-      // _pageNode = FocusNode();
-      //print("inside the setfirstfocus");
+    if (_controller.sideNodes!.isEmpty) {
       for (var i = 0; i < 5; i++) {
-        controller.descNodes!.add(FocusNode());
+        _controller.descNodes!.add(FocusNode());
       }
       for (var i = 0; i < 5; i++) {
         var temp = FocusNode();
-        controller.sideNodes!.add(temp);
+        _controller.sideNodes!.add(temp);
       }
       for (var i = 0; i < controller.trendingmovies.length; i++) {
         print("inside the setfirstfocusff ${controller.trendingmovies.length}");
         var temp1 = FocusNode();
         var temp = FocusNode();
-        controller.trendingNodes!.add(temp);
-        controller.comingNodes!.add(temp);
+        _controller.trendingNodes!.add(temp);
+        _controller.comingNodes!.add(temp);
       }
       for (var i = 0; i < controller.topratedmovies.length; i++) {
         var temp = FocusNode();
-        controller.topRatedNodes!.add(temp);
+        _controller.topRatedNodes!.add(temp);
       }
       for (var i = 0; i < controller.tv.length; i++) {
         var temp = FocusNode();
-        controller.tvShowsNodes!.add(temp);
+        _controller.tvShowsNodes!.add(temp);
       }
-      controller.searchNode = FocusNode();
-      FocusScope.of(context).requestFocus(controller.sideNodes![0]);
-      controller.side = true;
+      _controller.searchNode = FocusNode();
+      FocusScope.of(context).requestFocus(_controller.sideNodes![0]);
+      _controller.side = true;
 
       setState(() {});
     }
@@ -97,16 +89,16 @@ class _MoviesPage extends State<MoviesPage> {
 
   _changeNodeFocus(BuildContext build, String direction) {
     if (direction == "Down") {
-      controller.DownNavActions(context);
+      _controller.DownNavActions(context);
       setState(() {});
     } else if (direction == "Up") {
-      controller.UpNavActions(context);
+      _controller.UpNavActions(context);
       setState(() {});
     } else if (direction == "Right") {
-      controller.RightNavActions(context);
+      _controller.RightNavActions(context);
       setState(() {});
     } else if (direction == "Left") {
-      controller.LeftNavActions(context);
+      _controller.LeftNavActions(context);
       setState(() {});
     }
   }
@@ -115,7 +107,7 @@ class _MoviesPage extends State<MoviesPage> {
   Widget build(BuildContext context) {
     controller.loadmovies();
 
-    if (controller.sideNodes!.isEmpty) {
+    if (_controller.sideNodes!.isEmpty) {
       _setFirstFocus(context);
     }
 
@@ -207,7 +199,7 @@ class _MoviesPage extends State<MoviesPage> {
 typedef void setIndexCallback(int index);
 
 class Movies extends StatefulWidget {
-  const Movies({
+  Movies({
     Key? key,
     required this.trendingmovies,
     required this.topratedmovies,
@@ -219,6 +211,8 @@ class Movies extends StatefulWidget {
   final List topratedmovies;
   final List tv;
   final FocusNode? focusNode;
+
+  final IntentController _controller = Get.find();
 
   @override
   State<Movies> createState() => _MoviesState();
@@ -235,9 +229,9 @@ class _MoviesState extends State<Movies> {
       decoration:
           BoxDecoration(border: Border.all(color: controller.borderColor)),
       child: ListView(
-        controller: controller.homePageScrollController,
+        controller: widget._controller.homePageScrollController,
         children: [
-          const Movie_card(),
+          // const Movie_card(),
           TrendingMovies(
             trending: widget.trendingmovies,
           ),

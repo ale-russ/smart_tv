@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
+import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
 import 'package:smart_tv/features/profile/controllers/user_controller.dart';
 
@@ -20,10 +21,11 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _countryController = TextEditingController();
   FocusNode? _firstNameNode = FocusNode();
   MoviesController controller = Get.find();
+  IntentController _intentController = Get.find();
   @override
   void initState() {
     for (var i = 0; i < 4; i++) {
-      controller.profileNodes!.add(FocusNode());
+      _intentController.profileNodes!.add(FocusNode());
     }
     super.initState();
   }
@@ -64,22 +66,22 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ProfileTextFields(
-                    focusNode: controller.profileNodes![0],
+                    focusNode: _intentController.profileNodes![0],
                     textController: _firstNameController,
                     label: "Alem",
                   ),
                   ProfileTextFields(
-                    focusNode: controller.profileNodes![1],
+                    focusNode: _intentController.profileNodes![1],
                     textController: _lastNameController,
                     label: "Russom",
                   ),
                   ProfileTextFields(
-                    focusNode: controller.profileNodes![2],
+                    focusNode: _intentController.profileNodes![2],
                     textController: _sexController,
                     label: "Male",
                   ),
                   ProfileTextFields(
-                    focusNode: controller.profileNodes![3],
+                    focusNode: _intentController.profileNodes![3],
                     textController: _countryController,
                     label: "Ethiopia",
                   ),

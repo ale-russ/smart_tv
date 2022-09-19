@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tmdb_api/tmdb_api.dart';
+import 'package:smart_tv/features/common/controller/intent_controllers.dart';
+import 'package:smart_tv/features/common/controller/keys.dart';
+import 'package:smart_tv/features/common/controller/tmdb_controller.dart';
 
 import '../movie_list/utilits/text.dart';
 import '../movie_list/controller/movie_controller.dart';
@@ -18,58 +20,47 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   MoviesController Mcontroller = Get.find();
-  List? searchResults;
-  String? apikey = 'f8242645e5c75f1aa66afeaeb47494e3';
-  String? readaccesstoken =
-      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmODI0MjY0NWU1Yzc1ZjFhYTY2YWZlYWViNDc0OTRlMyIsInN1YiI6IjYzMTY0ZWU3YmExMzFiMDA4MWQxYWMwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0rthKmQIVTLgh9wFN7qkpMcmacpy1Juxib-KhJKXtEw';
-  final MoviesController mController = Get.find();
-  TMDB tmdbWithCustomLogs = TMDB(
-    ApiKeys('f8242645e5c75f1aa66afeaeb47494e3',
-        'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmODI0MjY0NWU1Yzc1ZjFhYTY2YWZlYWViNDc0OTRlMyIsInN1YiI6IjYzMTY0ZWU3YmExMzFiMDA4MWQxYWMwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0rthKmQIVTLgh9wFN7qkpMcmacpy1Juxib-KhJKXtEw'),
-    logConfig: const ConfigLogger(
-      showLogs: true,
-      showErrorLogs: true,
-    ),
-  );
-  TextEditingController controller = TextEditingController();
-  // MoviesController mController = Get.find();
-  final int number = 0;
-  loadmovies() async {
-    TMDB tmdbWithCustomLogs = TMDB(
-      ApiKeys(apikey!, readaccesstoken!),
-      logConfig: const ConfigLogger(
-        showLogs: true,
-        showErrorLogs: true,
-      ),
-    );
-  }
+  final IntentController _intentController = Get.find();
 
+  final TmdbController _tmdbController = Get.put(TmdbController());
+  final CommonKeys _commonKeys = Get.find();
+
+  List? searchResults;
+
+  final MoviesController mController = Get.find();
+
+  TextEditingController controller = TextEditingController();
+
+  final int number = 0;
+
+  @override
   void initState() {
     super.initState();
-    Mcontroller.trend = false;
-    Mcontroller.side = false;
-    Mcontroller.top = false;
-    Mcontroller.tvShow = false;
-    loadmovies();
+    _intentController.trend = false;
+    _intentController.side = false;
+    _intentController.top = false;
+    _intentController.tvShow = false;
+
+    mController.loadmovies();
   }
 
   _SearchPageState();
   @override
   Widget build(BuildContext context) {
-    if (!Mcontroller.searchNode!.hasFocus) {
-      FocusScope.of(context).requestFocus(Mcontroller.searchNode);
+    if (!_intentController.searchNode!.hasFocus) {
+      FocusScope.of(context).requestFocus(_intentController.searchNode);
       setState(() {});
     }
-    if (Mcontroller.searchNodes!.isEmpty &&
+    if (_intentController.searchNodes!.isEmpty &&
         Mcontroller.localSearch.isNotEmpty) {
       for (var i = 0; i < Mcontroller.localSearch.length; i++) {
-        Mcontroller.searchNodes!.add(FocusNode());
+        _intentController.searchNodes!.add(FocusNode());
       }
     }
     return Scaffold(
       backgroundColor: Colors.black,
       body: Container(
-        color: Colors.grey,
+        color: Colors.black38,
         padding: const EdgeInsets.all(10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           // SearchBar(
@@ -84,19 +75,20 @@ class _SearchPageState extends State<SearchPage> {
                 // decoration: BoxDecoration(),
                 child: TextField(
                   //autofocus: true,
-                  focusNode: Mcontroller.searchNode,
+                  focusNode: _intentController.searchNode,
                   controller: controller,
                   decoration: const InputDecoration(
                       fillColor: Colors.white,
                       prefixIcon: Icon(Icons.search),
                       hintText: 'Search...'),
                   onChanged: (search) async {
-                    Map searchResult =
-                        await tmdbWithCustomLogs.v3.search.queryMovies(search);
+                    Map searchResult = await _tmdbController
+                        .tmdbWithCustomLogs.v3.search
+                        .queryMovies(search);
 
                     if (searchResult['results'] != null) {
                       print(searchResult['results']);
-                      List temp = [];
+                      // List temp = [];
                       searchResults = searchResult['results'];
                       mController.localSearch.value = searchResults!;
                       print("object");
@@ -104,7 +96,7 @@ class _SearchPageState extends State<SearchPage> {
                         if (!mController.localSearch.contains(item)) {
                           setState(() {
                             mController.localSearch.add(item);
-                            mController.searchNodes!.add(FocusNode());
+                            _intentController.searchNodes!.add(FocusNode());
                           });
                         } else if (mController.localSearch.contains(item)) {
                           mController.localSearch.remove(item);
@@ -140,14 +132,14 @@ class _SearchPageState extends State<SearchPage> {
                         MaterialPageRoute(
                           builder: ((context) => Description(
                                 bannerurl:
-                                    "https://image.tmdb.org/t/p/w500${mController.localSearch[index]['backdrop_path']}",
+                                    "${_commonKeys.movieUrl}${mController.localSearch[index]['backdrop_path']}",
                                 description: mController.localSearch[index]
                                     ['overview'],
                                 lauchOn: mController.localSearch[index]
                                     ['release_date'],
                                 name: mController.localSearch[index]['title'],
                                 posterurl:
-                                    "https://image.tmdb.org/t/p/w500${mController.localSearch[index]['backdrop_path']}",
+                                    "${_commonKeys.movieUrl}{mController.localSearch[index]['backdrop_path']}",
                                 vote: mController.localSearch[index]
                                         ['vote_average']
                                     .toString(),
@@ -175,7 +167,7 @@ class _SearchPageState extends State<SearchPage> {
                                                     ['poster_path'] !=
                                                 null
                                             ? NetworkImage(
-                                                "https://image.tmdb.org/t/p/w500${mController.localSearch[index]['poster_path']}")
+                                                "${_commonKeys.movieUrl}{mController.localSearch[index]['poster_path']}")
                                             : const NetworkImage(
                                                 "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-7509.jpg"),
                                       ),
@@ -215,25 +207,15 @@ class SearchBar extends StatefulWidget {
   final MoviesController mController;
 
   @override
-  State<SearchBar> createState() => _SearchBarState(this.mController);
+  State<SearchBar> createState() => _SearchBarState();
 }
 
 class _SearchBarState extends State<SearchBar> {
   List? searchResults;
-  String apikey = 'f8242645e5c75f1aa66afeaeb47494e3';
-  String readaccesstoken =
-      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmODI0MjY0NWU1Yzc1ZjFhYTY2YWZlYWViNDc0OTRlMyIsInN1YiI6IjYzMTY0ZWU3YmExMzFiMDA4MWQxYWMwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0rthKmQIVTLgh9wFN7qkpMcmacpy1Juxib-KhJKXtEw';
-  final MoviesController mController;
-  TMDB tmdbWithCustomLogs = TMDB(
-    ApiKeys('f8242645e5c75f1aa66afeaeb47494e3',
-        'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmODI0MjY0NWU1Yzc1ZjFhYTY2YWZlYWViNDc0OTRlMyIsInN1YiI6IjYzMTY0ZWU3YmExMzFiMDA4MWQxYWMwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0rthKmQIVTLgh9wFN7qkpMcmacpy1Juxib-KhJKXtEw'),
-    logConfig: const ConfigLogger(
-      showLogs: true,
-      showErrorLogs: true,
-    ),
-  );
 
-  _SearchBarState(this.mController);
+  final MoviesController mController = Get.find();
+  final TmdbController _tmdbController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -250,8 +232,9 @@ class _SearchBarState extends State<SearchBar> {
                 prefixIcon: Icon(Icons.search),
                 hintText: 'Search...'),
             onChanged: (search) async {
-              Map searchResult =
-                  await tmdbWithCustomLogs.v3.search.queryMovies(search);
+              Map searchResult = await _tmdbController
+                  .tmdbWithCustomLogs.v3.search
+                  .queryMovies(search);
 
               if (searchResult['results'] != null) {
                 print("clicked");

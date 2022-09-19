@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 
@@ -19,13 +20,14 @@ class TV extends StatefulWidget {
 
 class _TVState extends State<TV> {
   MoviesController controller = Get.find();
+  final IntentController _intentController = Get.find();
 
   @override
   void initState() {
-    if (controller.tvShowsNodes!.isEmpty) {
+    if (_intentController.tvShowsNodes!.isEmpty) {
       for (var i = 0; i < controller.tv.length; i++) {
         var temp = FocusNode();
-        controller.tvShowsNodes!.add(temp);
+        _intentController.tvShowsNodes!.add(temp);
       }
     }
 
@@ -39,9 +41,9 @@ class _TVState extends State<TV> {
       child: MoviesTile(
         movie: widget.tv,
         title: "Tv Shows",
-        nodes: controller.tvShowsNodes,
+        nodes: _intentController.tvShowsNodes,
         borderColor: Colors.grey.withOpacity(0.3),
-        scrollController: controller.tvShowScrollController,
+        scrollController: _intentController.tvShowScrollController,
       ),
     );
   }

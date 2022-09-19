@@ -1,24 +1,18 @@
-import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
+
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
+
+import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:video_player/video_player.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
-
 import '../../../config/intentFiles/button_intents.dart';
-// import '../../../config/intentFiles/left_intent.dart';
-// import '../../../config/intentFiles/right_intent.dart';
-// import '../../../config/intentFiles/up_intent.dart';
 
 class Description extends StatefulWidget {
   final String name, description, bannerurl, posterurl, vote, lauchOn;
@@ -39,6 +33,8 @@ class Description extends StatefulWidget {
 
 class _DescriptionState extends State<Description> {
   late VideoPlayerController _videoPlayerController;
+
+  final IntentController _intentController = Get.find();
 
   bool? _webviewAvailable;
 
@@ -65,16 +61,16 @@ class _DescriptionState extends State<Description> {
 
   _changeNodeFocus(BuildContext build, String direction) {
     if (direction == "Down") {
-      controller.DownNavActions(context);
+      _intentController.DownNavActions(context);
       setState(() {});
     } else if (direction == "Up") {
-      controller.UpNavActions(context);
+      _intentController.UpNavActions(context);
       setState(() {});
     } else if (direction == "Right") {
-      controller.RightNavActions(context);
+      _intentController.RightNavActions(context);
       setState(() {});
     } else if (direction == "Left") {
-      controller.LeftNavActions(context);
+      _intentController.LeftNavActions(context);
       setState(() {});
     }
   }
@@ -115,7 +111,7 @@ class _DescriptionState extends State<Description> {
                 onInvoke: (Intent) => _changeNodeFocus(context, "Left")),
           },
           child: ListView(
-            controller: controller.descPageScrollController,
+            controller: _intentController.descPageScrollController,
             children: [
               SizedBox(
                   height: MediaQuery.of(context).size.height,
@@ -141,13 +137,13 @@ class _DescriptionState extends State<Description> {
                         right: 100,
                         bottom: MediaQuery.of(context).size.height * 0.3,
                         child: Focus(
-                          focusNode: controller.descNodes![0],
+                          focusNode: _intentController.descNodes![0],
                           child: IconButton(
                             icon: Icon(
                               !_videoPlayerController.value.isPlaying
                                   ? Icons.play_circle_fill_rounded
                                   : Icons.pause_circle_filled_rounded,
-                              color: controller.descNodes![0].hasFocus
+                              color: _intentController.descNodes![0].hasFocus
                                   ? Colors.amber
                                   : Colors.white,
                               size: 100,
@@ -164,10 +160,10 @@ class _DescriptionState extends State<Description> {
                       Positioned(
                         bottom: 5,
                         child: Focus(
-                          focusNode: controller.descNodes![1],
+                          focusNode: _intentController.descNodes![1],
                           child: ModifiedText(
                               text: '⭐Average Rating - ${widget.vote}',
-                              color: controller.descNodes![1].hasFocus
+                              color: _intentController.descNodes![1].hasFocus
                                   ? Colors.amber
                                   : Colors.white60,
                               size: 20),
@@ -176,7 +172,7 @@ class _DescriptionState extends State<Description> {
                     ],
                   )),
               Focus(
-                focusNode: controller.descNodes![2],
+                focusNode: _intentController.descNodes![2],
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   child: ModifiedText(
@@ -184,7 +180,7 @@ class _DescriptionState extends State<Description> {
                 ),
               ),
               Focus(
-                focusNode: controller.descNodes![3],
+                focusNode: _intentController.descNodes![3],
                 child: Container(
                   padding: const EdgeInsets.only(left: 5),
                   child: ModifiedText(
@@ -194,7 +190,7 @@ class _DescriptionState extends State<Description> {
                 ),
               ),
               Focus(
-                focusNode: controller.descNodes![4],
+                focusNode: _intentController.descNodes![4],
                 child: Row(
                   children: [
                     Container(
@@ -204,7 +200,7 @@ class _DescriptionState extends State<Description> {
                       child: Image.network(widget.posterurl),
                     ),
                     Flexible(
-                      child: Container(
+                      child: SizedBox(
                         child: ModifiedText(
                             text: widget.description,
                             color: Colors.white60,

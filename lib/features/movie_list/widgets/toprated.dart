@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:smart_tv/features/movie_list/utilits/text.dart';
+import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 
 import '../controller/movie_controller.dart';
-import 'description.dart';
+
 import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
 
 class TopRated extends StatefulWidget {
@@ -19,13 +19,14 @@ class TopRated extends StatefulWidget {
 
 class _TopRatedState extends State<TopRated> {
   MoviesController controller = Get.find();
-  @override
+  final IntentController _intentController = Get.find();
+
   @override
   void initState() {
-    if (controller.topRatedNodes!.isEmpty) {
+    if (_intentController.topRatedNodes!.isEmpty) {
       for (var i = 0; i < controller.topratedmovies.length; i++) {
         var temp = FocusNode();
-        controller.topRatedNodes!.add(temp);
+        _intentController.topRatedNodes!.add(temp);
       }
     }
     super.initState();
@@ -37,9 +38,9 @@ class _TopRatedState extends State<TopRated> {
       child: MoviesTile(
         movie: widget.toprated,
         title: "Top Rated Movies",
-        nodes: controller.topRatedNodes!,
+        nodes: _intentController.topRatedNodes!,
         borderColor: Colors.grey.withOpacity(0.3),
-        scrollController: controller.topRatedScrollController,
+        scrollController: _intentController.topRatedScrollController,
       ),
     );
   }

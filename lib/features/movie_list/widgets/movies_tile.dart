@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/common/controller/intent_controllers.dart';
+import 'package:smart_tv/features/common/controller/keys.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:smart_tv/features/movie_list/widgets/description.dart';
@@ -25,6 +27,8 @@ class MoviesTile extends StatelessWidget {
   Color textColor = Colors.white;
 
   MoviesController controller = Get.put(MoviesController());
+  final IntentController _intentController = Get.find();
+  final CommonKeys _commonKeys = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -45,20 +49,21 @@ class MoviesTile extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  FocusScope.of(context).requestFocus(controller.descNodes![0]);
-                  controller.desc = true;
-                  controller.unFocus();
+                  FocusScope.of(context)
+                      .requestFocus(_intentController.descNodes![0]);
+                  _intentController.desc = true;
+                  _intentController.unFocus();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: ((context) => Description(
                             bannerurl:
-                                "${controller.movieUrl}${movie![index]['backdrop_path']}",
+                                "${_commonKeys.movieUrl}${movie![index]['backdrop_path']}",
                             description: movie![index]['overview'],
                             lauchOn: movie![index]['release_date'],
                             name: movie![index]['title'],
                             posterurl:
-                                "${controller.movieUrl}${movie![index]['backdrop_path']}",
+                                "${_commonKeys.movieUrl}${movie![index]['backdrop_path']}",
                             vote: movie![index]['vote_average'].toString(),
                           )),
                     ),
@@ -82,7 +87,7 @@ class MoviesTile extends StatelessWidget {
                                 : Border.all(color: borderColor),
                             image: DecorationImage(
                               image: NetworkImage(
-                                "${controller.movieUrl}${movie![index]['poster_path']}",
+                                "${_commonKeys.movieUrl}${movie![index]['poster_path']}",
                               ),
                               fit: BoxFit.fill,
                             ),
@@ -118,12 +123,14 @@ class ComingSoon extends StatefulWidget {
 
 class _ComingSoonState extends State<ComingSoon> {
   MoviesController controller = Get.find();
+  final IntentController _intentController = Get.find();
+  final CommonKeys _commonKeys = Get.find();
   @override
   void initState() {
-    if (controller.comingNodes!.isEmpty) {
+    if (_intentController.comingNodes!.isEmpty) {
       for (var i = 0; i < controller.trendingmovies.length; i++) {
         var temp = FocusNode();
-        controller.comingNodes!.add(temp);
+        _intentController.comingNodes!.add(temp);
       }
     }
     super.initState();
@@ -146,7 +153,7 @@ class _ComingSoonState extends State<ComingSoon> {
       body: Container(
         color: Colors.black,
         child: GridView.builder(
-          controller: controller.comingPageScrollController,
+          controller: _intentController.comingPageScrollController,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: count!,
             childAspectRatio: 4 / 3,
@@ -163,12 +170,12 @@ class _ComingSoonState extends State<ComingSoon> {
                     MaterialPageRoute(
                       builder: ((context) => Description(
                             bannerurl:
-                                "${mController.movieUrl}${widget.movie![index]['backdrop_path']}",
+                                "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
                             description: widget.movie![index]['overview'],
                             lauchOn: widget.movie![index]['release_date'],
                             name: widget.movie![index]['title'],
                             posterurl:
-                                "${mController.movieUrl}${widget.movie![index]['backdrop_path']}",
+                                "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
                             vote:
                                 widget.movie![index]['vote_average'].toString(),
                           )),
@@ -176,7 +183,7 @@ class _ComingSoonState extends State<ComingSoon> {
                   );
                 },
                 child: Focus(
-                  focusNode: controller.comingNodes![index],
+                  focusNode: _intentController.comingNodes![index],
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     width: MediaQuery.of(context).size.width * 0.3,
@@ -188,13 +195,14 @@ class _ComingSoonState extends State<ComingSoon> {
                           height: MediaQuery.of(context).size.height * 0.2,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            border: controller.comingNodes![index].hasFocus
-                                ? Border.all(color: Colors.amber)
-                                : Border.all(
-                                    color: Colors.grey.withOpacity(0.3)),
+                            border:
+                                _intentController.comingNodes![index].hasFocus
+                                    ? Border.all(color: Colors.amber)
+                                    : Border.all(
+                                        color: Colors.grey.withOpacity(0.3)),
                             image: DecorationImage(
                               image: NetworkImage(
-                                "${mController.movieUrl}${widget.movie![index]['poster_path']}",
+                                "${_commonKeys.movieUrl}${widget.movie![index]['poster_path']}",
                               ),
                               fit: BoxFit.fill,
                             ),
