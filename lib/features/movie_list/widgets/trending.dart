@@ -7,13 +7,20 @@ import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 
+import '../../common/controller/intent_controllers.dart';
 import 'description.dart';
 
 class TrendingMovies extends StatefulWidget {
   final List trending;
   List<FocusNode>? nodes;
 
-  TrendingMovies({Key? key, required this.trending}) : super(key: key);
+  TrendingMovies({
+    Key? key,
+    required this.trending,
+    this.focusNode,
+  }) : super(key: key);
+
+  FocusNode? focusNode = FocusNode();
 
   _setfirstfocus(BuildContext context) {
     nodes ??= List.filled(trending.length, FocusNode());
@@ -30,27 +37,31 @@ class TrendingMovies extends StatefulWidget {
 class _TrendingMoviesState extends State<TrendingMovies> {
   Color textColor = Colors.white70;
   MoviesController controller = Get.find();
-  // _setFirstFocus(BuildContext context) {
-  //   if (controller.trendingNode == null) {
-  //     controller.trendingNode = FocusNode();
-  //     FocusScope.of(context).requestFocus(controller.trendingNode);
-  //     setState(() {
-  //       textColor = Colors.blue;
-  //     });
-  //   }
-  // }
+  IntentController _intentController = Get.find();
+
+  @override
+  void initState() {
+    if (_intentController.trendingNodes!.isEmpty) {
+      for (var i = 0; i < controller.trendingmovies.length; i++) {
+        var temp = FocusNode();
+        _intentController.trendingNodes!.add(temp);
+      }
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // if (controller.trendingNode == null) {
-    //   _setFirstFocus(context);
-    // }
     return Focus(
       child: Container(
         // padding: const EdgeInsets.all(0),
         child: MoviesTile(
           title: "Trending Movies",
           movie: widget.trending,
+          nodes: _intentController.trendingNodes,
+          borderColor: Colors.grey.withOpacity(0.3),
+          scrollController: _intentController.trendingScrollController,
         ),
       ),
     );
