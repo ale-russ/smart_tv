@@ -231,7 +231,7 @@ class _MoviesState extends State<Movies> {
       child: ListView(
         controller: widget._controller.homePageScrollController,
         children: [
-          // const Movie_card(),
+          Movie_card(),
           TrendingMovies(
             trending: widget.trendingmovies,
           ),
