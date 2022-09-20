@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/common/controller/keys.dart';
 import 'package:smart_tv/features/common/controller/tmdb_controller.dart';
+import 'package:smart_tv/features/models/movies_model.dart';
 
 import '../movie_list/utilits/text.dart';
 import '../movie_list/controller/movie_controller.dart';
@@ -37,7 +38,7 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     super.initState();
     _intentController.trend = false;
-    _intentController.side = false;
+    //_intentController.side = false;
     _intentController.top = false;
     _intentController.tvShow = false;
 
@@ -47,10 +48,10 @@ class _SearchPageState extends State<SearchPage> {
   _SearchPageState();
   @override
   Widget build(BuildContext context) {
-    if (!_intentController.searchNode!.hasFocus) {
-      FocusScope.of(context).requestFocus(_intentController.searchNode);
-      setState(() {});
-    }
+    // if (!_intentController.searchNode!.hasFocus) {
+    //   FocusScope.of(context).requestFocus(_intentController.searchNode);
+    //   setState(() {});
+    // }
     if (_intentController.searchNodes!.isEmpty &&
         Mcontroller.localSearch.isNotEmpty) {
       for (var i = 0; i < Mcontroller.localSearch.length; i++) {
@@ -89,17 +90,14 @@ class _SearchPageState extends State<SearchPage> {
                     if (searchResult['results'] != null) {
                       print(searchResult['results']);
                       // List temp = [];
+
                       searchResults = searchResult['results'];
                       mController.localSearch.value = searchResults!;
-                      print("object");
-                      for (var item in searchResults!) {
-                        if (!mController.localSearch.contains(item)) {
-                          setState(() {
-                            mController.localSearch.add(item);
-                            _intentController.searchNodes!.add(FocusNode());
-                          });
-                        } else if (mController.localSearch.contains(item)) {
-                          mController.localSearch.remove(item);
+                      if (mController.localSearch.value.length > 0) {
+                        for (var i = 0;
+                            i < mController.localSearch.value.length;
+                            i++) {
+                          _intentController.searchNodes!.add(new FocusNode());
                         }
                       }
                     }
@@ -107,6 +105,14 @@ class _SearchPageState extends State<SearchPage> {
                       mController.localSearch.value.clear;
                       print("help");
                     }
+                    setState(() {});
+                  },
+                  onEditingComplete: () {
+                    print("on edite controller");
+                    FocusScope.of(context)
+                        .requestFocus(_intentController.searchNodes![index]);
+                    _intentController.searchResult = true;
+                    _intentController.searchField = false;
                     setState(() {});
                   },
                 )),
@@ -139,7 +145,7 @@ class _SearchPageState extends State<SearchPage> {
                                     ['release_date'],
                                 name: mController.localSearch[index]['title'],
                                 posterurl:
-                                    "${_commonKeys.movieUrl}{mController.localSearch[index]['backdrop_path']}",
+                                    "${_commonKeys.movieUrl}${mController.localSearch[index]['backdrop_path']}",
                                 vote: mController.localSearch[index]
                                         ['vote_average']
                                     .toString(),
@@ -149,7 +155,7 @@ class _SearchPageState extends State<SearchPage> {
                     },
                     child: mController.localSearch.isNotEmpty
                         ? Focus(
-                            //focusNode: Mcontroller.searchNodes![0],
+                            focusNode: _intentController.searchNodes![index],
                             child: SizedBox(
                               width: 140,
                               child: Column(
@@ -158,16 +164,17 @@ class _SearchPageState extends State<SearchPage> {
                                     height: 200,
                                     decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: false // Mcontroller
-                                              // .searchNodes![index].hasFocus
-                                              ? Colors.blue
+                                          color: _intentController
+                                                  .searchNodes![index]
+                                                  .hasFocus // Mcontroller
+                                              ? Colors.amber
                                               : Colors.black),
                                       image: DecorationImage(
                                         image: mController.localSearch[index]
                                                     ['poster_path'] !=
                                                 null
                                             ? NetworkImage(
-                                                "${_commonKeys.movieUrl}{mController.localSearch[index]['poster_path']}")
+                                                "${_commonKeys.movieUrl}${mController.localSearch[index]['poster_path']}")
                                             : const NetworkImage(
                                                 "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-7509.jpg"),
                                       ),

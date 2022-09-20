@@ -36,6 +36,7 @@ class IntentController extends GetxController {
   int descIndex = 0;
   int profileIndex = 0;
   int favIndex = 0;
+  int searchIndex = 0;
   int navSelectedIndex = 0;
   int clickedIndex = 0;
   int trendingIndex = 0;
@@ -50,6 +51,7 @@ class IntentController extends GetxController {
   }
 
   DownNavActions(BuildContext context) {
+    print("down");
     if (side == true) {
       if (navSelectedIndex < 4) {
         print("inside teh change focus down ${navSelectedIndex}");
@@ -109,10 +111,10 @@ class IntentController extends GetxController {
       } else
         print("I know hwy is is coming here ");
     }
-    print("down");
   }
 
   UpNavActions(BuildContext context) {
+    print("UP");
     if (side == true) {
       if (navSelectedIndex > -1) {
         print("inside teh change focus down ${navSelectedIndex}");
@@ -168,8 +170,11 @@ class IntentController extends GetxController {
   }
 
   RightNavActions(BuildContext context) {
+    print("right");
     if (side == true) {
+      print("inside side true ");
       if (clickedIndex == 1) {
+        print("inside clicked");
         FocusScope.of(context).requestFocus(searchNode);
         side = false;
         searchField = true;
@@ -235,11 +240,18 @@ class IntentController extends GetxController {
 
         favIndex++;
       }
+    } else if (searchResult == true) {
+      if (searchIndex < _controller.localSearch.length - 1) {
+        FocusScope.of(context).requestFocus(searchNodes![searchIndex + 1]);
+
+        searchIndex++;
+      }
     }
     //print("out of range");
   }
 
   LeftNavActions(BuildContext context) {
+    print("left");
     if (trend == true) {
       if (trendingIndex <= 0) {
         FocusScope.of(context).requestFocus(sideNodes![0]);
@@ -290,6 +302,17 @@ class IntentController extends GetxController {
 
           comingIndex--;
         }
+      }
+    } else if (searchResult == true) {
+      if (searchIndex > 0) {
+        FocusScope.of(context).requestFocus(searchNodes![searchIndex - 1]);
+
+        searchIndex--;
+      } else {
+        FocusScope.of(context).requestFocus(sideNodes![0]);
+        side = true;
+        searchResult = false;
+        //FocusScope.of(context).requestFocus(searchNodes![searchIndex - 1]);
       }
     } else {
       FocusScope.of(context).requestFocus(sideNodes![0]);

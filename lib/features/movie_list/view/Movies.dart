@@ -66,7 +66,7 @@ class _MoviesPage extends State<MoviesPage> {
       }
       for (var i = 0; i < controller.trendingmovies.length; i++) {
         print("inside the setfirstfocusff ${controller.trendingmovies.length}");
-        var temp1 = FocusNode();
+        //var temp1 = FocusNode();
         var temp = FocusNode();
         _controller.trendingNodes!.add(temp);
         _controller.comingNodes!.add(temp);
