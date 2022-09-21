@@ -38,22 +38,6 @@ class _NavRailState extends State<NavRail> {
   FocusNode? _profile;
   Color profileColor = Colors.white;
 
-  // _setFirstFocus(BuildContext context) {
-  //   if (_home == null) {
-  //     _home = FocusNode();
-  //     _search = FocusNode();
-  //     _upcoming = FocusNode();
-  //     _favorites = FocusNode();
-  //     _profile = FocusNode();
-  //     FocusScope.of(context).requestFocus(_home);
-  //     FocusScope.of(context).requestFocus(_home);
-  //     setState(() {
-  //       homeColor = Colors.blue;
-  //       searchColor = upComingColor = profileColor = Colors.white;
-  //     });
-  //   }
-  // }
-
   @override
   void dispose() {
     _home!.dispose();
@@ -128,35 +112,6 @@ class _NavRailState extends State<NavRail> {
                 focusNode: _intentController.sideNodes![4],
                 icon: Icons.person_rounded)
           ],
-          // trailing: Container(
-          //   margin:
-          //       EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1
-          //           // top: 200
-          //           ),
-          //   width: 50,
-          //   height: 50,
-          //   decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.circular(40),
-          //       border: Border.all(
-          //         color: Colors.grey,
-          //       )),
-          //   child: IconButton(
-          //     icon: const Icon(
-          //       Icons.person_rounded,
-          //       size: 30,
-          //       color: Colors.white,
-          //     ),
-          //     onPressed: () {
-          //       // widget.callback!(index);
-          //       // Navigator.push(
-          //       //   context,
-          //       //   MaterialPageRoute(
-          //       //     builder: (context) => ProfilePage(),
-          //       //   ),
-          //       // );
-          //     },
-          //   ),
-          // ),
         ),
       ),
     );
