@@ -32,9 +32,7 @@ class MyApp extends StatelessWidget {
       },
       child: GetMaterialApp(
         title: 'Kabbe Movies',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
         // home: const LoginPage(),
         home: MoviesPage(),
         debugShowCheckedModeBanner: false,
