@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
-import 'package:smart_tv/config/intentFiles/right_intent.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
-import 'package:smart_tv/features/profile/screen/profile_page.dart';
-
-import '../../../config/intentFiles/up_intent.dart';
 import '../utilits/text.dart';
 import '../view/Movies.dart';
 
