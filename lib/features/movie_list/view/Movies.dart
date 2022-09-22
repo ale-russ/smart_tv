@@ -120,16 +120,16 @@ class _MoviesPage extends State<MoviesPage> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: null,
-        title: const ModifiedText(
-          text: 'Smart-TV App ',
-          size: 20,
-          color: Colors.amber,
-        ),
-        backgroundColor: Colors.transparent,
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   leading: null,
+      //   // title: const ModifiedText(
+      //   //   text: 'Smart-TV App ',
+      //   //   size: 20,
+      //   //   color: Colors.amber,
+      //   // ),
+      //   backgroundColor: Colors.transparent,
+      // ),
       body: Obx(
         (() {
           List<Widget> pages = [
@@ -146,7 +146,8 @@ class _MoviesPage extends State<MoviesPage> {
             ComingSoon(
               movie: controller.tv,
             ),
-            ProfilePage()
+            ProfilePage(),
+            ProfilePage(),
           ];
           return Shortcuts(
             shortcuts: {
