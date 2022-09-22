@@ -26,8 +26,15 @@ class Movie_card extends StatelessWidget {
     getRandom();
 
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        // Navigator.push(context, MaterialPageRoute(builder: Description(
+        //   bannerurl: "",
+        //   description: "",
+
+        // )));
+      },
       child: Container(
+        margin: const EdgeInsets.all(16),
         height: MediaQuery.of(context).size.height * 0.6,
         width: MediaQuery.of(context).size.width,
         // child: Description(
