@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
+import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:video_player/video_player.dart';
@@ -35,6 +36,8 @@ class _DescriptionState extends State<Description> {
   late VideoPlayerController _videoPlayerController;
 
   final IntentController _intentController = Get.find();
+
+  final MoviesController moviesController = Get.find();
 
   bool? _webviewAvailable;
 
@@ -77,19 +80,25 @@ class _DescriptionState extends State<Description> {
 
   @override
   Widget build(BuildContext context) {
+    if (moviesController.serverMessage.isNotEmpty) {
+      return Container(
+        child: Text("Content Not Found"),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: GetPlatform.isDesktop || GetPlatform.isWeb
-              ? IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              : const SizedBox.shrink()),
+        backgroundColor: Colors.transparent,
+        leading: GetPlatform.isDesktop || GetPlatform.isWeb
+            ? IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            : const SizedBox.shrink(),
+      ),
       backgroundColor: Colors.black,
       body: Shortcuts(
         shortcuts: {

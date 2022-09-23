@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/keys.dart';
@@ -17,31 +19,44 @@ class MoviesController extends GetxController {
 
   var isDataLoading = false.obs;
 
+  String serverMessage = "";
+
   void initState() {
     super.onInit;
     loadmovies();
   }
 
   loadmovies() async {
-    TMDB tmdbWithCustomLogs = TMDB(
-      // ApiKeys(apikey, readaccesstoken),
-      ApiKeys(_commonKeys.apikey!, _commonKeys.readaccesstoken!),
-      logConfig: const ConfigLogger(
-        showLogs: true,
-        showErrorLogs: true,
-      ),
-    );
+    try {
+      TMDB tmdbWithCustomLogs = TMDB(
+        // ApiKeys(apikey, readaccesstoken),
+        ApiKeys(_commonKeys.apikey!, _commonKeys.readaccesstoken!),
+        logConfig: const ConfigLogger(
+          showLogs: true,
+          showErrorLogs: true,
+        ),
+      );
 
-    Map trendingresult = await tmdbWithCustomLogs.v3.trending.getTrending();
-    Map topratedresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
-    Map tvresult = await tmdbWithCustomLogs.v3.search.queryMovies("hulk");
-    // print('tv is $tvresult');
+      Map trendingresult = await tmdbWithCustomLogs.v3.trending.getTrending();
+      Map topratedresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
+      Map tvresult = await tmdbWithCustomLogs.v3.search.queryMovies("hulk");
+      // print('tv is $tvresult');
 
-    trendingmovies = trendingresult['results'];
-    topratedmovies = topratedresult['results'];
-    tv = tvresult['results'];
+      // if (trendingresult.isEmpty ||
+      //     topratedresult.isEmpty ||
+      //     tvresult.isEmpty) {
+      //   serverMessage = "Content not found";
+      // }
 
-    //print("tv is ${trendingmovies.length}");
+      trendingmovies = trendingresult['results'];
+      topratedmovies = topratedresult['results'];
+      tv = tvresult['results'];
+    } on Exception catch (err) {
+      // TODO
+      serverMessage = err.toString();
+      log("Server Message is $serverMessage");
+      print("Server message is $serverMessage");
+    }
   }
 
   Color borderColor = Colors.black;

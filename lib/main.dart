@@ -4,10 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'features/movie_list/view/Movies.dart';
-// import 'package:smart_tv/features/movie_list/view/Movies.dart';
-// import 'package:smart_tv/features/movie_list/view/landingPage.dart';
-// import 'package:smart_tv/features/screen/movieScreen.dart';
-// import 'package:smart_tv/features/upcoming_movies/upcoming_movies.dart';
 
 void main(List<String>? args) {
   debugPrint('args: $args');
@@ -33,8 +29,8 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         title: 'Kabbe Movies',
         theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
-        home: const LoginPage(),
-        // home: MoviesPage(),
+        // home: const LoginPage(),
+        home: MoviesPage(),
         debugShowCheckedModeBanner: false,
       ),
     );
