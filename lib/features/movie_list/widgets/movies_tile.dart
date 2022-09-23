@@ -52,7 +52,7 @@ class MoviesTile extends StatelessWidget {
                   FocusScope.of(context)
                       .requestFocus(_intentController.descNodes![0]);
                   _intentController.desc = true;
-                  _intentController.unFocus();
+                  // _intentController.unFocus();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -60,8 +60,8 @@ class MoviesTile extends StatelessWidget {
                             bannerurl:
                                 "${_commonKeys.movieUrl}${movie![index]['backdrop_path']}",
                             description: movie![index]['overview'],
-                            lauchOn: movie![index]['release_date'],
-                            name: movie![index]['title'],
+                            lauchOn: movie![index]['release_date'] ?? "Loading",
+                            name: movie![index]['title'] ?? "loading",
                             posterurl:
                                 "${_commonKeys.movieUrl}${movie![index]['backdrop_path']}",
                             vote: movie![index]['vote_average'].toString(),
