@@ -61,7 +61,7 @@ class _NavRailState extends State<NavRail> {
         color: Colors.transparent,
       ),
       height: MediaQuery.of(context).size.height,
-      width: 100,
+      width: 120,
       child: SizedBox(
         height: Get.height * 0.9,
         child: NavigationRail(
@@ -72,9 +72,9 @@ class _NavRailState extends State<NavRail> {
           unselectedLabelTextStyle: labelStyle.copyWith(color: unselectedColor),
           selectedIndex: _intentController.navSelectedIndex,
           minWidth: 45,
-          selectedIconTheme: const IconThemeData(color: Colors.amber, size: 45),
+          selectedIconTheme: const IconThemeData(color: Colors.amber, size: 35),
           unselectedIconTheme:
-              const IconThemeData(color: Colors.white, size: 30),
+              const IconThemeData(color: Colors.white, size: 25),
           onDestinationSelected: (int index) {
             _intentController.clickedIndex = index;
             widget.callback!(index);
@@ -84,23 +84,23 @@ class _NavRailState extends State<NavRail> {
                 EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.1
                     // bottom: 200
                     ),
-            child: Text(
+            child: const Text(
               "Kabbee",
-              style: TextStyle(color: const Color(0XFFFFA500), fontSize: 24),
+              style: TextStyle(color: Color(0XFFFFA500), fontSize: 24),
             ),
           ),
           destinations: [
             NavRailDes(
               label: "Home",
               focusNode: _intentController.sideNodes![0],
-              icon: Icons.home_rounded,
+              icon: Icons.home_outlined,
             ),
             NavRailDes(
                 label: "Search",
                 focusNode: _intentController.sideNodes![1],
                 icon: Icons.search),
             NavRailDes(
-                label: "Upcomming",
+                label: "Coming soon",
                 focusNode: _intentController.sideNodes![2],
                 icon: Icons.movie),
             NavRailDes(
@@ -120,149 +120,31 @@ class _NavRailState extends State<NavRail> {
   NavigationRailDestination NavRailDes(
       {String? label, FocusNode? focusNode, IconData? icon, int? index}) {
     return NavigationRailDestination(
-      icon: Focus(
-        focusNode: focusNode,
-        child: Container(
-          width: 82,
-          decoration: focusNode!.hasFocus
-              ? BoxDecoration(
-                  color: Color(0XFFFFA500).withOpacity(0.1),
-                  border: Border(
-                      right: BorderSide(width: 2, color: Color(0XFFFFA500))))
-              : null,
-          child: Icon(
-            icon,
-            color: //homeColor
-                focusNode.hasFocus ? Colors.amber : Colors.grey,
-            //size: 30,
+        icon: Focus(
+          focusNode: focusNode,
+          child: Container(
+            width: 82,
+            decoration: focusNode!.hasFocus
+                ? BoxDecoration(
+                    color: const Color(0XFFFFA500).withOpacity(0.1),
+                    border: const Border(
+                      right: BorderSide(
+                        width: 2,
+                        color: Color(0XFFFFA500),
+                      ),
+                    ),
+                  )
+                : null,
+            child: Icon(
+              icon,
+              color: //homeColor
+                  focusNode.hasFocus ? Colors.amber : Colors.grey,
+              //size: 30,
+            ),
           ),
         ),
-      ),
-      label: ModifiedText(
-        text: label!,
-        color: const Color(0XFFFFA500),
-        size: 15,
-      ),
-    );
+        label: Text(
+          label!,
+        ));
   }
 }
-// NavigationRailDestination(
-//                   icon: Focus(
-//                     focusNode: _intentController.sideNodes![0],
-//                     child: Container(
-//                       width: 82,
-//                       decoration: _intentController.sideNodes![0].hasFocus
-//                           ? BoxDecoration(
-//                               color: Color(0XFFFFA500).withOpacity(0.1),
-//                               border: Border(
-//                                   right: BorderSide(
-//                                       width: 2, color: Color(0XFFFFA500))))
-//                           : null,
-//                       child: Icon(
-//                         Icons.home_rounded,
-//                         color: //homeColor
-//                             _intentController.sideNodes![0].hasFocus
-//                                 ? Colors.amber
-//                                 : Colors.grey,
-//                         //size: 30,
-//                       ),
-//                     ),
-//                   ),
-//                   label: const ModifiedText(
-//                       text: 'Home', color: Color(0XFFFFA500), size: 15)),
-//               NavigationRailDestination(
-//                 icon: Focus(
-//                   focusNode: _intentController.sideNodes![1],
-//                   child: Container(
-//                     width: 82,
-//                     decoration: _intentController.sideNodes![1].hasFocus
-//                         ? BoxDecoration(
-//                             color: Color(0XFFFFA500).withOpacity(0.1),
-//                             border: Border(
-//                                 right: BorderSide(
-//                                     width: 2, color: Color(0XFFFFA500))))
-//                         : null,
-//                     child: Icon(
-//                       Icons.search_rounded,
-//                       color: //searchColor
-//                           _intentController.sideNodes![1].hasFocus
-//                               ? Colors.amber
-//                               : Colors.grey,
-//                     ),
-//                   ),
-//                 ),
-//                 label: const ModifiedText(
-//                     text: 'Search', color: Color(0XFFFFA500), size: 15),
-//               ),
-//               NavigationRailDestination(
-//                 icon: Focus(
-//                   focusNode: _intentController.sideNodes![2],
-//                   child: Container(
-//                     width: 82,
-//                     decoration: _intentController.sideNodes![2].hasFocus
-//                         ? BoxDecoration(
-//                             color: Color(0XFFFFA500).withOpacity(0.1),
-//                             border: Border(
-//                                 right: BorderSide(
-//                                     width: 2, color: Color(0XFFFFA500))))
-//                         : null,
-//                     child: Icon(
-//                       Icons.movie,
-//                       color: _intentController.sideNodes![2].hasFocus
-//                           ? Colors.amber
-//                           : Colors.grey,
-//                     ),
-//                   ),
-//                 ),
-//                 label: const ModifiedText(
-//                     text: 'Upcomming', color: Color(0XFFFFA500), size: 15),
-//               ),
-//               NavigationRailDestination(
-//                 icon: Focus(
-//                   focusNode: _intentController.sideNodes![3],
-//                   child: Container(
-//                     width: 82,
-//                     decoration: _intentController.sideNodes![3].hasFocus
-//                         ? BoxDecoration(
-//                             color: Color(0XFFFFA500).withOpacity(0.1),
-//                             border: Border(
-//                                 right: BorderSide(
-//                                     width: 2, color: Color(0XFFFFA500))))
-//                         : null,
-//                     child: Icon(
-//                       Icons.favorite_border,
-//                       color: _intentController.sideNodes![3].hasFocus
-//                           ? Colors.amber
-//                           : Colors.grey,
-//                     ),
-//                   ),
-//                 ),
-//                 label: const ModifiedText(
-//                     text: 'Favorites', color: Color(0XFFFFA500), size: 15),
-//               ),
-//               NavigationRailDestination(
-//                 icon: Focus(
-//                     focusNode: _intentController.sideNodes![4],
-//                     child: Container(
-//                       width: 82,
-//                       decoration: _intentController.sideNodes![4].hasFocus
-//                           ? BoxDecoration(
-//                               color: Color(0XFFFFA500).withOpacity(0.1),
-//                               border: Border(
-//                                   right: BorderSide(
-//                                       width: 2, color: Color(0XFFFFA500))))
-//                           : null,
-//                       child: Icon(
-//                         Icons.person,
-//                         color: _intentController.sideNodes![4].hasFocus
-//                             ? Colors.amber
-//                             : Colors.grey,
-//                       ),
-//                     )),
-//                 label: const ModifiedText(
-//                   text: 'Profile',
-//                   color: Color(0XFFFFA500),
-//                   size: 15,
-//                 ),
-//               ),
-//             ],

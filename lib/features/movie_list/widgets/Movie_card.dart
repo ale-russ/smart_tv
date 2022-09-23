@@ -85,7 +85,7 @@ class Movie_card extends StatelessWidget {
                   Text(
                     "Play",
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 16,
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
                     ),
@@ -114,7 +114,7 @@ class Movie_card extends StatelessWidget {
                   Text(
                     "Watch Trailer",
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

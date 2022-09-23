@@ -20,7 +20,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  MoviesController Mcontroller = Get.find();
+  // MoviesController Mcontroller = Get.find();
   final IntentController _intentController = Get.find();
 
   final TmdbController _tmdbController = Get.put(TmdbController());
@@ -38,7 +38,7 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     super.initState();
     _intentController.trend = false;
-    //_intentController.side = false;
+
     _intentController.top = false;
     _intentController.tvShow = false;
 
@@ -53,8 +53,8 @@ class _SearchPageState extends State<SearchPage> {
     //   setState(() {});
     // }
     if (_intentController.searchNodes!.isEmpty &&
-        Mcontroller.localSearch.isNotEmpty) {
-      for (var i = 0; i < Mcontroller.localSearch.length; i++) {
+        mController.localSearch.isNotEmpty) {
+      for (var i = 0; i < mController.localSearch.length; i++) {
         _intentController.searchNodes!.add(FocusNode());
       }
     }
@@ -64,18 +64,12 @@ class _SearchPageState extends State<SearchPage> {
         color: Colors.black38,
         padding: const EdgeInsets.all(10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          // SearchBar(
-          //   controller: controller,
-          //   mController: mController,
-          // ),
           Center(
             child: Container(
                 width: MediaQuery.of(context).size.width * 0.5,
                 height: MediaQuery.of(context).size.height * 0.06,
                 color: Colors.white,
-                // decoration: BoxDecoration(),
                 child: TextField(
-                  //autofocus: true,
                   focusNode: _intentController.searchNode,
                   controller: controller,
                   decoration: const InputDecoration(
@@ -89,20 +83,19 @@ class _SearchPageState extends State<SearchPage> {
 
                     if (searchResult['results'] != null) {
                       print(searchResult['results']);
-                      // List temp = [];
 
                       searchResults = searchResult['results'];
                       mController.localSearch.value = searchResults!;
-                      if (mController.localSearch.value.length > 0) {
+                      if (mController.localSearch.isNotEmpty) {
                         for (var i = 0;
-                            i < mController.localSearch.value.length;
+                            i < mController.localSearch.length;
                             i++) {
-                          _intentController.searchNodes!.add(new FocusNode());
+                          _intentController.searchNodes!.add(FocusNode());
                         }
                       }
                     }
                     if (controller.text == "") {
-                      mController.localSearch.value.clear;
+                      mController.localSearch.clear;
                       print("help");
                     }
                     setState(() {});

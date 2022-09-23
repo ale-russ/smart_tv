@@ -4,6 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'features/movie_list/view/Movies.dart';
+// import 'package:smart_tv/features/movie_list/view/Movies.dart';
+// import 'package:smart_tv/features/movie_list/view/landingPage.dart';
+// import 'package:smart_tv/features/screen/movieScreen.dart';
+// import 'package:smart_tv/features/upcoming_movies/upcoming_movies.dart';
 
 void main(List<String>? args) {
   debugPrint('args: $args');
@@ -17,23 +21,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Kabbe Movies',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Shortcuts(
+      shortcuts: {
+        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowDown): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowRight): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowUp): const ActivateIntent(),
+        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
+      },
+      child: GetMaterialApp(
+        title: 'Kabbe Movies',
+        theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
+        // home: const LoginPage(),
+        home: MoviesPage(),
+        debugShowCheckedModeBanner: false,
       ),
-      home: Shortcuts(
-          shortcuts: {
-            LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-            LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-            LogicalKeySet(LogicalKeyboardKey.arrowDown): const ActivateIntent(),
-            LogicalKeySet(LogicalKeyboardKey.arrowRight):
-                const ActivateIntent(),
-            LogicalKeySet(LogicalKeyboardKey.arrowUp): const ActivateIntent(),
-            // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
-          }, //child: const LoginPage()),
-          child: MoviesPage()),
-      debugShowCheckedModeBanner: false,
     );
   }
 }

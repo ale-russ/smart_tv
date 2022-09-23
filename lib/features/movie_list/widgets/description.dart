@@ -7,11 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
-import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:video_player/video_player.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+
 
 import '../../../config/intentFiles/button_intents.dart';
 
@@ -39,18 +38,12 @@ class _DescriptionState extends State<Description> {
 
   final MoviesController moviesController = Get.find();
 
-  bool? _webviewAvailable;
-
-  WebViewController? _webViewController;
-  //String filePathe = 'assets/playvideo.html';
   MoviesController controller = Get.find();
 
   @override
   void initState() {
     super.initState();
-    WebviewWindow.isWebviewAvailable().then((value) => setState(() {
-          _webviewAvailable = value;
-        }));
+
     _videoPlayerController = VideoPlayerController.network(
         "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4")
       ..initialize().then((_) => setState(() {}));
@@ -83,7 +76,7 @@ class _DescriptionState extends State<Description> {
   Widget build(BuildContext context) {
     if (moviesController.serverMessage.isNotEmpty) {
       return Container(
-        child: Text("Content Not Found"),
+        child: const Text("Content Not Found"),
       );
     }
     return Scaffold(
@@ -112,13 +105,13 @@ class _DescriptionState extends State<Description> {
         child: Actions(
           actions: <Type, Action<Intent>>{
             DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                onInvoke: (Intent) => _changeNodeFocus(context, "Down")),
+                onInvoke: (intent) => _changeNodeFocus(context, "Down")),
             UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                onInvoke: (Intent) => _changeNodeFocus(context, "Up")),
+                onInvoke: (inteent) => _changeNodeFocus(context, "Up")),
             RightbuttonIntent: CallbackAction<RightbuttonIntent>(
-                onInvoke: (Intent) => _changeNodeFocus(context, "Right")),
+                onInvoke: (intent) => _changeNodeFocus(context, "Right")),
             LeftbuttonIntent: CallbackAction<LeftbuttonIntent>(
-                onInvoke: (Intent) => _changeNodeFocus(context, "Left")),
+                onInvoke: (intent) => _changeNodeFocus(context, "Left")),
           },
           child: ListView(
             controller: _intentController.descPageScrollController,
@@ -226,74 +219,4 @@ class _DescriptionState extends State<Description> {
       ),
     );
   }
-  // Future<String> _getWebViewPath() async {
-
 }
-
-//   _loadHtmlFromAssets() async {
-//     // String fileHtml = await rootBundle.loadString(filePathe);
-//     // _webViewController!.loadUrl(Uri.dataFromString(fileHtml,
-//     //         mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
-//     //     .toString());
-//     final document = await getApplicationDocumentsDirectory();
-//     return p.join(
-//       document.path,
-//       "desktop_webview_window",
-//     );
-//   }
-// }
-
-// class HtmlPlayVideo extends StatefulWidget {
-//   const HtmlPlayVideo({Key? key}) : super(key: key);
-
-//   @override
-//   State<HtmlPlayVideo> createState() => _HtmlPlayVideoState();
-// }
-
-// class _HtmlPlayVideoState extends State<HtmlPlayVideo> {
-//   InAppWebViewController? controller;
-//   @override
-//   Widget build(BuildContext context) {
-//     return WillPopScope(
-//       onWillPop: () async {
-//         if (await controller!.canGoBack()) {
-//           return false;
-//         }
-//         return true;
-//       },
-//       child: Scaffold(
-//         body: Container(
-//           child: InAppWebView(
-//             initialUrlRequest: URLRequest(
-//                 url: Uri.parse("http://localhost:3030/assets/playvideo.html")),
-//             onWebViewCreated: (InAppWebViewController controller) {
-//               var webView = controller;
-//             },
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// const String playVideo = """
-// <!DOCTYPE html>
-// <html>
-//   <head>
-//     <base hre="" />
-//     <meta charset="UTF-8" />
-//     <meta conten="IE-Edge" http-equiv="X-UA-Compatible" />
-//     <meta name="description" content="Trying Vdieo with WebView" />
-//     <meta name="apple-mobile-web-app-capable" content="yes" />
-//     <title>Let's play</title>
-//   </head>
-//   <body>
-//     <video with="320" height="240" controls>
-//       <source
-//         src="https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"
-//         type="video/mp4"
-//       />
-//     </video>
-//   </body>
-// </html>
-// """
