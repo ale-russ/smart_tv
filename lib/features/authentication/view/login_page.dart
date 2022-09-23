@@ -6,6 +6,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/profile/controllers/user_controller.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
 // import '../../../config/intentFiles/up_intent.dart';
@@ -25,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   FocusNode? _buttonNode;
   FocusNode? _imageNode;
   LoginController loginController = Get.put(LoginController());
+  UserController userController = Get.put(UserController());
   GlobalKey<FormState>? formKey = GlobalKey<FormState>();
   bool keyboardV = false;
 
@@ -74,7 +76,11 @@ class _LoginPageState extends State<LoginPage> {
       ),
       onPressed: () {
         formKey!.currentState!.validate()
-            ? Get.to(() => MoviesPage()) //LandingPage())
+            ? userController.authenticateUser(
+                    loginController.emailController.text,
+                    loginController.passwordController.text)
+                ? Get.to(() => MoviesPage())
+                : userController.errorMesseg //LandingPage())
             : "Error Please";
       },
       child: const Center(

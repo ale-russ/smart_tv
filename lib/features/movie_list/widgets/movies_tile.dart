@@ -6,9 +6,7 @@ import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:smart_tv/features/movie_list/widgets/description.dart';
 
-// final String controller.movieUrl = "https://image.tmdb.org/t/p/w500";
-
-class MoviesTile extends StatelessWidget {
+class MoviesTile extends StatefulWidget {
   MoviesTile({
     Key? key,
     required this.title,
@@ -24,10 +22,17 @@ class MoviesTile extends StatelessWidget {
   final Color borderColor;
   final ScrollController scrollController;
 
+  @override
+  State<MoviesTile> createState() => _MoviesTileState();
+}
+
+class _MoviesTileState extends State<MoviesTile> {
   Color textColor = Colors.white;
 
   MoviesController controller = Get.put(MoviesController());
+
   final IntentController _intentController = Get.find();
+
   final CommonKeys _commonKeys = Get.find();
 
   @override
@@ -36,15 +41,15 @@ class MoviesTile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ModifiedText(
-          text: title,
+          text: widget.title,
           size: 18,
           color: textColor,
         ),
         SizedBox(
           height: 200,
           child: ListView.builder(
-            controller: scrollController,
-            itemCount: movie!.length,
+            controller: widget.scrollController,
+            itemCount: widget.movie!.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return InkWell(
@@ -52,19 +57,20 @@ class MoviesTile extends StatelessWidget {
                   FocusScope.of(context)
                       .requestFocus(_intentController.descNodes![0]);
                   _intentController.desc = true;
-                  _intentController.unFocus();
+                  // _intentController.unFocus();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: ((context) => Description(
                             bannerurl:
-                                "${_commonKeys.movieUrl}${movie![index]['backdrop_path']}",
-                            description: movie![index]['overview'],
-                            lauchOn: movie![index]['release_date'],
-                            name: movie![index]['title'],
+                                "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
+                            description: widget.movie![index]['overview'],
+                            lauchOn: widget.movie![index]['release_date'] ?? "",
+                            name: widget.movie![index]['title'] ?? "",
                             posterurl:
-                                "${_commonKeys.movieUrl}${movie![index]['backdrop_path']}",
-                            vote: movie![index]['vote_average'].toString(),
+                                "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
+                            vote:
+                                widget.movie![index]['vote_average'].toString(),
                           )),
                     ),
                   );
@@ -76,18 +82,18 @@ class MoviesTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Focus(
-                        focusNode: nodes![index],
+                        focusNode: widget.nodes![index],
                         child: Container(
                           width: 250,
                           height: 140,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            border: nodes![index].hasFocus
+                            border: widget.nodes![index].hasFocus
                                 ? Border.all(color: Colors.amber)
-                                : Border.all(color: borderColor),
+                                : Border.all(color: widget.borderColor),
                             image: DecorationImage(
                               image: NetworkImage(
-                                "${_commonKeys.movieUrl}${movie![index]['poster_path']}",
+                                "${_commonKeys.movieUrl}${widget.movie![index]['poster_path']}",
                               ),
                               fit: BoxFit.fill,
                             ),
@@ -96,7 +102,7 @@ class MoviesTile extends StatelessWidget {
                       ),
                       SizedBox(
                         child: ModifiedText(
-                          text: movie![index]['title'] ?? 'Loading',
+                          text: widget.movie![index]['title'] ?? 'Loading',
                           color: Colors.white,
                           size: 13,
                         ),
@@ -171,9 +177,9 @@ class _ComingSoonState extends State<ComingSoon> {
                       builder: ((context) => Description(
                             bannerurl:
                                 "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
-                            description: widget.movie![index]['overview'],
-                            lauchOn: widget.movie![index]['release_date'],
-                            name: widget.movie![index]['title'],
+                            description: widget.movie![index]['overview'] ?? "",
+                            lauchOn: widget.movie![index]['release_date'] ?? "",
+                            name: widget.movie![index]['title'] ?? "",
                             posterurl:
                                 "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
                             vote:

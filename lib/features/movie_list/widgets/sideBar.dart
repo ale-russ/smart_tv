@@ -61,7 +61,7 @@ class _NavRailState extends State<NavRail> {
         color: Colors.transparent,
       ),
       height: MediaQuery.of(context).size.height,
-      width: 100,
+      width: 120,
       child: SizedBox(
         height: Get.height * 0.9,
         child: NavigationRail(
@@ -72,9 +72,9 @@ class _NavRailState extends State<NavRail> {
           unselectedLabelTextStyle: labelStyle.copyWith(color: unselectedColor),
           selectedIndex: _intentController.navSelectedIndex,
           minWidth: 45,
-          selectedIconTheme: const IconThemeData(color: Colors.amber, size: 45),
+          selectedIconTheme: const IconThemeData(color: Colors.amber, size: 35),
           unselectedIconTheme:
-              const IconThemeData(color: Colors.white, size: 30),
+              const IconThemeData(color: Colors.white, size: 25),
           onDestinationSelected: (int index) {
             _intentController.clickedIndex = index;
             widget.callback!(index);
@@ -86,21 +86,21 @@ class _NavRailState extends State<NavRail> {
                     ),
             child: const Text(
               "Kabbee",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Color(0XFFFFA500), fontSize: 24),
             ),
           ),
           destinations: [
             NavRailDes(
               label: "Home",
               focusNode: _intentController.sideNodes![0],
-              icon: Icons.home_rounded,
+              icon: Icons.home_outlined,
             ),
             NavRailDes(
                 label: "Search",
                 focusNode: _intentController.sideNodes![1],
                 icon: Icons.search),
             NavRailDes(
-                label: "Upcomming",
+                label: "Coming soon",
                 focusNode: _intentController.sideNodes![2],
                 icon: Icons.movie),
             NavRailDes(
@@ -120,18 +120,31 @@ class _NavRailState extends State<NavRail> {
   NavigationRailDestination NavRailDes(
       {String? label, FocusNode? focusNode, IconData? icon, int? index}) {
     return NavigationRailDestination(
-      icon: Focus(
-        focusNode: focusNode,
-        child: Icon(
-          icon,
-          color: focusNode!.hasFocus ? Colors.amber : Colors.grey,
+        icon: Focus(
+          focusNode: focusNode,
+          child: Container(
+            width: 82,
+            decoration: focusNode!.hasFocus
+                ? BoxDecoration(
+                    color: const Color(0XFFFFA500).withOpacity(0.1),
+                    border: const Border(
+                      right: BorderSide(
+                        width: 2,
+                        color: Color(0XFFFFA500),
+                      ),
+                    ),
+                  )
+                : null,
+            child: Icon(
+              icon,
+              color: //homeColor
+                  focusNode.hasFocus ? Colors.amber : Colors.grey,
+              //size: 30,
+            ),
+          ),
         ),
-      ),
-      label: ModifiedText(
-        text: label!,
-        color: Colors.white,
-        size: 15,
-      ),
-    );
+        label: Text(
+          label!,
+        ));
   }
 }

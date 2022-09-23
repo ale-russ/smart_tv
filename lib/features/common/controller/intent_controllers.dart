@@ -36,6 +36,7 @@ class IntentController extends GetxController {
   int descIndex = 0;
   int profileIndex = 0;
   int favIndex = 0;
+  int searchIndex = 0;
   int navSelectedIndex = 0;
   int clickedIndex = 0;
   int trendingIndex = 0;
@@ -50,49 +51,50 @@ class IntentController extends GetxController {
   }
 
   DownNavActions(BuildContext context) {
-    if (side == true) {
+    print("down");
+    if (side == true && desc == false) {
       if (navSelectedIndex < 4) {
         print("inside teh change focus down ${navSelectedIndex}");
         FocusScope.of(context).requestFocus(sideNodes![navSelectedIndex + 1]);
         navSelectedIndex++;
       }
-    } else if (trend == true) {
+    } else if (trend == true && desc == false) {
       topRatedScrollController.animateTo(0,
           duration: Duration(milliseconds: 800), curve: Curves.ease);
       FocusScope.of(context).requestFocus(topRatedNodes![0]);
       //print("top");
-      homePageScrollController.animateTo(homePageScrollController.offset + 180,
+      homePageScrollController.animateTo(homePageScrollController.offset + 220,
           duration: Duration(milliseconds: 800), curve: Curves.ease);
       //trendingScrollController.jumpTo(5);
       trend = false;
       top = true;
       trendingIndex = 0;
-    } else if (top == true) {
+    } else if (top == true && desc == false) {
       FocusScope.of(context).requestFocus(tvShowsNodes![0]);
       tvShowScrollController.animateTo(0,
-          duration: Duration(microseconds: 50), curve: Curves.ease);
-      homePageScrollController.animateTo(homePageScrollController.offset + 180,
-          duration: Duration(microseconds: 50), curve: Curves.ease);
+          duration: Duration(milliseconds: 800), curve: Curves.ease);
+      homePageScrollController.animateTo(homePageScrollController.offset + 250,
+          duration: Duration(milliseconds: 800), curve: Curves.ease);
       top = false;
       tvShow = true;
       topIndex = 0;
-    } else if (searchField == true) {
+    } else if (searchField == true && desc == false) {
       FocusScope.of(context).requestFocus(searchNodes![0]);
       searchField = false;
       searchResult = true;
-    } else if (coming == true) {
+    } else if (coming == true && desc == false) {
       if (comingIndex + 3 < comingNodes!.length) {
         FocusScope.of(context).requestFocus(comingNodes![comingIndex + 3]);
         comingIndex = comingIndex + 3;
         comingPageScrollController.animateTo(
-            comingPageScrollController.offset + 200,
-            duration: Duration(microseconds: 50),
+            comingPageScrollController.offset + 250,
+            duration: Duration(milliseconds: 800),
             curve: Curves.ease);
       } else {
         FocusScope.of(context)
             .requestFocus(comingNodes![comingNodes!.length - 1]);
       }
-    } else if (profile == true) {
+    } else if (profile == true && desc == false) {
       print("inside profile ");
       if (profileIndex < profileNodes!.length - 1) {
         FocusScope.of(context).requestFocus(profileNodes![profileIndex + 1]);
@@ -104,50 +106,50 @@ class IntentController extends GetxController {
         descIndex++;
         descPageScrollController.animateTo(
             descPageScrollController.offset + 150,
-            duration: Duration(milliseconds: 500),
+            duration: Duration(milliseconds: 800),
             curve: Curves.ease);
       } else
         print("I know hwy is is coming here ");
     }
-    print("down");
   }
 
   UpNavActions(BuildContext context) {
-    if (side == true) {
+    print("UP");
+    if (side == true && desc == false) {
       if (navSelectedIndex > -1) {
         print("inside teh change focus down ${navSelectedIndex}");
         FocusScope.of(context).requestFocus(sideNodes![navSelectedIndex - 1]);
         navSelectedIndex--;
       }
-    } else if (top == true) {
+    } else if (top == true && desc == false) {
       FocusScope.of(context).requestFocus(trendingNodes![0]);
       trendingScrollController.animateTo(0,
-          duration: const Duration(microseconds: 50), curve: Curves.ease);
-      homePageScrollController.animateTo(homePageScrollController.offset - 180,
-          duration: const Duration(microseconds: 50), curve: Curves.ease);
+          duration: const Duration(milliseconds: 800), curve: Curves.ease);
+      homePageScrollController.animateTo(homePageScrollController.offset - 220,
+          duration: const Duration(milliseconds: 800), curve: Curves.ease);
       trend = true;
       top = false;
-    } else if (tvShow == true) {
+    } else if (tvShow == true && desc == false) {
       FocusScope.of(context).requestFocus(topRatedNodes![0]);
       topRatedScrollController.animateTo(0,
-          duration: const Duration(microseconds: 50), curve: Curves.ease);
-      homePageScrollController.animateTo(homePageScrollController.offset - 180,
-          duration: const Duration(microseconds: 50), curve: Curves.ease);
+          duration: const Duration(milliseconds: 800), curve: Curves.ease);
+      homePageScrollController.animateTo(homePageScrollController.offset - 220,
+          duration: const Duration(milliseconds: 800), curve: Curves.ease);
       top = true;
       tvShow = false;
-    } else if (coming == true) {
+    } else if (coming == true && desc == false) {
       if (comingIndex - 3 > 0) {
         FocusScope.of(context).requestFocus(comingNodes![comingIndex - 3]);
         comingIndex = comingIndex - 3;
         comingPageScrollController.animateTo(
             comingPageScrollController.offset - 200,
-            duration: const Duration(microseconds: 50),
+            duration: const Duration(milliseconds: 800),
             curve: Curves.ease);
       } else {
         FocusScope.of(context).requestFocus(comingNodes![0]);
         comingIndex = 0;
       }
-    } else if (profile == true) {
+    } else if (profile == true && desc == false) {
       if (profileIndex > 0) {
         FocusScope.of(context).requestFocus(profileNodes![profileIndex - 1]);
         profileIndex--;
@@ -160,7 +162,7 @@ class IntentController extends GetxController {
         descIndex--;
         descPageScrollController.animateTo(
             descPageScrollController.offset - 150,
-            duration: Duration(milliseconds: 500),
+            duration: Duration(milliseconds: 800),
             curve: Curves.ease);
       } else
         print("I know hwy is is coming here ");
@@ -168,8 +170,11 @@ class IntentController extends GetxController {
   }
 
   RightNavActions(BuildContext context) {
-    if (side == true) {
+    print("right");
+    if (side == true && desc == false) {
+      print("inside side true ");
       if (clickedIndex == 1) {
+        print("inside clicked");
         FocusScope.of(context).requestFocus(searchNode);
         side = false;
         searchField = true;
@@ -196,51 +201,58 @@ class IntentController extends GetxController {
         side = false;
       }
       navSelectedIndex = 0;
-    } else if (trend == true) {
+    } else if (trend == true && desc == false) {
       if (trendingIndex < _controller.trendingmovies.length - 1) {
         FocusScope.of(context).requestFocus(trendingNodes![trendingIndex + 1]);
         print("trening nodess");
         trendingScrollController.animateTo(
             trendingScrollController.offset + 230,
             curve: Curves.ease,
-            duration: Duration(microseconds: 100));
+            duration: Duration(milliseconds: 800));
         trendingIndex++;
       }
-    } else if (top == true) {
+    } else if (top == true && desc == false) {
       if (topIndex < _controller.topratedmovies.length - 1) {
         FocusScope.of(context).requestFocus(topRatedNodes![topIndex + 1]);
         topRatedScrollController.animateTo(
             topRatedScrollController.offset + 230,
             curve: Curves.ease,
-            duration: Duration(microseconds: 50));
+            duration: Duration(milliseconds: 800));
         topIndex++;
       }
-    } else if (tvShow == true) {
+    } else if (tvShow == true && desc == false) {
       if (tvIndex < _controller.tv.length - 1) {
         tvShowScrollController.animateTo(tvShowScrollController.offset + 230,
-            curve: Curves.ease, duration: Duration(microseconds: 50));
+            curve: Curves.ease, duration: Duration(milliseconds: 800));
         FocusScope.of(context).requestFocus(tvShowsNodes![tvIndex + 1]);
         tvIndex++;
       }
-    } else if (coming == true) {
+    } else if (coming == true && desc == false) {
       print("testing");
       if (comingIndex < _controller.trendingmovies.length - 1) {
         FocusScope.of(context).requestFocus(comingNodes![comingIndex + 1]);
 
         comingIndex++;
       }
-    } else if (fav == true) {
+    } else if (fav == true && desc == false) {
       if (favIndex < _controller.topratedmovies.length - 1) {
         FocusScope.of(context).requestFocus(favNodes![favIndex + 1]);
 
         favIndex++;
+      }
+    } else if (searchResult == true && desc == false) {
+      if (searchIndex < _controller.localSearch.length - 1) {
+        FocusScope.of(context).requestFocus(searchNodes![searchIndex + 1]);
+
+        searchIndex++;
       }
     }
     //print("out of range");
   }
 
   LeftNavActions(BuildContext context) {
-    if (trend == true) {
+    print("left");
+    if (trend == true && desc == false) {
       if (trendingIndex <= 0) {
         FocusScope.of(context).requestFocus(sideNodes![0]);
         side = true;
@@ -250,10 +262,10 @@ class IntentController extends GetxController {
         trendingScrollController.animateTo(
             trendingScrollController.offset - 230,
             curve: Curves.ease,
-            duration: Duration(microseconds: 50));
+            duration: Duration(milliseconds: 800));
         trendingIndex--;
       }
-    } else if (top == true) {
+    } else if (top == true && desc == false) {
       if (topIndex <= 0) {
         FocusScope.of(context).requestFocus(sideNodes![0]);
         side = true;
@@ -264,10 +276,10 @@ class IntentController extends GetxController {
         topRatedScrollController.animateTo(
             trendingScrollController.offset - 230,
             curve: Curves.ease,
-            duration: Duration(microseconds: 50));
+            duration: Duration(milliseconds: 800));
         topIndex--;
       }
-    } else if (tvShow == true) {
+    } else if (tvShow == true && desc == false) {
       if (tvIndex <= 0) {
         FocusScope.of(context).requestFocus(sideNodes![0]);
         side = true;
@@ -275,11 +287,11 @@ class IntentController extends GetxController {
       } else {
         FocusScope.of(context).requestFocus(tvShowsNodes![tvIndex - 1]);
         tvShowScrollController.animateTo(trendingScrollController.offset - 230,
-            curve: Curves.ease, duration: Duration(microseconds: 50));
+            curve: Curves.ease, duration: Duration(milliseconds: 800));
 
         tvIndex--;
       }
-    } else if (coming == true) {
+    } else if (coming == true && desc == false) {
       if (comingIndex % 3 == 0) {
         FocusScope.of(context).requestFocus(sideNodes![0]);
         coming = false;
@@ -290,6 +302,17 @@ class IntentController extends GetxController {
 
           comingIndex--;
         }
+      }
+    } else if (searchResult == true && desc == false) {
+      if (searchIndex > 0) {
+        FocusScope.of(context).requestFocus(searchNodes![searchIndex - 1]);
+
+        searchIndex--;
+      } else {
+        FocusScope.of(context).requestFocus(sideNodes![0]);
+        side = true;
+        searchResult = false;
+        //FocusScope.of(context).requestFocus(searchNodes![searchIndex - 1]);
       }
     } else {
       FocusScope.of(context).requestFocus(sideNodes![0]);

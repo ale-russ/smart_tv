@@ -41,14 +41,22 @@ class _TrendingMoviesState extends State<TrendingMovies> {
 
   @override
   void initState() {
+    // if (mounted) {
     if (_intentController.trendingNodes!.isEmpty) {
       for (var i = 0; i < controller.trendingmovies.length; i++) {
         var temp = FocusNode();
         _intentController.trendingNodes!.add(temp);
       }
+      // }
     }
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.focusNode;
+    super.dispose();
   }
 
   @override

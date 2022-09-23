@@ -93,6 +93,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/
+    - assets/icons/
     #- assets/playvideo.html
     # - images/a_dot_ham.jpeg
 

@@ -1,7 +1,7 @@
 {
     "users":[
         {"d":1,"email":"alem@gmail.com","firt_name":"Alem", "last_name":"Russom", "sex":"Male","country":"Eritrea"},
-        {"d":2,"email":"hanie@gmail.com","firt_name":"Mohammed", "last_name":"Gemal", "sex":"Male","country":"Ethiopia"},
+        {"d":2,"email":"hamie@gmail.com","firt_name":"Mohammed", "last_name":"Gemal", "sex":"Male","country":"Ethiopia"},
         {"d":3,"email":"yoel@gmail.com","firt_name":"Yoel", "last_name":"Fsehastion", "sex":"Male","country":"Sudan"},
         {"d":4,"email":"kidane@gmail.com","firt_name":"Kidane", "last_name":"Gerezghier", "sex":"Male","country":"Ethiopia"},
         {"d":5,"email":"ruth@gmail.com","firt_name":"Ruth", "last_name":"Asmelash", "sex":"Female","country":"Ethiopia"},
