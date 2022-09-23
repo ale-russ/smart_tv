@@ -57,7 +57,7 @@ class _MoviesTileState extends State<MoviesTile> {
                   FocusScope.of(context)
                       .requestFocus(_intentController.descNodes![0]);
                   _intentController.desc = true;
-                  _intentController.unFocus();
+                  // _intentController.unFocus();
                   Navigator.push(
                     context,
                     MaterialPageRoute(

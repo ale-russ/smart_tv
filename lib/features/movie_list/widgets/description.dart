@@ -60,6 +60,7 @@ class _DescriptionState extends State<Description> {
   void dispose() {
     super.dispose();
     _videoPlayerController.dispose();
+    _intentController.desc = false;
   }
 
   _changeNodeFocus(BuildContext build, String direction) {

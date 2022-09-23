@@ -84,9 +84,9 @@ class _NavRailState extends State<NavRail> {
                 EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.1
                     // bottom: 200
                     ),
-            child: const Text(
+            child: Text(
               "Kabbee",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: const Color(0XFFFFA500), fontSize: 24),
             ),
           ),
           destinations: [
@@ -122,16 +122,147 @@ class _NavRailState extends State<NavRail> {
     return NavigationRailDestination(
       icon: Focus(
         focusNode: focusNode,
-        child: Icon(
-          icon,
-          color: focusNode!.hasFocus ? Colors.amber : Colors.grey,
+        child: Container(
+          width: 82,
+          decoration: focusNode!.hasFocus
+              ? BoxDecoration(
+                  color: Color(0XFFFFA500).withOpacity(0.1),
+                  border: Border(
+                      right: BorderSide(width: 2, color: Color(0XFFFFA500))))
+              : null,
+          child: Icon(
+            icon,
+            color: //homeColor
+                focusNode.hasFocus ? Colors.amber : Colors.grey,
+            //size: 30,
+          ),
         ),
       ),
       label: ModifiedText(
         text: label!,
-        color: Colors.white,
+        color: const Color(0XFFFFA500),
         size: 15,
       ),
     );
   }
 }
+// NavigationRailDestination(
+//                   icon: Focus(
+//                     focusNode: _intentController.sideNodes![0],
+//                     child: Container(
+//                       width: 82,
+//                       decoration: _intentController.sideNodes![0].hasFocus
+//                           ? BoxDecoration(
+//                               color: Color(0XFFFFA500).withOpacity(0.1),
+//                               border: Border(
+//                                   right: BorderSide(
+//                                       width: 2, color: Color(0XFFFFA500))))
+//                           : null,
+//                       child: Icon(
+//                         Icons.home_rounded,
+//                         color: //homeColor
+//                             _intentController.sideNodes![0].hasFocus
+//                                 ? Colors.amber
+//                                 : Colors.grey,
+//                         //size: 30,
+//                       ),
+//                     ),
+//                   ),
+//                   label: const ModifiedText(
+//                       text: 'Home', color: Color(0XFFFFA500), size: 15)),
+//               NavigationRailDestination(
+//                 icon: Focus(
+//                   focusNode: _intentController.sideNodes![1],
+//                   child: Container(
+//                     width: 82,
+//                     decoration: _intentController.sideNodes![1].hasFocus
+//                         ? BoxDecoration(
+//                             color: Color(0XFFFFA500).withOpacity(0.1),
+//                             border: Border(
+//                                 right: BorderSide(
+//                                     width: 2, color: Color(0XFFFFA500))))
+//                         : null,
+//                     child: Icon(
+//                       Icons.search_rounded,
+//                       color: //searchColor
+//                           _intentController.sideNodes![1].hasFocus
+//                               ? Colors.amber
+//                               : Colors.grey,
+//                     ),
+//                   ),
+//                 ),
+//                 label: const ModifiedText(
+//                     text: 'Search', color: Color(0XFFFFA500), size: 15),
+//               ),
+//               NavigationRailDestination(
+//                 icon: Focus(
+//                   focusNode: _intentController.sideNodes![2],
+//                   child: Container(
+//                     width: 82,
+//                     decoration: _intentController.sideNodes![2].hasFocus
+//                         ? BoxDecoration(
+//                             color: Color(0XFFFFA500).withOpacity(0.1),
+//                             border: Border(
+//                                 right: BorderSide(
+//                                     width: 2, color: Color(0XFFFFA500))))
+//                         : null,
+//                     child: Icon(
+//                       Icons.movie,
+//                       color: _intentController.sideNodes![2].hasFocus
+//                           ? Colors.amber
+//                           : Colors.grey,
+//                     ),
+//                   ),
+//                 ),
+//                 label: const ModifiedText(
+//                     text: 'Upcomming', color: Color(0XFFFFA500), size: 15),
+//               ),
+//               NavigationRailDestination(
+//                 icon: Focus(
+//                   focusNode: _intentController.sideNodes![3],
+//                   child: Container(
+//                     width: 82,
+//                     decoration: _intentController.sideNodes![3].hasFocus
+//                         ? BoxDecoration(
+//                             color: Color(0XFFFFA500).withOpacity(0.1),
+//                             border: Border(
+//                                 right: BorderSide(
+//                                     width: 2, color: Color(0XFFFFA500))))
+//                         : null,
+//                     child: Icon(
+//                       Icons.favorite_border,
+//                       color: _intentController.sideNodes![3].hasFocus
+//                           ? Colors.amber
+//                           : Colors.grey,
+//                     ),
+//                   ),
+//                 ),
+//                 label: const ModifiedText(
+//                     text: 'Favorites', color: Color(0XFFFFA500), size: 15),
+//               ),
+//               NavigationRailDestination(
+//                 icon: Focus(
+//                     focusNode: _intentController.sideNodes![4],
+//                     child: Container(
+//                       width: 82,
+//                       decoration: _intentController.sideNodes![4].hasFocus
+//                           ? BoxDecoration(
+//                               color: Color(0XFFFFA500).withOpacity(0.1),
+//                               border: Border(
+//                                   right: BorderSide(
+//                                       width: 2, color: Color(0XFFFFA500))))
+//                           : null,
+//                       child: Icon(
+//                         Icons.person,
+//                         color: _intentController.sideNodes![4].hasFocus
+//                             ? Colors.amber
+//                             : Colors.grey,
+//                       ),
+//                     )),
+//                 label: const ModifiedText(
+//                   text: 'Profile',
+//                   color: Color(0XFFFFA500),
+//                   size: 15,
+//                 ),
+//               ),
+//             ],
