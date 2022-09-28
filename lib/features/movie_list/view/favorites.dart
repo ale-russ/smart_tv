@@ -5,11 +5,11 @@ class Favorites extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'My Favorites',
-        style: TextStyle(color: Colors.white),
-      ),
-    );
+    return Center(
+        child: FocusableActionDetector(
+            child: ElevatedButton(
+      onPressed: () => {},
+      child: const Text("testing"),
+    )));
   }
 }

@@ -156,6 +156,7 @@ class _MoviesPage extends State<MoviesPage> {
               LogicalKeySet(LogicalKeyboardKey.arrowLeft): LeftbuttonIntent(),
               LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
               LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
+              //LogicalKeySet(LogicalKeyboardKey.back)
             },
             child: Actions(
               actions: <Type, Action<Intent>>{

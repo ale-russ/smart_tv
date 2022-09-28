@@ -28,7 +28,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     for (var i = 0; i < 6; i++) {
-      _intentController.profileNodes!.add(FocusNode());
+      _intentController.profileNodes!.add(FocusNode(debugLabel: "profile $i"));
+      print(_intentController.profileNodes![i]);
     }
     // _firstNameController.text = _userController.user!.firtName!;
     // _lastNameController.text = _userController.user!.lastName!;
@@ -84,7 +85,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: ProfileTextFields(
                           focusNode: _intentController.profileNodes![1],
                           textController: _firstNameController,
-                          label: "Mohammed" // _userController.user!.firtName,
+                          label: "Mohammed"
+                          // _userController.user!.firtName,
                           ),
                     ),
                     Actions(
@@ -206,6 +208,9 @@ class ProfileTextFields extends StatelessWidget {
           onEditingComplete: () {
             print("Edite complete");
             FocusScope.of(context).nextFocus();
+            print(FocusManager.instance.primaryFocus);
+          },
+          onChanged: (value) {
             print(FocusManager.instance.primaryFocus);
           },
           initialValue: label,
