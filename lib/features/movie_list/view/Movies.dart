@@ -58,7 +58,8 @@ class _MoviesPage extends State<MoviesPage> {
   _setFirstFocus(BuildContext context) {
     if (_controller.sideNodes!.isEmpty) {
       for (var i = 0; i < 5; i++) {
-        _controller.descNodes!.add(FocusNode());
+        _controller.descNodes!.add(FocusNode(debugLabel: "side node ${i}"));
+        print("side node ${_controller.descNodes![i]}");
       }
       for (var i = 0; i < 5; i++) {
         var temp = FocusNode();
