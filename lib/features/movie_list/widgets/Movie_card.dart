@@ -70,7 +70,7 @@ class Movie_card extends StatelessWidget {
             bottom: 30,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xffffa600),
+                primary: const Color(0xffffa600),
                 fixedSize: const Size(180, 40),
               ),
               onPressed: () {},
@@ -99,7 +99,7 @@ class Movie_card extends StatelessWidget {
             bottom: 30,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
+                  primary: Colors.transparent,
                   fixedSize: const Size(180, 40),
                   side: const BorderSide(color: Color(0xffffa600))),
               onPressed: () {},

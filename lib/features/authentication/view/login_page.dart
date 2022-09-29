@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 36, vertical: 18),
-                  width: 500,
+                  width: 450,
                   height: MediaQuery.of(context).size.height * 0.7,
                   child: Form(
                     key: formKey,

@@ -66,9 +66,20 @@ dependencies:
   # side menu
   easy_sidemenu: ^0.3.1
 
+  # custom icon launcher
+  flutter_launcher_icons: "^0.10.0"
+
+  # loading svgs
+  flutter_svg: ^1.1.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/appicon.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -111,10 +122,10 @@ flutter:
   fonts:
     - family: WorkSans
       fonts:
-       - asset: assets/fonts/WorkSans-VariableFont_wght.ttf
-       - asset: assets/fonts/WorkSans-Italic-VariableFont_wght.ttf
+        - asset: assets/fonts/WorkSans-VariableFont_wght.ttf
+        - asset: assets/fonts/WorkSans-Italic-VariableFont_wght.ttf
 
-        # - asset: fonts/Schyler-Regular.ttf
+          # - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
