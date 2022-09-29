@@ -64,13 +64,13 @@ class _LoginPageState extends State<LoginPage> {
       focusNode: _buttonNode,
       style: ElevatedButton.styleFrom(
         primary: const Color(0xffffa600),
-        fixedSize: const Size(100, 35),
+        fixedSize: const Size(130, 25),
         textStyle: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(2),
         ),
         side: BorderSide(color: Theme.of(context).dividerColor),
       ),
@@ -107,6 +107,12 @@ class _LoginPageState extends State<LoginPage> {
               width: double.infinity,
               height: double.infinity,
               decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black54,
+                      blurRadius: 15.0,
+                      offset: Offset(0.0, 0.75))
+                ],
                 image: DecorationImage(
                     image: const AssetImage(
                       "assets/images/auth_bg.jpeg",
@@ -123,22 +129,23 @@ class _LoginPageState extends State<LoginPage> {
                         ? MediaQuery.of(context).size.height * 0.01
                         : MediaQuery.of(context).size.height * 0.1),
                 child: Container(
+                  width: MediaQuery.of(context).size.width * 0.35,
+                  height: MediaQuery.of(context).size.height * 0.80,
                   decoration: BoxDecoration(
                     color: const Color(0xFF1F1F1F),
-                    borderRadius: BorderRadius.circular(8),
+                    //borderRadius: BorderRadius.circular(8),
                     // border: Border.all(
                     //   color: Colors.grey.withOpacity(0.8),
                     // ),
                   ),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 36, vertical: 18),
-                  width: 500,
-                  height: MediaQuery.of(context).size.height * 0.7,
+                      const EdgeInsets.symmetric(horizontal: 36, vertical: 30),
+                  //height: MediaQuery.of(context).size.height * 0.7,
                   child: Form(
                     key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Actions(
                           actions: <Type, Action<Intent>>{
@@ -151,12 +158,14 @@ class _LoginPageState extends State<LoginPage> {
                             child: Container(
                               alignment: Alignment.topLeft,
                               margin: const EdgeInsets.only(bottom: 8),
-                              child: const Text(
+                              child: Text(
                                 'Login',
                                 style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
-                                ),
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.019,
+                                    fontWeight: FontWeight.w600),
                               ),
                             ),
                           ),
@@ -277,50 +286,53 @@ class FormTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => TextFormField(
-        obscureText: isObscure.value,
-        focusNode: _emailNode,
-        controller: controller,
-        style: const TextStyle(fontSize: 16.0, color: Colors.white60),
-        validator: hint == 'Email'
-            ? (email) {
-                if (!EmailValidator.validate(email!)) {
-                  return "Invalide email address ";
-                } else {
-                  return null;
+      () => Container(
+        height: MediaQuery.of(context).size.width * 0.04,
+        child: TextFormField(
+          obscureText: isObscure.value,
+          focusNode: _emailNode,
+          controller: controller,
+          style: const TextStyle(fontSize: 16.0, color: Colors.white60),
+          validator: hint == 'Email'
+              ? (email) {
+                  if (!EmailValidator.validate(email!)) {
+                    return "Invalide email address ";
+                  } else {
+                    return null;
+                  }
                 }
-              }
-            : (password) {
-                if (password!.length < 6 ||
-                    !password.contains(RegExp(r'[0-9]'))) {
-                  return "Password should be numbers with 6 characters";
-                } else {
-                  return null;
-                }
-              },
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
+              : (password) {
+                  if (password!.length < 6 ||
+                      !password.contains(RegExp(r'[0-9]'))) {
+                    return "Password should be numbers with 6 characters";
+                  } else {
+                    return null;
+                  }
+                },
+          decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+                //borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide(color: Colors.grey.withOpacity(0.9))),
+            focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(color: Colors.grey.withOpacity(0.9))),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(
-              color: Color(0xffffa600),
+              borderSide: const BorderSide(
+                color: Color(0xffffa600),
+              ),
             ),
-          ),
-          suffixIcon: IconButton(
-            icon: icon,
-            onPressed: () {
-              isObscure.value = !isObscure.value;
-            },
-          ),
-          filled: true,
-          fillColor: const Color(0xFF2b2b2b).withOpacity(0.9),
-          contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: hint,
-          hintStyle: const TextStyle(color: Colors.white60),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
+            suffixIcon: IconButton(
+              icon: icon,
+              onPressed: () {
+                isObscure.value = !isObscure.value;
+              },
+            ),
+            filled: true,
+            fillColor: const Color(0xFF2b2b2b).withOpacity(0.9),
+            contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            hintText: hint,
+            hintStyle: const TextStyle(color: Colors.white60),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
           ),
         ),
       ),
