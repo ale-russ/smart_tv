@@ -37,8 +37,8 @@ class MyApp extends GetView<GlobalController> {
       child: GetMaterialApp(
         title: 'Kabbe Movies',
         theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
-        home: const LoginPage(),
-        // home: MoviesPage(),
+        // home: const LoginPage(),
+        home: MoviesPage(),
         debugShowCheckedModeBanner: false,
       ),
     );

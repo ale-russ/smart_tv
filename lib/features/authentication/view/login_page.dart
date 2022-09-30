@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/profile/controllers/user_controller.dart';
+import '../../../features/common/theme/themes.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
 // import '../../../config/intentFiles/up_intent.dart';
+import '../../common/theme/text_themes.dart';
 import '../../movie_list/view/Movies.dart';
 import '../controller/login_controller.dart';
 
@@ -63,10 +65,10 @@ class _LoginPageState extends State<LoginPage> {
     final loginButton = ElevatedButton(
       focusNode: _buttonNode,
       style: ElevatedButton.styleFrom(
-        primary: const Color(0xffffa600),
-        fixedSize: const Size(130, 25),
+        primary: PrimaryColorTones.mainColor,
+        fixedSize: const Size(150, 40),
         textStyle: const TextStyle(
-          fontSize: 18,
+          fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
         shape: RoundedRectangleBorder(
@@ -113,6 +115,19 @@ class _LoginPageState extends State<LoginPage> {
                       blurRadius: 15.0,
                       offset: Offset(0.0, 0.75))
                 ],
+                gradient: LinearGradient(
+                  colors: [
+                    Theme.of(context).scaffoldBackgroundColor,
+                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
+                    Colors.black,
+                    Colors.transparent,
+
+                    // Theme.of(context).scaffoldBackgroundColor.withOpacity(1.0)
+                  ],
+                  stops: const [0.1, 0.0, 0.7, 0],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.center,
+                ),
                 image: DecorationImage(
                     image: const AssetImage(
                       "assets/images/auth_bg.jpeg",
@@ -133,10 +148,10 @@ class _LoginPageState extends State<LoginPage> {
                   height: MediaQuery.of(context).size.height * 0.80,
                   decoration: BoxDecoration(
                     color: const Color(0xFF1F1F1F),
-                    //borderRadius: BorderRadius.circular(8),
-                    // border: Border.all(
-                    //   color: Colors.grey.withOpacity(0.8),
-                    // ),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: Colors.grey.withOpacity(0.8),
+                    ),
                   ),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 36, vertical: 30),
@@ -144,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Form(
                     key: formKey,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Actions(
@@ -240,6 +255,33 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 36.0,
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 5),
+                              constraints: const BoxConstraints(
+                                  maxWidth: 18, maxHeight: 18),
+                              child: Checkbox(
+                                value: false,
+                                onChanged: (value) {},
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                                splashRadius: 0.0,
+                                side: BorderSide(color: Colors.white),
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            KabbeeText.subtitle1(
+                              'Remember me',
+                              customStyle: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 36.0,
+                        ),
                         Actions(actions: <Type, Action<Intent>>{
                           UpbuttonIntent: CallbackAction<UpbuttonIntent>(
                               onInvoke: (Intent) => {
@@ -248,7 +290,7 @@ class _LoginPageState extends State<LoginPage> {
                                       keyboardV = true;
                                     }),
                                   })
-                        }, child: loginButton)
+                        }, child: Center(child: loginButton)),
                       ],
                     ),
                   ),
