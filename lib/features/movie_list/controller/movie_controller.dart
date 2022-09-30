@@ -16,6 +16,7 @@ class MoviesController extends GetxController {
   List allVideo = [].obs;
   List searchresult = [].obs;
   RxList localSearch = [].obs;
+  RxInt currentPage = 0.obs;
 
   var isDataLoading = false.obs;
 

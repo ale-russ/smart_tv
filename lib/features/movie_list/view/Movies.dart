@@ -59,26 +59,28 @@ class _MoviesPage extends State<MoviesPage> {
   _setFirstFocus(BuildContext context) {
     if (_controller.sideNodes!.isEmpty) {
       for (var i = 0; i < 5; i++) {
-        _controller.descNodes!.add(FocusNode());
+        _controller.descNodes!.add(FocusNode(debugLabel: "desc node ${i}"));
+        //  print("side node ${_controller.descNodes![i]}");
       }
       for (var i = 0; i < 5; i++) {
-        var temp = FocusNode();
-        _controller.sideNodes!.add(temp);
+        //var temp = FocusNode();
+        _controller.sideNodes!.add(FocusNode(debugLabel: "side node $i"));
       }
       for (var i = 0; i < controller.trendingmovies.length; i++) {
-        print("inside the setfirstfocusff ${controller.trendingmovies.length}");
+        // print("inside the setfirstfocusff ${controller.trendingmovies.length}");
         //var temp1 = FocusNode();
-        var temp = FocusNode();
-        _controller.trendingNodes!.add(temp);
-        _controller.comingNodes!.add(temp);
+        // var temp = FocusNode();
+        _controller.trendingNodes!
+            .add(FocusNode(debugLabel: "trending node $i"));
+        _controller.comingNodes!.add(FocusNode(debugLabel: "coming node $i"));
       }
       for (var i = 0; i < controller.topratedmovies.length; i++) {
         var temp = FocusNode();
-        _controller.topRatedNodes!.add(temp);
+        _controller.topRatedNodes!.add(FocusNode(debugLabel: "top node $i"));
       }
       for (var i = 0; i < controller.tv.length; i++) {
         var temp = FocusNode();
-        _controller.tvShowsNodes!.add(temp);
+        _controller.tvShowsNodes!.add(FocusNode(debugLabel: "Tv node $i"));
       }
       _controller.searchNode = FocusNode();
       FocusScope.of(context).requestFocus(_controller.sideNodes![0]);
@@ -121,16 +123,6 @@ class _MoviesPage extends State<MoviesPage> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   leading: null,
-      //   // title: const ModifiedText(
-      //   //   text: 'Smart-TV App ',
-      //   //   size: 20,
-      //   //   color: Colors.amber,
-      //   // ),
-      //   backgroundColor: Colors.transparent,
-      // ),
       body: Obx(
         (() {
           List<Widget> pages = [
@@ -157,6 +149,8 @@ class _MoviesPage extends State<MoviesPage> {
               LogicalKeySet(LogicalKeyboardKey.arrowLeft): LeftbuttonIntent(),
               LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
               LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
+              LogicalKeySet(LogicalKeyboardKey.goBack): BackButtonIntent()
+              //LogicalKeySet(LogicalKeyboardKey.back)
             },
             child: Actions(
               actions: <Type, Action<Intent>>{

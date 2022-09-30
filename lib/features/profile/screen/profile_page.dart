@@ -32,7 +32,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     for (var i = 0; i < 6; i++) {
-      _intentController.profileNodes!.add(FocusNode());
+      _intentController.profileNodes!.add(FocusNode(debugLabel: "profile $i"));
+      print(_intentController.profileNodes![i]);
     }
     super.initState();
   }

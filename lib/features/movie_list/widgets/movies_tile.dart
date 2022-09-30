@@ -77,16 +77,16 @@ class _MoviesTileState extends State<MoviesTile> {
                   );
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  width: 250,
+                  padding: const EdgeInsets.only(right: 5),
+                  width: 205,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Focus(
                         focusNode: widget.nodes![index],
                         child: Container(
-                          width: 250,
-                          height: 140,
+                          width: 200,
+                          height: 120,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             border: widget.nodes![index].hasFocus
