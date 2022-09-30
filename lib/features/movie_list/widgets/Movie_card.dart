@@ -473,7 +473,7 @@ class MovieInfo extends StatelessWidget {
             height: 20,
           ),
           Container(
-            height: 8,
+            height: 15,
             child: Row(
               children: [
                 Text(
@@ -481,7 +481,7 @@ class MovieInfo extends StatelessWidget {
                       .toString()
                       .substring(0, 4),
                   //"2021 ",
-                  style: const TextStyle(fontSize: 8, color: Colors.white),
+                  style: const TextStyle(fontSize: 14, color: Colors.white),
                 ),
                 const VerticalDivider(
                   color: Colors.white,
@@ -490,7 +490,7 @@ class MovieInfo extends StatelessWidget {
                 ),
                 const Text(
                   "Kabbee ",
-                  style: const TextStyle(fontSize: 8, color: Colors.white),
+                  style: const TextStyle(fontSize: 14, color: Colors.white),
                 ),
                 const VerticalDivider(
                   color: Colors.white,
@@ -500,14 +500,14 @@ class MovieInfo extends StatelessWidget {
                       .toString()
                       .toUpperCase(),
                   //"tigrinia",
-                  style: const TextStyle(fontSize: 8, color: Colors.white),
+                  style: const TextStyle(fontSize: 14, color: Colors.white),
                 ),
                 const VerticalDivider(
                   color: Colors.white,
                 ),
                 const Text(
                   "1 hr 30 min",
-                  style: const TextStyle(fontSize: 8, color: Colors.white),
+                  style: const TextStyle(fontSize: 14, color: Colors.white),
                 )
               ],
             ),
@@ -522,7 +522,7 @@ class MovieInfo extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 4.0),
                   child: Icon(
                     star_rating >= 1 ? Icons.star : Icons.star_border_outlined,
-                    size: 12,
+                    size: 16,
                     color: const Color(0xFFFFA500),
                   ),
                 ),
@@ -530,7 +530,7 @@ class MovieInfo extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 4.0),
                   child: Icon(
                     star_rating >= 2 ? Icons.star : Icons.star_border_outlined,
-                    size: 12,
+                    size: 16,
                     color: const Color(0xFFFFA500),
                   ),
                 ),
@@ -538,7 +538,7 @@ class MovieInfo extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 4.0),
                   child: Icon(
                     star_rating >= 3 ? Icons.star : Icons.star_border_outlined,
-                    size: 12,
+                    size: 16,
                     color: const Color(0xFFFFA500),
                   ),
                 ),
@@ -546,7 +546,7 @@ class MovieInfo extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 4.0),
                   child: Icon(
                     star_rating >= 4 ? Icons.star : Icons.star_border_outlined,
-                    size: 12,
+                    size: 16,
                     color: const Color(0xFFFFA500),
                   ),
                 ),
@@ -554,7 +554,7 @@ class MovieInfo extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 4.0),
                   child: Icon(
                     star_rating >= 5 ? Icons.star : Icons.star_border_outlined,
-                    size: 12,
+                    size: 16,
                     color: const Color(0xFFFFA500),
                   ),
                 ),
