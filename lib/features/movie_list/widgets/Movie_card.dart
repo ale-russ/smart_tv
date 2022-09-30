@@ -31,8 +31,8 @@ class Movie_card extends StatelessWidget {
     getRandom();
     heightSize = MediaQuery.of(context).size.height * 0.8;
     widthSize = MediaQuery.of(context).size.width;
-    print(heightSize);
-    print(controller.topratedmovies[index]);
+    //print(heightSize);
+    //print(controller.topratedmovies[index]);
     return InkWell(
         onTap: () {
           controller.currentPage.value == 1
@@ -218,6 +218,7 @@ class MovieCardWithDescription extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.6,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.6),
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: Colors.grey.withOpacity(0.3)),
               image: DecorationImage(
@@ -231,8 +232,12 @@ class MovieCardWithDescription extends StatelessWidget {
                 ? BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                     child: Container(
-                      decoration:
-                          BoxDecoration(color: Colors.black.withOpacity(0.6)),
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 0),
+                          // border: Border.all(color: Colors.amber),
+                          color: Colors.black.withOpacity(0.6)),
                     ),
                   )
                 : null,
