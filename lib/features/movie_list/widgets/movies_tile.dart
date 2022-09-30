@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/common/controller/keys.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:smart_tv/features/movie_list/widgets/description.dart';
@@ -156,8 +157,20 @@ class _ComingSoonState extends State<ComingSoon> {
       count = 3;
     }
     return Scaffold(
+      backgroundColor: DarkModeColors.backgroundColor,
+      appBar: GetPlatform.isDesktop
+          ? AppBar(
+              backgroundColor: Colors.transparent,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            )
+          : null,
       body: Container(
-        color: Colors.black,
+        color: DarkModeColors.backgroundColor,
         child: GridView.builder(
           controller: _intentController.comingPageScrollController,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

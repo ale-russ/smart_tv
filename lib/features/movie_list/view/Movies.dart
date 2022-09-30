@@ -13,6 +13,7 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:smart_tv/features/movie_list/widgets/Movie_card.dart';
+import 'package:smart_tv/features/movie_list/widgets/library.dart';
 import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
@@ -143,10 +144,10 @@ class _MoviesPage extends State<MoviesPage> {
             ComingSoon(
               movie: controller.trendingmovies,
             ),
-            ComingSoon(
-              movie: controller.tv,
-            ),
-            ProfilePage(),
+            // ComingSoon(
+            //   movie: controller.tv,
+            // ),
+            Library(),
             ProfilePage(),
           ];
           return Shortcuts(

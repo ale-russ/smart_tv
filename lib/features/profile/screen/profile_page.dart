@@ -63,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Container(
             alignment: Alignment.center,
             height: Get.height * 0.9,
-            width: Get.width * 0.6,
+            width: Get.width * 0.7,
             decoration: BoxDecoration(
               color: DarkModeColors.backgroundVariant,
               borderRadius: BorderRadius.circular(8),
@@ -94,7 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           name: "Alem",
                           label: "First Name",
                           widget:
-                              KabbeeIcons.profile(color: Colors.grey, size: 40),
+                              KabbeeIcons.profile(color: Colors.grey, size: 25),
                         )),
                     Actions(
                         actions: <Type, Action<Intent>>{
@@ -115,7 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           name: "Russom",
                           label: "Last Name",
                           widget:
-                              KabbeeIcons.profile(color: Colors.grey, size: 40),
+                              KabbeeIcons.profile(color: Colors.grey, size: 25),
                         )),
                     Actions(
                         actions: <Type, Action<Intent>>{
@@ -136,7 +136,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           name: "Male",
                           label: "Gender",
                           widget:
-                              KabbeeIcons.gender(color: Colors.grey, size: 40),
+                              KabbeeIcons.gender(color: Colors.grey, size: 25),
                         )),
                     Actions(
                         actions: <Type, Action<Intent>>{
@@ -157,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           name: "September 29 2022",
                           label: "Date of Birth",
                           widget:
-                              KabbeeIcons.profile(color: Colors.grey, size: 40),
+                              KabbeeIcons.profile(color: Colors.grey, size: 25),
                         )),
                     Actions(
                         actions: <Type, Action<Intent>>{
@@ -177,11 +177,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: ProfileTile(
                           name: "Ethiopia",
                           label: "Country",
-                          widget: KabbeeIcons.web(color: Colors.grey, size: 40),
+                          widget: KabbeeIcons.web(color: Colors.grey, size: 25),
                         )),
-                    const SizedBox(
-                      height: 4.0,
-                    ),
                     Container(
                       margin: EdgeInsets.only(top: 30),
                       height: 60,
@@ -189,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: TextButton(
                           focusNode: _intentController.profileNodes![5],
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: DarkModeColors.surfaceColor,
+                            primary: DarkModeColors.surfaceColor,
                           ),
                           onPressed: () {},
                           child: const Center(
@@ -233,7 +230,7 @@ class ProfileTextFields extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
       height: height,
-      width: 300,
+      width: 400,
       child: TextFormField(
         textAlignVertical: TextAlignVertical.center,
         onEditingComplete: () {
@@ -282,25 +279,30 @@ class ProfileTile extends StatelessWidget {
     return Center(
       child: Container(
         margin: EdgeInsets.only(
-          top: 10,
+          top: 8,
         ),
         decoration: BoxDecoration(
           color: DarkModeColors.surfaceColor,
           borderRadius: BorderRadius.circular(4),
         ),
         width: 400,
+        height: 50,
         alignment: Alignment.center,
         child: ListTile(
+          dense: true,
           leading: widget,
           subtitle: Container(
-            margin: EdgeInsets.only(top: 5),
+            margin: EdgeInsets.only(bottom: 8, top: 2),
             child: KabbeeText.subtitle1(
               name!,
               customStyle: TextStyle(color: Colors.white),
             ),
           ),
-          title: KabbeeText.subtitle2(label!,
-              customStyle: TextStyle(color: Colors.grey, fontSize: 14)),
+          title: Container(
+            margin: EdgeInsets.only(top: 6),
+            child: KabbeeText.subtitle2(label!,
+                customStyle: TextStyle(color: Colors.grey, fontSize: 12)),
+          ),
         ),
       ),
     );
@@ -314,7 +316,7 @@ class ProfileAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-        bottom: 10,
+        bottom: 8,
       ),
       decoration: BoxDecoration(
           color: DarkModeColors.surfaceColor,
