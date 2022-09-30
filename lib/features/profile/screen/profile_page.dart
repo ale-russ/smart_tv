@@ -40,19 +40,22 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: GetPlatform.isDesktop || GetPlatform.isWeb
-              ? IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              : const SizedBox.shrink()),
-      backgroundColor: Colors.black,
+      // appBar: GetPlatform.isDesktop || GetPlatform.isWeb
+      //     ? AppBar(
+      //         backgroundColor: Colors.transparent,
+      //         leading: IconButton(
+      //           icon: const Icon(
+      //             Icons.arrow_back,
+      //           ),
+      //           onPressed: () {
+      //             Navigator.pop(context);
+      //           },
+      //         ),
+      //       )
+      //     : null,
+
+      // backgroundColor: Colors.black,
+      backgroundColor: DarkModeColors.backgroundColor,
       body: Container(
         alignment: Alignment.center,
         child: Focus(
@@ -60,13 +63,13 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Container(
             alignment: Alignment.center,
             height: Get.height * 0.9,
-            width: Get.width * 0.8,
+            width: Get.width * 0.6,
             decoration: BoxDecoration(
               color: DarkModeColors.backgroundVariant,
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: Colors.white60,
-              ),
+              // border: Border.all(
+              //   color: Colors.white60,
+              // ),
             ),
             child: SingleChildScrollView(
               child: Form(
@@ -314,10 +317,11 @@ class ProfileAvatar extends StatelessWidget {
         bottom: 10,
       ),
       decoration: BoxDecoration(
-        color: DarkModeColors.surfaceColor,
-        borderRadius: BorderRadius.circular(4),
-      ),
+          color: DarkModeColors.surfaceColor,
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: DarkModeColors.borderColor)),
       width: 400,
+      height: 70,
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: Theme.of(context).backgroundColor,
