@@ -6,11 +6,15 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/authentication/widgets/login_tile.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
+import 'package:smart_tv/features/common/theme/icon_themes.dart';
 import 'package:smart_tv/features/profile/controllers/user_controller.dart';
 import '../../../features/common/theme/themes.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
 // import '../../../config/intentFiles/up_intent.dart';
+import '../../app_preference/widgets/widgets/language_selector.dart';
 import '../../common/theme/text_themes.dart';
 import '../../movie_list/view/Movies.dart';
 import '../controller/login_controller.dart';
@@ -31,6 +35,10 @@ class _LoginPageState extends State<LoginPage> {
   UserController userController = Get.put(UserController());
   GlobalKey<FormState>? formKey = GlobalKey<FormState>();
   bool keyboardV = false;
+
+  // LoginController? loginController = Get.put(LoginController());
+
+  String dropdownValue = languages.first;
 
   _setFirstFocus(BuildContext context) {
     if (_imageNode == null) {
@@ -65,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
     final loginButton = ElevatedButton(
       focusNode: _buttonNode,
       style: ElevatedButton.styleFrom(
-        primary: PrimaryColorTones.mainColor,
+        backgroundColor: PrimaryColorTones.mainColor,
         fixedSize: const Size(150, 40),
         textStyle: const TextStyle(
           fontSize: 16,
@@ -77,6 +85,7 @@ class _LoginPageState extends State<LoginPage> {
         side: BorderSide(color: Theme.of(context).dividerColor),
       ),
       onPressed: () {
+        // loginController.loginUser();
         formKey!.currentState!.validate()
             ? userController.authenticateUser(
                     loginController.emailController.text,
@@ -147,15 +156,14 @@ class _LoginPageState extends State<LoginPage> {
                   width: MediaQuery.of(context).size.width * 0.35,
                   height: MediaQuery.of(context).size.height * 0.80,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1F1F1F),
+                    color: DarkModeColors.backgroundVariant,
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: Colors.grey.withOpacity(0.8),
+                      color: DarkModeColors.borderColor.withOpacity(0.1),
                     ),
                   ),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 36, vertical: 30),
-                  //height: MediaQuery.of(context).size.height * 0.7,
                   child: Form(
                     key: formKey,
                     child: Column(
@@ -215,14 +223,15 @@ class _LoginPageState extends State<LoginPage> {
                                       })
                             },
                             child: FormTextField(
-                                emailNode: _emailNode,
-                                obsecure: false,
-                                hint: 'Email',
-                                icon: const Icon(
-                                  Icons.mail,
-                                  color: Colors.white54,
-                                ),
-                                controller: loginController.emailController)),
+                              emailNode: _emailNode,
+                              obscure: false,
+                              hint: 'Email',
+                              icon: const Icon(
+                                Icons.mail,
+                                color: Colors.white54,
+                              ),
+                              controller: loginController.emailController,
+                            )),
                         const SizedBox(height: 24.0),
                         Actions(
                           actions: <Type, Action<Intent>>{
@@ -243,7 +252,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           child: FormTextField(
                             emailNode: _passwordNode,
-                            obsecure: true,
+                            obscure: true,
                             hint: 'Password',
                             icon: const Icon(
                               Icons.lock,
@@ -255,42 +264,30 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 36.0,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(vertical: 5),
-                              constraints: const BoxConstraints(
-                                  maxWidth: 18, maxHeight: 18),
-                              child: Checkbox(
-                                value: false,
-                                onChanged: (value) {},
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                splashRadius: 0.0,
-                                side: BorderSide(color: Colors.white),
-                              ),
-                            ),
-                            const SizedBox(width: 5),
-                            KabbeeText.subtitle1(
-                              'Remember me',
-                              customStyle: TextStyle(color: Colors.white),
-                            ),
-                          ],
-                        ),
+                        KeepMeIn(loginController: loginController),
                         const SizedBox(
                           height: 36.0,
                         ),
-                        Actions(actions: <Type, Action<Intent>>{
-                          UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                              onInvoke: (Intent) => {
-                                    _changeNodeFocus(context, _passwordNode!),
-                                    setState(() {
-                                      keyboardV = true;
-                                    }),
-                                  })
-                        }, child: Center(child: loginButton)),
+                        Actions(
+                          actions: <Type, Action<Intent>>{
+                            UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                                onInvoke: (Intent) => {
+                                      _changeNodeFocus(context, _passwordNode!),
+                                      setState(() {
+                                        keyboardV = true;
+                                      }),
+                                    })
+                          },
+                          child: Center(child: loginButton),
+                        ),
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.only(top: 20),
+                            height: 40,
+                            width: 90,
+                            child: LangaugeSelector(),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -305,79 +302,40 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-class FormTextField extends StatelessWidget {
-  FormTextField({
+class KeepMeIn extends StatelessWidget {
+  const KeepMeIn({
     Key? key,
-    FocusNode? emailNode,
-    required bool obsecure,
-    required this.hint,
-    required this.controller,
-    required this.icon,
-  })  : _emailNode = emailNode,
-        _obsecure = obsecure,
-        super(key: key);
+    required this.loginController,
+  }) : super(key: key);
 
-  final FocusNode? _emailNode;
-  final bool _obsecure;
-  final String? hint;
-  final TextEditingController controller;
+  final LoginController loginController;
 
-  RxBool isObscure = false.obs;
-
-  final Icon icon;
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Container(
-        height: MediaQuery.of(context).size.width * 0.04,
-        child: TextFormField(
-          obscureText: isObscure.value,
-          focusNode: _emailNode,
-          controller: controller,
-          style: const TextStyle(fontSize: 16.0, color: Colors.white60),
-          validator: hint == 'Email'
-              ? (email) {
-                  if (!EmailValidator.validate(email!)) {
-                    return "Invalide email address ";
-                  } else {
-                    return null;
-                  }
-                }
-              : (password) {
-                  if (password!.length < 6 ||
-                      !password.contains(RegExp(r'[0-9]'))) {
-                    return "Password should be numbers with 6 characters";
-                  } else {
-                    return null;
-                  }
-                },
-          decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-                //borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(color: Colors.grey.withOpacity(0.9))),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(
-                color: Color(0xffffa600),
-              ),
-            ),
-            suffixIcon: IconButton(
-              icon: icon,
-              onPressed: () {
-                isObscure.value = !isObscure.value;
-              },
-            ),
-            filled: true,
-            fillColor: const Color(0xFF2b2b2b).withOpacity(0.9),
-            contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            hintText: hint,
-            hintStyle: const TextStyle(color: Colors.white60),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 5),
+          constraints: const BoxConstraints(maxWidth: 18, maxHeight: 18),
+          child: Obx(
+            () => Checkbox(
+              activeColor: PrimaryColorTones.mainColor,
+              value: loginController.isRememberMe.value,
+              onChanged: loginController.setRememberMe,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              splashRadius: 0.0,
+              side: BorderSide(color: Colors.white),
             ),
           ),
         ),
-      ),
+        const SizedBox(width: 5),
+        KabbeeText.subtitle1(
+          'Remember me',
+          customStyle: TextStyle(color: Colors.white),
+        ),
+      ],
     );
   }
 }

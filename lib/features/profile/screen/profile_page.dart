@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/common/theme/colors_utility.dart';
 import 'package:smart_tv/features/common/theme/icon_themes.dart';
@@ -28,6 +29,8 @@ class _ProfilePageState extends State<ProfilePage> {
   MoviesController controller = Get.find();
   IntentController _intentController = Get.find();
   UserController _userController = Get.put(UserController());
+
+  GlobalController _globalController = Get.find();
 
   @override
   void initState() {
@@ -187,9 +190,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: TextButton(
                           focusNode: _intentController.profileNodes![5],
                           style: ElevatedButton.styleFrom(
-                            primary: DarkModeColors.surfaceColor,
+                            backgroundColor: DarkModeColors.surfaceColor,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            print("pressed logout button");
+                            _globalController.logOutUser(context: context);
+                          },
                           child: const Center(
                             child: KabbeeText.headline5(
                               "Log out",
@@ -201,60 +207,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileTextFields extends StatelessWidget {
-  ProfileTextFields({
-    Key? key,
-    required this.textController,
-    required this.label,
-    required this.focusNode,
-    this.widget,
-    this.height = 60,
-  }) : super(key: key);
-
-  final TextEditingController textController;
-  final String? label;
-  final FocusNode focusNode;
-
-  final Widget? widget;
-
-  double? height;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
-      height: height,
-      width: 400,
-      child: TextFormField(
-        textAlignVertical: TextAlignVertical.center,
-        onEditingComplete: () {
-          print("Edite complete");
-          FocusScope.of(context).nextFocus();
-          print(FocusManager.instance.primaryFocus);
-        },
-        initialValue: label,
-        focusNode: focusNode,
-        style: TextStyle(color: Colors.white),
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 50),
-          isDense: true,
-          prefixIcon: Container(
-            margin: EdgeInsets.only(right: 20, left: 10),
-            child: widget,
-            // child: KabbeeIcons.profile(color: Colors.white, size: 30),
-          ),
-          focusColor: Colors.amber,
-          filled: true,
-          fillColor: DarkModeColors.surfaceColor,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(4.0),
           ),
         ),
       ),

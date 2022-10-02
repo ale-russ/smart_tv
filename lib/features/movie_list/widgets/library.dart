@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:smart_tv/features/common/controller/keys.dart';
+import 'package:smart_tv/features/common/services/keys.dart';
 import 'package:smart_tv/features/common/theme/text_themes.dart';
 import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
@@ -94,7 +94,7 @@ class LibraryTile extends StatelessWidget {
             ],
           ),
           const SizedBox(
-            height: 20,
+            height: 8,
           ),
           Container(
             // width: 100,

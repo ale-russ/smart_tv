@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:smart_tv/features/common/controller/keys.dart';
+import 'package:smart_tv/features/common/services/keys.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 class TmdbController extends GetxController {

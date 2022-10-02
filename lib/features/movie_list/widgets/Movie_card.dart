@@ -4,7 +4,7 @@ import 'dart:ui';
 //import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:smart_tv/features/common/controller/keys.dart';
+import 'package:smart_tv/features/common/services/keys.dart';
 import 'package:smart_tv/features/movie_list/widgets/description.dart';
 
 import '../controller/movie_controller.dart';
@@ -157,34 +157,35 @@ class MovieCardNodescription extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          left: 230,
-          bottom: 30,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                // backgroundColor: Colors.transparent,
-                fixedSize: const Size(180, 40),
-                side: const BorderSide(color: Color(0xffffa600))),
-            onPressed: () {},
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(
-                  Icons.play_arrow_rounded,
-                  size: 30,
-                ),
-                Text(
-                  "Watch Trailer",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        // Positioned(
+        //   left: 230,
+        //   bottom: 30,
+        //   child:
+        //   ElevatedButton(
+        //     style: ElevatedButton.styleFrom(
+        //         // backgroundColor: Colors.transparent,
+        //         fixedSize: const Size(180, 40),
+        //         side: const BorderSide(color: Color(0xffffa600))),
+        //     onPressed: () {},
+        //     child: Row(
+        //       crossAxisAlignment: CrossAxisAlignment.center,
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       children: const [
+        //         Icon(
+        //           Icons.play_arrow_rounded,
+        //           size: 30,
+        //         ),
+        //         Text(
+        //           "Watch Trailer",
+        //           style: TextStyle(
+        //             fontSize: 16,
+        //             fontWeight: FontWeight.w600,
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -481,7 +482,7 @@ class MovieInfo extends StatelessWidget {
                       .toString()
                       .substring(0, 4),
                   //"2021 ",
-                  style: const TextStyle(fontSize: 14, color: Colors.white),
+                  style: const TextStyle(fontSize: 16, color: Colors.white),
                 ),
                 const VerticalDivider(
                   color: Colors.white,
@@ -490,7 +491,7 @@ class MovieInfo extends StatelessWidget {
                 ),
                 const Text(
                   "Kabbee ",
-                  style: const TextStyle(fontSize: 14, color: Colors.white),
+                  style: const TextStyle(fontSize: 16, color: Colors.white),
                 ),
                 const VerticalDivider(
                   color: Colors.white,
@@ -500,14 +501,14 @@ class MovieInfo extends StatelessWidget {
                       .toString()
                       .toUpperCase(),
                   //"tigrinia",
-                  style: const TextStyle(fontSize: 14, color: Colors.white),
+                  style: const TextStyle(fontSize: 16, color: Colors.white),
                 ),
                 const VerticalDivider(
                   color: Colors.white,
                 ),
                 const Text(
                   "1 hr 30 min",
-                  style: const TextStyle(fontSize: 14, color: Colors.white),
+                  style: const TextStyle(fontSize: 16, color: Colors.white),
                 )
               ],
             ),

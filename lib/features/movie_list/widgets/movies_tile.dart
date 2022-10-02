@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
-import 'package:smart_tv/features/common/controller/keys.dart';
+import 'package:smart_tv/features/common/services/keys.dart';
 import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
