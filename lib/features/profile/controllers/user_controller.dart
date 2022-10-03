@@ -40,7 +40,13 @@ class UserController extends GetxController {
       if (lUser.email == email) {
         user = lUser;
         print(user!.email);
-        DbAccess.writeData(email, email);
+        DbAccess.writeData("email", user!.email);
+        DbAccess.writeData("FirstName", user!.firtName);
+        DbAccess.writeData("LastName", user!.lastName);
+        DbAccess.writeData("country", user!.country);
+        DbAccess.writeData("gender", user!.sex);
+        // DbAccess.writeData("BOD", user!.dateOfBirth);
+
         return true;
       }
     }

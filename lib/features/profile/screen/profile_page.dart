@@ -190,7 +190,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: TextButton(
                           focusNode: _intentController.profileNodes![5],
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: DarkModeColors.surfaceColor,
+                            primary: DarkModeColors.surfaceColor,
                           ),
                           onPressed: () {
                             print("pressed logout button");

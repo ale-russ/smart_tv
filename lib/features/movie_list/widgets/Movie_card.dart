@@ -34,159 +34,36 @@ class Movie_card extends StatelessWidget {
     //print(heightSize);
     //print(controller.topratedmovies[index]);
     return InkWell(
-        onTap: () {
-          controller.currentPage.value == 1
-              ? controller.currentPage.value = 0
-              : controller.currentPage.value = 1;
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: ((context) => Description(
-          //         bannerurl:
-          //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['backdrop_path']}",
-          //         description:
-          //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['overview']}",
-          //         lauchOn:
-          //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['release_date']}",
-          //         name:
-          //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['title']}",
-          //         posterurl:
-          //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['backdrop_path']}",
-          //         vote:
-          //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['vote_average'.toString()]}")),
-          //   ),
-          // );
-        },
-        child: MovieCardWithDescription(
-            movieUrl: movieUrl,
-            controller: controller,
-            index: index,
-            widthSize: widthSize,
-            heightSize: heightSize,
-            currentPage: currentPage)
-        // CarouselSlider(
-        //   items: [
-        //     MovieCardNodescription(
-        //         movieUrl: movieUrl, controller: controller, index: index),
-        // MovieCardWithDescription(
-        //     movieUrl: movieUrl,
-        //     controller: controller,
-        //     index: index,
-        //     widthSize: widthSize,
-        //     heightSize: heightSize,
-        //     currentPage: currentPage)
-        //   ],
-        //   options: CarouselOptions(
-
-        //       height: MediaQuery.of(context).size.height, initialPage: 0),
-        // )
-        // MovieCardNodescription(
-        //   movieUrl: movieUrl,
-        //   controller: controller,
-        //   index: index)
-        // MovieCardWithDescription(
-        //   movieUrl: movieUrl,
-        //   controller: controller,
-        //   index: index,
-        //   widthSize: widthSize,
-        //   heightSize: heightSize,
-        //   currentPage: currentPage),
-        );
-  }
-}
-
-class MovieCardNodescription extends StatelessWidget {
-  const MovieCardNodescription({
-    Key? key,
-    required this.movieUrl,
-    required this.controller,
-    required this.index,
-  }) : super(key: key);
-
-  final CommonKeys movieUrl;
-  final MoviesController controller;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          child: Container(
-            margin: const EdgeInsets.all(16),
-            height: MediaQuery.of(context).size.height * 0.6,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.grey.withOpacity(0.3)),
-              image: DecorationImage(
-                image: NetworkImage(
-                  "${movieUrl.movieUrl}${controller.topratedmovies[index]['backdrop_path']}",
-                ),
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          left: 30,
-          bottom: 30,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              //backgroundColor: const Color(0xffffa600),
-              fixedSize: const Size(180, 40),
-            ),
-            onPressed: () {},
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(
-                  Icons.play_arrow_rounded,
-                  size: 30,
-                ),
-                Text(
-                  "Play",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        // Positioned(
-        //   left: 230,
-        //   bottom: 30,
-        //   child:
-        //   ElevatedButton(
-        //     style: ElevatedButton.styleFrom(
-        //         // backgroundColor: Colors.transparent,
-        //         fixedSize: const Size(180, 40),
-        //         side: const BorderSide(color: Color(0xffffa600))),
-        //     onPressed: () {},
-        //     child: Row(
-        //       crossAxisAlignment: CrossAxisAlignment.center,
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: const [
-        //         Icon(
-        //           Icons.play_arrow_rounded,
-        //           size: 30,
-        //         ),
-        //         Text(
-        //           "Watch Trailer",
-        //           style: TextStyle(
-        //             fontSize: 16,
-        //             fontWeight: FontWeight.w600,
-        //           ),
-        //         ),
-        //       ],
-        //     ),
+      onTap: () {
+        controller.currentPage.value == 1
+            ? controller.currentPage.value = 0
+            : controller.currentPage.value = 1;
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: ((context) => Description(
+        //         bannerurl:
+        //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['backdrop_path']}",
+        //         description:
+        //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['overview']}",
+        //         lauchOn:
+        //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['release_date']}",
+        //         name:
+        //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['title']}",
+        //         posterurl:
+        //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['backdrop_path']}",
+        //         vote:
+        //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['vote_average'.toString()]}")),
         //   ),
-        // ),
-      ],
+        // );
+      },
+      child: MovieCardWithDescription(
+          movieUrl: movieUrl,
+          controller: controller,
+          index: index,
+          widthSize: widthSize,
+          heightSize: heightSize,
+          currentPage: currentPage),
     );
   }
 }
@@ -245,63 +122,7 @@ class MovieCardWithDescription extends StatelessWidget {
           ),
         ),
       ),
-      Positioned(
-        left: 30,
-        bottom: 30,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: const Color(0xffffa600),
-            fixedSize: Size(widthSize * 0.14, heightSize * 0.075),
-          ),
-          onPressed: () {},
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(
-                Icons.play_arrow_rounded,
-                size: 20,
-              ),
-              Text(
-                "Play",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      Positioned(
-        left: 190,
-        bottom: 30,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              primary: Colors.transparent,
-              fixedSize: Size(widthSize * 0.14, heightSize * 0.075),
-              side: const BorderSide(color: Color(0xffffa600))),
-          onPressed: () {},
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(
-                Icons.play_arrow_rounded,
-                size: 20,
-              ),
-              Text(
-                "Watch Trailer",
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      PlayWatchButton(widthSize: widthSize, heightSize: heightSize),
       Obx(
         () => controller.currentPage == 1
             ? Positioned(
@@ -352,6 +173,88 @@ class MovieCardWithDescription extends StatelessWidget {
             ),
           ))
     ]);
+  }
+}
+
+class PlayWatchButton extends StatelessWidget {
+  PlayWatchButton({
+    Key? key,
+    required this.widthSize,
+    required this.heightSize,
+  }) : super(key: key);
+
+  final double widthSize;
+  final double heightSize;
+
+  CommonKeys movieUrl = Get.find();
+  MoviesController controller = Get.find();
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: 30,
+      bottom: 30,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: const Color(0xffffa600),
+              fixedSize: Size(widthSize * 0.14, heightSize * 0.075),
+            ),
+            onPressed: () {},
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Icon(
+                  Icons.play_arrow_rounded,
+                  size: 20,
+                ),
+                Text(
+                  "Play",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            width: 30,
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.transparent,
+              fixedSize: Size(widthSize * 0.14, heightSize * 0.075),
+              side: const BorderSide(
+                color: Color(0xffffa600),
+              ),
+            ),
+            onPressed: () {},
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Icon(
+                  Icons.play_arrow_rounded,
+                  size: 20,
+                ),
+                Text(
+                  "Watch Trailer",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

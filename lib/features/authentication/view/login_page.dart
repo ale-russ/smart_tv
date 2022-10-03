@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   FocusNode? _buttonNode;
   FocusNode? _imageNode;
   LoginController loginController = Get.put(LoginController());
-  UserController userController = Get.put(UserController());
+  // UserController userController = Get.put(UserController());
   GlobalKey<FormState>? formKey = GlobalKey<FormState>();
   bool keyboardV = false;
 
@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
     final loginButton = ElevatedButton(
       focusNode: _buttonNode,
       style: ElevatedButton.styleFrom(
-        backgroundColor: PrimaryColorTones.mainColor,
+        primary: PrimaryColorTones.mainColor,
         fixedSize: const Size(150, 40),
         textStyle: const TextStyle(
           fontSize: 16,
@@ -86,13 +86,21 @@ class _LoginPageState extends State<LoginPage> {
       ),
       onPressed: () {
         // loginController.loginUser();
+        // formKey!.currentState!.validate()
+        //     ? userController.authenticateUser(
+        //             loginController.emailController.text,
+        //             loginController.passwordController.text)
+        //         ? Get.to(() => MoviesPage())
+        //         : userController.errorMesseg //LandingPage())
+        //     : "Error Please";
+
         formKey!.currentState!.validate()
-            ? userController.authenticateUser(
+            ? loginController.authenticateUser(
                     loginController.emailController.text,
                     loginController.passwordController.text)
                 ? Get.to(() => MoviesPage())
-                : userController.errorMesseg //LandingPage())
-            : "Error Please";
+                : loginController.errorMesseg //LandingPage())
+            : loginController.errorMesseg;
       },
       child: const Center(
           child: Text(
@@ -146,150 +154,140 @@ class _LoginPageState extends State<LoginPage> {
                         Colors.black.withOpacity(0.9), BlendMode.dstATop)),
               ),
             ),
-            SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.only(
-                    top: keyboardV
-                        ? MediaQuery.of(context).size.height * 0.01
-                        : MediaQuery.of(context).size.height * 0.1),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.35,
-                  height: MediaQuery.of(context).size.height * 0.80,
-                  decoration: BoxDecoration(
-                    color: DarkModeColors.backgroundVariant,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: DarkModeColors.borderColor.withOpacity(0.1),
-                    ),
+            Padding(
+              padding: EdgeInsets.only(
+                  top: keyboardV
+                      ? MediaQuery.of(context).size.height * 0.01
+                      : MediaQuery.of(context).size.height * 0.1),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.35,
+                height: MediaQuery.of(context).size.height * 0.80,
+                decoration: BoxDecoration(
+                  color: DarkModeColors.backgroundVariant,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: DarkModeColors.borderColor.withOpacity(0.1),
                   ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 36, vertical: 30),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Actions(
-                          actions: <Type, Action<Intent>>{
-                            DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                                onInvoke: (intent) =>
-                                    _changeNodeFocus(context, _emailNode!))
-                          },
-                          child: Focus(
-                            focusNode: _imageNode,
-                            child: Container(
-                              alignment: Alignment.topLeft,
-                              margin: const EdgeInsets.only(bottom: 8),
-                              child: Text(
-                                'Login',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
-                                            0.019,
-                                    fontWeight: FontWeight.w600),
-                              ),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 36, vertical: 30),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Actions(
+                        actions: <Type, Action<Intent>>{
+                          DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                              onInvoke: (intent) =>
+                                  _changeNodeFocus(context, _emailNode!))
+                        },
+                        child: Focus(
+                          focusNode: _imageNode,
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            margin: const EdgeInsets.only(bottom: 8),
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.019,
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
                         ),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          margin: const EdgeInsets.only(bottom: 8, top: 8),
-                          child: const Text(
-                            "Please login to continue",
-                            textAlign: TextAlign.left,
-                            style: TextStyle(color: Colors.grey),
-                          ),
+                      ),
+                      Container(
+                        alignment: Alignment.topLeft,
+                        margin: const EdgeInsets.only(bottom: 8, top: 8),
+                        child: const Text(
+                          "Please login to continue",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(color: Colors.grey),
                         ),
-                        const SizedBox(height: 18.0),
-                        Actions(
-                            actions: <Type, Action<Intent>>{
-                              DownbuttonIntent:
-                                  CallbackAction<DownbuttonIntent>(
-                                      onInvoke: (Intent) => {
-                                            _changeNodeFocus(
-                                                context, _passwordNode!),
-                                            setState(() {
-                                              keyboardV = true;
-                                            }),
-                                          }),
-                              UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                                  onInvoke: (Intent) => {
-                                        _changeNodeFocus(context, _imageNode!),
-                                        setState(() {
-                                          keyboardV = false;
-                                        }),
-                                      })
-                            },
-                            child: FormTextField(
-                              emailNode: _emailNode,
-                              obscure: false,
-                              hint: 'Email',
-                              icon: const Icon(
-                                Icons.mail,
-                                color: Colors.white54,
-                              ),
-                              controller: loginController.emailController,
-                            )),
-                        const SizedBox(height: 24.0),
-                        Actions(
+                      ),
+                      const SizedBox(height: 18.0),
+                      Actions(
                           actions: <Type, Action<Intent>>{
-                            UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                                onInvoke: (Intent) => {
-                                      _changeNodeFocus(context, _emailNode!),
-                                      setState(() {
-                                        keyboardV = false;
-                                      }),
-                                    }),
                             DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                                onInvoke: (Intent) => {
-                                      _changeNodeFocus(context, _buttonNode!),
-                                      setState(() {
-                                        keyboardV = false;
-                                      }),
-                                    })
-                          },
-                          child: FormTextField(
-                            emailNode: _passwordNode,
-                            obscure: true,
-                            hint: 'Password',
-                            icon: const Icon(
-                              Icons.lock,
-                              color: Colors.white54,
-                            ),
-                            controller: loginController.passwordController,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 36.0,
-                        ),
-                        KeepMeIn(loginController: loginController),
-                        const SizedBox(
-                          height: 36.0,
-                        ),
-                        Actions(
-                          actions: <Type, Action<Intent>>{
-                            UpbuttonIntent: CallbackAction<UpbuttonIntent>(
                                 onInvoke: (Intent) => {
                                       _changeNodeFocus(context, _passwordNode!),
                                       setState(() {
                                         keyboardV = true;
                                       }),
+                                    }),
+                            UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                                onInvoke: (Intent) => {
+                                      _changeNodeFocus(context, _imageNode!),
+                                      setState(() {
+                                        keyboardV = false;
+                                      }),
                                     })
                           },
-                          child: Center(child: loginButton),
-                        ),
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 20),
-                            height: 40,
-                            width: 90,
-                            child: LangaugeSelector(),
+                          child: LoginForm(
+                            emailNode: _emailNode,
+                            hint: 'Email',
+                            icon: const Icon(
+                              Icons.mail,
+                              color: Colors.white54,
+                            ),
+                            initialValue: loginController.email,
+                            controller: loginController.emailController,
+                          )),
+                      const SizedBox(height: 24.0),
+                      Actions(
+                        actions: <Type, Action<Intent>>{
+                          UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                              onInvoke: (Intent) => {
+                                    _changeNodeFocus(context, _emailNode!),
+                                    setState(() {
+                                      keyboardV = false;
+                                    }),
+                                  }),
+                          DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                              onInvoke: (Intent) => {
+                                    _changeNodeFocus(context, _buttonNode!),
+                                    setState(() {
+                                      keyboardV = false;
+                                    }),
+                                  })
+                        },
+                        child: LoginForm(
+                          emailNode: _passwordNode,
+                          obscure: true,
+                          hint: 'Password',
+                          icon: const Icon(
+                            Icons.lock,
+                            color: Colors.white54,
                           ),
-                        )
-                      ],
-                    ),
+                          controller: loginController.passwordController,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 36.0,
+                      ),
+                      KeepMeIn(loginController: loginController),
+                      const SizedBox(
+                        height: 36.0,
+                      ),
+                      Actions(
+                        actions: <Type, Action<Intent>>{
+                          UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                              onInvoke: (Intent) => {
+                                    _changeNodeFocus(context, _passwordNode!),
+                                    setState(() {
+                                      keyboardV = true;
+                                    }),
+                                  })
+                        },
+                        child: Center(child: loginButton),
+                      ),
+                      Center(
+                        child: LangaugeSelector(),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -312,6 +310,7 @@ class KeepMeIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Rememberme is ${loginController.isRememberMe}");
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
