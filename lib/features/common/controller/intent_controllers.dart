@@ -6,17 +6,18 @@ import '../../movie_list/controller/movie_controller.dart';
 class IntentController extends GetxController {
   MoviesController _controller = Get.find();
 
-  ScrollController trendingScrollController = ScrollController();
+  //ScrollController
+  Rx<ScrollController> trendingScrollController = ScrollController().obs;
   ScrollController tvShowScrollController = ScrollController();
-  ScrollController topRatedScrollController = ScrollController();
+  Rx<ScrollController> topRatedScrollController = ScrollController().obs;
   ScrollController homePageScrollController = ScrollController();
   ScrollController comingPageScrollController = ScrollController();
   ScrollController favPageScrollController = ScrollController();
   ScrollController descPageScrollController = ScrollController();
 
-  List<FocusNode>? trendingNodes = [];
-  List<FocusNode>? topRatedNodes = [];
-  List<FocusNode>? tvShowsNodes = [];
+  RxList<dynamic>? trendingNodes = [].obs;
+  RxList<dynamic>? topRatedNodes = [].obs;
+  RxList<dynamic>? tvShowsNodes = [].obs;
   List<FocusNode>? sideNodes = [];
   List<FocusNode>? searchNodes = [];
   List<FocusNode>? comingNodes = [];
@@ -57,13 +58,13 @@ class IntentController extends GetxController {
       //// print("going to next focus ");
       //// print(FocusManager.instance.primaryFocus);
       //// print("This is the first node " + sideNodes![0].toString());
-      if (navSelectedIndex < 4) {
-        print("inside teh change focus down ${navSelectedIndex}");
-        FocusScope.of(context).requestFocus(sideNodes![navSelectedIndex + 1]);
-        navSelectedIndex++;
-      }
+      // if (navSelectedIndex < 4) {
+      //   print("inside teh change focus down ${navSelectedIndex}");
+      //   FocusScope.of(context).requestFocus(sideNodes![navSelectedIndex + 1]);
+      //   navSelectedIndex++;
+      // }
     } else if (trend == true && desc == false) {
-      topRatedScrollController.animateTo(0,
+      topRatedScrollController.value.animateTo(0,
           duration: Duration(milliseconds: 800), curve: Curves.ease);
       FocusScope.of(context).requestFocus(topRatedNodes![0]);
       //print("top");
@@ -129,7 +130,7 @@ class IntentController extends GetxController {
       // }
     } else if (top == true && desc == false) {
       FocusScope.of(context).requestFocus(trendingNodes![0]);
-      trendingScrollController.animateTo(0,
+      trendingScrollController.value.animateTo(0,
           duration: const Duration(milliseconds: 800), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset - 220,
           duration: const Duration(milliseconds: 800), curve: Curves.ease);
@@ -137,7 +138,7 @@ class IntentController extends GetxController {
       top = false;
     } else if (tvShow == true && desc == false) {
       FocusScope.of(context).requestFocus(topRatedNodes![0]);
-      topRatedScrollController.animateTo(0,
+      topRatedScrollController.value.animateTo(0,
           duration: const Duration(milliseconds: 800), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset - 220,
           duration: const Duration(milliseconds: 800), curve: Curves.ease);
@@ -211,8 +212,8 @@ class IntentController extends GetxController {
       if (trendingIndex < _controller.trendingmovies.length - 1) {
         FocusScope.of(context).requestFocus(trendingNodes![trendingIndex + 1]);
         print("trening nodess");
-        trendingScrollController.animateTo(
-            trendingScrollController.offset + 230,
+        trendingScrollController.value.animateTo(
+            trendingScrollController.value.offset + 230,
             curve: Curves.ease,
             duration: Duration(milliseconds: 800));
         trendingIndex++;
@@ -220,8 +221,8 @@ class IntentController extends GetxController {
     } else if (top == true && desc == false) {
       if (topIndex < _controller.topratedmovies.length - 1) {
         FocusScope.of(context).requestFocus(topRatedNodes![topIndex + 1]);
-        topRatedScrollController.animateTo(
-            topRatedScrollController.offset + 230,
+        topRatedScrollController.value.animateTo(
+            topRatedScrollController.value.offset + 230,
             curve: Curves.ease,
             duration: Duration(milliseconds: 800));
         topIndex++;
@@ -265,8 +266,8 @@ class IntentController extends GetxController {
         trend = false;
       } else {
         FocusScope.of(context).requestFocus(trendingNodes![trendingIndex - 1]);
-        trendingScrollController.animateTo(
-            trendingScrollController.offset - 230,
+        trendingScrollController.value.animateTo(
+            trendingScrollController.value.offset - 230,
             curve: Curves.ease,
             duration: Duration(milliseconds: 800));
         trendingIndex--;
@@ -279,8 +280,8 @@ class IntentController extends GetxController {
       } else {
         FocusScope.of(context).requestFocus(topRatedNodes![topIndex - 1]);
         // FocusScope.of(context).requestFocus(topRatedNodes![trendingIndex - 1]);
-        topRatedScrollController.animateTo(
-            trendingScrollController.offset - 230,
+        topRatedScrollController.value.animateTo(
+            trendingScrollController.value.offset - 230,
             curve: Curves.ease,
             duration: Duration(milliseconds: 800));
         topIndex--;
@@ -292,8 +293,10 @@ class IntentController extends GetxController {
         tvShow = false;
       } else {
         FocusScope.of(context).requestFocus(tvShowsNodes![tvIndex - 1]);
-        tvShowScrollController.animateTo(trendingScrollController.offset - 230,
-            curve: Curves.ease, duration: Duration(milliseconds: 800));
+        tvShowScrollController.animateTo(
+            trendingScrollController.value.offset - 230,
+            curve: Curves.ease,
+            duration: Duration(milliseconds: 800));
 
         tvIndex--;
       }

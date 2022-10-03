@@ -2,11 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 
+import '../../../config/intentFiles/button_intents.dart';
 import '../../common/controller/intent_controllers.dart';
 import 'description.dart';
 
@@ -22,28 +24,21 @@ class TrendingMovies extends StatefulWidget {
 
   FocusNode? focusNode = FocusNode();
 
-  _setfirstfocus(BuildContext context) {
-    nodes ??= List.filled(trending.length, FocusNode());
-    print(trending.length);
-
-    FocusScope.of(context).requestFocus(nodes![0]);
-    print("this is " + nodes![0].hasFocus.toString());
-  }
-
   @override
   State<TrendingMovies> createState() => _TrendingMoviesState();
 }
 
 class _TrendingMoviesState extends State<TrendingMovies> {
   Color textColor = Colors.white70;
-  MoviesController controller = Get.find();
+  MoviesController _controller = Get.find();
   IntentController _intentController = Get.find();
+  GlobalController _globalController = Get.find();
 
   @override
   void initState() {
     // if (mounted) {
     if (_intentController.trendingNodes!.isEmpty) {
-      for (var i = 0; i < controller.trendingmovies.length; i++) {
+      for (var i = 0; i < _controller.trendingmovies.length; i++) {
         var temp = FocusNode();
         _intentController.trendingNodes!.add(temp);
       }
@@ -61,18 +56,69 @@ class _TrendingMoviesState extends State<TrendingMovies> {
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
-      child: Container(
-        // padding: const EdgeInsets.all(0),
-        child: MoviesTile(
-          title: "Trending Movies",
-          movie: widget.trending,
-          nodes: _intentController.trendingNodes,
-          borderColor: Colors.grey.withOpacity(0.3),
-          scrollController: _intentController.trendingScrollController,
-        ),
+    return FocusableActionDetector(
+      shortcuts: _globalController.navigationIntents,
+      actions: <Type, Action<Intent>>{
+        DownbuttonIntent: CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
+          moveDown(context);
+        }),
+        LeftbuttonIntent: CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
+          moveLeft(context);
+        }),
+        RightbuttonIntent:
+            CallbackAction<RightbuttonIntent>(onInvoke: (intent) {
+          moveRight(context);
+        }),
+      },
+      child: MoviesTile(
+        title: "Trending Movies",
+        movie: widget.trending,
+        nodes: _intentController.trendingNodes!,
+        borderColor: Colors.grey.withOpacity(0.3),
+        scrollController: _intentController.trendingScrollController.value,
       ),
     );
+  }
+
+  void moveLeft(BuildContext context) {
+    if (_intentController.trendingIndex <= 0) {
+      FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
+      // side = true;
+      // trend = false;
+    } else {
+      FocusScope.of(context).requestFocus(_intentController
+          .trendingNodes![_intentController.trendingIndex - 1]);
+      _intentController.trendingScrollController.value.animateTo(
+          _intentController.trendingScrollController.value.offset - 230,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 800));
+      _intentController.trendingIndex--;
+    }
+  }
+
+  void moveRight(BuildContext context) {
+    if (_intentController.trendingIndex <
+        _controller.trendingmovies.length - 1) {
+      FocusScope.of(context).requestFocus(
+          _intentController.trendingNodes![_intentController.trendingIndex++]);
+
+      _intentController.trendingScrollController.value.animateTo(
+          _intentController.trendingScrollController.value.offset + 230,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 800));
+    }
+  }
+
+  void moveDown(BuildContext context) {
+    _intentController.topRatedScrollController.value.animateTo(0,
+        duration: Duration(milliseconds: 800), curve: Curves.ease);
+    FocusScope.of(context).requestFocus(_intentController.topRatedNodes![0]);
+    _intentController.homePageScrollController.animateTo(
+        _intentController.homePageScrollController.offset + 220,
+        duration: Duration(milliseconds: 800),
+        curve: Curves.ease);
+    _intentController.trendingIndex = 0;
+    setState(() {});
   }
 }
 

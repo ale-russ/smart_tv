@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
+import '../../../config/intentFiles/button_intents.dart';
 import '../utilits/text.dart';
 import '../view/Movies.dart';
 
@@ -21,7 +23,7 @@ class NavRail extends StatefulWidget {
 class _NavRailState extends State<NavRail> {
   FocusNode? _home;
   MoviesController controller = Get.find();
-
+  GlobalController gController = Get.find();
   IntentController _intentController = Get.find();
 
   Color homeColor = Colors.white;
@@ -120,7 +122,16 @@ class _NavRailState extends State<NavRail> {
   NavigationRailDestination NavRailDes(
       {String? label, FocusNode? focusNode, IconData? icon, int? index}) {
     return NavigationRailDestination(
-        icon: Focus(
+        icon: FocusableActionDetector(
+          shortcuts: gController.navigationIntents,
+          actions: <Type, Action<Intent>>{
+            DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                onInvoke: (intent) => moveDown()),
+            UpbuttonIntent:
+                CallbackAction<UpbuttonIntent>(onInvoke: (intent) => moveUp()),
+            RightbuttonIntent: CallbackAction<RightbuttonIntent>(
+                onInvoke: (intent) => moveRight()),
+          },
           focusNode: focusNode,
           child: Container(
             width: 82,
@@ -146,5 +157,47 @@ class _NavRailState extends State<NavRail> {
         label: Text(
           label!,
         ));
+  }
+
+  void moveRight() {
+    if (_intentController.clickedIndex == 1) {
+      FocusScope.of(context).requestFocus(_intentController.searchNode);
+    } else if (_intentController.clickedIndex == 3) {
+      FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
+    } else if (_intentController.clickedIndex == 4) {
+      FocusScope.of(context).requestFocus(_intentController.profileNodes![0]);
+    } else if (_intentController.clickedIndex == 2) {
+      FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
+      ;
+    } else {
+      print(_intentController.trendingNodes![0].hasFocus);
+      //Get.focusScope!.requestFocus(_intentController.trendingNodes![0]);
+      FocusScope.of(context)
+          .requestFocus(_intentController.trendingNodes!.value[0]);
+      print("in the trading icon ");
+      print(_intentController.trendingNodes![0].hasFocus);
+      //setState(() {});
+    }
+    //print("out the trading icon ");
+    _intentController.navSelectedIndex = 0;
+    setState(() {});
+  }
+
+  void moveUp() {
+    if (_intentController.navSelectedIndex > -1) {
+      FocusScope.of(context).requestFocus(
+          _intentController.sideNodes![_intentController.navSelectedIndex - 1]);
+      _intentController.navSelectedIndex--;
+      setState(() {});
+    }
+  }
+
+  void moveDown() {
+    if (_intentController.navSelectedIndex < 4) {
+      FocusScope.of(context).requestFocus(
+          _intentController.sideNodes![_intentController.navSelectedIndex + 1]);
+      _intentController.navSelectedIndex++;
+      setState(() {});
+    }
   }
 }

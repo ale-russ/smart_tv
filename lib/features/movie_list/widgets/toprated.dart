@@ -40,7 +40,7 @@ class _TopRatedState extends State<TopRated> {
         title: "Top Rated Movies",
         nodes: _intentController.topRatedNodes!,
         borderColor: Colors.grey.withOpacity(0.3),
-        scrollController: _intentController.topRatedScrollController,
+        scrollController: _intentController.topRatedScrollController.value,
       ),
     );
   }

@@ -19,7 +19,7 @@ class MoviesTile extends StatefulWidget {
 
   final String title;
   final List? movie;
-  final List? nodes;
+  final RxList? nodes;
   final Color borderColor;
   final ScrollController scrollController;
 
@@ -76,39 +76,41 @@ class _MoviesTileState extends State<MoviesTile> {
                     ),
                   );
                 },
-                child: Container(
-                  padding: const EdgeInsets.only(right: 5),
-                  width: 205,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Focus(
-                        focusNode: widget.nodes![index],
-                        child: Container(
-                          width: 200,
-                          height: 120,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: widget.nodes![index].hasFocus
-                                ? Border.all(color: Colors.amber)
-                                : Border.all(color: widget.borderColor),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                "${_commonKeys.movieUrl}${widget.movie![index]['poster_path']}",
+                child: Obx(
+                  () => Container(
+                    padding: const EdgeInsets.only(right: 5),
+                    width: 205,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Focus(
+                          focusNode: widget.nodes![index],
+                          child: Container(
+                            width: 200,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: widget.nodes!.value[index].hasFocus
+                                  ? Border.all(color: Colors.amber)
+                                  : Border.all(color: widget.borderColor),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  "${_commonKeys.movieUrl}${widget.movie![index]['poster_path']}",
+                                ),
+                                fit: BoxFit.fill,
                               ),
-                              fit: BoxFit.fill,
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        child: ModifiedText(
-                          text: widget.movie![index]['title'] ?? 'Loading',
-                          color: Colors.white,
-                          size: 13,
-                        ),
-                      )
-                    ],
+                        SizedBox(
+                          child: ModifiedText(
+                            text: widget.movie![index]['title'] ?? 'Loading',
+                            color: Colors.white,
+                            size: 13,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               );

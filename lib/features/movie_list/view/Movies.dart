@@ -142,49 +142,26 @@ class _MoviesPage extends State<MoviesPage> {
             Library(),
             ProfilePage(),
           ];
-          return Shortcuts(
-            shortcuts: {
-              LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-              LogicalKeySet(LogicalKeyboardKey.arrowRight): RightbuttonIntent(),
-              LogicalKeySet(LogicalKeyboardKey.arrowLeft): LeftbuttonIntent(),
-              LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
-              LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
-              LogicalKeySet(LogicalKeyboardKey.goBack): BackButtonIntent()
-              //LogicalKeySet(LogicalKeyboardKey.back)
-            },
-            child: Actions(
-              actions: <Type, Action<Intent>>{
-                DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                    onInvoke: (intent) => _changeNodeFocus(context, "Down")),
-                UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                    onInvoke: (intent) => _changeNodeFocus(context, "Up")),
-                RightbuttonIntent: CallbackAction<RightbuttonIntent>(
-                    onInvoke: (intent) => _changeNodeFocus(context, "Right")),
-                LeftbuttonIntent: CallbackAction<LeftbuttonIntent>(
-                    onInvoke: (intent) => _changeNodeFocus(context, "Left")),
-              },
-              child: Row(
-                children: [
-                  SizedBox(
-                    child: NavRail(
-                      selectedIndex: _selectedIndex,
-                      callback: (index) => setState(() {
-                        _selectedIndex = index;
-                      }),
-                    ),
-                  ),
-                  const VerticalDivider(),
-                  Expanded(
-                    child: data.isFalse
-                        ? const Center(
-                            child: CircularProgressIndicator(
-                            color: Colors.amber,
-                          ))
-                        : pages[_selectedIndex],
-                  ),
-                ],
+          return Row(
+            children: [
+              SizedBox(
+                child: NavRail(
+                  selectedIndex: _selectedIndex,
+                  callback: (index) => setState(() {
+                    _selectedIndex = index;
+                  }),
+                ),
               ),
-            ),
+              const VerticalDivider(),
+              Expanded(
+                child: data.isFalse
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                        color: Colors.amber,
+                      ))
+                    : pages[_selectedIndex],
+              ),
+            ],
           );
         }),
       ),
