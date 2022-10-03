@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:smart_tv/features/profile_profile.dart';
-import 'package:smart_tv/features/subsscription.dart';
+
 import 'changepasword.dart';
 import 'home.dart';
 
@@ -146,9 +146,9 @@ class NavigationDrawer extends StatelessWidget {
             .push(MaterialPageRoute(builder: (context) =>  ChangePassword()));
             break;
              case 2:
-         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) =>  Subscription()));
-            break;
+        //  Navigator.of(context)
+        //     .push(MaterialPageRoute(builder: (context) =>  Subscription()));
+        //     break;
 
     }
   }

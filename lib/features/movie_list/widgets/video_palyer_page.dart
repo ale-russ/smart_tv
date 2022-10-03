@@ -1,4 +1,4 @@
-import 'dart:html';
+
 
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -40,6 +40,7 @@ class _VideoAppState extends State<VideoApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Video Demo',
       home: Scaffold(
         body: SingleChildScrollView(
@@ -69,12 +70,14 @@ class _VideoAppState extends State<VideoApp> {
                               : _controller!.play();
                         });
                       }),
-                     Icon(Icons.skip_previous),
-                      Icon(Icons.skip_next),
-
-                     
-                 
-                      SizedBox(width: 15,),
+                  Icon(
+                    Icons.skip_previous,
+                   // color: Colors.white,
+                  ),
+                  Icon(Icons.skip_next,),
+                  SizedBox(
+                    width: 15,
+                  ),
                   Icon(animatedvolumeicon(volume)),
                   Slider(
                       inactiveColor: Color.fromARGB(255, 149, 147, 147),
@@ -88,12 +91,10 @@ class _VideoAppState extends State<VideoApp> {
                           _controller!.setVolume(changevolume);
                         });
                       }),
-                        Text(
+                  Text(
                       '${convertToMinutesSeconds(videopostion!)}/${convertToMinutesSeconds(videolength!)}'),
-
                 ],
               ),
-              
             ]
           ]),
         ),
