@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
 
-import 'features/movie_list/view/Movies.dart';
-// import 'package:smart_tv/features/movie_list/view/Movies.dart';
-// import 'package:smart_tv/features/movie_list/view/landingPage.dart';
-// import 'package:smart_tv/features/screen/movieScreen.dart';
-// import 'package:smart_tv/features/upcoming_movies/upcoming_movies.dart';
+import 'features/common/services/dbAccess.dart';
 
-void main(List<String>? args) {
+void main(List<String>? args) async {
   debugPrint('args: $args');
+
+  await preLauncherSetup();
+
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends GetView<GlobalController> {
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
@@ -32,13 +33,17 @@ class MyApp extends StatelessWidget {
       },
       child: GetMaterialApp(
         title: 'Kabbe Movies',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        // home: const LoginPage(),
-        home: MoviesPage(),
+        theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
+        home: const LoginPage(),
+        // home: MoviesPage(),
         debugShowCheckedModeBanner: false,
       ),
     );
   }
+}
+
+Future preLauncherSetup() async {
+  await DbAccess.initHive();
+
+  Get.put(GlobalController(), permanent: true);
 }
