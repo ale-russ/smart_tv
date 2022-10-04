@@ -80,14 +80,14 @@ class LibraryTile extends StatelessWidget {
                     customStyle: TextStyle(color: PrimaryColorTones.mainColor),
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ComingSoon(
-                          movie: movies,
-                        ),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => ComingSoon(
+                    //       movie: movies,
+                    //     ),
+                    //   ),
+                    // );
                   },
                 ),
               )

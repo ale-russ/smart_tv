@@ -170,16 +170,14 @@ class _NavRailState extends State<NavRail> {
       FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
       ;
     } else {
-      print(_intentController.trendingNodes![0].hasFocus);
+      //print(_intentController.posterNodes![0].hasFocus);
       //Get.focusScope!.requestFocus(_intentController.trendingNodes![0]);
-      FocusScope.of(context)
-          .requestFocus(_intentController.trendingNodes!.value[0]);
-      print("in the trading icon ");
-      print(_intentController.trendingNodes![0].hasFocus);
-      //setState(() {});
+      FocusScope.of(context).requestFocus(_intentController.posterNodes![0]);
+      _intentController.posterNodes!.refresh();
     }
     //print("out the trading icon ");
     _intentController.navSelectedIndex = 0;
+    _intentController.trendingNodes!.refresh();
     setState(() {});
   }
 

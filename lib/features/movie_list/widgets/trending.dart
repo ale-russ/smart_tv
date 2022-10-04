@@ -62,7 +62,7 @@ class _TrendingMoviesState extends State<TrendingMovies> {
         DownbuttonIntent: CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
           moveDown(context);
         }),
-        LeftbuttonIntent: CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
+        LeftbuttonIntent: CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
           moveLeft(context);
         }),
         RightbuttonIntent:
@@ -83,30 +83,31 @@ class _TrendingMoviesState extends State<TrendingMovies> {
   void moveLeft(BuildContext context) {
     if (_intentController.trendingIndex <= 0) {
       FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
-      // side = true;
-      // trend = false;
     } else {
       FocusScope.of(context).requestFocus(_intentController
           .trendingNodes![_intentController.trendingIndex - 1]);
+      _intentController.trendingNodes!.refresh();
       _intentController.trendingScrollController.value.animateTo(
           _intentController.trendingScrollController.value.offset - 230,
           curve: Curves.ease,
           duration: Duration(milliseconds: 800));
       _intentController.trendingIndex--;
     }
+    _intentController.trendingNodes!.refresh();
   }
 
   void moveRight(BuildContext context) {
     if (_intentController.trendingIndex <
         _controller.trendingmovies.length - 1) {
       FocusScope.of(context).requestFocus(
-          _intentController.trendingNodes![_intentController.trendingIndex++]);
+          _intentController.trendingNodes![++_intentController.trendingIndex]);
 
       _intentController.trendingScrollController.value.animateTo(
           _intentController.trendingScrollController.value.offset + 230,
           curve: Curves.ease,
           duration: Duration(milliseconds: 800));
     }
+    _intentController.trendingNodes!.refresh();
   }
 
   void moveDown(BuildContext context) {
@@ -119,52 +120,7 @@ class _TrendingMoviesState extends State<TrendingMovies> {
         curve: Curves.ease);
     _intentController.trendingIndex = 0;
     setState(() {});
-  }
-}
-
-class MovieCard extends StatelessWidget {
-  const MovieCard({
-    Key? key,
-    required this.trending,
-    required this.index,
-    required this.borderColor,
-    required this.node,
-  }) : super(key: key);
-
-  final List trending;
-  final int index;
-  final Color borderColor;
-  final FocusNode node;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: borderColor // Colors.blueAccent,
-              )),
-      padding: const EdgeInsets.all(5),
-      width: 250,
-      child: Column(
-        children: [
-          Container(
-              width: 250,
-              height: 140,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                      image: NetworkImage(
-                        "https://image.tmdb.org/t/p/w500${trending[index]['backdrop_path']}",
-                      ),
-                      fit: BoxFit.cover))),
-          SizedBox(
-            child: ModifiedText(
-              text: trending[index]['title'] ?? 'Loading',
-              color: Colors.white60,
-              size: 15,
-            ),
-          )
-        ],
-      ),
-    );
+    _intentController.trendingNodes!.refresh();
+    _intentController.topRatedNodes!.refresh();
   }
 }

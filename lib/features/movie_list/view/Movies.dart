@@ -62,6 +62,9 @@ class _MoviesPage extends State<MoviesPage> {
         _controller.descNodes!.add(FocusNode(debugLabel: "desc node ${i}"));
         //  print("side node ${_controller.descNodes![i]}");
       }
+      for (var i = 0; i < 3; i++) {
+        _controller.posterNodes!.add(FocusNode(debugLabel: "poster $i"));
+      }
       for (var i = 0; i < 5; i++) {
         //var temp = FocusNode();
         _controller.sideNodes!.add(FocusNode(debugLabel: "side node $i"));
@@ -90,21 +93,21 @@ class _MoviesPage extends State<MoviesPage> {
     }
   }
 
-  _changeNodeFocus(BuildContext build, String direction) {
-    if (direction == "Down") {
-      _controller.DownNavActions(context);
-      setState(() {});
-    } else if (direction == "Up") {
-      _controller.UpNavActions(context);
-      setState(() {});
-    } else if (direction == "Right") {
-      _controller.RightNavActions(context);
-      setState(() {});
-    } else if (direction == "Left") {
-      _controller.LeftNavActions(context);
-      setState(() {});
-    }
-  }
+  // _changeNodeFocus(BuildContext build, String direction) {
+  //   if (direction == "Down") {
+  //     _controller.DownNavActions(context);
+  //     setState(() {});
+  //   } else if (direction == "Up") {
+  //     _controller.UpNavActions(context);
+  //     setState(() {});
+  //   } else if (direction == "Right") {
+  //     _controller.RightNavActions(context);
+  //     setState(() {});
+  //   } else if (direction == "Left") {
+  //     _controller.LeftNavActions(context);
+  //     setState(() {});
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -133,9 +136,9 @@ class _MoviesPage extends State<MoviesPage> {
               focusNode: firstFocus,
             ),
             SearchPage(number: 0),
-            ComingSoon(
-              movie: controller.trendingmovies,
-            ),
+            //  ComingSoon(
+            //     movie: controller.trendingmovies,
+            //   ),
             // ComingSoon(
             //   movie: controller.tv,
             // ),

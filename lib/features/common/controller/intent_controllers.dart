@@ -8,7 +8,8 @@ class IntentController extends GetxController {
 
   //ScrollController
   Rx<ScrollController> trendingScrollController = ScrollController().obs;
-  ScrollController tvShowScrollController = ScrollController();
+  //ScrollController tvShowScrollController = ScrollController();
+  Rx<ScrollController> tvShowScrollController = ScrollController().obs;
   Rx<ScrollController> topRatedScrollController = ScrollController().obs;
   ScrollController homePageScrollController = ScrollController();
   ScrollController comingPageScrollController = ScrollController();
@@ -18,12 +19,14 @@ class IntentController extends GetxController {
   RxList<dynamic>? trendingNodes = [].obs;
   RxList<dynamic>? topRatedNodes = [].obs;
   RxList<dynamic>? tvShowsNodes = [].obs;
+  RxList<dynamic>? posterNodes = [].obs;
   List<FocusNode>? sideNodes = [];
   List<FocusNode>? searchNodes = [];
   List<FocusNode>? comingNodes = [];
   List<FocusNode>? favNodes = [];
   List<FocusNode>? profileNodes = [];
   List<FocusNode>? descNodes = [];
+
   bool side = false;
   bool trend = false;
   bool top = false;
@@ -34,6 +37,7 @@ class IntentController extends GetxController {
   bool searchField = false;
   bool profile = false;
   bool desc = false;
+  int posterIndex = 0;
   int descIndex = 0;
   int profileIndex = 0;
   int favIndex = 0;
@@ -76,7 +80,7 @@ class IntentController extends GetxController {
       trendingIndex = 0;
     } else if (top == true && desc == false) {
       FocusScope.of(context).requestFocus(tvShowsNodes![0]);
-      tvShowScrollController.animateTo(0,
+      tvShowScrollController.value.animateTo(0,
           duration: Duration(milliseconds: 800), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset + 250,
           duration: Duration(milliseconds: 800), curve: Curves.ease);
@@ -229,8 +233,10 @@ class IntentController extends GetxController {
       }
     } else if (tvShow == true && desc == false) {
       if (tvIndex < _controller.tv.length - 1) {
-        tvShowScrollController.animateTo(tvShowScrollController.offset + 230,
-            curve: Curves.ease, duration: Duration(milliseconds: 800));
+        tvShowScrollController.value.animateTo(
+            tvShowScrollController.value.offset + 230,
+            curve: Curves.ease,
+            duration: Duration(milliseconds: 800));
         FocusScope.of(context).requestFocus(tvShowsNodes![tvIndex + 1]);
         tvIndex++;
       }
@@ -293,7 +299,7 @@ class IntentController extends GetxController {
         tvShow = false;
       } else {
         FocusScope.of(context).requestFocus(tvShowsNodes![tvIndex - 1]);
-        tvShowScrollController.animateTo(
+        tvShowScrollController.value.animateTo(
             trendingScrollController.value.offset - 230,
             curve: Curves.ease,
             duration: Duration(milliseconds: 800));
