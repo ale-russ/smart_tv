@@ -171,7 +171,7 @@ class _MoviesPage extends State<MoviesPage> {
               },
               child: Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     child: navBar(),
                     // child: NavRail(
                     //   selectedIndex: _selectedIndex,

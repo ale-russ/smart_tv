@@ -12,10 +12,12 @@ void main(List<String>? args) async {
   debugPrint('args: $args');
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  await FirebaseAuth.instance.useAuthEmulator('localhot', 9099);
+  if (GetPlatform.isAndroid) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await FirebaseAuth.instance.useAuthEmulator('localhot', 9099);
+  }
 
   runApp(const MyApp());
 }

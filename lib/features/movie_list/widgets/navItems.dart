@@ -124,7 +124,7 @@ class _NavItemState extends State<NavItem> {
         splashColor: Colors.white,
         hoverColor: Colors.white12,
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 5.0),
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
           child: Row(
             children: [
               Container(
@@ -133,7 +133,7 @@ class _NavItemState extends State<NavItem> {
                 child: Row(
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 30.0),
+                        padding: const EdgeInsets.only(left: 30.0),
                         child: Text(widget.icon)
                         // Icon(
                         //   widget.icon,
