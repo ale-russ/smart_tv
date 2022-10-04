@@ -86,26 +86,30 @@ class Movie_card extends StatelessWidget {
   }
 
   void moveDown(BuildContext context) {
-    if (_intentController.posterIndex < 3) {
-      FocusScope.of(context).requestFocus(_intentController
-          .posterNodes!.value[++_intentController.posterIndex]);
-      _intentController.trendingNodes!.refresh();
-      _intentController.posterNodes!.refresh();
-    } else {
-      FocusScope.of(context)
-          .requestFocus(_intentController.trendingNodes!.value[0]);
-    }
+    FocusScope.of(context)
+        .requestFocus(_intentController.trendingNodes!.value[0]);
+    _intentController.trendingNodes!.refresh();
+    _intentController.posterNodes!.refresh();
+    _intentController.trendingIndex = 0;
+    _intentController.trendingScrollController.value.animateTo(0,
+        duration: const Duration(milliseconds: 800), curve: Curves.ease);
+    //  else {
+    //   FocusScope.of(context)
+    //       .requestFocus(_intentController.trendingNodes!.value[0]);
+    //   _intentController.trendingNodes!.refresh();
+    // }
   }
 
   void moveLeft(BuildContext context) {
-    if (_intentController.posterIndex > 0) {
-      FocusScope.of(context).requestFocus(_intentController
-          .posterNodes!.value[--_intentController.posterIndex]);
-      _intentController.posterNodes!.refresh();
-    } else {
-      FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
-      //_intentController.searchNode.refresh();
-    }
+    // if (_intentController.posterIndex > 0) {
+    //   FocusScope.of(context).requestFocus(_intentController
+    //       .posterNodes!.value[--_intentController.posterIndex]);
+    //   _intentController.posterNodes!.refresh();
+    // } else {
+    FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
+    _intentController.posterNodes!.refresh();
+    //_intentController.searchNode.refresh();
+    // }
   }
 }
 

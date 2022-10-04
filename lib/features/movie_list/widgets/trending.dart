@@ -69,6 +69,9 @@ class _TrendingMoviesState extends State<TrendingMovies> {
             CallbackAction<RightbuttonIntent>(onInvoke: (intent) {
           moveRight(context);
         }),
+        UpbuttonIntent: CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
+          moveUp(context);
+        })
       },
       child: MoviesTile(
         title: "Trending Movies",
@@ -78,6 +81,13 @@ class _TrendingMoviesState extends State<TrendingMovies> {
         scrollController: _intentController.trendingScrollController.value,
       ),
     );
+  }
+
+  void moveUp(BuildContext context) {
+    FocusScope.of(context).requestFocus(_intentController.posterNodes![0]);
+    _intentController.posterIndex = 0;
+    _intentController.trendingNodes!.refresh();
+    _intentController.posterNodes!.refresh();
   }
 
   void moveLeft(BuildContext context) {

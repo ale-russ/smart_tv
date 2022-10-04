@@ -161,7 +161,9 @@ class _NavRailState extends State<NavRail> {
 
   void moveRight() {
     if (_intentController.clickedIndex == 1) {
-      FocusScope.of(context).requestFocus(_intentController.searchNode);
+      FocusScope.of(context)
+          .requestFocus(_intentController.searchOptionsNodes!.value[0]);
+      _intentController.searchOptionsNodes!.refresh();
     } else if (_intentController.clickedIndex == 3) {
       FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
     } else if (_intentController.clickedIndex == 4) {

@@ -20,8 +20,9 @@ class IntentController extends GetxController {
   RxList<dynamic>? topRatedNodes = [].obs;
   RxList<dynamic>? tvShowsNodes = [].obs;
   RxList<dynamic>? posterNodes = [].obs;
+  RxList<dynamic>? searchOptionsNodes = [].obs;
   List<FocusNode>? sideNodes = [];
-  List<FocusNode>? searchNodes = [];
+  RxList<dynamic>? searchNodes = [].obs;
   List<FocusNode>? comingNodes = [];
   List<FocusNode>? favNodes = [];
   List<FocusNode>? profileNodes = [];
@@ -37,6 +38,7 @@ class IntentController extends GetxController {
   bool searchField = false;
   bool profile = false;
   bool desc = false;
+  int searchoptionIndex = 0;
   int posterIndex = 0;
   int descIndex = 0;
   int profileIndex = 0;

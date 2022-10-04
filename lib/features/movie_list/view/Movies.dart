@@ -142,6 +142,7 @@ class _MoviesPage extends State<MoviesPage> {
             // ComingSoon(
             //   movie: controller.tv,
             // ),
+
             Library(),
             ProfilePage(),
           ];
