@@ -14,6 +14,7 @@ import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:smart_tv/features/movie_list/widgets/Movie_card.dart';
 import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
+import 'package:smart_tv/features/movie_list/widgets/nav_bar.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 import 'package:smart_tv/features/movie_list/widgets/tv.dart';
@@ -119,7 +120,7 @@ class _MoviesPage extends State<MoviesPage> {
     });
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xE5E5E5),
       // appBar: AppBar(
       //   automaticallyImplyLeading: false,
       //   leading: null,
@@ -139,7 +140,7 @@ class _MoviesPage extends State<MoviesPage> {
               tv: controller.tv,
               focusNode: firstFocus,
             ),
-            SearchPage(number: 0),
+            SearchPage(number: 3),
             ComingSoon(
               movie: controller.trendingmovies,
             ),
@@ -171,12 +172,13 @@ class _MoviesPage extends State<MoviesPage> {
               child: Row(
                 children: [
                   SizedBox(
-                    child: NavRail(
-                      selectedIndex: _selectedIndex,
-                      callback: (index) => setState(() {
-                        _selectedIndex = index;
-                      }),
-                    ),
+                    child: navBar(),
+                    // child: NavRail(
+                    //   selectedIndex: _selectedIndex,
+                    //   callback: (index) => setState(() {
+                    //     _selectedIndex = index;
+                    //   }),
+                    // ),
                   ),
                   const VerticalDivider(),
                   Expanded(

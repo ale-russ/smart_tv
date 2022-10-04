@@ -1,24 +1,28 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_tv/features/authentication/view/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'features/movie_list/view/Movies.dart';
-// import 'package:smart_tv/features/movie_list/view/Movies.dart';
-// import 'package:smart_tv/features/movie_list/view/landingPage.dart';
-// import 'package:smart_tv/features/screen/movieScreen.dart';
-// import 'package:smart_tv/features/upcoming_movies/upcoming_movies.dart';
 
-void main(List<String>? args) {
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main(List<String>? args) async {
   debugPrint('args: $args');
+
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FirebaseAuth.instance.useAuthEmulator('localhot', 9099);
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return Shortcuts(

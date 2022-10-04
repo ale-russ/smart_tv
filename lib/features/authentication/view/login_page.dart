@@ -1,6 +1,7 @@
 // import 'dart:ffi';
 // import 'dart:ui';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_tv/features/authentication/controller/login_controller.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ import '../../../config/intentFiles/button_intents.dart';
 import '../../movie_list/view/Movies.dart';
 import '../controller/login_controller.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -21,6 +24,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
+
   FocusNode? _emailNode;
   FocusNode? _passwordNode;
   FocusNode? _buttonNode;
@@ -43,12 +57,12 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  @override
-  void dispose() {
-    _emailNode!.dispose();
-    _passwordNode!.dispose();
-    _buttonNode!.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _emailNode!.dispose();
+  //   _passwordNode!.dispose();
+  //   _buttonNode!.dispose();
+  // }
 
   _changeNodeFocus(BuildContext context, FocusNode focus) {
     FocusScope.of(context).requestFocus(focus);
@@ -191,14 +205,16 @@ class _LoginPageState extends State<LoginPage> {
                                       })
                             },
                             child: FormTextField(
-                                emailNode: _emailNode,
-                                obsecure: false,
-                                hint: 'Email',
-                                icon: const Icon(
-                                  Icons.mail,
-                                  color: Colors.white54,
-                                ),
-                                controller: loginController.emailController)),
+                              controller: emailController,
+                              emailNode: _emailNode,
+                              obsecure: false,
+                              hint: 'Email',
+                              icon: const Icon(
+                                Icons.mail,
+                                color: Colors.white54,
+                              ),
+                              //controller: loginController.emailController
+                            )),
                         const SizedBox(height: 24.0),
                         Actions(
                           actions: <Type, Action<Intent>>{
@@ -218,6 +234,7 @@ class _LoginPageState extends State<LoginPage> {
                                     })
                           },
                           child: FormTextField(
+                            controller: passwordController,
                             emailNode: _passwordNode,
                             obsecure: true,
                             hint: 'Password',
@@ -225,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
                               Icons.lock,
                               color: Colors.white54,
                             ),
-                            controller: loginController.passwordController,
+                            //controller: loginController.passwordController,
                           ),
                         ),
                         const SizedBox(
@@ -327,3 +344,10 @@ class FormTextField extends StatelessWidget {
     );
   }
 }
+
+// Future SignIn() async {
+//   await FirebaseAuth.instance.signInWithEmailAndPassword(
+//     email: emailController.text.trim(),
+//     password: passwordController.text.trim(),
+//   );
+// }
