@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
-import 'package:smart_tv/features/common/controller/keys.dart';
+import 'package:smart_tv/features/common/services/keys.dart';
+import 'package:smart_tv/features/common/theme/text_themes.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:smart_tv/features/movie_list/widgets/description.dart';
@@ -76,16 +78,16 @@ class _MoviesTileState extends State<MoviesTile> {
                   );
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  width: 250,
+                  padding: const EdgeInsets.only(right: 5),
+                  width: 205,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Focus(
                         focusNode: widget.nodes![index],
                         child: Container(
-                          width: 250,
-                          height: 140,
+                          width: 200,
+                          height: 120,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             border: widget.nodes![index].hasFocus
@@ -156,19 +158,33 @@ class _ComingSoonState extends State<ComingSoon> {
       count = 3;
     }
     return Scaffold(
+      backgroundColor: DarkModeColors.backgroundColor,
+      appBar: GetPlatform.isDesktop
+          ? AppBar(
+              backgroundColor: Colors.transparent,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            )
+          : null,
       body: Container(
-        color: Colors.black,
+        decoration: BoxDecoration(
+          color: DarkModeColors.backgroundColor,
+        ),
         child: GridView.builder(
           controller: _intentController.comingPageScrollController,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: count!,
-            childAspectRatio: 4 / 3,
+            childAspectRatio: 1,
             crossAxisSpacing: 20,
             mainAxisSpacing: 20,
           ),
           itemCount: widget.movie!.length,
           itemBuilder: (context, index) {
-            return SizedBox(
+            return Container(
               child: InkWell(
                 onTap: () {
                   Navigator.push(
@@ -196,29 +212,31 @@ class _ComingSoonState extends State<ComingSoon> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border:
-                                _intentController.comingNodes![index].hasFocus
-                                    ? Border.all(color: Colors.amber)
-                                    : Border.all(
-                                        color: Colors.grey.withOpacity(0.3)),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                "${_commonKeys.movieUrl}${widget.movie![index]['poster_path']}",
+                        Expanded(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            height: MediaQuery.of(context).size.height * 0.40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border:
+                                  _intentController.comingNodes![index].hasFocus
+                                      ? Border.all(color: Colors.amber)
+                                      : Border.all(
+                                          color: Colors.grey.withOpacity(0.3)),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  "${_commonKeys.movieUrl}${widget.movie![index]['poster_path']}",
+                                ),
+                                fit: BoxFit.fill,
                               ),
-                              fit: BoxFit.fill,
                             ),
                           ),
                         ),
                         SizedBox(
-                          child: ModifiedText(
-                            text: widget.movie![index]['title'] ?? 'Loading',
-                            color: Colors.white,
-                            size: 13,
+                          child: KabbeeText.headline6(
+                            widget.movie![index]['title'] ?? "Loading",
+                            customStyle:
+                                TextStyle(color: Colors.white.withAlpha(255)),
                           ),
                         )
                       ],

@@ -8,4 +8,6 @@ class RightbuttonIntent extends Intent {}
 
 class LeftbuttonIntent extends Intent {}
 
+class BackButtonIntent extends Intent {}
+
 class ActivatebuttonIntet extends Intent {}

@@ -13,6 +13,7 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:smart_tv/features/movie_list/widgets/Movie_card.dart';
+import 'package:smart_tv/features/movie_list/widgets/library.dart';
 import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
 import 'package:smart_tv/features/movie_list/widgets/nav_bar.dart';
 
@@ -59,26 +60,28 @@ class _MoviesPage extends State<MoviesPage> {
   _setFirstFocus(BuildContext context) {
     if (_controller.sideNodes!.isEmpty) {
       for (var i = 0; i < 5; i++) {
-        _controller.descNodes!.add(FocusNode());
+        _controller.descNodes!.add(FocusNode(debugLabel: "desc node ${i}"));
+        //  print("side node ${_controller.descNodes![i]}");
       }
       for (var i = 0; i < 5; i++) {
-        var temp = FocusNode();
-        _controller.sideNodes!.add(temp);
+        //var temp = FocusNode();
+        _controller.sideNodes!.add(FocusNode(debugLabel: "side node $i"));
       }
       for (var i = 0; i < controller.trendingmovies.length; i++) {
-        print("inside the setfirstfocusff ${controller.trendingmovies.length}");
+        // print("inside the setfirstfocusff ${controller.trendingmovies.length}");
         //var temp1 = FocusNode();
-        var temp = FocusNode();
-        _controller.trendingNodes!.add(temp);
-        _controller.comingNodes!.add(temp);
+        // var temp = FocusNode();
+        _controller.trendingNodes!
+            .add(FocusNode(debugLabel: "trending node $i"));
+        _controller.comingNodes!.add(FocusNode(debugLabel: "coming node $i"));
       }
       for (var i = 0; i < controller.topratedmovies.length; i++) {
         var temp = FocusNode();
-        _controller.topRatedNodes!.add(temp);
+        _controller.topRatedNodes!.add(FocusNode(debugLabel: "top node $i"));
       }
       for (var i = 0; i < controller.tv.length; i++) {
         var temp = FocusNode();
-        _controller.tvShowsNodes!.add(temp);
+        _controller.tvShowsNodes!.add(FocusNode(debugLabel: "Tv node $i"));
       }
       _controller.searchNode = FocusNode();
       FocusScope.of(context).requestFocus(_controller.sideNodes![0]);
@@ -120,17 +123,7 @@ class _MoviesPage extends State<MoviesPage> {
     });
 
     return Scaffold(
-      backgroundColor: Color(0xE5E5E5),
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   leading: null,
-      //   // title: const ModifiedText(
-      //   //   text: 'Smart-TV App ',
-      //   //   size: 20,
-      //   //   color: Colors.amber,
-      //   // ),
-      //   backgroundColor: Colors.transparent,
-      // ),
+      backgroundColor: Colors.black,
       body: Obx(
         (() {
           List<Widget> pages = [
@@ -144,10 +137,10 @@ class _MoviesPage extends State<MoviesPage> {
             ComingSoon(
               movie: controller.trendingmovies,
             ),
-            ComingSoon(
-              movie: controller.tv,
-            ),
-            ProfilePage(),
+            // ComingSoon(
+            //   movie: controller.tv,
+            // ),
+            Library(),
             ProfilePage(),
           ];
           return Shortcuts(
@@ -157,6 +150,8 @@ class _MoviesPage extends State<MoviesPage> {
               LogicalKeySet(LogicalKeyboardKey.arrowLeft): LeftbuttonIntent(),
               LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
               LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
+              LogicalKeySet(LogicalKeyboardKey.goBack): BackButtonIntent()
+              //LogicalKeySet(LogicalKeyboardKey.back)
             },
             child: Actions(
               actions: <Type, Action<Intent>>{
@@ -172,6 +167,7 @@ class _MoviesPage extends State<MoviesPage> {
               child: Row(
                 children: [
                   SizedBox(
+                    height: Get.height,
                     child: navBar(),
                     // child: NavRail(
                     //   selectedIndex: _selectedIndex,

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
+import 'package:smart_tv/features/common/theme/colors_utility.dart';
+import 'package:smart_tv/features/common/theme/icon_themes.dart';
+import 'package:smart_tv/features/common/theme/text_themes.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
 import 'package:smart_tv/features/profile/controllers/user_controller.dart';
 
@@ -25,48 +30,50 @@ class _ProfilePageState extends State<ProfilePage> {
   IntentController _intentController = Get.find();
   UserController _userController = Get.put(UserController());
 
+  GlobalController _globalController = Get.find();
+
   @override
   void initState() {
     for (var i = 0; i < 6; i++) {
-      _intentController.profileNodes!.add(FocusNode());
+      _intentController.profileNodes!.add(FocusNode(debugLabel: "profile $i"));
+      print(_intentController.profileNodes![i]);
     }
-    // _firstNameController.text = _userController.user!.firtName!;
-    // _lastNameController.text = _userController.user!.lastName!;
-    // _sexController.text = _userController.user!.sex!;
-    // _countryController.text = _userController.user!.country!;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: GetPlatform.isDesktop || GetPlatform.isWeb
-              ? IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              : const SizedBox.shrink()),
-      backgroundColor: Colors.black,
-      body: Align(
-        alignment: Alignment.topCenter,
+      // appBar: GetPlatform.isDesktop || GetPlatform.isWeb
+      //     ? AppBar(
+      //         backgroundColor: Colors.transparent,
+      //         leading: IconButton(
+      //           icon: const Icon(
+      //             Icons.arrow_back,
+      //           ),
+      //           onPressed: () {
+      //             Navigator.pop(context);
+      //           },
+      //         ),
+      //       )
+      //     : null,
+
+      // backgroundColor: Colors.black,
+      backgroundColor: DarkModeColors.backgroundColor,
+      body: Container(
+        alignment: Alignment.center,
         child: Focus(
           focusNode: _intentController.profileNodes![0],
           child: Container(
             alignment: Alignment.center,
-            height: MediaQuery.of(context).size.height * 0.5,
-            width: 500,
+            height: Get.height * 0.9,
+            width: Get.width * 0.7,
             decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.3),
+              color: DarkModeColors.backgroundVariant,
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: Colors.white60,
-              ),
+              // border: Border.all(
+              //   color: Colors.white60,
+              // ),
             ),
             child: SingleChildScrollView(
               child: Form(
@@ -74,104 +81,128 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    Actions(actions: <Type, Action<Intent>>{
+                      DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                          onInvoke: (intent) => FocusScope.of(context)
+                              .nextFocus() //_changeNodeFocus(context, "Down")
+                          )
+                    }, child: ProfileAvatar()),
                     Actions(
-                      actions: <Type, Action<Intent>>{
-                        DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                            onInvoke: (intent) => FocusScope.of(context)
-                                .nextFocus() //_changeNodeFocus(context, "Down")
-                            )
-                      },
-                      child: ProfileTextFields(
-                          focusNode: _intentController.profileNodes![1],
-                          textController: _firstNameController,
-                          label: "Mohammed" // _userController.user!.firtName,
+                        actions: <Type, Action<Intent>>{
+                          DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                              onInvoke: (intent) => FocusScope.of(context)
+                                  .nextFocus() //_changeNodeFocus(context, "Down")
+                              )
+                        },
+                        child: ProfileTile(
+                          name: "Alem",
+                          label: "First Name",
+                          widget:
+                              KabbeeIcons.profile(color: Colors.grey, size: 25),
+                        )),
+                    Actions(
+                        actions: <Type, Action<Intent>>{
+                          DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                              onInvoke: (intent) {
+                            print('local action');
+                            FocusScope.of(context).nextFocus();
+                          } //_changeNodeFocus(context, "Down")
+                              ),
+                          UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                              onInvoke: (intent) {
+                            print('local action up');
+                            FocusScope.of(context).previousFocus();
+                          } //_changeNodeFocus(context, "Down")
+                              )
+                        },
+                        child: ProfileTile(
+                          name: "Russom",
+                          label: "Last Name",
+                          widget:
+                              KabbeeIcons.profile(color: Colors.grey, size: 25),
+                        )),
+                    Actions(
+                        actions: <Type, Action<Intent>>{
+                          DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                              onInvoke: (intent) {
+                            print('local action');
+                            FocusScope.of(context).nextFocus();
+                          } //_changeNodeFocus(context, "Down")
+                              ),
+                          UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                              onInvoke: (intent) {
+                            print('local action up');
+                            FocusScope.of(context).previousFocus();
+                          } //_changeNodeFocus(context, "Down")
+                              )
+                        },
+                        child: ProfileTile(
+                          name: "Male",
+                          label: "Gender",
+                          widget:
+                              KabbeeIcons.gender(color: Colors.grey, size: 25),
+                        )),
+                    Actions(
+                        actions: <Type, Action<Intent>>{
+                          DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                              onInvoke: (intent) {
+                            print('local action down');
+                            FocusScope.of(context).nextFocus();
+                          } //_changeNodeFocus(context, "Down")
+                              ),
+                          UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                              onInvoke: (intent) {
+                            print('local action up');
+                            FocusScope.of(context).previousFocus();
+                          } //_changeNodeFocus(context, "Down")
+                              )
+                        },
+                        child: ProfileTile(
+                          name: "September 29 2022",
+                          label: "Date of Birth",
+                          widget:
+                              KabbeeIcons.profile(color: Colors.grey, size: 25),
+                        )),
+                    Actions(
+                        actions: <Type, Action<Intent>>{
+                          DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                              onInvoke: (intent) {
+                            print('local action down');
+                            FocusScope.of(context).nextFocus();
+                          } //_changeNodeFocus(context, "Down")
+                              ),
+                          UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                              onInvoke: (intent) {
+                            print('local action up');
+                            FocusScope.of(context).previousFocus();
+                          } //_changeNodeFocus(context, "Down")
+                              )
+                        },
+                        child: ProfileTile(
+                          name: "Ethiopia",
+                          label: "Country",
+                          widget: KabbeeIcons.web(color: Colors.grey, size: 25),
+                        )),
+                    Container(
+                      margin: EdgeInsets.only(top: 30),
+                      height: 60,
+                      width: 400,
+                      child: TextButton(
+                          focusNode: _intentController.profileNodes![5],
+                          style: ElevatedButton.styleFrom(
+                            primary: DarkModeColors.surfaceColor,
                           ),
-                    ),
-                    Actions(
-                      actions: <Type, Action<Intent>>{
-                        DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                            onInvoke: (intent) {
-                          print('local action');
-                          FocusScope.of(context).nextFocus();
-                        } //_changeNodeFocus(context, "Down")
+                          onPressed: () {
+                            print("pressed logout button");
+                            _globalController.logOutUser(context: context);
+                          },
+                          child: const Center(
+                            child: KabbeeText.headline5(
+                              "Log out",
+                              customStyle: TextStyle(color: Colors.white),
                             ),
-                        UpbuttonIntent:
-                            CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
-                          print('local action up');
-                          FocusScope.of(context).previousFocus();
-                        } //_changeNodeFocus(context, "Down")
-                                )
-                      },
-                      child: ProfileTextFields(
-                          focusNode: _intentController.profileNodes![2],
-                          textController: _lastNameController,
-                          label: "Gemal" //_userController.user!.lastName,
-                          ),
-                    ),
-                    Actions(
-                      actions: <Type, Action<Intent>>{
-                        DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                            onInvoke: (intent) {
-                          print('local action');
-                          FocusScope.of(context).nextFocus();
-                        } //_changeNodeFocus(context, "Down")
-                            ),
-                        UpbuttonIntent:
-                            CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
-                          print('local action up');
-                          FocusScope.of(context).previousFocus();
-                        } //_changeNodeFocus(context, "Down")
-                                )
-                      },
-                      child: ProfileTextFields(
-                          focusNode: _intentController.profileNodes![3],
-                          textController: _sexController,
-                          label: "Male" //_userController.user!.sex,
-                          ),
-                    ),
-                    Actions(
-                      actions: <Type, Action<Intent>>{
-                        DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                            onInvoke: (intent) {
-                          print('local action down');
-                          FocusScope.of(context).nextFocus();
-                        } //_changeNodeFocus(context, "Down")
-                            ),
-                        UpbuttonIntent:
-                            CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
-                          print('local action up');
-                          FocusScope.of(context).previousFocus();
-                        } //_changeNodeFocus(context, "Down")
-                                )
-                      },
-                      child: ProfileTextFields(
-                          focusNode: _intentController.profileNodes![4],
-                          textController: _countryController,
-                          label: "Ethiopia" //_userController.user!.country,
-                          ),
-                    ),
-                    SizedBox(
-                      height: 4.0,
-                    ),
-                    ElevatedButton(
-                        focusNode: _intentController.profileNodes![5],
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.amber,
-                          fixedSize: const Size(100, 35),
-                          textStyle: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          side:
-                              BorderSide(color: Theme.of(context).dividerColor),
-                        ),
-                        onPressed: () {},
-                        child: const Center(
-                          child: Text("Update"),
-                        ))
+                          )),
+                    )
                   ],
                 ),
               ),
@@ -183,45 +214,80 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-class ProfileTextFields extends StatelessWidget {
-  const ProfileTextFields({
+class ProfileTile extends StatelessWidget {
+  ProfileTile({
     Key? key,
-    required this.textController,
-    required this.label,
-    required this.focusNode,
+    this.name,
+    this.label,
+    this.widget,
   }) : super(key: key);
 
-  final TextEditingController textController;
-  final String? label;
-  final FocusNode focusNode;
+  String? name;
+  String? label;
+
+  Widget? widget;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 40,
-      width: 300,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: TextFormField(
-          onEditingComplete: () {
-            print("Edite complete");
-            FocusScope.of(context).nextFocus();
-            print(FocusManager.instance.primaryFocus);
-          },
-          initialValue: label,
-          focusNode: focusNode,
-          //controller: textController,
-
-          decoration: InputDecoration(
-            focusColor: Colors.amber,
-            filled: true,
-            fillColor: Colors.grey.withOpacity(0.9),
-            // label: label,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
+    return Center(
+      child: Container(
+        margin: EdgeInsets.only(
+          top: 8,
+        ),
+        decoration: BoxDecoration(
+          color: DarkModeColors.surfaceColor,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        width: 400,
+        height: 50,
+        alignment: Alignment.center,
+        child: ListTile(
+          dense: true,
+          leading: widget,
+          subtitle: Container(
+            margin: EdgeInsets.only(bottom: 8, top: 2),
+            child: KabbeeText.subtitle1(
+              name!,
+              customStyle: TextStyle(color: Colors.white),
             ),
           ),
+          title: Container(
+            margin: EdgeInsets.only(top: 6),
+            child: KabbeeText.subtitle2(label!,
+                customStyle: TextStyle(color: Colors.grey, fontSize: 12)),
+          ),
         ),
+      ),
+    );
+  }
+}
+
+class ProfileAvatar extends StatelessWidget {
+  const ProfileAvatar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(
+        bottom: 8,
+      ),
+      decoration: BoxDecoration(
+          color: DarkModeColors.surfaceColor,
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: DarkModeColors.borderColor)),
+      width: 400,
+      height: 70,
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: Theme.of(context).backgroundColor,
+          child: Text("AR"),
+        ),
+        title: KabbeeText.subtitle1(
+          "Alem Russom",
+          customStyle: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        subtitle: KabbeeText.subtitle2("alem@gmail.com",
+            customStyle: TextStyle(color: Colors.grey, fontSize: 14)),
       ),
     );
   }

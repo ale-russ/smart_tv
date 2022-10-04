@@ -40,10 +40,10 @@ class _NavRailState extends State<NavRail> {
 
   @override
   void dispose() {
-    _home!.dispose();
-    _search!.dispose();
-    _upcoming!.dispose();
-    _profile!.dispose();
+    // _home!.dispose();
+    // _search!.dispose();
+    // _upcoming!.dispose();
+    // _profile!.dispose();
     super.dispose();
   }
 

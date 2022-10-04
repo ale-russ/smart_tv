@@ -11,7 +11,6 @@ import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:video_player/video_player.dart';
 
-
 import '../../../config/intentFiles/button_intents.dart';
 
 class Description extends StatefulWidget {
@@ -32,7 +31,7 @@ class Description extends StatefulWidget {
 }
 
 class _DescriptionState extends State<Description> {
-  late VideoPlayerController _videoPlayerController;
+  // late VideoPlayerController _videoPlayerController;
 
   final IntentController _intentController = Get.find();
 
@@ -44,15 +43,15 @@ class _DescriptionState extends State<Description> {
   void initState() {
     super.initState();
 
-    _videoPlayerController = VideoPlayerController.network(
-        "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4")
-      ..initialize().then((_) => setState(() {}));
+    // _videoPlayerController = VideoPlayerController.network(
+    //     "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4")
+    //   ..initialize().then((_) => setState(() {}));
   }
 
   @override
   void dispose() {
     super.dispose();
-    _videoPlayerController.dispose();
+    // _videoPlayerController.dispose();
     _intentController.desc = false;
   }
 
@@ -120,22 +119,22 @@ class _DescriptionState extends State<Description> {
                   height: MediaQuery.of(context).size.height,
                   child: Stack(
                     children: [
-                      !_videoPlayerController.value.isInitialized
-                          ? Positioned(
-                              child: SizedBox(
-                                height: 500,
-                                width: MediaQuery.of(context).size.width,
-                                child: Image.network(
-                                  widget.bannerurl,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            )
-                          : AspectRatio(
-                              aspectRatio:
-                                  _videoPlayerController.value.aspectRatio,
-                              child: VideoPlayer(_videoPlayerController),
-                            ),
+                      // !_videoPlayerController.value.isInitialized
+                      //     ? Positioned(
+                      //         child: SizedBox(
+                      //           height: 500,
+                      //           width: MediaQuery.of(context).size.width,
+                      //           child: Image.network(
+                      //             widget.bannerurl,
+                      //             fit: BoxFit.fill,
+                      //           ),
+                      //         ),
+                      //       )
+                      //     : AspectRatio(
+                      //         aspectRatio:
+                      //             _videoPlayerController.value.aspectRatio,
+                      //         child: VideoPlayer(_videoPlayerController),
+                      //       ),
                       Positioned(
                         right: 100,
                         bottom: MediaQuery.of(context).size.height * 0.3,
@@ -143,19 +142,20 @@ class _DescriptionState extends State<Description> {
                           focusNode: _intentController.descNodes![0],
                           child: IconButton(
                             icon: Icon(
-                              !_videoPlayerController.value.isPlaying
-                                  ? Icons.play_circle_fill_rounded
-                                  : Icons.pause_circle_filled_rounded,
+                              // !_videoPlayerController.value.isPlaying
+                              //     ?
+                              Icons.play_circle_fill_rounded,
+                              // : Icons.pause_circle_filled_rounded,
                               color: _intentController.descNodes![0].hasFocus
                                   ? Colors.amber
                                   : Colors.white,
                               size: 100,
                             ),
                             onPressed: () async {
-                              _videoPlayerController.value.isPlaying
-                                  ? _videoPlayerController.pause()
-                                  : _videoPlayerController.play();
-                              log("Video is ${_videoPlayerController.value}");
+                              // _videoPlayerController.value.isPlaying
+                              //     ? _videoPlayerController.pause()
+                              //     : _videoPlayerController.play();
+                              // log("Video is ${_videoPlayerController.value}");
                             },
                           ),
                         ),

@@ -1,6 +1,9 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:smart_tv/features/common/theme/icon_themes.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:smart_tv/features/common/utility/icons.dart';
 
 import '../utilits/text.dart';
@@ -26,14 +29,13 @@ class _iconNavState extends State<iconNav> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 350.0,
+      height: Get.height * 0.6,
       child: Column(
         children: [
           NavItem(
-              icon: SmartTvIcons.homeAsset,
+              icon: KabbeeIcons.home(color: Colors.grey, size: 25),
+              //icon: KabbeeIconshome(color: Colors.grey, size: 16),
               title: 'Home',
-              size: 10,
-              color: Colors.white,
               touched: () {
                 setState(() {
                   // select(0);
@@ -41,10 +43,8 @@ class _iconNavState extends State<iconNav> {
               },
               active: selected[0]),
           NavItem(
-              icon: SmartTvIcons.homeAsset,
+              icon: KabbeeIcons.search(color: Colors.grey, size: 25),
               title: 'Comming soon',
-              size: 10,
-              color: Colors.amber,
               touched: () {
                 setState(() {
                   //select(0);
@@ -52,10 +52,8 @@ class _iconNavState extends State<iconNav> {
               },
               active: selected[0]),
           NavItem(
-              icon: SmartTvIcons.searchAsset,
+              icon: KabbeeIcons.comingSoon(color: Colors.grey, size: 25),
               title: 'Search',
-              size: 10,
-              color: Colors.amber,
               touched: () {
                 setState(() {
                   // select(0);
@@ -63,10 +61,8 @@ class _iconNavState extends State<iconNav> {
               },
               active: selected[0]),
           NavItem(
-              icon: SmartTvIcons.libraryAsset,
+              icon: KabbeeIcons.library(color: Colors.grey, size: 25),
               title: 'Library',
-              size: 10,
-              color: Colors.amber,
               touched: () {
                 setState(() {
                   //  select(0);
@@ -91,22 +87,18 @@ class _iconNavState extends State<iconNav> {
 }
 
 class NavItem extends StatefulWidget {
-  final String icon;
+  final Widget icon;
   final Function touched;
   final bool active;
   final String title;
-  final Color color;
-  final double size;
 
-  NavItem(
-      {Key? key,
-      required this.icon,
-      required this.touched,
-      required this.active,
-      required this.title,
-      required this.color,
-      required this.size})
-      : super(key: key);
+  NavItem({
+    Key? key,
+    required this.icon,
+    required this.touched,
+    required this.active,
+    required this.title,
+  }) : super(key: key);
 
   @override
   State<NavItem> createState() => _NavItemState();
@@ -124,23 +116,29 @@ class _NavItemState extends State<NavItem> {
         splashColor: Colors.white,
         hoverColor: Colors.white12,
         child: Container(
+          color: DarkModeColors.backgroundVariant,
           padding: EdgeInsets.symmetric(vertical: 5.0),
           child: Row(
             children: [
               Container(
+                color: DarkModeColors.backgroundVariant,
                 height: 65.0,
                 width: 80.0,
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  //  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Padding(
-                        padding: EdgeInsets.only(left: 30.0),
-                        child: Text(widget.icon)
-                        // Icon(
-                        //   widget.icon,
-                        //   color: widget.active ? Colors.white54 : Colors.white54,
-                        //   size: 19.0,
-                        // ),
-                        )
+                    widget.icon,
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      widget.title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                      ),
+                    ),
                   ],
                 ),
               )
