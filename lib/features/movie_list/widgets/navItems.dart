@@ -18,10 +18,10 @@ class _IconNavState extends State<IconNav> {
   List<bool> selected = [true, false, false, false, false];
 
   List<Widget> icons = [
-    KabbeeIcons.home(color: Colors.grey, size: 30),
-    KabbeeIcons.comingSoon(color: Colors.grey, size: 30),
-    KabbeeIcons.search(color: Colors.grey, size: 30),
-    KabbeeIcons.library(color: Colors.grey, size: 30),
+    KabbeeIcons.home(color: Colors.grey, size: 25),
+    KabbeeIcons.comingSoon(color: Colors.grey, size: 25),
+    KabbeeIcons.search(color: Colors.grey, size: 25),
+    KabbeeIcons.library(color: Colors.grey, size: 25),
   ];
 
   List<String> labels = ["Home", "Comming Soon", "Search", "Library"];
@@ -35,10 +35,9 @@ class _IconNavState extends State<IconNav> {
       height: Get.height * 0.6,
       width: Get.width,
       child: ListView.builder(
-        itemExtent: 100,
+        // itemExtent: 100,
         itemCount: icons.length,
         itemBuilder: (context, index) {
-          print("navItem is $index");
           return NavItem(
             icon: icons[index],
             title: labels[index],
@@ -100,12 +99,12 @@ class _NavItemState extends State<NavItem> {
                 child: widget.icon,
               ),
               SizedBox(
-                height: 10,
+                height: 4,
               ),
               Text(
                 textAlign: TextAlign.center,
                 widget.title ?? "",
-                style: TextStyle(color: Colors.grey, fontSize: 16),
+                style: TextStyle(color: Colors.grey, fontSize: 14),
               )
             ],
           ),

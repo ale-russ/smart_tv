@@ -166,19 +166,13 @@ class _MoviesPage extends State<MoviesPage> {
                   Container(
                     // color: DarkModeColors.backgroundVariant,
                     child: Center(
-                      child: NavRail(
+                      child: NavBar(
                         selectedIndex: _selectedIndex,
                         callback: (index) => setState(() {
                           print("index in Movies is $index");
                           _selectedIndex = index;
                         }),
                       ),
-                      // NavBar(
-                      //   selectedIndex: _selectedIndex,
-                      //   callback: (index) => setState(() {
-                      //     _selectedIndex = index;
-                      //   }),
-                      // ),
                     ),
                     height: double.infinity,
                   ),
@@ -241,10 +235,10 @@ class _MoviesState extends State<Movies> {
           TrendingMovies(
             trending: widget.trendingmovies,
           ),
-          // TopRated(
-          //   toprated: widget.topratedmovies,
-          // ),
-          // TV(tv: widget.tv),
+          TopRated(
+            toprated: widget.topratedmovies,
+          ),
+          TV(tv: widget.tv),
         ],
       ),
     );

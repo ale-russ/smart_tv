@@ -8,8 +8,8 @@ import 'package:smart_tv/features/movie_list/widgets/navItems.dart';
 import '../utilits/logo.dart';
 import '../view/Movies.dart';
 
-class NavRail extends StatefulWidget {
-  NavRail({
+class NavBar extends StatefulWidget {
+  NavBar({
     Key? key,
     required this.selectedIndex,
     this.callback,
@@ -18,10 +18,10 @@ class NavRail extends StatefulWidget {
   final setIndexCallback? callback;
   final int selectedIndex;
   @override
-  State<NavRail> createState() => _NavRailState();
+  State<NavBar> createState() => _NavBarState();
 }
 
-class _NavRailState extends State<NavRail> {
+class _NavBarState extends State<NavBar> {
   FocusNode? _home;
   MoviesController controller = Get.find();
 
@@ -86,54 +86,3 @@ class _NavRailState extends State<NavRail> {
         ));
   }
 }
-
-// class SideBarItems extends StatefulWidget {
-//   SideBarItems(
-//       {Key? key, this.icon, this.label, this.index, required this.callback})
-//       : super(key: key);
-
-//   Widget? icon;
-//   String? label;
-//   int? index;
-
-//   final setIndexCallback? callback;
-
-//   @override
-//   State<SideBarItems> createState() => _SideBarItemsState();
-// }
-
-// class _SideBarItemsState extends State<SideBarItems> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       onTap: (() {
-//         setState(() {
-//           widget.callback!(widget.index!);
-//         });
-//         print("index is ${widget.index}");
-//       }),
-//       hoverColor: Colors.white12,
-//       child: Container(
-//         alignment: Alignment.center,
-//         height: 70,
-//         width: Get.width,
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//           children: [
-//             Container(
-//               child: widget.icon,
-//             ),
-//             Text(
-//               textAlign: TextAlign.center,
-//               widget.label!,
-//               style: TextStyle(
-//                 color: Colors.white,
-//               ),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
