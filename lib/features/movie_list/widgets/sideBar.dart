@@ -165,12 +165,17 @@ class _NavRailState extends State<NavRail> {
           .requestFocus(_intentController.searchOptionsNodes!.value[0]);
       _intentController.searchOptionsNodes!.refresh();
     } else if (_intentController.clickedIndex == 3) {
-      FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
+      FocusScope.of(context).requestFocus(_intentController.trendingNodes![0]);
+      _intentController.navSelectedIndex = 0;
+      _intentController.trendingNodes!.refresh();
     } else if (_intentController.clickedIndex == 4) {
       FocusScope.of(context).requestFocus(_intentController.profileNodes![0]);
     } else if (_intentController.clickedIndex == 2) {
       FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
-      ;
+
+      _intentController.navSelectedIndex = 0;
+      _intentController.comingNodes!.refresh();
+      _intentController.coming = true;
     } else {
       //print(_intentController.posterNodes![0].hasFocus);
       //Get.focusScope!.requestFocus(_intentController.trendingNodes![0]);

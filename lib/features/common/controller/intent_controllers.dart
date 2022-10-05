@@ -13,7 +13,7 @@ class IntentController extends GetxController {
   Rx<ScrollController> tvShowScrollController = ScrollController().obs;
   Rx<ScrollController> topRatedScrollController = ScrollController().obs;
   ScrollController homePageScrollController = ScrollController();
-  ScrollController comingPageScrollController = ScrollController();
+  Rx<ScrollController> comingPageScrollController = ScrollController().obs;
   ScrollController favPageScrollController = ScrollController();
   ScrollController descPageScrollController = ScrollController();
 
@@ -24,8 +24,8 @@ class IntentController extends GetxController {
   RxList<dynamic>? searchOptionsNodes = [].obs;
   List<FocusNode>? sideNodes = [];
   RxList<dynamic>? searchNodes = [].obs;
-  List<FocusNode>? comingNodes = [];
-  List<FocusNode>? favNodes = [];
+  RxList<dynamic>? comingNodes = [].obs;
+  RxList<dynamic>? favNodes = [].obs;
   List<FocusNode>? profileNodes = [];
   List<FocusNode>? descNodes = [];
 
@@ -98,10 +98,10 @@ class IntentController extends GetxController {
       if (comingIndex + 3 < comingNodes!.length) {
         FocusScope.of(context).requestFocus(comingNodes![comingIndex + 3]);
         comingIndex = comingIndex + 3;
-        comingPageScrollController.animateTo(
-            comingPageScrollController.offset + 250,
-            duration: Duration(milliseconds: 800),
-            curve: Curves.ease);
+        // comingPageScrollController.animateTo(
+        //     comingPageScrollController.offset + 250,
+        //     duration: Duration(milliseconds: 800),
+        //     curve: Curves.ease);
       } else {
         FocusScope.of(context)
             .requestFocus(comingNodes![comingNodes!.length - 1]);
@@ -155,10 +155,10 @@ class IntentController extends GetxController {
       if (comingIndex - 3 > 0) {
         FocusScope.of(context).requestFocus(comingNodes![comingIndex - 3]);
         comingIndex = comingIndex - 3;
-        comingPageScrollController.animateTo(
-            comingPageScrollController.offset - 200,
-            duration: const Duration(milliseconds: 800),
-            curve: Curves.ease);
+        // comingPageScrollController.animateTo(
+        //     comingPageScrollController.offset - 200,
+        //     duration: const Duration(milliseconds: 800),
+        //     curve: Curves.ease);
       } else {
         FocusScope.of(context).requestFocus(comingNodes![0]);
         comingIndex = 0;
