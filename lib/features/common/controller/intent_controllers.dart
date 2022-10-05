@@ -51,8 +51,12 @@ class IntentController extends GetxController {
   }
 
   DownNavActions(BuildContext context) {
-    print("down");
+    //print("down");
     if (side == true && desc == false) {
+      //// FocusScope.of(context).nextFocus();
+      //// print("going to next focus ");
+      //// print(FocusManager.instance.primaryFocus);
+      //// print("This is the first node " + sideNodes![0].toString());
       if (navSelectedIndex < 4) {
         print("inside teh change focus down ${navSelectedIndex}");
         FocusScope.of(context).requestFocus(sideNodes![navSelectedIndex + 1]);
@@ -116,11 +120,13 @@ class IntentController extends GetxController {
   UpNavActions(BuildContext context) {
     print("UP");
     if (side == true && desc == false) {
-      if (navSelectedIndex > -1) {
-        print("inside teh change focus down ${navSelectedIndex}");
-        FocusScope.of(context).requestFocus(sideNodes![navSelectedIndex - 1]);
-        navSelectedIndex--;
-      }
+      FocusScope.of(context).previousFocus();
+      print(FocusManager.instance.primaryFocus);
+      // if (navSelectedIndex > -1) {
+      //   print("inside teh change focus down ${navSelectedIndex}");
+      //   FocusScope.of(context).requestFocus(sideNodes![navSelectedIndex - 1]);
+      //   navSelectedIndex--;
+      // }
     } else if (top == true && desc == false) {
       FocusScope.of(context).requestFocus(trendingNodes![0]);
       trendingScrollController.animateTo(0,
@@ -322,3 +328,9 @@ class IntentController extends GetxController {
     }
   }
 }
+
+SideBarNavigation(String direction) {}
+ListNavigation(String direction, List list) {}
+GridNavigation(
+  String direction,
+) {}

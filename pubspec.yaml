@@ -71,10 +71,22 @@ dependencies:
   cloud_firestore: ^3.5.0
   firebase_auth: ^3.11.0
 
+  # custom icon launcher
+  flutter_launcher_icons: "^0.10.0"
+
+  # loading svgs
+  flutter_svg: ^1.1.5
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/appicon.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -90,7 +102,7 @@ dev_dependencies:
 flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
-  # the material Icons class.
+  # the material Icons class. 
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
@@ -117,10 +129,10 @@ flutter:
   fonts:
     - family: WorkSans
       fonts:
-       - asset: assets/fonts/WorkSans-VariableFont_wght.ttf
-       - asset: assets/fonts/WorkSans-Italic-VariableFont_wght.ttf
+        - asset: assets/fonts/WorkSans-VariableFont_wght.ttf
+        - asset: assets/fonts/WorkSans-Italic-VariableFont_wght.ttf
 
-        # - asset: fonts/Schyler-Regular.ttf
+          # - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

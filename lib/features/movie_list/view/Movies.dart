@@ -7,14 +7,15 @@ import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
 
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:smart_tv/features/movie_list/widgets/Movie_card.dart';
+import 'package:smart_tv/features/movie_list/widgets/library.dart';
 import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
-import 'package:smart_tv/features/movie_list/widgets/nav_bar.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 import 'package:smart_tv/features/movie_list/widgets/tv.dart';
@@ -59,26 +60,28 @@ class _MoviesPage extends State<MoviesPage> {
   _setFirstFocus(BuildContext context) {
     if (_controller.sideNodes!.isEmpty) {
       for (var i = 0; i < 5; i++) {
-        _controller.descNodes!.add(FocusNode());
+        _controller.descNodes!.add(FocusNode(debugLabel: "desc node ${i}"));
+        //  print("side node ${_controller.descNodes![i]}");
       }
       for (var i = 0; i < 5; i++) {
-        var temp = FocusNode();
-        _controller.sideNodes!.add(temp);
+        //var temp = FocusNode();
+        _controller.sideNodes!.add(FocusNode(debugLabel: "side node $i"));
       }
       for (var i = 0; i < controller.trendingmovies.length; i++) {
-        print("inside the setfirstfocusff ${controller.trendingmovies.length}");
+        // print("inside the setfirstfocusff ${controller.trendingmovies.length}");
         //var temp1 = FocusNode();
-        var temp = FocusNode();
-        _controller.trendingNodes!.add(temp);
-        _controller.comingNodes!.add(temp);
+        // var temp = FocusNode();
+        _controller.trendingNodes!
+            .add(FocusNode(debugLabel: "trending node $i"));
+        _controller.comingNodes!.add(FocusNode(debugLabel: "coming node $i"));
       }
       for (var i = 0; i < controller.topratedmovies.length; i++) {
         var temp = FocusNode();
-        _controller.topRatedNodes!.add(temp);
+        _controller.topRatedNodes!.add(FocusNode(debugLabel: "top node $i"));
       }
       for (var i = 0; i < controller.tv.length; i++) {
         var temp = FocusNode();
-        _controller.tvShowsNodes!.add(temp);
+        _controller.tvShowsNodes!.add(FocusNode(debugLabel: "Tv node $i"));
       }
       _controller.searchNode = FocusNode();
       FocusScope.of(context).requestFocus(_controller.sideNodes![0]);
@@ -120,17 +123,7 @@ class _MoviesPage extends State<MoviesPage> {
     });
 
     return Scaffold(
-      backgroundColor: Color(0xE5E5E5),
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   leading: null,
-      //   // title: const ModifiedText(
-      //   //   text: 'Smart-TV App ',
-      //   //   size: 20,
-      //   //   color: Colors.amber,
-      //   // ),
-      //   backgroundColor: Colors.transparent,
-      // ),
+      backgroundColor: Colors.black,
       body: Obx(
         (() {
           List<Widget> pages = [
@@ -140,14 +133,11 @@ class _MoviesPage extends State<MoviesPage> {
               tv: controller.tv,
               focusNode: firstFocus,
             ),
-            SearchPage(number: 3),
             ComingSoon(
               movie: controller.trendingmovies,
             ),
-            ComingSoon(
-              movie: controller.tv,
-            ),
-            ProfilePage(),
+            SearchPage(number: 3),
+            Library(),
             ProfilePage(),
           ];
           return Shortcuts(
@@ -157,6 +147,8 @@ class _MoviesPage extends State<MoviesPage> {
               LogicalKeySet(LogicalKeyboardKey.arrowLeft): LeftbuttonIntent(),
               LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
               LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
+              LogicalKeySet(LogicalKeyboardKey.goBack): BackButtonIntent()
+              //LogicalKeySet(LogicalKeyboardKey.back)
             },
             child: Actions(
               actions: <Type, Action<Intent>>{
@@ -171,14 +163,24 @@ class _MoviesPage extends State<MoviesPage> {
               },
               child: Row(
                 children: [
-                  const SizedBox(
-                    child: navBar(),
-                    // child: NavRail(
-                    //   selectedIndex: _selectedIndex,
-                    //   callback: (index) => setState(() {
-                    //     _selectedIndex = index;
-                    //   }),
-                    // ),
+                  Container(
+                    // color: DarkModeColors.backgroundVariant,
+                    child: Center(
+                      child: NavRail(
+                        selectedIndex: _selectedIndex,
+                        callback: (index) => setState(() {
+                          print("index in Movies is $index");
+                          _selectedIndex = index;
+                        }),
+                      ),
+                      // NavBar(
+                      //   selectedIndex: _selectedIndex,
+                      //   callback: (index) => setState(() {
+                      //     _selectedIndex = index;
+                      //   }),
+                      // ),
+                    ),
+                    height: double.infinity,
                   ),
                   const VerticalDivider(),
                   Expanded(
@@ -229,8 +231,9 @@ class _MoviesState extends State<Movies> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          BoxDecoration(border: Border.all(color: controller.borderColor)),
+      decoration: BoxDecoration(
+        border: Border.all(),
+      ),
       child: ListView(
         controller: widget._controller.homePageScrollController,
         children: [
@@ -238,10 +241,10 @@ class _MoviesState extends State<Movies> {
           TrendingMovies(
             trending: widget.trendingmovies,
           ),
-          TopRated(
-            toprated: widget.topratedmovies,
-          ),
-          TV(tv: widget.tv),
+          // TopRated(
+          //   toprated: widget.topratedmovies,
+          // ),
+          // TV(tv: widget.tv),
         ],
       ),
     );

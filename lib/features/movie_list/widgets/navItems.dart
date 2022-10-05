@@ -1,112 +1,78 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:smart_tv/features/common/utility/icons.dart';
+import 'package:get/get.dart';
+import 'package:smart_tv/features/common/theme/icon_themes.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
 
-import '../utilits/text.dart';
+import '../view/Movies.dart';
 
-class iconNav extends StatefulWidget {
+class IconNav extends StatefulWidget {
+  IconNav({Key? key, this.index, this.callback}) : super(key: key);
+
   @override
-  State<iconNav> createState() => _iconNavState();
+  State<IconNav> createState() => _IconNavState();
+  final setIndexCallback? callback;
+  int? index;
 }
 
-class _iconNavState extends State<iconNav> {
+class _IconNavState extends State<IconNav> {
   List<bool> selected = [true, false, false, false, false];
 
-  // void select(int n) {
-  //   for (int i = 0; i < 5; i++) {
-  //     if (i != n) {
-  //       selected[i] = false;
-  //     } else {
-  //       selected[i] = true;
-  //     }
-  //   }
-  // }
+  List<Widget> icons = [
+    KabbeeIcons.home(color: Colors.grey, size: 30),
+    KabbeeIcons.comingSoon(color: Colors.grey, size: 30),
+    KabbeeIcons.search(color: Colors.grey, size: 30),
+    KabbeeIcons.library(color: Colors.grey, size: 30),
+  ];
+
+  List<String> labels = ["Home", "Comming Soon", "Search", "Library"];
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 350.0,
-      child: Column(
-        children: [
-          NavItem(
-              icon: SmartTvIcons.homeAsset,
-              title: 'Home',
-              size: 10,
-              color: Colors.white,
-              touched: () {
-                setState(() {
-                  // select(0);
-                });
-              },
-              active: selected[0]),
-          NavItem(
-              icon: SmartTvIcons.homeAsset,
-              title: 'Comming soon',
-              size: 10,
-              color: Colors.amber,
-              touched: () {
-                setState(() {
-                  //select(0);
-                });
-              },
-              active: selected[0]),
-          NavItem(
-              icon: SmartTvIcons.searchAsset,
-              title: 'Search',
-              size: 10,
-              color: Colors.amber,
-              touched: () {
-                setState(() {
-                  // select(0);
-                });
-              },
-              active: selected[0]),
-          NavItem(
-              icon: SmartTvIcons.libraryAsset,
-              title: 'Library',
-              size: 10,
-              color: Colors.amber,
-              touched: () {
-                setState(() {
-                  //  select(0);
-                });
-              },
-              active: selected[0]),
-          // SizedBox(
-          //   height: 20,
-          // ),
-          // NavItem(
-          //     icon: Icons.library_add,
-          //     touched: () {
-          //       setState(() {
-          //         select(0);
-          //       });
-          //     },
-          //     active: selected[0]),
-        ],
+      padding: EdgeInsets.only(top: 30, left: 4, right: 4),
+      // color: DarkModeColors.backgroundVariant,
+
+      height: Get.height * 0.6,
+      width: Get.width,
+      child: ListView.builder(
+        itemExtent: 100,
+        itemCount: icons.length,
+        itemBuilder: (context, index) {
+          print("navItem is $index");
+          return NavItem(
+            icon: icons[index],
+            title: labels[index],
+            index: index,
+            callback: widget.callback,
+            onPressed: () {
+              setState(() {});
+            },
+            active: selected[0],
+          );
+        },
       ),
     );
   }
 }
 
 class NavItem extends StatefulWidget {
-  final String icon;
-  final Function touched;
+  final Widget icon;
+  final Function onPressed;
   final bool active;
-  final String title;
-  final Color color;
-  final double size;
+  String? title;
+  int? index;
 
-  NavItem(
-      {Key? key,
-      required this.icon,
-      required this.touched,
-      required this.active,
-      required this.title,
-      required this.color,
-      required this.size})
-      : super(key: key);
+  NavItem({
+    Key? key,
+    required this.icon,
+    required this.onPressed,
+    required this.active,
+    this.title,
+    this.callback,
+    this.index,
+  }) : super(key: key);
+
+  final setIndexCallback? callback;
 
   @override
   State<NavItem> createState() => _NavItemState();
@@ -119,30 +85,27 @@ class _NavItemState extends State<NavItem> {
       color: Colors.transparent,
       child: InkWell(
         onTap: (() {
-          // widget.touched();
+          widget.callback!(widget.index!);
         }),
-        splashColor: Colors.white,
-        hoverColor: Colors.white12,
+        splashColor: DarkModeColors.backgroundVariant,
+        // hoverColor: Colors.white12,
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 5.0),
-          child: Row(
+          alignment: Alignment.center,
+          height: 70,
+          width: Get.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: 65.0,
-                width: 80.0,
-                child: Row(
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.only(left: 30.0),
-                        child: Text(widget.icon)
-                        // Icon(
-                        //   widget.icon,
-                        //   color: widget.active ? Colors.white54 : Colors.white54,
-                        //   size: 19.0,
-                        // ),
-                        )
-                  ],
-                ),
+                child: widget.icon,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                textAlign: TextAlign.center,
+                widget.title ?? "",
+                style: TextStyle(color: Colors.grey, fontSize: 16),
               )
             ],
           ),
