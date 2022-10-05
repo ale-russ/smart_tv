@@ -9,6 +9,7 @@ class IntentController extends GetxController {
   //ScrollController
   Rx<ScrollController> trendingScrollController = ScrollController().obs;
   //ScrollController tvShowScrollController = ScrollController();
+  Rx<ScrollController> searchScroller = ScrollController().obs;
   Rx<ScrollController> tvShowScrollController = ScrollController().obs;
   Rx<ScrollController> topRatedScrollController = ScrollController().obs;
   ScrollController homePageScrollController = ScrollController();

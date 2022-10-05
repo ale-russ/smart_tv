@@ -25,6 +25,7 @@ import '../../../config/intentFiles/button_intents.dart';
 
 import '../../common/controller/intent_controllers.dart';
 import '../../profile/screen/profile_page.dart';
+import '../../search/searchPage.dart';
 import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
 import '../controller/movie_controller.dart';
