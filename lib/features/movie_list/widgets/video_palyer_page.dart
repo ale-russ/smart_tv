@@ -1,6 +1,5 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:video_player/video_player.dart';
 
 void main() => runApp(const VideoApp());
@@ -43,6 +42,7 @@ class _VideoAppState extends State<VideoApp> {
       debugShowCheckedModeBanner: false,
       title: 'Video Demo',
       home: Scaffold(
+        backgroundColor: DarkModeColors.backgroundColor,
         body: SingleChildScrollView(
           child: Column(children: [
             if (_controller!.value.isInitialized) ...[
@@ -72,9 +72,11 @@ class _VideoAppState extends State<VideoApp> {
                       }),
                   Icon(
                     Icons.skip_previous,
-                   // color: Colors.white,
+                    // color: Colors.white,
                   ),
-                  Icon(Icons.skip_next,),
+                  Icon(
+                    Icons.skip_next,
+                  ),
                   SizedBox(
                     width: 15,
                   ),
