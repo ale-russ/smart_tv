@@ -187,7 +187,7 @@ class MovieCardWithDescription extends StatelessWidget {
                 child: MovieInfo(controller: controller, index: index))
             : Container(),
       ),
-      Obx(
+      Obx( 
         () => controller.currentPage == 1
             ? Positioned(
                 top: 30,
