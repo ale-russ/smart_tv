@@ -100,7 +100,7 @@ class _DescriptionState extends State<Description> {
                                   padding: const EdgeInsets.only(left: 30),
                                   child: ElevatedButton.icon(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.orange,
+                                        primary: Colors.orange,
                                         minimumSize: Size(150, 40),
                                       ),
                                       onPressed: () {
@@ -125,8 +125,7 @@ class _DescriptionState extends State<Description> {
                                 ),
                                 ElevatedButton.icon(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: DarkModeColors
-                                          .backgroundVariant
+                                      primary: DarkModeColors.backgroundVariant
                                           .withOpacity(0.1),
                                       minimumSize: Size(150, 40),
                                     ),

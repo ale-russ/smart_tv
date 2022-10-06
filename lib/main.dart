@@ -9,8 +9,8 @@ import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'features/common/services/dbAccess.dart';
 import 'features/movie_list/view/Movies.dart';
 
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'firebase_options.dart';
 
 void main(List<String>? args) async {
   debugPrint('args: $args');
@@ -18,12 +18,12 @@ void main(List<String>? args) async {
   await preLauncherSetup();
 
   WidgetsFlutterBinding.ensureInitialized();
-  if (GetPlatform.isAndroid) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    await FirebaseAuth.instance.useAuthEmulator('localhot', 9099);
-  }
+  // if (GetPlatform.isAndroid) {
+  //   await Firebase.initializeApp(
+  //     options: DefaultFirebaseOptions.currentPlatform,
+  //   );
+  //   await FirebaseAuth.instance.useAuthEmulator('localhot', 9099);
+  // }
 
   runApp(const MyApp());
 }
@@ -54,7 +54,7 @@ class MyApp extends GetView<GlobalController> {
 }
 
 Future preLauncherSetup() async {
-  await DbAccess.initHive();
+  GetPlatform.isAndroid ? await DbAccess.initHive() : null;
 
   Get.put(GlobalController(), permanent: true);
 }
