@@ -20,10 +20,12 @@ void main(List<String>? args) async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseAuth.instance.useAuthEmulator('localhot', 9099);
+  // await FirebaseAuth.instance.useAuthEmulator('localhot', 9099);
 
   runApp(const MyApp());
 }
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends GetView<GlobalController> {
   const MyApp({Key? key}) : super(key: key);
@@ -40,10 +42,11 @@ class MyApp extends GetView<GlobalController> {
         // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
       },
       child: GetMaterialApp(
+        navigatorKey: navigatorKey,
         title: 'Kabbe Movies',
         theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
-        // home: const LoginPage(),
-        home: MoviesPage(),
+        home: const LoginPage(),
+        //home: MoviesPage(),
         debugShowCheckedModeBanner: false,
       ),
     );

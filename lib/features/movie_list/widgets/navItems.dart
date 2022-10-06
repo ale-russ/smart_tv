@@ -111,17 +111,17 @@ class _NavItemState extends State<NavItem> {
       color: Colors.transparent,
       child: InkWell(
         onTap: (() {
-          // widget.touched();
+          widget.touched();
         }),
-        splashColor: Colors.white,
-        hoverColor: Colors.white12,
+        splashColor: Colors.amber,
+        hoverColor: Colors.amber,
         child: Container(
-          color: DarkModeColors.backgroundVariant,
+          // color: DarkModeColors.backgroundVariant,
           padding: EdgeInsets.symmetric(vertical: 5.0),
           child: Row(
             children: [
               Container(
-                color: DarkModeColors.backgroundVariant,
+                //  color: DarkModeColors.backgroundVariant,
                 height: 65.0,
                 width: 80.0,
                 child: Column(

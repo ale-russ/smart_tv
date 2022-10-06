@@ -1,6 +1,8 @@
 // import 'dart:ffi';
 // import 'dart:ui';
 
+import 'dart:ffi';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_tv/features/authentication/controller/login_controller.dart';
 import 'package:email_validator/email_validator.dart';
@@ -15,6 +17,7 @@ import '../../../features/common/theme/themes.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
 // import '../../../config/intentFiles/up_intent.dart';
+import '../../../main.dart';
 import '../../app_preference/widgets/widgets/language_selector.dart';
 import '../../common/theme/text_themes.dart';
 import '../../movie_list/view/Movies.dart';
@@ -30,13 +33,30 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  Future signIn() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+              child: CircularProgressIndicator(),
+            ));
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
+  }
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
 
     super.dispose();
   }
@@ -88,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
       focusNode: _buttonNode,
       style: ElevatedButton.styleFrom(
         primary: PrimaryColorTones.mainColor,
-        fixedSize: const Size(150, 40),
+        // fixedSize: const Size(150, 40),
         textStyle: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
@@ -98,24 +118,25 @@ class _LoginPageState extends State<LoginPage> {
         ),
         side: BorderSide(color: Theme.of(context).dividerColor),
       ),
-      onPressed: () {
-        // loginController.loginUser();
-        // formKey!.currentState!.validate()
-        //     ? userController.authenticateUser(
-        //             loginController.emailController.text,
-        //             loginController.passwordController.text)
-        //         ? Get.to(() => MoviesPage())
-        //         : userController.errorMesseg //LandingPage())
-        //     : "Error Please";
+      onPressed: signIn,
 
-        formKey!.currentState!.validate()
-            ? loginController.authenticateUser(
-                    loginController.emailController.text,
-                    loginController.passwordController.text)
-                ? Get.to(() => MoviesPage())
-                : loginController.errorMesseg //LandingPage())
-            : loginController.errorMesseg;
-      },
+      // () {// loginController.loginUser();
+      //   formKey!.currentState!.validate()
+      //       ? userController.authenticateUser(
+      //               loginController.emailController.text,
+      //               loginController.passwordController.text)
+      //           ? Get.to(() => MoviesPage())
+      //           : userController.errorMesseg //LandingPage())
+      //       : "Error Please";
+
+      //   // formKey!.currentState!.validate()
+      //   //     ? loginController.authenticateUser(
+      //   //             loginController.emailController.text,
+      //   //             loginController.passwordController.text)
+      //   //         ? Get.to(() => MoviesPage())
+      //   //         : loginController.errorMesseg //LandingPage())
+      //   //     : loginController.errorMesseg;
+      // },
       child: const Center(
           child: Text(
         "Login",
@@ -248,7 +269,7 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.white54,
                             ),
                             initialValue: loginController.email,
-                            controller: loginController.emailController,
+                            controller: _emailController,
                           )),
                       const SizedBox(height: 24.0),
                       Actions(
@@ -276,15 +297,15 @@ class _LoginPageState extends State<LoginPage> {
                             Icons.lock,
                             color: Colors.white54,
                           ),
-                          controller: loginController.passwordController,
+                          controller: _passwordController,
                         ),
                       ),
                       const SizedBox(
-                        height: 36.0,
+                        height: 24.0,
                       ),
                       KeepMeIn(loginController: loginController),
                       const SizedBox(
-                        height: 36.0,
+                        height: 24.0,
                       ),
                       Actions(
                         actions: <Type, Action<Intent>>{

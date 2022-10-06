@@ -27,7 +27,7 @@ class _navBarState extends State<navBar> {
       //  color: const Color(0x1F1F1F),
       child: Stack(
         children: [
-          Padding(padding: EdgeInsets.only(left: 20), child: Logo()),
+          Padding(padding: EdgeInsets.only(left: 15), child: Logo()),
           Align(alignment: Alignment.center, child: iconNav()),
           Align(
               alignment: Alignment.bottomCenter,

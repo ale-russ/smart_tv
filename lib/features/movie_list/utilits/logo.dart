@@ -14,19 +14,17 @@ class Logo extends StatelessWidget {
         children: [
           Text(
             'K',
-            style: TextStyle(color: Colors.amber, fontWeight: FontWeight.w700),
+            style: GoogleFonts.roboto(
+              color: Color.fromRGBO(255, 165, 0, 1),
+              fontSize: 17,
+            ),
           ),
-          Text('abbee', style: GoogleFonts.roboto(color: Colors.white)
-              // TextStyle(
-              //     color: Colors.white,
-              //     fontWeight: FontWeight.w400,
-              //      ),
-              ),
+          Text('abbee',
+              style: GoogleFonts.roboto(
+                  color: Color.fromRGBO(255, 255, 255, 1), fontSize: 17)),
           Text(
             '+',
-            style: TextStyle(
-              color: Colors.amber,
-            ),
+            style: TextStyle(color: Colors.amber, fontSize: 17),
           )
         ],
       ),
