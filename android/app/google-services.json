@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "172721746926",
+    "project_id": "smart-tv-98713",
+    "storage_bucket": "smart-tv-98713.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:172721746926:android:588f291cb60d8be00a94ff",
+        "android_client_info": {
+          "package_name": "com.kabbee.kabbeeplustvtv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "172721746926-lcv0878qktov75e363auaqlhd9gm4l8q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCk0H71JU-IKDlqtA326Q4bQm242C5V8tw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "172721746926-lcv0878qktov75e363auaqlhd9gm4l8q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

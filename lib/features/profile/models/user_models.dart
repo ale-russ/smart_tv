@@ -32,6 +32,7 @@ class UserDetail {
     this.lastName,
     this.sex,
     this.country,
+    this.dateOfBirth,
   });
 
   String? email;
@@ -39,6 +40,7 @@ class UserDetail {
   String? lastName;
   String? sex;
   String? country;
+  String? dateOfBirth;
 
   factory UserDetail.fromJson(Map<String, dynamic> json) => UserDetail(
         email: json["email"],
@@ -54,5 +56,6 @@ class UserDetail {
         "last_name": lastName,
         "sex": sex,
         "country": country,
+        "dateOfBirth": dateOfBirth
       };
 }

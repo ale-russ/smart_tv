@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
 import 'package:flutter/services.dart';
@@ -8,19 +9,28 @@ import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'features/common/services/dbAccess.dart';
 import 'features/movie_list/view/Movies.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 void main(List<String>? args) async {
   debugPrint('args: $args');
 
   await preLauncherSetup();
 
   WidgetsFlutterBinding.ensureInitialized();
+  if (GetPlatform.isAndroid) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    await FirebaseAuth.instance.useAuthEmulator('localhot', 9099);
+  }
+
   runApp(const MyApp());
 }
 
 class MyApp extends GetView<GlobalController> {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return Shortcuts(
@@ -33,7 +43,7 @@ class MyApp extends GetView<GlobalController> {
         // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
       },
       child: GetMaterialApp(
-        title: 'Kabbe Movies',
+        title: 'Kabbee Movies',
         theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
         // home: const LoginPage(),
         home: MoviesPage(),

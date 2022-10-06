@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
 
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
@@ -51,12 +52,10 @@ class _MoviesPage extends State<MoviesPage> {
   bool showLeading = false;
   bool showTrailing = false;
   double groupAlignment = 0;
-  final selectedColor = Colors.white;
-  final unselectedColor = Colors.white60;
-  final labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
+  // final selectedColor = Colors.white;
+  // final unselectedColor = Colors.white60;
+  // final labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
 
-  FocusNode? _sideBar;
-  FocusNode? _pageNode;
   _setFirstFocus(BuildContext context) {
     if (_controller.sideNodes!.isEmpty) {
       for (var i = 0; i < 5; i++) {
@@ -71,10 +70,6 @@ class _MoviesPage extends State<MoviesPage> {
         _controller.sideNodes!.add(FocusNode(debugLabel: "side node $i"));
       }
       for (var i = 0; i < controller.trendingmovies.length; i++) {
-        // print("inside the setfirstfocusff ${controller.trendingmovies.length}");
-        //var temp1 = FocusNode();
-        // var temp = FocusNode();
-        // _controller.comingNodes!.add(FocusNode());
         _controller.trendingNodes!
             .add(FocusNode(debugLabel: "trending node $i"));
         _controller.comingNodes!.add(FocusNode(debugLabel: "coming node $i"));
@@ -91,26 +86,10 @@ class _MoviesPage extends State<MoviesPage> {
       _controller.searchNode = FocusNode();
       FocusScope.of(context).requestFocus(_controller.sideNodes![0]);
       _controller.side = true;
-
+      print("help me ");
       setState(() {});
     }
   }
-
-  // _changeNodeFocus(BuildContext build, String direction) {
-  //   if (direction == "Down") {
-  //     _controller.DownNavActions(context);
-  //     setState(() {});
-  //   } else if (direction == "Up") {
-  //     _controller.UpNavActions(context);
-  //     setState(() {});
-  //   } else if (direction == "Right") {
-  //     _controller.RightNavActions(context);
-  //     setState(() {});
-  //   } else if (direction == "Left") {
-  //     _controller.LeftNavActions(context);
-  //     setState(() {});
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -129,49 +108,54 @@ class _MoviesPage extends State<MoviesPage> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Obx(
-        (() {
-          List<Widget> pages = [
-            Movies(
-              trendingmovies: controller.trendingmovies,
-              topratedmovies: controller.topratedmovies,
-              tv: controller.tv,
-              focusNode: firstFocus,
-            ),
-            SearchPage(number: 0),
-            //  ComingSoon(
-            //     movie: controller.trendingmovies,
-            //   ),
-            // ComingSoon(
-            //   movie: controller.tv,
-            // ),
+      body: Obx(() {
+        List<Widget> pages = [
+          Movies(
+            trendingmovies: controller.trendingmovies,
+            topratedmovies: controller.topratedmovies,
+            tv: controller.tv,
+            focusNode: firstFocus,
+          ),
 
-            Library(),
-            ProfilePage(),
-          ];
-          return Row(
-            children: [
-              SizedBox(
-                child: NavRail(
+          ComingSoon(
+            movie: controller.trendingmovies,
+          ),
+          SearchPage(number: 0),
+          // ComingSoon(
+          //   movie: controller.tv,
+          // ),
+
+          Library(),
+          ProfilePage(),
+        ];
+        return Row(
+          children: [
+            Container(
+              // color: DarkModeColors.backgroundVariant,
+              child: Center(
+                child: SideBar(
                   selectedIndex: _selectedIndex,
                   callback: (index) => setState(() {
-                    _selectedIndex = index;
+                    print("index is $index");
+
+                    _controller.clickedIndex = _selectedIndex = index;
                   }),
                 ),
               ),
-              const VerticalDivider(),
-              Expanded(
-                child: data.isFalse
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                        color: Colors.amber,
-                      ))
-                    : pages[_selectedIndex],
-              ),
-            ],
-          );
-        }),
-      ),
+              height: double.infinity,
+            ),
+            const VerticalDivider(),
+            Expanded(
+              child: data.isFalse
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                      color: Colors.amber,
+                    ))
+                  : pages[_selectedIndex],
+            ),
+          ],
+        );
+      }),
     );
   }
 }
@@ -206,8 +190,9 @@ class _MoviesState extends State<Movies> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          BoxDecoration(border: Border.all(color: controller.borderColor)),
+      decoration: BoxDecoration(
+        border: Border.all(),
+      ),
       child: ListView(
         controller: widget._controller.homePageScrollController,
         children: [

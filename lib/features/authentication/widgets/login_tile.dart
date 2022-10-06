@@ -1,17 +1,19 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/authentication/controller/login_controller.dart';
 
 import '../../common/theme/themes.dart';
 
-class FormTextField extends StatelessWidget {
-  FormTextField({
+class LoginForm extends StatelessWidget {
+  LoginForm({
     Key? key,
     FocusNode? emailNode,
     bool obscure = false,
     required this.hint,
     required this.controller,
     required this.icon,
+    this.initialValue = "",
   })  : _emailNode = emailNode,
         _obscure = obscure,
         super(key: key);
@@ -20,7 +22,10 @@ class FormTextField extends StatelessWidget {
   FocusNode? _iconFocus;
   bool? _obscure;
   final String? hint;
+  final String? initialValue;
   final TextEditingController controller;
+
+  LoginController? loginController = Get.put(LoginController());
 
   // RxBool isObscure = false.obs;
 
@@ -33,6 +38,7 @@ class FormTextField extends StatelessWidget {
       height: MediaQuery.of(context).size.width * 0.04,
       child: TextFormField(
         textInputAction: TextInputAction.done,
+        // initialValue: initialValue!,
         // obscureText: isObscure.value,
         obscureText: _obscure!,
         focusNode: _emailNode,

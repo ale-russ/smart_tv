@@ -66,6 +66,11 @@ dependencies:
   # side menu
   easy_sidemenu: ^0.3.1
 
+  # firebase
+  firebase_core: ^1.23.0
+  cloud_firestore: ^3.5.0
+  firebase_auth: ^3.11.0 
+
   # custom icon launcher
   flutter_launcher_icons: "^0.10.0"
 

@@ -171,65 +171,7 @@ class MovieCardWithDescription extends StatelessWidget {
           ),
         ),
       ),
-      Positioned(
-        left: 30,
-        bottom: 30,
-        child: ElevatedButton(
-          focusNode: intentController.posterNodes!.value[1],
-          style: ElevatedButton.styleFrom(
-            primary: const Color(0xffffa600),
-            fixedSize: Size(widthSize * 0.14, heightSize * 0.075),
-          ),
-          onPressed: () {},
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(
-                Icons.play_arrow_rounded,
-                size: 20,
-              ),
-              Text(
-                "Play",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      Positioned(
-        left: 190,
-        bottom: 30,
-        child: ElevatedButton(
-          focusNode: intentController.posterNodes!.value[2],
-          style: ElevatedButton.styleFrom(
-              primary: Colors.transparent,
-              fixedSize: Size(widthSize * 0.14, heightSize * 0.075),
-              side: const BorderSide(color: Color(0xffffa600))),
-          onPressed: () {},
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(
-                Icons.play_arrow_rounded,
-                size: 20,
-              ),
-              Text(
-                "Watch Trailer",
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      PlayWatchButton(widthSize: widthSize, heightSize: heightSize),
       Obx(
         () => controller.currentPage == 1
             ? Positioned(
@@ -280,6 +222,88 @@ class MovieCardWithDescription extends StatelessWidget {
             ),
           ))
     ]);
+  }
+}
+
+class PlayWatchButton extends StatelessWidget {
+  PlayWatchButton({
+    Key? key,
+    required this.widthSize,
+    required this.heightSize,
+  }) : super(key: key);
+
+  final double widthSize;
+  final double heightSize;
+
+  CommonKeys movieUrl = Get.find();
+  MoviesController controller = Get.find();
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: 30,
+      bottom: 30,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: const Color(0xffffa600),
+              fixedSize: Size(widthSize * 0.14, heightSize * 0.075),
+            ),
+            onPressed: () {},
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Icon(
+                  Icons.play_arrow_rounded,
+                  size: 20,
+                ),
+                Text(
+                  "Play",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            width: 30,
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.transparent,
+              fixedSize: Size(widthSize * 0.14, heightSize * 0.075),
+              side: const BorderSide(
+                color: Color(0xffffa600),
+              ),
+            ),
+            onPressed: () {},
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Icon(
+                  Icons.play_arrow_rounded,
+                  size: 20,
+                ),
+                Text(
+                  "Watch Trailer",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
