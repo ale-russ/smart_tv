@@ -55,6 +55,7 @@ class Movie_card extends StatelessWidget {
             }),
             LeftbuttonIntent:
                 CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
+              print("left  ");
               moveLeft(context);
             }),
             RightbuttonIntent:
@@ -106,8 +107,10 @@ class Movie_card extends StatelessWidget {
     //       .posterNodes!.value[--_intentController.posterIndex]);
     //   _intentController.posterNodes!.refresh();
     // } else {
+    print("left in ");
     FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
     _intentController.posterNodes!.refresh();
+    _intentController.sideNodes!.refresh();
     //_intentController.searchNode.refresh();
     // }
   }
@@ -162,7 +165,11 @@ class MovieCardWithDescription extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.6,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          border: Border.all(width: 0),
+                          border: !intentController
+                                  .posterNodes!.value[0].hasFocus
+                              ? Border.all(
+                                  width: 1, color: PrimaryColorTones.mainColor)
+                              : Border.all(color: Colors.grey.withOpacity(0.3)),
                           // border: Border.all(color: Colors.amber),
                           color: Colors.black.withOpacity(0.6)),
                     ),

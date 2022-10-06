@@ -26,7 +26,7 @@ class IntentController extends GetxController {
   RxList<dynamic>? searchNodes = [].obs;
   RxList<dynamic>? comingNodes = [].obs;
   RxList<dynamic>? favNodes = [].obs;
-  List<FocusNode>? profileNodes = [];
+  RxList<dynamic>? profileNodes = [].obs;
   List<FocusNode>? descNodes = [];
 
   bool side = false;

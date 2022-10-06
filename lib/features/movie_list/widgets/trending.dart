@@ -104,6 +104,7 @@ class _TrendingMoviesState extends State<TrendingMovies> {
       _intentController.trendingIndex--;
     }
     _intentController.trendingNodes!.refresh();
+    _intentController.sideNodes!.refresh();
   }
 
   void moveRight(BuildContext context) {

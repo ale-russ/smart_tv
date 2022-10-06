@@ -107,12 +107,12 @@ class _SideBarState extends State<SideBar> {
   //   }
   // }
 
-  void moveDown() {
-    if (_intentController.navSelectedIndex < 4) {
-      FocusScope.of(context).requestFocus(
-          _intentController.sideNodes![_intentController.navSelectedIndex + 1]);
-      _intentController.navSelectedIndex++;
-      setState(() {});
-    }
-  }
+  // void moveDown() {
+  //   if (_intentController.navSelectedIndex < 4) {
+  //     FocusScope.of(context).requestFocus(
+  //         _intentController.sideNodes![_intentController.navSelectedIndex + 1]);
+  //     _intentController.navSelectedIndex++;
+  //     setState(() {});
+  //   }
+  // }
 }

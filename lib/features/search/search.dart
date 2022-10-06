@@ -27,12 +27,17 @@ class Search extends StatelessWidget {
         actions: <Type, Action<Intent>>{
           LeftbuttonIntent:
               CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
-            if (_intentController.searchIndex <
-                mController.localSearch.length - 1) {
+            print("sometime ");
+            if (_intentController.searchIndex > 0) {
               FocusScope.of(context).requestFocus(_intentController
-                  .searchNodes!.value[++_intentController.searchIndex]);
+                  .searchNodes!.value[--_intentController.searchIndex]);
               _intentController.searchNodes!.refresh();
               //setState(() {});
+            } else {
+              FocusScope.of(context)
+                  .requestFocus(_intentController.sideNodes!.value[0]);
+              _intentController.sideNodes!.refresh();
+              _intentController.searchNodes!.refresh();
             }
           }),
           RightbuttonIntent:

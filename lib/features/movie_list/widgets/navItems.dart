@@ -184,12 +184,14 @@ class _NavItemState extends State<NavItem> {
       _intentController.coming = true;
       print("coming");
     } else if (_intentController.clickedIndex == 3) {
-      FocusScope.of(context).requestFocus(_intentController.favNodes![0]);
+      FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
       _intentController.navSelectedIndex = 0;
-      _intentController.favNodes!.refresh();
+      _intentController.comingNodes!.refresh();
+      _intentController.coming = true;
       print("trending");
     } else if (_intentController.clickedIndex == 4) {
       FocusScope.of(context).requestFocus(_intentController.profileNodes![0]);
+      _intentController.profileNodes!.refresh();
       print("profile");
     } else {
       //print(_intentController.posterNodes![0].hasFocus);

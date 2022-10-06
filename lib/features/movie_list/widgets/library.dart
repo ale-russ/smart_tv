@@ -82,6 +82,7 @@ class _LibraryTileState extends State<LibraryTile> {
       for (var i = 0; i < _movieController.trendingmovies.length; i++) {
         var temp = FocusNode();
         _intentController.comingNodes!.add(temp);
+
         print("hereeeee");
       }
       for (var i = 0; i < _movieController.topratedmovies.length; i++) {
@@ -231,6 +232,7 @@ class _LibraryTileState extends State<LibraryTile> {
         FocusScope.of(context).requestFocus(
             _intentController.comingNodes![--_intentController.comingIndex]);
         _intentController.comingNodes!.refresh();
+        _intentController.sideNodes!.refresh();
         // _intentController.trendingScrollController.value.animateTo(
         //     _intentController.trendingScrollController.value.offset - 230,
         //     curve: Curves.ease,
@@ -244,6 +246,7 @@ class _LibraryTileState extends State<LibraryTile> {
         FocusScope.of(context).requestFocus(
             _intentController.favNodes![--_intentController.favIndex]);
         _intentController.favNodes!.refresh();
+
         // _intentController.trendingScrollController.value.animateTo(
         //     _intentController.trendingScrollController.value.offset - 230,
         //     curve: Curves.ease,
@@ -251,6 +254,7 @@ class _LibraryTileState extends State<LibraryTile> {
         //_intentController.favIndex--;
       }
     }
+    _intentController.sideNodes!.refresh();
     _intentController.comingNodes!.refresh();
     _intentController.favNodes!.refresh();
   }

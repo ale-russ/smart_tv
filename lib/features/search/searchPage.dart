@@ -103,12 +103,24 @@ class _SearchPageState extends State<SearchPage> {
                 LeftbuttonIntent:
                     CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
                   moveLeft(context);
+                  print("why reach here 2 ");
                 }),
                 RightbuttonIntent:
                     CallbackAction<RightbuttonIntent>(onInvoke: (intent) {
+                  print("why reach here 3");
+
                   moveRight(context);
                   // moveRight(context);
                 }),
+                DownbuttonIntent:
+                    CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
+                  if (mController.localSearch.isNotEmpty) {
+                    FocusScope.of(context)
+                        .requestFocus(_intentController.searchNodes!.value[0]);
+                    _intentController.searchNodes!.refresh();
+                    _intentController.searchOptionsNodes!.refresh();
+                  }
+                })
               },
               child: Container(
                   padding: EdgeInsets.all(10),
@@ -189,6 +201,7 @@ class _SearchPageState extends State<SearchPage> {
                 if (mController.localSearch.isNotEmpty) {
                   FocusScope.of(context)
                       .requestFocus(_intentController.searchNodes![index]);
+                  _intentController.searchNodes!.refresh();
                   // _intentController.searchResult = true;
                   // _intentController.searchField = false;
                   setState(() {});
@@ -207,6 +220,7 @@ class _SearchPageState extends State<SearchPage> {
     } else {
       FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
       _intentController.searchOptionsNodes!.refresh();
+      _intentController.sideNodes!.refresh();
     }
   }
 
