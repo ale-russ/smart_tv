@@ -61,8 +61,6 @@ class _MoviesTileState extends State<MoviesTile> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  FocusScope.of(context)
-                      .requestFocus(_intentController.descNodes![0]);
                   _intentController.desc = true;
                   // _intentController.unFocus();
                   Navigator.push(

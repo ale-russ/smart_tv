@@ -15,7 +15,8 @@ class IntentController extends GetxController {
   ScrollController homePageScrollController = ScrollController();
   Rx<ScrollController> comingPageScrollController = ScrollController().obs;
   ScrollController favPageScrollController = ScrollController();
-  ScrollController descPageScrollController = ScrollController();
+  Rx<ScrollController> descPageScrollController = ScrollController().obs;
+  //Rx<ScrollController> descScrollController = ScrollController();
 
   RxList<dynamic>? trendingNodes = [].obs;
   RxList<dynamic>? topRatedNodes = [].obs;
@@ -27,7 +28,9 @@ class IntentController extends GetxController {
   RxList<dynamic>? comingNodes = [].obs;
   RxList<dynamic>? favNodes = [].obs;
   RxList<dynamic>? profileNodes = [].obs;
-  List<FocusNode>? descNodes = [];
+  RxList<dynamic>? descNodes = [].obs;
+  // FocusNode testing = FocusNode();
+  // testing.dispose()
 
   bool side = false;
   bool trend = false;
@@ -116,10 +119,10 @@ class IntentController extends GetxController {
       if (descIndex < descNodes!.length - 1) {
         FocusScope.of(context).requestFocus(descNodes![descIndex + 1]);
         descIndex++;
-        descPageScrollController.animateTo(
-            descPageScrollController.offset + 150,
-            duration: Duration(milliseconds: 800),
-            curve: Curves.ease);
+        // descPageScrollController.animateTo(
+        //     descPageScrollController.offset + 150,
+        //     duration: Duration(milliseconds: 800),
+        //     curve: Curves.ease);
       } else
         print("I know hwy is is coming here ");
     }
@@ -174,10 +177,10 @@ class IntentController extends GetxController {
       if (descIndex > 0) {
         FocusScope.of(context).requestFocus(descNodes![descIndex - 1]);
         descIndex--;
-        descPageScrollController.animateTo(
-            descPageScrollController.offset - 150,
-            duration: Duration(milliseconds: 800),
-            curve: Curves.ease);
+        // descPageScrollController.animateTo(
+        //     descPageScrollController.offset - 150,
+        //     duration: Duration(milliseconds: 800),
+        //     curve: Curves.ease);
       } else
         print("I know hwy is is coming here ");
     }
