@@ -39,18 +39,21 @@ class _LoginPageState extends State<LoginPage> {
   Future signIn() async {
     showDialog(
         context: context,
-        barrierDismissible: false,
+        // barrierDismissible: false,
         builder: (context) => Center(
               child: CircularProgressIndicator(),
             ));
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim());
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim())
+          .then((value) => Get.to(MoviesPage()));
     } on FirebaseAuthException catch (e) {
       print(e);
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    Navigator.of(context).pop();
   }
 
   @override
