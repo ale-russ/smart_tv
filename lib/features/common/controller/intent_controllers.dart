@@ -32,6 +32,9 @@ class IntentController extends GetxController {
   // FocusNode testing = FocusNode();
   // testing.dispose()
 
+  // List<FocusNode>? descNodes = [];
+  RxList<dynamic>? videoPlayerNodes = [].obs;
+
   bool side = false;
   bool trend = false;
   bool top = false;
@@ -42,6 +45,8 @@ class IntentController extends GetxController {
   bool searchField = false;
   bool profile = false;
   bool desc = false;
+  bool videoP = false;
+
   int searchoptionIndex = 0;
   int posterIndex = 0;
   int descIndex = 0;
@@ -54,7 +59,10 @@ class IntentController extends GetxController {
   int topIndex = 0;
   int tvIndex = 0;
   int comingIndex = 0;
+  int videoIndex = 0;
+
   FocusNode? searchNode;
+  FocusNode? moviDescNode;
 
   Color borderColor = Colors.black;
   void unFocus() {
@@ -265,6 +273,9 @@ class IntentController extends GetxController {
 
         searchIndex++;
       }
+    } else if (videoP == true && desc == false) {
+      FocusScope.of(context).requestFocus(videoPlayerNodes![videoIndex]);
+      print("here");
     }
     //print("out of range");
   }
@@ -334,6 +345,11 @@ class IntentController extends GetxController {
         side = true;
         searchResult = false;
         //FocusScope.of(context).requestFocus(searchNodes![searchIndex - 1]);
+      }
+    } else if (videoP == true && desc == false) {
+      if (videoIndex > 0) {
+        FocusScope.of(context).requestFocus(videoPlayerNodes![videoIndex - 1]);
+        videoIndex--;
       }
     } else {
       FocusScope.of(context).requestFocus(sideNodes![0]);

@@ -1,15 +1,13 @@
-import 'dart:developer';
-
-import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
-import 'package:smart_tv/features/common/services/keys.dart';
-import 'package:smart_tv/features/common/theme/icon_themes.dart';
-import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/widgets/video_palyer_page.dart';
+import '../../../config/intentFiles/button_intents.dart';
+import '../../common/theme/icon_themes.dart';
+import '../../common/theme/themes.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
 

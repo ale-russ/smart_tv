@@ -1,12 +1,9 @@
-// ignore_for_file: unused_import, prefer_const_literals_to_create_immutables
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_tv/features/common/theme/themes.dart';
 
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
@@ -62,8 +59,17 @@ class _MoviesPage extends State<MoviesPage> {
         _controller.descNodes!.add(FocusNode(debugLabel: "desc node ${i}"));
         //  print("side node ${_controller.descNodes![i]}");
       }
+      for (var i = 0; i < 4; i++) {
+        _controller.videoPlayerNodes!
+            .add(FocusNode(debugLabel: "video node ${i}"));
+      }
       for (var i = 0; i < 3; i++) {
-        _controller.posterNodes!.add(FocusNode(debugLabel: "poster $i"));
+        _controller.posterNodes!.add(
+          FocusNode(
+            debugLabel: "poster $i",
+          ),
+        );
+        printInfo(info: "video Node is $i");
       }
       for (var i = 0; i < 5; i++) {
         //var temp = FocusNode();
@@ -116,7 +122,6 @@ class _MoviesPage extends State<MoviesPage> {
             tv: controller.tv,
             focusNode: firstFocus,
           ),
-
           ComingSoon(
             movie: controller.trendingmovies,
           ),
@@ -124,7 +129,6 @@ class _MoviesPage extends State<MoviesPage> {
           // ComingSoon(
           //   movie: controller.tv,
           // ),
-
           Library(),
           ProfilePage(),
         ];
@@ -149,7 +153,7 @@ class _MoviesPage extends State<MoviesPage> {
               child: data.isFalse
                   ? const Center(
                       child: CircularProgressIndicator(
-                      color: Colors.amber,
+                      color: PrimaryColorTones.mainColor,
                     ))
                   : pages[_selectedIndex],
             ),
@@ -183,10 +187,6 @@ class Movies extends StatefulWidget {
 }
 
 class _MoviesState extends State<Movies> {
-  MoviesController controller = Get.find();
-  Color textColor = Colors.white70;
-  Color borderColor = Colors.black;
-
   @override
   Widget build(BuildContext context) {
     return Container(

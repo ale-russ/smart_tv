@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:smart_tv/config/intentFiles/button_intents.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:video_player/video_player.dart';
 
-void main() => runApp(const VideoApp());
+import '../../common/controller/intent_controllers.dart';
+
+//void main() => runApp(const VideoApp());
 
 /// Stateful widget to fetch and then display video content.
 class VideoApp extends StatefulWidget {
@@ -17,6 +23,25 @@ class _VideoAppState extends State<VideoApp> {
   Duration? videolength;
   Duration? videopostion;
   double volume = 0;
+
+  final IntentController _intentController = Get.find();
+  final GlobalController _globalController = Get.find();
+
+  _changeNodeFocus(BuildContext build, String direction) {
+    if (direction == "Down") {
+      _intentController.DownNavActions(context);
+      setState(() {});
+    } else if (direction == "Up") {
+      _intentController.UpNavActions(context);
+      setState(() {});
+    } else if (direction == "Right") {
+      _intentController.RightNavActions(context);
+      setState(() {});
+    } else if (direction == "Left") {
+      _intentController.LeftNavActions(context);
+      setState(() {});
+    }
+  }
 
   @override
   void initState() {
@@ -36,78 +61,189 @@ class _VideoAppState extends State<VideoApp> {
       });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Video Demo',
-      home: Scaffold(
-        backgroundColor: DarkModeColors.backgroundColor,
-        body: SingleChildScrollView(
-          child: Column(children: [
-            if (_controller!.value.isInitialized) ...[
-              AspectRatio(
-                aspectRatio: _controller!.value.aspectRatio,
-                child: VideoPlayer(_controller!),
-              ),
-              VideoProgressIndicator(
-                _controller!,
-                allowScrubbing: true,
-                padding: EdgeInsets.all(10),
-              ),
-              Row(
-                children: [
-                  IconButton(
-                      icon: Icon(
-                        _controller!.value.isPlaying
-                            ? Icons.pause
-                            : Icons.play_arrow,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _controller!.value.isPlaying
-                              ? _controller!.pause()
-                              : _controller!.play();
-                        });
-                      }),
-                  Icon(
-                    Icons.skip_previous,
-                    // color: Colors.white,
-                  ),
-                  Icon(
-                    Icons.skip_next,
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Icon(animatedvolumeicon(volume)),
-                  Slider(
-                      inactiveColor: Color.fromARGB(255, 149, 147, 147),
-                      activeColor: Colors.orange,
-                      min: 0,
-                      max: 1,
-                      value: volume,
-                      onChanged: (changevolume) {
-                        setState(() {
-                          volume = changevolume;
-                          _controller!.setVolume(changevolume);
-                        });
-                      }),
-                  Text(
-                      '${convertToMinutesSeconds(videopostion!)}/${convertToMinutesSeconds(videolength!)}'),
-                ],
-              ),
-            ]
-          ]),
-        ),
-      ),
-    );
+  _setFirstFocus() {
+    if (!_intentController.videoPlayerNodes!.value[0].hasFocus) {
+      print(!_intentController.videoPlayerNodes!.value[0].hasFocus);
+      // FocusScope.of(context)
+      //     .requestFocus(_intentController.videoPlayerNodes!.value[0]);
+      _intentController.videoPlayerNodes!.refresh();
+      //print("play focus");
+    }
   }
 
   @override
   void dispose() {
     super.dispose();
     _controller!.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print("aspectRatio is ${_controller!.value.aspectRatio}");
+    _setFirstFocus();
+    return Scaffold(
+      backgroundColor: DarkModeColors.backgroundColor,
+      body: FocusableActionDetector(
+        shortcuts: _globalController.navigationIntents,
+        actions: <Type, Action<Intent>>{
+          DownbuttonIntent:
+              CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
+            if (_intentController.videoIndex == 0) {
+              FocusScope.of(context).requestFocus(_intentController
+                  .videoPlayerNodes!.value[_intentController.videoIndex]);
+              _intentController.videoPlayerNodes!.refresh();
+            }
+            // moveDown(context);
+          }),
+          LeftbuttonIntent:
+              CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
+            //moveLeft(context);
+            print("video player here i come");
+          }),
+          RightbuttonIntent:
+              CallbackAction<RightbuttonIntent>(onInvoke: (intent) {
+            //moveRight(context);
+          }),
+          UpbuttonIntent: CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
+            // moveUp(context);
+          })
+        },
+        child: SingleChildScrollView(
+          child: Container(
+            height: Get.height,
+            child: !_controller!.value.isInitialized
+                //  videopostion == null
+                ? Align(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(
+                      color: PrimaryColorTones.mainColor,
+                    ),
+                  )
+                : Stack(
+                    children: [
+                      Column(children: [
+                        if (_controller!.value.isInitialized) ...[
+                          Expanded(
+                            child: AspectRatio(
+                              aspectRatio: 2,
+                              // aspectRatio: _controller!.value.aspectRatio,
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: VideoPlayer(_controller!),
+                              ),
+                            ),
+                          ),
+                        ]
+                      ]),
+                      Positioned(
+                        top: Get.height * 0.5,
+                        right: Get.width * 0.45,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color:
+                                DarkModeColors.backgroundVariant.withAlpha(150),
+                          ),
+                          child: IconButton(
+                              focusNode:
+                                  _intentController.videoPlayerNodes!.value[0],
+                              icon: FocusableActionDetector(
+                                child: Icon(
+                                  _controller!.value.isPlaying
+                                      ? Icons.pause
+                                      : Icons.play_arrow,
+                                  color: _intentController
+                                          .videoPlayerNodes!.value[0].hasFocus
+                                      ? Colors.amber
+                                      : Colors.white,
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _controller!.value.isPlaying
+                                      ? _controller!.pause()
+                                      : _controller!.play();
+                                });
+                              }),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 40,
+                        child: Container(
+                          width: Get.width,
+                          height: 25,
+                          child: VideoProgressIndicator(
+                            _controller!,
+                            allowScrubbing: true,
+                            padding: EdgeInsets.all(10),
+                            colors: VideoProgressColors(
+                              playedColor: PrimaryColorTones.mainColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 5,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Focus(
+                                  focusNode:
+                                      _intentController.videoPlayerNodes![1],
+                                  child: Icon(
+                                    Icons.skip_previous,
+                                    color: Colors.white,
+                                    // color: Colors.white,
+                                  ),
+                                ),
+                                Focus(
+                                  focusNode:
+                                      _intentController.videoPlayerNodes![2],
+                                  child: Icon(
+                                    Icons.skip_next,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Focus(
+                                  focusNode:
+                                      _intentController.videoPlayerNodes![3],
+                                  child: Icon(
+                                    animatedvolumeicon(volume),
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Slider(
+                                    inactiveColor: Colors.grey,
+                                    activeColor: Colors.orange,
+                                    min: 0,
+                                    max: 1,
+                                    value: volume,
+                                    onChanged: (changevolume) {
+                                      setState(() {
+                                        volume = changevolume;
+                                        _controller!.setVolume(changevolume);
+                                      });
+                                    }),
+                                Text(
+                                  '${convertToMinutesSeconds(videopostion!)} / ${convertToMinutesSeconds(videolength!)}',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
