@@ -42,10 +42,6 @@ class _DescriptionState extends State<Description> {
   @override
   void initState() {
     super.initState();
-
-    // _videoPlayerController = VideoPlayerController.network(
-    //     "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4")
-    //   ..initialize().then((_) => setState(() {}));
   }
 
   @override
@@ -119,22 +115,6 @@ class _DescriptionState extends State<Description> {
                   height: MediaQuery.of(context).size.height,
                   child: Stack(
                     children: [
-                      // !_videoPlayerController.value.isInitialized
-                      //     ? Positioned(
-                      //         child: SizedBox(
-                      //           height: 500,
-                      //           width: MediaQuery.of(context).size.width,
-                      //           child: Image.network(
-                      //             widget.bannerurl,
-                      //             fit: BoxFit.fill,
-                      //           ),
-                      //         ),
-                      //       )
-                      //     : AspectRatio(
-                      //         aspectRatio:
-                      //             _videoPlayerController.value.aspectRatio,
-                      //         child: VideoPlayer(_videoPlayerController),
-                      //       ),
                       Positioned(
                         right: 100,
                         bottom: MediaQuery.of(context).size.height * 0.3,
@@ -142,10 +122,7 @@ class _DescriptionState extends State<Description> {
                           focusNode: _intentController.descNodes![0],
                           child: IconButton(
                             icon: Icon(
-                              // !_videoPlayerController.value.isPlaying
-                              //     ?
                               Icons.play_circle_fill_rounded,
-                              // : Icons.pause_circle_filled_rounded,
                               color: _intentController.descNodes![0].hasFocus
                                   ? Colors.amber
                                   : Colors.white,
