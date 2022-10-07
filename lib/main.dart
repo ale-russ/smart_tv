@@ -43,7 +43,7 @@ class MyApp extends GetView<GlobalController> {
         // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
       },
       child: GetMaterialApp(
-        title: 'Kabbe Movies',
+        title: 'Kabbee Movies',
         theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
         // home: const LoginPage(),
         home: MoviesPage(),
