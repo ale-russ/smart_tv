@@ -1,12 +1,9 @@
-// ignore_for_file: unused_import, prefer_const_literals_to_create_immutables
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_tv/features/common/theme/themes.dart';
 
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
@@ -181,10 +178,6 @@ class Movies extends StatefulWidget {
 }
 
 class _MoviesState extends State<Movies> {
-  MoviesController controller = Get.find();
-  Color textColor = Colors.white70;
-  Color borderColor = Colors.black;
-
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -2,13 +2,19 @@ import 'dart:developer';
 
 import 'package:desktop_webview_window/desktop_webview_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:get/get.dart';
+
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
-import 'package:smart_tv/features/common/services/keys.dart';
-import 'package:smart_tv/features/common/theme/icon_themes.dart';
-import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
+import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:smart_tv/features/movie_list/widgets/video_palyer_page.dart';
+import 'package:video_player/video_player.dart';
+
+import '../../../config/intentFiles/button_intents.dart';
+import '../../common/theme/icon_themes.dart';
+import '../../common/theme/themes.dart';
 
 class Description extends StatefulWidget {
   final String name, description, bannerurl, posterurl, vote, lauchOn;
@@ -69,28 +75,71 @@ class _DescriptionState extends State<Description> {
       );
     }
     return Scaffold(
-      backgroundColor: DarkModeColors.backgroundColor,
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(children: <Widget>[
-            SafeArea(
-              child: widget.bannerurl.isEmpty
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                      color: Colors.amber,
-                    ))
-                  : Container(
-                      width: double.infinity,
-                      height: Get.height * 0.8,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            widget.bannerurl,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: GetPlatform.isDesktop || GetPlatform.isWeb
+            ? IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            : const SizedBox.shrink(),
+      ),
+      backgroundColor: Colors.black,
+      body: Shortcuts(
+        shortcuts: {
+          LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+          LogicalKeySet(LogicalKeyboardKey.arrowRight): RightbuttonIntent(),
+          LogicalKeySet(LogicalKeyboardKey.arrowLeft): LeftbuttonIntent(),
+          LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
+          LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
+        },
+        child: Actions(
+          actions: <Type, Action<Intent>>{
+            DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                onInvoke: (intent) => _changeNodeFocus(context, "Down")),
+            UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                onInvoke: (inteent) => _changeNodeFocus(context, "Up")),
+            RightbuttonIntent: CallbackAction<RightbuttonIntent>(
+                onInvoke: (intent) => _changeNodeFocus(context, "Right")),
+            LeftbuttonIntent: CallbackAction<LeftbuttonIntent>(
+                onInvoke: (intent) => _changeNodeFocus(context, "Left")),
+          },
+          child: ListView(
+              controller: _intentController.descPageScrollController,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        right: 100,
+                        bottom: MediaQuery.of(context).size.height * 0.3,
+                        child: Focus(
+                          focusNode: _intentController.descNodes![0],
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.play_circle_fill_rounded,
+                              color: _intentController.descNodes![0].hasFocus
+                                  ? Colors.amber
+                                  : Colors.white,
+                              size: 100,
+                            ),
+                            onPressed: () async {
+                              // _videoPlayerController.value.isPlaying
+                              //     ? _videoPlayerController.pause()
+                              //     : _videoPlayerController.play();
+                              // log("Video is ${_videoPlayerController.value}");
+                            },
                           ),
-                          fit: BoxFit.fill,
+                          // fit: BoxFit.fill,
                         ),
                       ),
-                      child: Column(
+                      // child:
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Row(
@@ -150,67 +199,68 @@ class _DescriptionState extends State<Description> {
                           )
                         ],
                       ),
-                    ),
-            ),
-            Container(
-              color: Colors.black,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  MovieInfo(
-                    lauchOn: widget.lauchOn,
-                    movieLanguage: "Tigrigna",
-                    producer: "Kabbee",
-                    duration: "1 hr 25 min",
-                    title: widget.name,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: PlotSummary(
-                      descritpion: widget.description,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              color: Colors.black,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        'Cast & Crew',
-                        style: TextStyle(color: Colors.grey, fontSize: 20),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: 120,
-                        width: 300,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 5,
-                          itemBuilder: (context, index) => CastCrew(),
-                        ),
-                      )
                     ],
                   ),
-                  Center(
-                      child: Trailers(
-                    banneerUrl: widget.bannerurl,
-                  ))
-                ],
-              ),
-            ),
-          ]),
+                ),
+                Container(
+                  color: Colors.black,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MovieInfo(
+                        lauchOn: widget.lauchOn,
+                        movieLanguage: "Tigrigna",
+                        producer: "Kabbee",
+                        duration: "1 hr 25 min",
+                        title: widget.name,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: PlotSummary(
+                          descritpion: widget.description,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  color: Colors.black,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 6,
+                          ),
+                          Text(
+                            'Cast & Crew',
+                            style: TextStyle(color: Colors.grey, fontSize: 20),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: 120,
+                            width: 300,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 5,
+                              itemBuilder: (context, index) => CastCrew(),
+                            ),
+                          )
+                        ],
+                      ),
+                      Center(
+                          child: Trailers(
+                        banneerUrl: widget.bannerurl,
+                      ))
+                    ],
+                  ),
+                ),
+              ]),
         ),
       ),
     );
