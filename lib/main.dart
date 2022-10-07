@@ -44,8 +44,8 @@ class MyApp extends GetView<GlobalController> {
       // },
       title: 'Kabbee Movies',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
-      home: const LoginPage(),
-      // home: MoviesPage(),
+      // home: const LoginPage(),
+      home: MoviesPage(),
       debugShowCheckedModeBanner: false,
     );
   }
