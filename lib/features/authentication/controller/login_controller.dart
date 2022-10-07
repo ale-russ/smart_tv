@@ -14,6 +14,9 @@ class LoginController extends GetxController {
   Users? allUsers;
   String errorMesseg = "";
 
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   RxBool isRememberMe = false.obs;
 
   String? email;

@@ -17,7 +17,6 @@ import '../../../features/common/theme/themes.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
 // import '../../../config/intentFiles/up_intent.dart';
-import '../../../main.dart';
 import '../../app_preference/widgets/widgets/language_selector.dart';
 import '../../common/theme/text_themes.dart';
 import '../../movie_list/view/Movies.dart';
@@ -111,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
       focusNode: _buttonNode,
       style: ElevatedButton.styleFrom(
         primary: PrimaryColorTones.mainColor,
-        // fixedSize: const Size(150, 40),
+        fixedSize: const Size(150, 40),
         textStyle: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
@@ -121,25 +120,24 @@ class _LoginPageState extends State<LoginPage> {
         ),
         side: BorderSide(color: Theme.of(context).dividerColor),
       ),
-      onPressed: signIn,
+      onPressed: () {
+        // loginController.loginUser();
+        // formKey!.currentState!.validate()
+        //     ? userController.authenticateUser(
+        //             loginController.emailController.text,
+        //             loginController.passwordController.text)
+        //         ? Get.to(() => MoviesPage())
+        //         : userController.errorMesseg //LandingPage())
+        //     : "Error Please";
 
-      // () {// loginController.loginUser();
-      //   formKey!.currentState!.validate()
-      //       ? userController.authenticateUser(
-      //               loginController.emailController.text,
-      //               loginController.passwordController.text)
-      //           ? Get.to(() => MoviesPage())
-      //           : userController.errorMesseg //LandingPage())
-      //       : "Error Please";
-
-      //   // formKey!.currentState!.validate()
-      //   //     ? loginController.authenticateUser(
-      //   //             loginController.emailController.text,
-      //   //             loginController.passwordController.text)
-      //   //         ? Get.to(() => MoviesPage())
-      //   //         : loginController.errorMesseg //LandingPage())
-      //   //     : loginController.errorMesseg;
-      // },
+        formKey!.currentState!.validate()
+            ? loginController.authenticateUser(
+                    loginController.emailController.text,
+                    loginController.passwordController.text)
+                ? Get.to(() => MoviesPage())
+                : loginController.errorMesseg //LandingPage())
+            : loginController.errorMesseg;
+      },
       child: const Center(
           child: Text(
         "Login",
@@ -272,7 +270,7 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.white54,
                             ),
                             initialValue: loginController.email,
-                            controller: _emailController,
+                            controller: loginController.emailController,
                           )),
                       const SizedBox(height: 24.0),
                       Actions(
@@ -300,15 +298,15 @@ class _LoginPageState extends State<LoginPage> {
                             Icons.lock,
                             color: Colors.white54,
                           ),
-                          controller: _passwordController,
+                          controller: loginController.passwordController,
                         ),
                       ),
                       const SizedBox(
-                        height: 24.0,
+                        height: 36.0,
                       ),
                       KeepMeIn(loginController: loginController),
                       const SizedBox(
-                        height: 24.0,
+                        height: 36.0,
                       ),
                       Actions(
                         actions: <Type, Action<Intent>>{

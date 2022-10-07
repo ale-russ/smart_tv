@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
+import 'package:smart_tv/features/common/theme/icon_themes.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
-import '../utilits/text.dart';
+import 'package:smart_tv/features/movie_list/widgets/navItems.dart';
+import '../utilits/logo.dart';
 import '../view/Movies.dart';
 
-class NavRail extends StatefulWidget {
-  NavRail({
+class NavBar extends StatefulWidget {
+  NavBar({
     Key? key,
-    required int selectedIndex,
+    required this.selectedIndex,
     this.callback,
   }) : super(key: key);
 
   final setIndexCallback? callback;
-
+  final int selectedIndex;
   @override
-  State<NavRail> createState() => _NavRailState();
+  State<NavBar> createState() => _NavBarState();
 }
 
-class _NavRailState extends State<NavRail> {
+class _NavBarState extends State<NavBar> {
   FocusNode? _home;
   MoviesController controller = Get.find();
 
@@ -57,94 +60,29 @@ class _NavRailState extends State<NavRail> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.transparent,
-      ),
-      height: MediaQuery.of(context).size.height,
-      width: 120,
-      child: SizedBox(
-        height: Get.height * 0.9,
-        child: NavigationRail(
-          labelType: NavigationRailLabelType.selected,
-          groupAlignment: -0.5,
-          backgroundColor: Colors.transparent,
-          selectedLabelTextStyle: labelStyle.copyWith(color: selectedColor),
-          unselectedLabelTextStyle: labelStyle.copyWith(color: unselectedColor),
-          selectedIndex: _intentController.navSelectedIndex,
-          minWidth: 45,
-          selectedIconTheme: const IconThemeData(color: Colors.amber, size: 35),
-          unselectedIconTheme:
-              const IconThemeData(color: Colors.white, size: 25),
-          onDestinationSelected: (int index) {
-            _intentController.clickedIndex = index;
-            widget.callback!(index);
-          },
-          leading: Container(
-            margin:
-                EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.1
-                    // bottom: 200
-                    ),
-            child: const Text(
-              "Kabbee",
-              style: TextStyle(color: Color(0XFFFFA500), fontSize: 24),
-            ),
-          ),
-          destinations: [
-            NavRailDes(
-              label: "Home",
-              focusNode: _intentController.sideNodes![0],
-              icon: Icons.home_outlined,
-            ),
-            NavRailDes(
-                label: "Search",
-                focusNode: _intentController.sideNodes![1],
-                icon: Icons.search),
-            NavRailDes(
-                label: "Coming soon",
-                focusNode: _intentController.sideNodes![2],
-                icon: Icons.movie),
-            NavRailDes(
-                label: "Favorites",
-                focusNode: _intentController.sideNodes![3],
-                icon: Icons.favorite_border),
-            NavRailDes(
-                label: "Profile",
-                focusNode: _intentController.sideNodes![4],
-                icon: Icons.person_rounded)
-          ],
+        decoration: BoxDecoration(
+          color: DarkModeColors.backgroundVariant,
         ),
-      ),
-    );
-  }
-
-  NavigationRailDestination NavRailDes(
-      {String? label, FocusNode? focusNode, IconData? icon, int? index}) {
-    return NavigationRailDestination(
-        icon: Focus(
-          focusNode: focusNode,
-          child: Container(
-            width: 82,
-            decoration: focusNode!.hasFocus
-                ? BoxDecoration(
-                    color: const Color(0XFFFFA500).withOpacity(0.1),
-                    border: const Border(
-                      right: BorderSide(
-                        width: 2,
-                        color: Color(0XFFFFA500),
-                      ),
-                    ),
-                  )
-                : null,
-            child: Icon(
-              icon,
-              color: //homeColor
-                  focusNode.hasFocus ? Colors.amber : Colors.grey,
-              //size: 30,
-            ),
+        height: Get.height,
+        width: 120,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Logo(),
+              IconNav(
+                callback: widget.callback,
+              ),
+              NavItem(
+                icon: KabbeeIcons.profileFilled(color: Colors.grey, size: 30),
+                active: false,
+                index: 4,
+                // title: 'Profile',
+                callback: widget.callback,
+                onPressed: (index) {},
+              )
+            ],
           ),
-        ),
-        label: Text(
-          label!,
         ));
   }
 }

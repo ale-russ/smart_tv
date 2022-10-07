@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
 
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
@@ -15,7 +16,6 @@ import 'package:smart_tv/features/movie_list/utilits/text.dart';
 import 'package:smart_tv/features/movie_list/widgets/Movie_card.dart';
 import 'package:smart_tv/features/movie_list/widgets/library.dart';
 import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
-import 'package:smart_tv/features/movie_list/widgets/nav_bar.dart';
 
 import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 import 'package:smart_tv/features/movie_list/widgets/tv.dart';
@@ -133,13 +133,10 @@ class _MoviesPage extends State<MoviesPage> {
               tv: controller.tv,
               focusNode: firstFocus,
             ),
-            SearchPage(number: 3),
             ComingSoon(
               movie: controller.trendingmovies,
             ),
-            // ComingSoon(
-            //   movie: controller.tv,
-            // ),
+            SearchPage(number: 3),
             Library(),
             ProfilePage(),
           ];
@@ -166,15 +163,18 @@ class _MoviesPage extends State<MoviesPage> {
               },
               child: Row(
                 children: [
-                  SizedBox(
-                    height: Get.height,
-                    child: navBar(),
-                    // child: NavRail(
-                    //   selectedIndex: _selectedIndex,
-                    //   callback: (index) => setState(() {
-                    //     _selectedIndex = index;
-                    //   }),
-                    // ),
+                  Container(
+                    // color: DarkModeColors.backgroundVariant,
+                    child: Center(
+                      child: NavBar(
+                        selectedIndex: _selectedIndex,
+                        callback: (index) => setState(() {
+                          print("index in Movies is $index");
+                          _selectedIndex = index;
+                        }),
+                      ),
+                    ),
+                    height: double.infinity,
                   ),
                   const VerticalDivider(),
                   Expanded(
@@ -225,8 +225,9 @@ class _MoviesState extends State<Movies> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          BoxDecoration(border: Border.all(color: controller.borderColor)),
+      decoration: BoxDecoration(
+        border: Border.all(),
+      ),
       child: ListView(
         controller: widget._controller.homePageScrollController,
         children: [

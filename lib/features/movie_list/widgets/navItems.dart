@@ -1,86 +1,54 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/theme/icon_themes.dart';
 import 'package:smart_tv/features/common/theme/themes.dart';
-import 'package:smart_tv/features/common/utility/icons.dart';
 
-import '../utilits/text.dart';
+import '../view/Movies.dart';
 
-class iconNav extends StatefulWidget {
+class IconNav extends StatefulWidget {
+  IconNav({Key? key, this.index, this.callback}) : super(key: key);
+
   @override
-  State<iconNav> createState() => _iconNavState();
+  State<IconNav> createState() => _IconNavState();
+  final setIndexCallback? callback;
+  int? index;
 }
 
-class _iconNavState extends State<iconNav> {
+class _IconNavState extends State<IconNav> {
   List<bool> selected = [true, false, false, false, false];
 
-  // void select(int n) {
-  //   for (int i = 0; i < 5; i++) {
-  //     if (i != n) {
-  //       selected[i] = false;
-  //     } else {
-  //       selected[i] = true;
-  //     }
-  //   }
-  // }
+  List<Widget> icons = [
+    KabbeeIcons.home(color: Colors.grey, size: 25),
+    KabbeeIcons.comingSoon(color: Colors.grey, size: 25),
+    KabbeeIcons.search(color: Colors.grey, size: 25),
+    KabbeeIcons.library(color: Colors.grey, size: 25),
+  ];
+
+  List<String> labels = ["Home", "Comming Soon", "Search", "Library"];
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(top: 30, left: 4, right: 4),
+      // color: DarkModeColors.backgroundVariant,
+
       height: Get.height * 0.6,
-      child: Column(
-        children: [
-          NavItem(
-              icon: KabbeeIcons.home(color: Colors.grey, size: 25),
-              //icon: KabbeeIconshome(color: Colors.grey, size: 16),
-              title: 'Home',
-              touched: () {
-                setState(() {
-                  // select(0);
-                });
-              },
-              active: selected[0]),
-          NavItem(
-              icon: KabbeeIcons.search(color: Colors.grey, size: 25),
-              title: 'Comming soon',
-              touched: () {
-                setState(() {
-                  //select(0);
-                });
-              },
-              active: selected[0]),
-          NavItem(
-              icon: KabbeeIcons.comingSoon(color: Colors.grey, size: 25),
-              title: 'Search',
-              touched: () {
-                setState(() {
-                  // select(0);
-                });
-              },
-              active: selected[0]),
-          NavItem(
-              icon: KabbeeIcons.library(color: Colors.grey, size: 25),
-              title: 'Library',
-              touched: () {
-                setState(() {
-                  //  select(0);
-                });
-              },
-              active: selected[0]),
-          // SizedBox(
-          //   height: 20,
-          // ),
-          // NavItem(
-          //     icon: Icons.library_add,
-          //     touched: () {
-          //       setState(() {
-          //         select(0);
-          //       });
-          //     },
-          //     active: selected[0]),
-        ],
+      width: Get.width,
+      child: ListView.builder(
+        // itemExtent: 100,
+        itemCount: icons.length,
+        itemBuilder: (context, index) {
+          return NavItem(
+            icon: icons[index],
+            title: labels[index],
+            index: index,
+            callback: widget.callback,
+            onPressed: () {
+              setState(() {});
+            },
+            active: selected[0],
+          );
+        },
       ),
     );
   }
@@ -88,17 +56,22 @@ class _iconNavState extends State<iconNav> {
 
 class NavItem extends StatefulWidget {
   final Widget icon;
-  final Function touched;
+  final Function onPressed;
   final bool active;
-  final String title;
+  String? title;
+  int? index;
 
   NavItem({
     Key? key,
     required this.icon,
-    required this.touched,
+    required this.onPressed,
     required this.active,
-    required this.title,
+    this.title,
+    this.callback,
+    this.index,
   }) : super(key: key);
+
+  final setIndexCallback? callback;
 
   @override
   State<NavItem> createState() => _NavItemState();
@@ -111,36 +84,27 @@ class _NavItemState extends State<NavItem> {
       color: Colors.transparent,
       child: InkWell(
         onTap: (() {
-          widget.touched();
+          widget.callback!(widget.index!);
         }),
-        splashColor: Colors.amber,
-        hoverColor: Colors.amber,
+        splashColor: DarkModeColors.backgroundVariant,
+        // hoverColor: Colors.white12,
         child: Container(
-          // color: DarkModeColors.backgroundVariant,
-          padding: EdgeInsets.symmetric(vertical: 5.0),
-          child: Row(
+          alignment: Alignment.center,
+          height: 70,
+          width: Get.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                //  color: DarkModeColors.backgroundVariant,
-                height: 65.0,
-                width: 80.0,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  //  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    widget.icon,
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      widget.title,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                      ),
-                    ),
-                  ],
-                ),
+                child: widget.icon,
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Text(
+                textAlign: TextAlign.center,
+                widget.title ?? "",
+                style: TextStyle(color: Colors.grey, fontSize: 14),
               )
             ],
           ),
