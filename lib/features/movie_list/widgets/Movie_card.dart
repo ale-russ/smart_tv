@@ -4,15 +4,21 @@ import 'dart:ui';
 //import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
+import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/common/services/keys.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:smart_tv/features/movie_list/widgets/description.dart';
 
+import '../../../config/intentFiles/button_intents.dart';
 import '../controller/movie_controller.dart';
 
 class Movie_card extends StatelessWidget {
   Movie_card({Key? key}) : super(key: key);
 
-  MoviesController controller = Get.find();
+  MoviesController _moviesController = Get.find();
+  GlobalController _globalController = Get.find();
+  IntentController _intentController = Get.find();
 
   CommonKeys movieUrl = Get.put(CommonKeys());
 
@@ -23,7 +29,7 @@ class Movie_card extends StatelessWidget {
   int currentPage = 0;
 
   void getRandom() async {
-    index = random.nextInt(controller.topratedmovies.length);
+    index = random.nextInt(_moviesController.topratedmovies.length);
   }
 
   @override
@@ -34,37 +40,79 @@ class Movie_card extends StatelessWidget {
     //print(heightSize);
     //print(controller.topratedmovies[index]);
     return InkWell(
-      onTap: () {
-        controller.currentPage.value == 1
-            ? controller.currentPage.value = 0
-            : controller.currentPage.value = 1;
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: ((context) => Description(
-        //         bannerurl:
-        //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['backdrop_path']}",
-        //         description:
-        //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['overview']}",
-        //         lauchOn:
-        //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['release_date']}",
-        //         name:
-        //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['title']}",
-        //         posterurl:
-        //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['backdrop_path']}",
-        //         vote:
-        //             "${movieUrl.movieUrl}${controller.topratedmovies[index]['vote_average'.toString()]}")),
-        //   ),
-        // );
-      },
-      child: MovieCardWithDescription(
-          movieUrl: movieUrl,
-          controller: controller,
-          index: index,
-          widthSize: widthSize,
-          heightSize: heightSize,
-          currentPage: currentPage),
-    );
+        onTap: () {
+          _moviesController.currentPage.value == 1
+              ? _moviesController.currentPage.value = 0
+              : _moviesController.currentPage.value = 1;
+        },
+        child: FocusableActionDetector(
+          focusNode: _intentController.posterNodes!.value[0],
+          shortcuts: _globalController.navigationIntents,
+          actions: <Type, Action<Intent>>{
+            DownbuttonIntent:
+                CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
+              moveDown(context);
+            }),
+            LeftbuttonIntent:
+                CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
+              print("left  ");
+              moveLeft(context);
+            }),
+            RightbuttonIntent:
+                CallbackAction<RightbuttonIntent>(onInvoke: (intent) {
+              moveRight(context);
+            }),
+          },
+          child: MovieCardWithDescription(
+              intentController: _intentController,
+              movieUrl: movieUrl,
+              controller: _moviesController,
+              index: index,
+              widthSize: widthSize,
+              heightSize: heightSize,
+              currentPage: currentPage),
+        ));
+  }
+
+  void moveRight(BuildContext context) {
+    if (_intentController.posterIndex == 0) {
+      _moviesController.currentPage.value == 1
+          ? _moviesController.currentPage.value = 0
+          : _moviesController.currentPage.value = 1;
+    } // else while(_intentController.posterIndex<3) {
+    //   FocusScope.of(context).requestFocus(_intentController
+    //       .posterNodes!.value[++_intentController.posterIndex]);
+    //   _intentController.posterNodes!.refresh();
+    // }
+  }
+
+  void moveDown(BuildContext context) {
+    FocusScope.of(context)
+        .requestFocus(_intentController.trendingNodes!.value[0]);
+    _intentController.trendingNodes!.refresh();
+    _intentController.posterNodes!.refresh();
+    _intentController.trendingIndex = 0;
+    _intentController.trendingScrollController.value.animateTo(0,
+        duration: const Duration(milliseconds: 800), curve: Curves.ease);
+    //  else {
+    //   FocusScope.of(context)
+    //       .requestFocus(_intentController.trendingNodes!.value[0]);
+    //   _intentController.trendingNodes!.refresh();
+    // }
+  }
+
+  void moveLeft(BuildContext context) {
+    // if (_intentController.posterIndex > 0) {
+    //   FocusScope.of(context).requestFocus(_intentController
+    //       .posterNodes!.value[--_intentController.posterIndex]);
+    //   _intentController.posterNodes!.refresh();
+    // } else {
+    print("left in ");
+    FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
+    _intentController.posterNodes!.refresh();
+    _intentController.sideNodes!.refresh();
+    //_intentController.searchNode.refresh();
+    // }
   }
 }
 
@@ -77,11 +125,13 @@ class MovieCardWithDescription extends StatelessWidget {
     required this.widthSize,
     required this.heightSize,
     required this.currentPage,
+    required this.intentController,
   }) : super(key: key);
 
   final CommonKeys movieUrl;
   final MoviesController controller;
   final int index;
+  final IntentController intentController;
   final double widthSize;
   final double heightSize;
   final int currentPage;
@@ -98,7 +148,9 @@ class MovieCardWithDescription extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.6),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.grey.withOpacity(0.3)),
+              border: !intentController.posterNodes!.value[0].hasFocus
+                  ? Border.all(color: Colors.grey.withOpacity(0.3))
+                  : Border.all(color: PrimaryColorTones.mainColor),
               image: DecorationImage(
                 image: NetworkImage(
                   "${movieUrl.movieUrl}${controller.topratedmovies[index]['backdrop_path']}",
@@ -113,7 +165,11 @@ class MovieCardWithDescription extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.6,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          border: Border.all(width: 0),
+                          border: !intentController
+                                  .posterNodes!.value[0].hasFocus
+                              ? Border.all(
+                                  width: 1, color: PrimaryColorTones.mainColor)
+                              : Border.all(color: Colors.grey.withOpacity(0.3)),
                           // border: Border.all(color: Colors.amber),
                           color: Colors.black.withOpacity(0.6)),
                     ),

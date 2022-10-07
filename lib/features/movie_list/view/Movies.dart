@@ -26,6 +26,7 @@ import '../../../config/intentFiles/button_intents.dart';
 
 import '../../common/controller/intent_controllers.dart';
 import '../../profile/screen/profile_page.dart';
+import '../../search/searchPage.dart';
 import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
 import '../controller/movie_controller.dart';
@@ -51,29 +52,28 @@ class _MoviesPage extends State<MoviesPage> {
   bool showLeading = false;
   bool showTrailing = false;
   double groupAlignment = 0;
-  final selectedColor = Colors.white;
-  final unselectedColor = Colors.white60;
-  final labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
+  // final selectedColor = Colors.white;
+  // final unselectedColor = Colors.white60;
+  // final labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
 
-  FocusNode? _sideBar;
-  FocusNode? _pageNode;
   _setFirstFocus(BuildContext context) {
     if (_controller.sideNodes!.isEmpty) {
       for (var i = 0; i < 5; i++) {
         _controller.descNodes!.add(FocusNode(debugLabel: "desc node ${i}"));
         //  print("side node ${_controller.descNodes![i]}");
       }
+      for (var i = 0; i < 3; i++) {
+        _controller.posterNodes!.add(FocusNode(debugLabel: "poster $i"));
+      }
       for (var i = 0; i < 5; i++) {
         //var temp = FocusNode();
         _controller.sideNodes!.add(FocusNode(debugLabel: "side node $i"));
       }
       for (var i = 0; i < controller.trendingmovies.length; i++) {
-        // print("inside the setfirstfocusff ${controller.trendingmovies.length}");
-        //var temp1 = FocusNode();
-        // var temp = FocusNode();
         _controller.trendingNodes!
             .add(FocusNode(debugLabel: "trending node $i"));
         _controller.comingNodes!.add(FocusNode(debugLabel: "coming node $i"));
+        print("herh");
       }
       for (var i = 0; i < controller.topratedmovies.length; i++) {
         var temp = FocusNode();
@@ -86,23 +86,7 @@ class _MoviesPage extends State<MoviesPage> {
       _controller.searchNode = FocusNode();
       FocusScope.of(context).requestFocus(_controller.sideNodes![0]);
       _controller.side = true;
-
-      setState(() {});
-    }
-  }
-
-  _changeNodeFocus(BuildContext build, String direction) {
-    if (direction == "Down") {
-      _controller.DownNavActions(context);
-      setState(() {});
-    } else if (direction == "Up") {
-      _controller.UpNavActions(context);
-      setState(() {});
-    } else if (direction == "Right") {
-      _controller.RightNavActions(context);
-      setState(() {});
-    } else if (direction == "Left") {
-      _controller.LeftNavActions(context);
+      print("help me ");
       setState(() {});
     }
   }
@@ -124,73 +108,54 @@ class _MoviesPage extends State<MoviesPage> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Obx(
-        (() {
-          List<Widget> pages = [
-            Movies(
-              trendingmovies: controller.trendingmovies,
-              topratedmovies: controller.topratedmovies,
-              tv: controller.tv,
-              focusNode: firstFocus,
-            ),
-            ComingSoon(
-              movie: controller.trendingmovies,
-            ),
-            SearchPage(number: 3),
-            Library(),
-            ProfilePage(),
-          ];
-          return Shortcuts(
-            shortcuts: {
-              LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-              LogicalKeySet(LogicalKeyboardKey.arrowRight): RightbuttonIntent(),
-              LogicalKeySet(LogicalKeyboardKey.arrowLeft): LeftbuttonIntent(),
-              LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
-              LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
-              LogicalKeySet(LogicalKeyboardKey.goBack): BackButtonIntent()
-              //LogicalKeySet(LogicalKeyboardKey.back)
-            },
-            child: Actions(
-              actions: <Type, Action<Intent>>{
-                DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                    onInvoke: (intent) => _changeNodeFocus(context, "Down")),
-                UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                    onInvoke: (intent) => _changeNodeFocus(context, "Up")),
-                RightbuttonIntent: CallbackAction<RightbuttonIntent>(
-                    onInvoke: (intent) => _changeNodeFocus(context, "Right")),
-                LeftbuttonIntent: CallbackAction<LeftbuttonIntent>(
-                    onInvoke: (intent) => _changeNodeFocus(context, "Left")),
-              },
-              child: Row(
-                children: [
-                  Container(
-                    // color: DarkModeColors.backgroundVariant,
-                    child: Center(
-                      child: NavBar(
-                        selectedIndex: _selectedIndex,
-                        callback: (index) => setState(() {
-                          print("index in Movies is $index");
-                          _selectedIndex = index;
-                        }),
-                      ),
-                    ),
-                    height: double.infinity,
-                  ),
-                  const VerticalDivider(),
-                  Expanded(
-                    child: data.isFalse
-                        ? const Center(
-                            child: CircularProgressIndicator(
-                            color: Colors.amber,
-                          ))
-                        : pages[_selectedIndex],
-                  ),
-                ],
+      body: Obx(() {
+        List<Widget> pages = [
+          Movies(
+            trendingmovies: controller.trendingmovies,
+            topratedmovies: controller.topratedmovies,
+            tv: controller.tv,
+            focusNode: firstFocus,
+          ),
+
+          ComingSoon(
+            movie: controller.trendingmovies,
+          ),
+          SearchPage(number: 0),
+          // ComingSoon(
+          //   movie: controller.tv,
+          // ),
+
+          Library(),
+          ProfilePage(),
+        ];
+        return Row(
+          children: [
+            Container(
+              // color: DarkModeColors.backgroundVariant,
+              child: Center(
+                child: SideBar(
+                  selectedIndex: _selectedIndex,
+                  callback: (index) => setState(() {
+                    print("index is $index");
+
+                    _controller.clickedIndex = _selectedIndex = index;
+                  }),
+                ),
               ),
+              height: double.infinity,
             ),
-          );
-        }),
-      ),
+            const VerticalDivider(),
+            Expanded(
+              child: data.isFalse
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                      color: Colors.amber,
+                    ))
+                  : pages[_selectedIndex],
+            ),
+          ],
+        );
+      }),
     );
   }
 }

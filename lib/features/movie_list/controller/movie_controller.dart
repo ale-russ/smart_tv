@@ -10,6 +10,7 @@ import 'package:tmdb_api/tmdb_api.dart';
 
 class MoviesController extends GetxController {
   final CommonKeys _commonKeys = Get.put(CommonKeys());
+  TextEditingController searchController = TextEditingController();
   List trendingmovies = [].obs;
   List topratedmovies = [].obs;
   List tv = [].obs;
