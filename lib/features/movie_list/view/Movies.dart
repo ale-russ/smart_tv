@@ -59,8 +59,17 @@ class _MoviesPage extends State<MoviesPage> {
         _controller.descNodes!.add(FocusNode(debugLabel: "desc node ${i}"));
         //  print("side node ${_controller.descNodes![i]}");
       }
+      for (var i = 0; i < 1; i++) {
+        _controller.videoPlayerNodes!
+            .add(FocusNode(debugLabel: "video node ${i}"));
+      }
       for (var i = 0; i < 3; i++) {
-        _controller.posterNodes!.add(FocusNode(debugLabel: "poster $i"));
+        _controller.posterNodes!.add(
+          FocusNode(
+            debugLabel: "poster $i",
+          ),
+        );
+        printInfo(info: "video Node is $i");
       }
       for (var i = 0; i < 5; i++) {
         //var temp = FocusNode();
@@ -144,7 +153,7 @@ class _MoviesPage extends State<MoviesPage> {
               child: data.isFalse
                   ? const Center(
                       child: CircularProgressIndicator(
-                      color: Colors.amber,
+                      color: PrimaryColorTones.mainColor,
                     ))
                   : pages[_selectedIndex],
             ),
