@@ -150,14 +150,14 @@ class _LibraryTileState extends State<LibraryTile> {
                           TextStyle(color: PrimaryColorTones.mainColor),
                     ),
                     onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => ComingSoon(
-                      //       movie: movies,
-                      //     ),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ComingSoon(
+                            movie: widget.movies,
+                          ),
+                        ),
+                      );
                     },
                   ),
                 )

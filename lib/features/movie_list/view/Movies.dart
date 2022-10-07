@@ -116,7 +116,6 @@ class _MoviesPage extends State<MoviesPage> {
             tv: controller.tv,
             focusNode: firstFocus,
           ),
-
           ComingSoon(
             movie: controller.trendingmovies,
           ),
@@ -124,7 +123,6 @@ class _MoviesPage extends State<MoviesPage> {
           // ComingSoon(
           //   movie: controller.tv,
           // ),
-
           Library(),
           ProfilePage(),
         ];
