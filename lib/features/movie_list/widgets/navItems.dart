@@ -125,6 +125,7 @@ class _NavItemState extends State<NavItem> {
                 width: Get.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       child: widget.icon,

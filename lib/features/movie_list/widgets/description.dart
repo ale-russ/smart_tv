@@ -50,11 +50,6 @@ class _DescriptionState extends State<Description> {
       FocusScope.of(context)
           .requestFocus(_intentController.descNodes!.value[0]);
       _intentController.descNodes!.refresh();
-      // for (var i = 0; i < 5; i++) {
-      //   _intentController.descNodes!
-      //       .add(FocusNode(debugLabel: "desc node ${i}"));
-      //   //  print("side node ${_controller.descNodes![i]}");
-      // }
     }
   }
 

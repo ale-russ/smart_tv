@@ -4,6 +4,8 @@ import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/common/services/keys.dart';
 import 'package:smart_tv/features/common/controller/tmdb_controller.dart';
+import 'package:smart_tv/features/common/theme/icon_themes.dart';
+import 'package:smart_tv/features/common/theme/text_themes.dart';
 import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
@@ -82,13 +84,17 @@ class _SearchPageState extends State<SearchPage> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: const Center(
-                child: ModifiedText(
-                  text: "search by ",
-                  size: 16,
-                  color: Colors.white70,
+              child: Center(
+                  child: Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                child: KabbeeText.bodyMedium(
+                  "Search By",
+                  customStyle: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
                 ),
-              ),
+              )),
             ),
             FocusableActionDetector(
               shortcuts: _globalController.navigationIntents,
@@ -162,10 +168,11 @@ class _SearchPageState extends State<SearchPage> {
     return Container(
         width: MediaQuery.of(context).size.width * 0.5,
         height: MediaQuery.of(context).size.height * 0.08,
-        padding: EdgeInsets.only(top: 5, left: 5),
+        // padding: EdgeInsets.only(top: 5, left: 5),
         decoration: BoxDecoration(
-            color: Color(0xFFFFFFFF).withOpacity(0.24),
-            borderRadius: BorderRadius.circular(5)),
+          color: DarkModeColors.backgroundVariant,
+          borderRadius: BorderRadius.circular(4),
+        ),
         child: Center(
           child: FocusableActionDetector(
             shortcuts: _globalController.navigationIntents,
@@ -185,16 +192,30 @@ class _SearchPageState extends State<SearchPage> {
               focusNode: _intentController.searchNode,
               controller: mController.searchController,
               decoration: InputDecoration(
-                  border: InputBorder.none, //Border(BorderSide.none),
-                  contentPadding: EdgeInsets.all(2),
-                  suffixIcon:
-                      IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-                  fillColor: Colors.white,
-                  // prefixIcon: Icon(Icons.search),
-                  hintText: 'Search...',
-                  hintStyle: TextStyle(color: Colors.white)),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: DarkModeColors.borderColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: PrimaryColorTones.mainColor),
+                ),
+                contentPadding: EdgeInsets.all(2),
+                suffixIcon: IconButton(
+                  onPressed: () {},
+                  icon: Container(
+                    decoration: BoxDecoration(
+                        color: DarkModeColors.surfaceColor,
+                        border: Border.all(color: DarkModeColors.borderColor),
+                        borderRadius: BorderRadius.circular(4)),
+                    child: KabbeeIcons.search(color: Colors.grey, size: 30),
+                  ),
+                ),
+                fillColor: Colors.white,
+                // prefixIcon: Icon(Icons.search),
+                hintText: 'Search movies',
+                hintStyle: TextStyle(color: Colors.grey),
+              ),
               onChanged: (search) async {
-                await seachMovies(search);
+                await searchMovies(search);
               },
               onEditingComplete: () {
                 print("on edite controller");
@@ -251,7 +272,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Future<void> seachMovies(String search) async {
+  Future<void> searchMovies(String search) async {
     Map searchResult =
         await _tmdbController.tmdbWithCustomLogs.v3.search.queryMovies(search);
 
