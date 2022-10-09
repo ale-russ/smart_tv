@@ -33,20 +33,12 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-
-    super.dispose();
-  }
-
   FocusNode? _emailNode;
   FocusNode? _passwordNode;
   FocusNode? _buttonNode;
   FocusNode? _imageNode;
   LoginController loginController = Get.put(LoginController());
-  // UserController userController = Get.put(UserController());
+  UserController userController = Get.put(UserController());
   GlobalKey<FormState>? formKey = GlobalKey<FormState>();
   bool keyboardV = false;
 
@@ -67,15 +59,16 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  // @override
-  // void dispose() {
-  //   _emailNode!.dispose();
-  //   _passwordNode!.dispose();
-  //   _buttonNode!.dispose();
-  // }
-
   _changeNodeFocus(BuildContext context, FocusNode focus) {
     FocusScope.of(context).requestFocus(focus);
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -100,13 +93,13 @@ class _LoginPageState extends State<LoginPage> {
       ),
       onPressed: () {
         // loginController.loginUser();
-        // formKey!.currentState!.validate()
-        //     ? userController.authenticateUser(
-        //             loginController.emailController.text,
-        //             loginController.passwordController.text)
-        //         ? Get.to(() => MoviesPage())
-        //         : userController.errorMesseg //LandingPage())
-        //     : "Error Please";
+        formKey!.currentState!.validate()
+            ? userController.authenticateUser(
+                    loginController.emailController.text,
+                    loginController.passwordController.text)
+                ? Get.to(() => MoviesPage())
+                : userController.errorMesseg //LandingPage())
+            : "Error Please";
 
         formKey!.currentState!.validate()
             ? loginController.authenticateUser(

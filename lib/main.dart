@@ -52,7 +52,9 @@ class MyApp extends GetView<GlobalController> {
 }
 
 Future preLauncherSetup() async {
-  GetPlatform.isAndroid ? await DbAccess.initHive() : null;
+  GetPlatform.isAndroid || GetPlatform.isDesktop
+      ? await DbAccess.initHive()
+      : null;
 
   Get.put(GlobalController(), permanent: true);
 }

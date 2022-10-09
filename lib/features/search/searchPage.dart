@@ -191,29 +191,30 @@ class _SearchPageState extends State<SearchPage> {
             child: TextField(
               focusNode: _intentController.searchNode,
               controller: mController.searchController,
+              style: TextStyle(color: Colors.grey),
               decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: DarkModeColors.borderColor),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: PrimaryColorTones.mainColor),
-                ),
-                contentPadding: EdgeInsets.all(2),
-                suffixIcon: IconButton(
-                  onPressed: () {},
-                  icon: Container(
-                    decoration: BoxDecoration(
-                        color: DarkModeColors.surfaceColor,
-                        border: Border.all(color: DarkModeColors.borderColor),
-                        borderRadius: BorderRadius.circular(4)),
-                    child: KabbeeIcons.search(color: Colors.grey, size: 30),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: DarkModeColors.borderColor),
                   ),
-                ),
-                fillColor: Colors.white,
-                // prefixIcon: Icon(Icons.search),
-                hintText: 'Search movies',
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: PrimaryColorTones.mainColor),
+                  ),
+                  contentPadding: EdgeInsets.all(2),
+                  suffixIcon: IconButton(
+                    onPressed: () {},
+                    icon: Container(
+                      decoration: BoxDecoration(
+                          color: DarkModeColors.surfaceColor,
+                          border: Border.all(color: DarkModeColors.borderColor),
+                          borderRadius: BorderRadius.circular(4)),
+                      child: KabbeeIcons.search(color: Colors.grey, size: 30),
+                    ),
+                  ),
+                  fillColor: Colors.white,
+                  // prefixIcon: Icon(Icons.search),
+                  hintText: 'Search movies',
+                  hintStyle: TextStyle(color: Colors.grey),
+                  labelStyle: TextStyle(color: Colors.grey)),
               onChanged: (search) async {
                 await searchMovies(search);
               },

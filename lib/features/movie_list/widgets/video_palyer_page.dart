@@ -63,7 +63,8 @@ class _VideoAppState extends State<VideoApp> {
 
   _setFirstFocus() {
     if (!_intentController.videoPlayerNodes!.value[0].hasFocus) {
-      print(!_intentController.videoPlayerNodes!.value[0].hasFocus);
+      print(
+          "FocusNode on videoPlayer is ${!_intentController.videoPlayerNodes!.value[0].hasFocus}");
       // FocusScope.of(context)
       //     .requestFocus(_intentController.videoPlayerNodes!.value[0]);
       _intentController.videoPlayerNodes!.refresh();
@@ -85,29 +86,41 @@ class _VideoAppState extends State<VideoApp> {
       backgroundColor: DarkModeColors.backgroundColor,
       body: FocusableActionDetector(
         shortcuts: _globalController.navigationIntents,
-        actions: <Type, Action<Intent>>{
-          DownbuttonIntent:
-              CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
-            if (_intentController.videoIndex == 0) {
-              FocusScope.of(context).requestFocus(_intentController
-                  .videoPlayerNodes!.value[_intentController.videoIndex]);
-              _intentController.videoPlayerNodes!.refresh();
-            }
-            // moveDown(context);
-          }),
-          LeftbuttonIntent:
-              CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
-            //moveLeft(context);
-            print("video player here i come");
-          }),
-          RightbuttonIntent:
-              CallbackAction<RightbuttonIntent>(onInvoke: (intent) {
-            //moveRight(context);
-          }),
-          UpbuttonIntent: CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
-            // moveUp(context);
-          })
-        },
+        actions: _intentController.actionIntents(
+            context: context,
+            index: _intentController.videoIndex,
+            nodes: _intentController.videoPlayerNodes),
+        // <Type, Action<Intent>>{
+        //   DownbuttonIntent:
+        //       CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
+        //     if (_intentController.videoIndex == 0) {
+        //       FocusScope.of(context).requestFocus(_intentController
+        //           .videoPlayerNodes!.value[_intentController.videoIndex]);
+        //       _intentController.videoPlayerNodes!.refresh();
+        //     }
+        //     // moveDown(context);
+        //   }),
+        //   LeftbuttonIntent:
+        //       CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
+        //     FocusScope.of(context).requestFocus(_intentController
+        //         .videoPlayerNodes!.value[_intentController.videoIndex]);
+        //     //moveLeft(context);
+        //     print("video player here i come");
+        //   }),
+        //   RightbuttonIntent:
+        //       CallbackAction<RightbuttonIntent>(onInvoke: (intent) {
+        //     FocusScope.of(context).requestFocus(_intentController
+        //         .videoPlayerNodes!.value[_intentController.videoIndex]);
+        //     //moveRight(context);
+        //   }),
+        //   UpbuttonIntent: CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
+        //     CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
+        //       FocusScope.of(context).requestFocus(_intentController
+        //           .videoPlayerNodes!.value[_intentController.videoIndex]);
+        //     });
+        //     // moveUp(context);
+        //   })
+        // },
         child: SingleChildScrollView(
           child: Container(
             height: Get.height,
@@ -138,33 +151,38 @@ class _VideoAppState extends State<VideoApp> {
                       Positioned(
                         top: Get.height * 0.5,
                         right: Get.width * 0.45,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color:
-                                DarkModeColors.backgroundVariant.withAlpha(150),
-                          ),
-                          child: IconButton(
-                              focusNode:
-                                  _intentController.videoPlayerNodes!.value[0],
-                              icon: FocusableActionDetector(
-                                child: Icon(
-                                  _controller!.value.isPlaying
-                                      ? Icons.pause
-                                      : Icons.play_arrow,
-                                  color: _intentController
-                                          .videoPlayerNodes!.value[0].hasFocus
-                                      ? Colors.amber
-                                      : Colors.white,
+                        child: Focus(
+                          focusNode: _intentController.videoPlayerNodes![1],
+                          // focusNode:
+                          //     _intentController.videoPlayerNodes!.value[0],
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: DarkModeColors.backgroundVariant
+                                  .withAlpha(150),
+                            ),
+                            child: IconButton(
+                                // focusNode:
+                                //     _intentController.videoPlayerNodes!.value[0],
+                                icon: FocusableActionDetector(
+                                  child: Icon(
+                                    _controller!.value.isPlaying
+                                        ? Icons.pause
+                                        : Icons.play_arrow,
+                                    color: _intentController
+                                            .videoPlayerNodes!.value[0].hasFocus
+                                        ? Colors.amber
+                                        : Colors.white,
+                                  ),
                                 ),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _controller!.value.isPlaying
-                                      ? _controller!.pause()
-                                      : _controller!.play();
-                                });
-                              }),
+                                onPressed: () {
+                                  setState(() {
+                                    _controller!.value.isPlaying
+                                        ? _controller!.pause()
+                                        : _controller!.play();
+                                  });
+                                }),
+                          ),
                         ),
                       ),
                       Positioned(

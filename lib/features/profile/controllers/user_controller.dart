@@ -14,14 +14,14 @@ class UserController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    // await fetchUser();
+    await fetchUser();
   }
 
   Future<Users> fetchUser() async {
     print("fetch begins");
     final response =
-        await http.get(Uri.parse("http://localhost:8080/listUsers"));
-    // await http.get(Uri.parse("http://10.0.2.2:8080/listUsers"));
+        // await http.get(Uri.parse("http://localhost:8080/listUsers"));
+        await http.get(Uri.parse("http://10.0.2.2:8080/listUsers"));
 
     print("Response in fetchUser is ${response.hashCode}");
 

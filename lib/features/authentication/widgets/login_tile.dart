@@ -67,7 +67,7 @@ class LoginForm extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
-              color: DarkModeColors.borderColor,
+              color: PrimaryColorTones.mainColor,
             ),
           ),
           suffixIcon: Focus(

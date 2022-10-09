@@ -89,45 +89,11 @@ class _DescriptionState extends State<Description> {
       body: Container(
         child: FocusableActionDetector(
           shortcuts: _globalController.navigationIntents,
-          actions: <Type, Action<Intent>>{
-            DownbuttonIntent:
-                CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
-              // moveDown(context);
-              _intentController.descPageScrollController.value.animateTo(
-                  _intentController.descPageScrollController.value.offset + 150,
-                  duration: Duration(milliseconds: 800),
-                  curve: Curves.ease);
-              _intentController.descPageScrollController.refresh();
-            }),
-            LeftbuttonIntent:
-                CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
-              //moveLeft(context);
-              print("left " + _intentController.descIndex.toString());
-              if (_intentController.descIndex > 0) {
-                FocusScope.of(context).requestFocus(_intentController
-                    .descNodes!.value[--_intentController.descIndex]);
-                _intentController.descNodes!.refresh();
-              }
-            }),
-            RightbuttonIntent:
-                CallbackAction<RightbuttonIntent>(onInvoke: (intent) {
-              //moveRight(context);
-              print("right");
-              if (_intentController.descIndex < 1) {
-                FocusScope.of(context).requestFocus(_intentController
-                    .descNodes!.value[++_intentController.descIndex]);
-                _intentController.descNodes!.refresh();
-              }
-            }),
-            UpbuttonIntent: CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
-              // moveUp(context);
-              _intentController.descPageScrollController.value.animateTo(
-                  _intentController.descPageScrollController.value.offset - 150,
-                  duration: Duration(milliseconds: 800),
-                  curve: Curves.ease);
-              _intentController.descPageScrollController.refresh();
-            })
-          },
+          actions: _intentController.actionIntents(
+              context: context,
+              scrollController: _intentController.descPageScrollController,
+              index: _intentController.descIndex,
+              nodes: _intentController.descNodes!),
           child: SingleChildScrollView(
             controller: _intentController.descPageScrollController.value,
             child: Column(children: <Widget>[
