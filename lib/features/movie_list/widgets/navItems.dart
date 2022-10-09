@@ -112,7 +112,7 @@ class _NavItemState extends State<NavItem> {
                 alignment: Alignment.center,
                 decoration: _intentController.sideNodes![widget.index!].hasFocus
                     ? BoxDecoration(
-                        color: const Color(0XFFFFA500).withOpacity(0.1),
+                        color: PrimaryColorTones.mainColor.withOpacity(0.1),
                         border: const Border(
                           right: BorderSide(
                             width: 2,
@@ -133,10 +133,13 @@ class _NavItemState extends State<NavItem> {
                     SizedBox(
                       height: 4,
                     ),
-                    Text(
-                      textAlign: TextAlign.center,
-                      widget.title ?? "",
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                    SizedBox(
+                      width: 80,
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        widget.title ?? "",
+                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                      ),
                     )
                   ],
                 ),

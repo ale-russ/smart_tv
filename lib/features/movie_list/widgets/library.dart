@@ -39,7 +39,8 @@ class Library extends StatelessWidget {
               height: 40,
             ),
             LibraryTile(
-              nodes: _intentController.favNodes!,
+              // nodes: _intentController.favNodes!,
+              nodes: _intentController.comingNodes!,
               movies: _moviesController.trendingmovies,
               label: "Watch Later",
             ),
@@ -176,6 +177,7 @@ class _LibraryTileState extends State<LibraryTile> {
                   // itemCount: movies!.length,
                   itemCount: 3,
                   itemBuilder: (context, index) {
+                    print("index in Library is $index");
                     return InkWell(
                       onTap: () {
                         Navigator.push(

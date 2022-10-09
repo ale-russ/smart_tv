@@ -160,6 +160,7 @@ class _ComingSoonState extends State<ComingSoon> {
 
   @override
   Widget build(BuildContext context) {
+    print("width is ${Get.width}");
     if (MediaQuery.of(context).size.width < 650) {
       count = 2;
     } else if (MediaQuery.of(context).size.width > 1100) {
@@ -189,10 +190,12 @@ class _ComingSoonState extends State<ComingSoon> {
                   .comingNodes![_intentController.comingIndex - 3]);
               _intentController.comingIndex = _intentController.comingIndex - 3;
               _intentController.comingNodes!.refresh();
-              // comingPageScrollController.animateTo(
-              //     comingPageScrollController.offset - 200,
-              //     duration: const Duration(milliseconds: 800),
-              //     curve: Curves.ease);
+              _intentController.comingPageScrollController.value.animateTo(
+                  _intentController.comingPageScrollController.value.offset -
+                      Get.height * 0.5,
+                  // 180,
+                  duration: const Duration(milliseconds: 800),
+                  curve: Curves.ease);
             } else {
               FocusScope.of(context)
                   .requestFocus(_intentController.comingNodes![0]);
@@ -209,6 +212,12 @@ class _ComingSoonState extends State<ComingSoon> {
                   .comingNodes![_intentController.comingIndex + 3]);
               _intentController.comingIndex = _intentController.comingIndex + 3;
               _intentController.comingNodes!.refresh();
+              _intentController.comingPageScrollController.value.animateTo(
+                  _intentController.comingPageScrollController.value.offset +
+                      Get.height * 0.5,
+                  // 200,
+                  duration: const Duration(milliseconds: 800),
+                  curve: Curves.ease);
               // moveDown(context);
             }
           }),
