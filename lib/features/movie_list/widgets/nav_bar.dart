@@ -28,14 +28,14 @@ class _navBarState extends State<navBar> {
       child: Stack(
         children: [
           Padding(padding: EdgeInsets.only(left: 15), child: Logo()),
-          Align(alignment: Alignment.center, child: iconNav()),
+          Align(alignment: Alignment.center, child: IconNav()),
           Align(
               alignment: Alignment.bottomCenter,
               child: NavItem(
                 icon: KabbeeIcons.profile(color: Colors.grey, size: 25),
                 active: false,
                 title: 'profile',
-                touched: (index) {},
+                onPressed: (index) {},
               ))
         ],
       ),

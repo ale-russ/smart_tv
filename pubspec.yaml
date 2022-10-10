@@ -69,13 +69,13 @@ dependencies:
   # custom icon launcher
   flutter_launcher_icons: "^0.10.0"
 
-  # custom icon launcher
-  flutter_launcher_icons: "^0.10.0"
+
 
   # loading svgs
   flutter_svg: ^1.1.5
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  firebase_auth: ^3.11.2
 
 dev_dependencies:
   flutter_test:

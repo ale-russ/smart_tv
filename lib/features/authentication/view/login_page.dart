@@ -1,18 +1,11 @@
 // import 'dart:ffi';
 // import 'dart:ui';
 
-import 'dart:ffi';
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_tv/features/authentication/controller/login_controller.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/authentication/widgets/login_tile.dart';
-import 'package:smart_tv/features/common/controller/global_controller.dart';
-import 'package:smart_tv/features/common/theme/icon_themes.dart';
-import 'package:smart_tv/features/profile/controllers/user_controller.dart';
 import '../../../features/common/theme/themes.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
@@ -51,8 +44,8 @@ class _LoginPageState extends State<LoginPage> {
     } on FirebaseAuthException catch (e) {
       print(e);
     }
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
-    Navigator.of(context).pop();
+    //navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    //  Navigator.of(context).pop();
   }
 
   @override
@@ -110,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
       focusNode: _buttonNode,
       style: ElevatedButton.styleFrom(
         primary: PrimaryColorTones.mainColor,
-        fixedSize: const Size(150, 40),
+        // fixedSize: const Size(150, 40),
         textStyle: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
@@ -302,11 +295,11 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const SizedBox(
-                        height: 36.0,
+                        height: 34.0,
                       ),
                       KeepMeIn(loginController: loginController),
                       const SizedBox(
-                        height: 36.0,
+                        height: 34.0,
                       ),
                       Actions(
                         actions: <Type, Action<Intent>>{
