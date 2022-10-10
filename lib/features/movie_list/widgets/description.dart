@@ -86,6 +86,15 @@ class _DescriptionState extends State<Description> {
     _setFistFocus();
     return Scaffold(
       backgroundColor: DarkModeColors.backgroundColor,
+      appBar: GetPlatform.isAndroid
+          ? null
+          : AppBar(
+              backgroundColor: Colors.transparent,
+              leading: IconButton(
+                onPressed: (() => {Navigator.pop(context)}),
+                icon: Icon(Icons.arrow_back),
+              ),
+            ),
       body: Container(
         child: FocusableActionDetector(
           shortcuts: _globalController.navigationIntents,
@@ -130,12 +139,12 @@ class _DescriptionState extends State<Description> {
                                           minimumSize: Size(150, 40),
                                         ),
                                         onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    VideoApp()),
-                                          );
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //       builder: (context) =>
+                                          //           VideoApp()),
+                                          // );
                                         },
                                         icon: KabbeeIcons.play(
                                             color: DarkModeColors
