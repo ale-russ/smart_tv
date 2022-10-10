@@ -237,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(color: Colors.grey),
                         ),
                       ),
-                      const SizedBox(height: 18.0),
+                      // const SizedBox(height: 18.0),
                       Actions(
                           actions: <Type, Action<Intent>>{
                             DownbuttonIntent: CallbackAction<DownbuttonIntent>(

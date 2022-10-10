@@ -6,23 +6,32 @@ import '../../movie_list/controller/movie_controller.dart';
 class IntentController extends GetxController {
   MoviesController _controller = Get.find();
 
-  ScrollController trendingScrollController = ScrollController();
-  ScrollController tvShowScrollController = ScrollController();
-  ScrollController topRatedScrollController = ScrollController();
+  //ScrollController
+  Rx<ScrollController> trendingScrollController = ScrollController().obs;
+  //ScrollController tvShowScrollController = ScrollController();
+  Rx<ScrollController> searchScroller = ScrollController().obs;
+  Rx<ScrollController> tvShowScrollController = ScrollController().obs;
+  Rx<ScrollController> topRatedScrollController = ScrollController().obs;
   ScrollController homePageScrollController = ScrollController();
-  ScrollController comingPageScrollController = ScrollController();
+  Rx<ScrollController> comingPageScrollController = ScrollController().obs;
   ScrollController favPageScrollController = ScrollController();
   ScrollController descPageScrollController = ScrollController();
+  ScrollController videoPlayerScrollController = ScrollController();
 
-  List<FocusNode>? trendingNodes = [];
-  List<FocusNode>? topRatedNodes = [];
-  List<FocusNode>? tvShowsNodes = [];
-  List<FocusNode>? sideNodes = [];
-  List<FocusNode>? searchNodes = [];
-  List<FocusNode>? comingNodes = [];
-  List<FocusNode>? favNodes = [];
-  List<FocusNode>? profileNodes = [];
+  RxList<dynamic>? trendingNodes = [].obs;
+  RxList<dynamic>? topRatedNodes = [].obs;
+  RxList<dynamic>? tvShowsNodes = [].obs;
+  RxList<dynamic>? posterNodes = [].obs;
+  RxList<dynamic>? searchOptionsNodes = [].obs;
+  RxList<dynamic>? sideNodes = [].obs;
+  RxList<dynamic>? searchNodes = [].obs;
+  RxList<dynamic>? comingNodes = [].obs;
+  RxList<dynamic>? favNodes = [].obs;
+  RxList<dynamic>? profileNodes = [].obs;
+
   List<FocusNode>? descNodes = [];
+  List<FocusNode>? videoPlayerNodes = [];
+
   bool side = false;
   bool trend = false;
   bool top = false;
@@ -33,6 +42,10 @@ class IntentController extends GetxController {
   bool searchField = false;
   bool profile = false;
   bool desc = false;
+  bool videoP = false;
+
+  int searchoptionIndex = 0;
+  int posterIndex = 0;
   int descIndex = 0;
   int profileIndex = 0;
   int favIndex = 0;
@@ -43,7 +56,10 @@ class IntentController extends GetxController {
   int topIndex = 0;
   int tvIndex = 0;
   int comingIndex = 0;
+  int videoIndex = 0;
+
   FocusNode? searchNode;
+  FocusNode? moviDescNode;
 
   Color borderColor = Colors.black;
   void unFocus() {
@@ -57,13 +73,13 @@ class IntentController extends GetxController {
       //// print("going to next focus ");
       //// print(FocusManager.instance.primaryFocus);
       //// print("This is the first node " + sideNodes![0].toString());
-      if (navSelectedIndex < 4) {
-        print("inside teh change focus down ${navSelectedIndex}");
-        FocusScope.of(context).requestFocus(sideNodes![navSelectedIndex + 1]);
-        navSelectedIndex++;
-      }
+      // if (navSelectedIndex < 4) {
+      //   print("inside teh change focus down ${navSelectedIndex}");
+      //   FocusScope.of(context).requestFocus(sideNodes![navSelectedIndex + 1]);
+      //   navSelectedIndex++;
+      // }
     } else if (trend == true && desc == false) {
-      topRatedScrollController.animateTo(0,
+      topRatedScrollController.value.animateTo(0,
           duration: Duration(milliseconds: 800), curve: Curves.ease);
       FocusScope.of(context).requestFocus(topRatedNodes![0]);
       //print("top");
@@ -75,7 +91,7 @@ class IntentController extends GetxController {
       trendingIndex = 0;
     } else if (top == true && desc == false) {
       FocusScope.of(context).requestFocus(tvShowsNodes![0]);
-      tvShowScrollController.animateTo(0,
+      tvShowScrollController.value.animateTo(0,
           duration: Duration(milliseconds: 800), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset + 250,
           duration: Duration(milliseconds: 800), curve: Curves.ease);
@@ -90,10 +106,10 @@ class IntentController extends GetxController {
       if (comingIndex + 3 < comingNodes!.length) {
         FocusScope.of(context).requestFocus(comingNodes![comingIndex + 3]);
         comingIndex = comingIndex + 3;
-        comingPageScrollController.animateTo(
-            comingPageScrollController.offset + 250,
-            duration: Duration(milliseconds: 800),
-            curve: Curves.ease);
+        // comingPageScrollController.animateTo(
+        //     comingPageScrollController.offset + 250,
+        //     duration: Duration(milliseconds: 800),
+        //     curve: Curves.ease);
       } else {
         FocusScope.of(context)
             .requestFocus(comingNodes![comingNodes!.length - 1]);
@@ -112,6 +128,16 @@ class IntentController extends GetxController {
             descPageScrollController.offset + 150,
             duration: Duration(milliseconds: 800),
             curve: Curves.ease);
+      } else if (videoP == true) {
+        if (videoIndex < videoPlayerNodes!.length - 1) {
+          FocusScope.of(context)
+              .requestFocus(videoPlayerNodes![videoIndex + 1]);
+          videoIndex++;
+          videoPlayerScrollController.animateTo(
+              videoPlayerScrollController.offset + 150,
+              duration: Duration(milliseconds: 800),
+              curve: Curves.ease);
+        }
       } else
         print("I know hwy is is coming here ");
     }
@@ -129,7 +155,7 @@ class IntentController extends GetxController {
       // }
     } else if (top == true && desc == false) {
       FocusScope.of(context).requestFocus(trendingNodes![0]);
-      trendingScrollController.animateTo(0,
+      trendingScrollController.value.animateTo(0,
           duration: const Duration(milliseconds: 800), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset - 220,
           duration: const Duration(milliseconds: 800), curve: Curves.ease);
@@ -137,7 +163,7 @@ class IntentController extends GetxController {
       top = false;
     } else if (tvShow == true && desc == false) {
       FocusScope.of(context).requestFocus(topRatedNodes![0]);
-      topRatedScrollController.animateTo(0,
+      topRatedScrollController.value.animateTo(0,
           duration: const Duration(milliseconds: 800), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset - 220,
           duration: const Duration(milliseconds: 800), curve: Curves.ease);
@@ -147,10 +173,10 @@ class IntentController extends GetxController {
       if (comingIndex - 3 > 0) {
         FocusScope.of(context).requestFocus(comingNodes![comingIndex - 3]);
         comingIndex = comingIndex - 3;
-        comingPageScrollController.animateTo(
-            comingPageScrollController.offset - 200,
-            duration: const Duration(milliseconds: 800),
-            curve: Curves.ease);
+        // comingPageScrollController.animateTo(
+        //     comingPageScrollController.offset - 200,
+        //     duration: const Duration(milliseconds: 800),
+        //     curve: Curves.ease);
       } else {
         FocusScope.of(context).requestFocus(comingNodes![0]);
         comingIndex = 0;
@@ -170,6 +196,16 @@ class IntentController extends GetxController {
             descPageScrollController.offset - 150,
             duration: Duration(milliseconds: 800),
             curve: Curves.ease);
+      } else if (videoP == true) {
+        if (videoIndex > 0) {
+          FocusScope.of(context)
+              .requestFocus(videoPlayerNodes![videoIndex - 1]);
+          videoIndex--;
+          videoPlayerScrollController.animateTo(
+              videoPlayerScrollController.offset + 150,
+              duration: Duration(milliseconds: 800),
+              curve: Curves.ease);
+        }
       } else
         print("I know hwy is is coming here ");
     }
@@ -211,8 +247,8 @@ class IntentController extends GetxController {
       if (trendingIndex < _controller.trendingmovies.length - 1) {
         FocusScope.of(context).requestFocus(trendingNodes![trendingIndex + 1]);
         print("trening nodess");
-        trendingScrollController.animateTo(
-            trendingScrollController.offset + 230,
+        trendingScrollController.value.animateTo(
+            trendingScrollController.value.offset + 230,
             curve: Curves.ease,
             duration: Duration(milliseconds: 800));
         trendingIndex++;
@@ -220,16 +256,18 @@ class IntentController extends GetxController {
     } else if (top == true && desc == false) {
       if (topIndex < _controller.topratedmovies.length - 1) {
         FocusScope.of(context).requestFocus(topRatedNodes![topIndex + 1]);
-        topRatedScrollController.animateTo(
-            topRatedScrollController.offset + 230,
+        topRatedScrollController.value.animateTo(
+            topRatedScrollController.value.offset + 230,
             curve: Curves.ease,
             duration: Duration(milliseconds: 800));
         topIndex++;
       }
     } else if (tvShow == true && desc == false) {
       if (tvIndex < _controller.tv.length - 1) {
-        tvShowScrollController.animateTo(tvShowScrollController.offset + 230,
-            curve: Curves.ease, duration: Duration(milliseconds: 800));
+        tvShowScrollController.value.animateTo(
+            tvShowScrollController.value.offset + 230,
+            curve: Curves.ease,
+            duration: Duration(milliseconds: 800));
         FocusScope.of(context).requestFocus(tvShowsNodes![tvIndex + 1]);
         tvIndex++;
       }
@@ -252,6 +290,8 @@ class IntentController extends GetxController {
 
         searchIndex++;
       }
+    } else if (videoP == true && desc == false) {
+      FocusScope.of(context).requestFocus(videoPlayerNodes![videoIndex]);
     }
     //print("out of range");
   }
@@ -265,8 +305,8 @@ class IntentController extends GetxController {
         trend = false;
       } else {
         FocusScope.of(context).requestFocus(trendingNodes![trendingIndex - 1]);
-        trendingScrollController.animateTo(
-            trendingScrollController.offset - 230,
+        trendingScrollController.value.animateTo(
+            trendingScrollController.value.offset - 230,
             curve: Curves.ease,
             duration: Duration(milliseconds: 800));
         trendingIndex--;
@@ -279,8 +319,8 @@ class IntentController extends GetxController {
       } else {
         FocusScope.of(context).requestFocus(topRatedNodes![topIndex - 1]);
         // FocusScope.of(context).requestFocus(topRatedNodes![trendingIndex - 1]);
-        topRatedScrollController.animateTo(
-            trendingScrollController.offset - 230,
+        topRatedScrollController.value.animateTo(
+            trendingScrollController.value.offset - 230,
             curve: Curves.ease,
             duration: Duration(milliseconds: 800));
         topIndex--;
@@ -292,8 +332,10 @@ class IntentController extends GetxController {
         tvShow = false;
       } else {
         FocusScope.of(context).requestFocus(tvShowsNodes![tvIndex - 1]);
-        tvShowScrollController.animateTo(trendingScrollController.offset - 230,
-            curve: Curves.ease, duration: Duration(milliseconds: 800));
+        tvShowScrollController.value.animateTo(
+            trendingScrollController.value.offset - 230,
+            curve: Curves.ease,
+            duration: Duration(milliseconds: 800));
 
         tvIndex--;
       }
@@ -319,6 +361,11 @@ class IntentController extends GetxController {
         side = true;
         searchResult = false;
         //FocusScope.of(context).requestFocus(searchNodes![searchIndex - 1]);
+      }
+    } else if (videoP == true && desc == false) {
+      if (videoIndex > 0) {
+        FocusScope.of(context).requestFocus(videoPlayerNodes![videoIndex - 1]);
+        videoIndex--;
       }
     } else {
       FocusScope.of(context).requestFocus(sideNodes![0]);

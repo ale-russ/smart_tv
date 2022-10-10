@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:smart_tv/features/movie_list/view/Movies.dart';
 import 'features/common/services/dbAccess.dart';
 import 'firebase_options.dart';
 
@@ -31,23 +32,20 @@ class MyApp extends GetView<GlobalController> {
 
   @override
   Widget build(BuildContext context) {
-    return Shortcuts(
-      shortcuts: {
-        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowDown): const ActivateIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowRight): const ActivateIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowUp): const ActivateIntent(),
-        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
-      },
-      child: GetMaterialApp(
-        navigatorKey: navigatorKey,
-        title: 'Kabbe Movies',
-        theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
-        home: const LoginPage(),
-        //home: MoviesPage(),
-        debugShowCheckedModeBanner: false,
-      ),
+    return GetMaterialApp(
+      // shortcuts:  {
+      //   LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+      //   LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
+      //   LogicalKeySet(LogicalKeyboardKey.arrowDown): const ActivateIntent(),
+      //   LogicalKeySet(LogicalKeyboardKey.arrowRight): const ActivateIntent(),
+      //   LogicalKeySet(LogicalKeyboardKey.arrowUp): const ActivateIntent(),
+      //   // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
+      // },
+      title: 'Kabbee Movies',
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
+      // home: const LoginPage(),
+      home: MoviesPage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
