@@ -46,7 +46,7 @@ class _DescriptionState extends State<Description> {
 
   _setFistFocus() {
     if (!_intentController.descNodes!.isEmpty) {
-      print("is empty");
+      print("is empty planed");
       FocusScope.of(context)
           .requestFocus(_intentController.descNodes!.value[0]);
       _intentController.descNodes!.refresh();
@@ -169,12 +169,22 @@ class _DescriptionState extends State<Description> {
                                           minimumSize: Size(150, 40),
                                         ),
                                         onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    VideoApp()),
-                                          );
+                                          FocusScope.of(context).requestFocus(
+                                              _intentController
+                                                  .videoPlayerNodes!.value[0]);
+                                          print("what " +
+                                              FocusScope.of(context)
+                                                  .focusedChild
+                                                  .toString());
+                                          _intentController.videoPlayerNodes!
+                                              .refresh();
+                                          Get.to(VideoApp());
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //       builder: (context) =>
+                                          //           VideoApp()),
+                                          // );
                                         },
                                         icon: KabbeeIcons.play(
                                             color: DarkModeColors

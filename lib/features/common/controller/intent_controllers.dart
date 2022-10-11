@@ -4,11 +4,10 @@ import 'package:get/get.dart';
 import '../../movie_list/controller/movie_controller.dart';
 
 class IntentController extends GetxController {
-  MoviesController _controller = Get.find();
+  MoviesController _controller = Get.put(MoviesController());
 
   //ScrollController
   Rx<ScrollController> trendingScrollController = ScrollController().obs;
-  //ScrollController tvShowScrollController = ScrollController();
   Rx<ScrollController> searchScroller = ScrollController().obs;
   Rx<ScrollController> tvShowScrollController = ScrollController().obs;
   Rx<ScrollController> topRatedScrollController = ScrollController().obs;

@@ -5,43 +5,40 @@ import 'package:smart_tv/features/authentication/controller/login_controller.dar
 
 import '../../common/theme/themes.dart';
 
-class LoginForm extends StatelessWidget {
-  LoginForm({
+class LoginTextField extends StatelessWidget {
+  LoginTextField({
     Key? key,
-    FocusNode? emailNode,
-    bool obscure = false,
+    this.focusNode,
+    this.obscure = false,
     required this.hint,
     required this.controller,
     required this.icon,
     this.initialValue = "",
-  })  : _emailNode = emailNode,
-        _obscure = obscure,
-        super(key: key);
-
-  final FocusNode? _emailNode;
-  FocusNode? _iconFocus;
-  bool? _obscure;
+  }) : super(key: key);
+  final FocusNode? focusNode;
+//  final FocusNode _emailNode;
+  //FocusNode? _iconFocus;
+  bool? obscure;
   final String? hint;
   final String? initialValue;
   final TextEditingController controller;
 
-  LoginController? loginController = Get.put(LoginController());
+  LoginController loginController = Get.put(LoginController());
 
   // RxBool isObscure = false.obs;
 
   final Icon icon;
   @override
   Widget build(BuildContext context) {
-    return
-        // Obx(() =>
-        Container(
+    return Container(
       height: MediaQuery.of(context).size.width * 0.04,
       child: TextFormField(
         textInputAction: TextInputAction.done,
+        // autofocus: true,
         // initialValue: initialValue!,
         // obscureText: isObscure.value,
-        obscureText: _obscure!,
-        focusNode: _emailNode,
+        obscureText: obscure!,
+        focusNode: focusNode,
         controller: controller,
         style: const TextStyle(fontSize: 16.0, color: Colors.white60),
         validator: hint == 'Email'
@@ -62,7 +59,9 @@ class LoginForm extends StatelessWidget {
               },
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: DarkModeColors.borderColor),
+            borderSide: focusNode!.hasFocus
+                ? BorderSide(color: DarkModeColors.borderColor)
+                : BorderSide(color: Colors.red),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
@@ -75,7 +74,7 @@ class LoginForm extends StatelessWidget {
             child: IconButton(
               icon: icon,
               onPressed: () {
-                print("Obscure is $_obscure");
+                print("Obscure is $obscure");
                 // isObscure.value = !isObscure.value;
                 // _iconFocus!.canRequestFocus = false;
               },
@@ -92,6 +91,5 @@ class LoginForm extends StatelessWidget {
         ),
       ),
     );
-    // );
   }
 }

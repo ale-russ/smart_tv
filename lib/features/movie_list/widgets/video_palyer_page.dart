@@ -27,21 +27,21 @@ class _VideoAppState extends State<VideoApp> {
   final IntentController _intentController = Get.find();
   final GlobalController _globalController = Get.find();
 
-  _changeNodeFocus(BuildContext build, String direction) {
-    if (direction == "Down") {
-      _intentController.DownNavActions(context);
-      setState(() {});
-    } else if (direction == "Up") {
-      _intentController.UpNavActions(context);
-      setState(() {});
-    } else if (direction == "Right") {
-      _intentController.RightNavActions(context);
-      setState(() {});
-    } else if (direction == "Left") {
-      _intentController.LeftNavActions(context);
-      setState(() {});
-    }
-  }
+  // _changeNodeFocus(BuildContext build, String direction) {
+  //   if (direction == "Down") {
+  //     _intentController.DownNavActions(context);
+  //     setState(() {});
+  //   } else if (direction == "Up") {
+  //     _intentController.UpNavActions(context);
+  //     setState(() {});
+  //   } else if (direction == "Right") {
+  //     _intentController.RightNavActions(context);
+  //     setState(() {});
+  //   } else if (direction == "Left") {
+  //     _intentController.LeftNavActions(context);
+  //     setState(() {});
+  //   }
+  // }
 
   @override
   void initState() {
@@ -59,17 +59,17 @@ class _VideoAppState extends State<VideoApp> {
           videolength = _controller!.value.position;
         });
       });
+    // print("gone");
+    print("gone  " +
+        _intentController.videoPlayerNodes!.value[0].hasFocus.toString());
+    if (_intentController.videoPlayerNodes!.isEmpty) {}
   }
 
-  _setFirstFocus() {
-    if (!_intentController.videoPlayerNodes!.value[0].hasFocus) {
-      print(!_intentController.videoPlayerNodes!.value[0].hasFocus);
-      // FocusScope.of(context)
-      //     .requestFocus(_intentController.videoPlayerNodes!.value[0]);
-      _intentController.videoPlayerNodes!.refresh();
-      //print("play focus");
-    }
-  }
+  // _setFirstFocus() {
+  //   FocusScope.of(context).requestFocus(_intentController.videoPlayerNodes![0]);
+  //   _intentController.videoPlayerNodes!.refresh();
+  //   //print("play focus");
+  // }
 
   @override
   void dispose() {
@@ -79,8 +79,12 @@ class _VideoAppState extends State<VideoApp> {
 
   @override
   Widget build(BuildContext context) {
-    print("aspectRatio is ${_controller!.value.aspectRatio}");
-    _setFirstFocus();
+    // print("aspectRatio is ${_controller!.value.aspectRatio}");
+    print(" focused" + FocusScope.of(context).focusedChild.toString());
+
+    if (!_intentController.videoPlayerNodes!.value[0].hasFocus) {
+      // _setFirstFocus();
+    }
     return Scaffold(
       backgroundColor: DarkModeColors.backgroundColor,
       body: FocusableActionDetector(
@@ -144,27 +148,29 @@ class _VideoAppState extends State<VideoApp> {
                             color:
                                 DarkModeColors.backgroundVariant.withAlpha(150),
                           ),
-                          child: IconButton(
-                              focusNode:
-                                  _intentController.videoPlayerNodes!.value[0],
-                              icon: FocusableActionDetector(
-                                child: Icon(
-                                  _controller!.value.isPlaying
-                                      ? Icons.pause
-                                      : Icons.play_arrow,
-                                  color: _intentController
-                                          .videoPlayerNodes!.value[0].hasFocus
-                                      ? Colors.amber
-                                      : Colors.white,
+                          child: Obx(
+                            () => IconButton(
+                                focusNode: _intentController
+                                    .videoPlayerNodes!.value[0],
+                                icon: FocusableActionDetector(
+                                  child: Icon(
+                                    _controller!.value.isPlaying
+                                        ? Icons.pause
+                                        : Icons.play_arrow,
+                                    color: _intentController
+                                            .videoPlayerNodes!.value[0].hasFocus
+                                        ? Colors.amber
+                                        : Colors.white,
+                                  ),
                                 ),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _controller!.value.isPlaying
-                                      ? _controller!.pause()
-                                      : _controller!.play();
-                                });
-                              }),
+                                onPressed: () {
+                                  setState(() {
+                                    _controller!.value.isPlaying
+                                        ? _controller!.pause()
+                                        : _controller!.play();
+                                  });
+                                }),
+                          ),
                         ),
                       ),
                       Positioned(

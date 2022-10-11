@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:smart_tv/config/intentFiles/button_intents.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -34,18 +35,18 @@ class MyApp extends GetView<GlobalController> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      // shortcuts:  {
-      //   LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-      //   LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-      //   LogicalKeySet(LogicalKeyboardKey.arrowDown): const ActivateIntent(),
-      //   LogicalKeySet(LogicalKeyboardKey.arrowRight): const ActivateIntent(),
-      //   LogicalKeySet(LogicalKeyboardKey.arrowUp): const ActivateIntent(),
-      //   // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
-      // },
+      shortcuts: {
+        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowRight): RightbuttonIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowLeft): LeftbuttonIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
+        LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
+        LogicalKeySet(LogicalKeyboardKey.goBack): BackButtonIntent()
+      },
       title: 'Kabbee Movies',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
-      // home: const LoginPage(),
-      home: MoviesPage(),
+      home: LoginPage(),
+      //home: MoviesPage(),
       debugShowCheckedModeBanner: false,
     );
   }

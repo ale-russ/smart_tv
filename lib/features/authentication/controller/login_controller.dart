@@ -10,14 +10,18 @@ import '../../profile/models/user_models.dart';
 class LoginController extends GetxController {
   GlobalKey<FormState>? formKey;
 
+  RxList<FocusNode> loginNodes = <FocusNode>[].obs;
+
   UserDetail? user;
   Users? allUsers;
   String errorMesseg = "";
+  int loginIndex = 0;
+  Rx<FocusNode>? testing123 = FocusNode().obs;
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  RxBool isRememberMe = false.obs;
+  RxBool isRememberMe = true.obs;
 
   String? email;
   String? password;
@@ -26,15 +30,19 @@ class LoginController extends GetxController {
 
   @override
   void onInit() async {
-    await fetchUser();
+    initializeNodes();
+    print("coning0");
+    //await fetchUser();
     await rememberMe();
+    print("coning0");
+
     super.onInit();
   }
 
   GlobalKey<FormState> get loginFormKey => formKey ??= GlobalKey<FormState>();
 
   Future<Users> fetchUser() async {
-    print("fetch begins");
+    print("fetch begins 123");
     final response =
         await http.get(Uri.parse("http://10.0.2.2:8080/listUsers"));
     // await http.get(Uri.parse("http://10.0.2.2:8080/listUsers"));
@@ -75,8 +83,22 @@ class LoginController extends GetxController {
     if (isRememberMe.isTrue) email = DbAccess.readData("email");
   }
 
-  void setRememberMe(bool? value) =>
-      DbAccess.writeData("rememberMe", isRememberMe(value));
+  initializeNodes() async {
+    for (var i = 0; i < 4; i++) {
+      loginNodes.add(FocusNode(debugLabel: "loginNode $i"));
+      print(loginNodes[i]);
+    }
+    testing123!.value = FocusNode(debugLabel: "testing node");
+    print("this is hte node " + testing123!.value.toString());
+    //Get.focusScope!.requestFocus(loginNodes.value[0]);
+    //FocusScope.of(context).requestFocus(l)
+  }
+
+  void setRememberMe(bool? value) {
+    isRememberMe.value = value!;
+    isRememberMe.refresh();
+    DbAccess.writeData("rememberMe", isRememberMe(value));
+  }
 }
 
 
