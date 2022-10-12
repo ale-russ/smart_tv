@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:smart_tv/features/authentication/view/login_page.dart';
+//import 'package:smart_tv/features/authentication/view/login_page.dart';
 
-class ProfilePage extends StatefulWidget {
-  ProfilePage({Key? key}) : super(key: key);
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({Key? key}) : super(key: key);
 
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _sexController = TextEditingController();
-  final TextEditingController _countryController = TextEditingController();
-  FocusNode? _firstNameNode = FocusNode();
+  // final TextEditingController _firstNameController = TextEditingController();
+ // FocusNode? _firstNameNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -50,21 +42,21 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
+                children: const[
                   ProfileTextFields(
-                    textController: _firstNameController,
+                    // textController: _firstNameController,
                     label: "Alem",
                   ),
                   ProfileTextFields(
-                    textController: _lastNameController,
+                    // textController: _lastNameController,
                     label: "Russom",
                   ),
                   ProfileTextFields(
-                    textController: _sexController,
+                    // textController: _sexController,
                     label: "Male",
                   ),
                   ProfileTextFields(
-                    textController: _countryController,
+                    // textController: _countryController,
                     label: "Ethiopia",
                   ),
                 ],
@@ -80,11 +72,11 @@ class _ProfilePageState extends State<ProfilePage> {
 class ProfileTextFields extends StatelessWidget {
   const ProfileTextFields({
     Key? key,
-    required this.textController,
+    // required this.textController,
     required this.label,
   }) : super(key: key);
 
-  final TextEditingController textController;
+ // final TextEditingController textController;
   final String? label;
 
   @override
