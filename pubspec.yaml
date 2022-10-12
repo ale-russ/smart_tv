@@ -112,8 +112,8 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-    #- assets/playvideo.html
-    # - images/a_dot_ham.jpeg
+    - assets/
+  
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

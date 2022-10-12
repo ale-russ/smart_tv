@@ -167,7 +167,7 @@ class _SearchPageState extends State<SearchPage> {
   Container SearchTextField(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width * 0.5,
-        height: MediaQuery.of(context).size.height * 0.08,
+        // height: MediaQuery.of(context).size.height * 0.08,
         // padding: EdgeInsets.only(top: 5, left: 5),
         decoration: BoxDecoration(
           color: DarkModeColors.backgroundVariant,
@@ -274,19 +274,26 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> searchMovies(String search) async {
-    Map searchResult =
-        await _tmdbController.tmdbWithCustomLogs.v3.search.queryMovies(search);
+    var serverMessage = "";
+    try {
+      Map searchResult = await _tmdbController.tmdbWithCustomLogs.v3.search
+          .queryMovies(search);
 
-    if (searchResult['results'] != null) {
-      print(searchResult['results']);
+      if (searchResult['results'] != null) {
+        print(searchResult['results']);
 
-      searchResults = searchResult['results'];
-      mController.localSearch.value = searchResults!;
-      if (mController.localSearch.isNotEmpty) {
-        for (var i = 0; i < mController.localSearch.length; i++) {
-          _intentController.searchNodes!.add(FocusNode());
+        searchResults = searchResult['results'];
+        mController.localSearch.value = searchResults!;
+        if (mController.localSearch.isNotEmpty) {
+          for (var i = 0; i < mController.localSearch.length; i++) {
+            _intentController.searchNodes!.add(FocusNode());
+          }
         }
       }
+    } on Exception catch (err) {
+      // TODO
+      serverMessage = err.toString();
+      print("servemssage is $serverMessage");
     }
     if (mController.searchController.text == "") {
       mController.localSearch.clear;

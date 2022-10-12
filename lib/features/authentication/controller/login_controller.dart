@@ -36,8 +36,8 @@ class LoginController extends GetxController {
   Future<Users> fetchUser() async {
     print("fetch begins");
     final response =
+        // await http.get(Uri.parse("http://localhost:8080/listUsers"));
         await http.get(Uri.parse("http://10.0.2.2:8080/listUsers"));
-    // await http.get(Uri.parse("http://10.0.2.2:8080/listUsers"));
 
     if (response.statusCode == 200) {
       allUsers = Users.fromJson(jsonDecode(response.body));

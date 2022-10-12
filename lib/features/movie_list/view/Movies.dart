@@ -126,9 +126,6 @@ class _MoviesPage extends State<MoviesPage> {
             movie: controller.trendingmovies,
           ),
           SearchPage(number: 0),
-          // ComingSoon(
-          //   movie: controller.tv,
-          // ),
           Library(),
           ProfilePage(),
         ];

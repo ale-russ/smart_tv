@@ -39,8 +39,8 @@ class Library extends StatelessWidget {
               height: 40,
             ),
             LibraryTile(
-              // nodes: _intentController.favNodes!,
-              nodes: _intentController.comingNodes!,
+              nodes: _intentController.favNodes!,
+              // nodes: _intentController.comingNodes!,
               movies: _moviesController.trendingmovies,
               label: "Watch Later",
             ),

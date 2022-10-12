@@ -46,8 +46,14 @@ class _VideoAppState extends State<VideoApp> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
+    _controller = VideoPlayerController.
+        // asset(
+        //   "assets/big_buck_bunny.mp4",
+
+        network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+      // 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4',
+    )
       ..addListener(() {
         setState(() {
           videopostion = _controller!.value.position;
@@ -74,8 +80,8 @@ class _VideoAppState extends State<VideoApp> {
 
   @override
   void dispose() {
-    super.dispose();
     _controller!.dispose();
+    super.dispose();
   }
 
   @override

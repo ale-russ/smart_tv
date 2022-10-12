@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
@@ -158,6 +159,8 @@ class _ComingSoonState extends State<ComingSoon> {
   MoviesController mController = Get.put(MoviesController());
   //IntentController _intentController = Get.find();
 
+  User? user;
+
   @override
   Widget build(BuildContext context) {
     print("width is ${Get.width}");
@@ -280,7 +283,7 @@ class _ComingSoonState extends State<ComingSoon> {
                                   widget.movie![index]['release_date'] ?? "",
                               name: widget.movie![index]['title'] ?? "",
                               posterurl:
-                                  "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
+                                  "${_commonKeys.movieUrl}${widget.movie![index]['country']}",
                               vote: widget.movie![index]['vote_average']
                                   .toString(),
                             )),

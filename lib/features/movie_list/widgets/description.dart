@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/movie_list/widgets/video_palyer_page.dart';
-import '../../../config/intentFiles/button_intents.dart';
 import '../../common/theme/icon_themes.dart';
 import '../../common/theme/themes.dart';
-
-import '../../../config/intentFiles/button_intents.dart';
 
 class Description extends StatefulWidget {
   final String name, description, bannerurl, posterurl, vote, lauchOn;
@@ -99,10 +95,11 @@ class _DescriptionState extends State<Description> {
         child: FocusableActionDetector(
           shortcuts: _globalController.navigationIntents,
           actions: _intentController.actionIntents(
-              context: context,
-              scrollController: _intentController.descPageScrollController,
-              index: _intentController.descIndex,
-              nodes: _intentController.descNodes!),
+            context: context,
+            scrollController: _intentController.descPageScrollController,
+            index: _intentController.descIndex,
+            nodes: _intentController.descNodes!,
+          ),
           child: SingleChildScrollView(
             controller: _intentController.descPageScrollController.value,
             child: Column(children: <Widget>[
@@ -139,12 +136,12 @@ class _DescriptionState extends State<Description> {
                                           minimumSize: Size(150, 40),
                                         ),
                                         onPressed: () {
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //       builder: (context) =>
-                                          //           VideoApp()),
-                                          // );
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    VideoApp()),
+                                          );
                                         },
                                         icon: KabbeeIcons.play(
                                             color: DarkModeColors
