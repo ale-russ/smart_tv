@@ -16,7 +16,7 @@ class LangaugeSelector extends GetView<GlobalController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 20),
+      margin: EdgeInsets.only(top: 16),
       height: 40,
       width: 90,
       child: Center(

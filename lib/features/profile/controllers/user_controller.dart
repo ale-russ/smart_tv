@@ -7,7 +7,6 @@ import '../services/user_service.dart';
 
 class UserController extends GetxController {
   UserDetail? user;
-  Users? allUsers;
   String errorMesseg = "";
 
   @override
@@ -17,7 +16,8 @@ class UserController extends GetxController {
   }
 
   authenticateUser(String email, String password) {
-    print("Users are $allUsers");
+    print("Users are ${UserService.allUsers}");
+
     for (var lUser in UserService.allUsers!.users!) {
       if (lUser.email == email) {
         user = lUser;

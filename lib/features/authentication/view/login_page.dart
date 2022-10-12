@@ -1,15 +1,15 @@
 // import 'dart:ffi';
 // import 'dart:ui';
 
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_tv/features/authentication/controller/login_controller.dart';
-import 'package:email_validator/email_validator.dart';
+// import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/authentication/widgets/login_tile.dart';
-import 'package:smart_tv/features/common/controller/global_controller.dart';
-import 'package:smart_tv/features/common/theme/icon_themes.dart';
+// import 'package:smart_tv/features/common/controller/global_controller.dart';
+// import 'package:smart_tv/features/common/theme/icon_themes.dart';
 import 'package:smart_tv/features/profile/controllers/user_controller.dart';
 import '../../../features/common/theme/themes.dart';
 
@@ -18,9 +18,9 @@ import '../../../config/intentFiles/button_intents.dart';
 import '../../app_preference/widgets/widgets/language_selector.dart';
 import '../../common/theme/text_themes.dart';
 import '../../movie_list/view/Movies.dart';
-import '../controller/login_controller.dart';
+// import '../controller/login_controller.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -41,8 +41,6 @@ class _LoginPageState extends State<LoginPage> {
   UserController userController = Get.put(UserController());
   GlobalKey<FormState>? formKey = GlobalKey<FormState>();
   bool keyboardV = false;
-
-  // LoginController? loginController = Get.put(LoginController());
 
   String dropdownValue = languages.first;
 
@@ -92,22 +90,7 @@ class _LoginPageState extends State<LoginPage> {
         side: BorderSide(color: Theme.of(context).dividerColor),
       ),
       onPressed: () {
-        // loginController.loginUser();
-        formKey!.currentState!.validate()
-            ? userController.authenticateUser(
-                    loginController.emailController.text,
-                    loginController.passwordController.text)
-                ? Get.to(() => MoviesPage())
-                : userController.errorMesseg //LandingPage())
-            : "Error Please";
-
-        formKey!.currentState!.validate()
-            ? loginController.authenticateUser(
-                    loginController.emailController.text,
-                    loginController.passwordController.text)
-                ? Get.to(() => MoviesPage())
-                : loginController.errorMesseg //LandingPage())
-            : loginController.errorMesseg;
+        loginUser();
       },
       child: const Center(
           child: Text(
@@ -120,11 +103,8 @@ class _LoginPageState extends State<LoginPage> {
       body: Shortcuts(
         shortcuts: {
           LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-          // LogicalKeySet(LogicalKeyboardKey.arrowRight): const ActivateIntent(),
-          // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
           LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
           LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
-          // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
         },
         child: Stack(
           alignment: Alignment.topCenter,
@@ -135,9 +115,10 @@ class _LoginPageState extends State<LoginPage> {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black54,
-                      blurRadius: 15.0,
-                      offset: Offset(0.0, 0.75))
+                    color: Colors.black54,
+                    blurRadius: 15.0,
+                    offset: Offset(0.0, 0.75),
+                  )
                 ],
                 gradient: LinearGradient(
                   colors: [
@@ -145,20 +126,19 @@ class _LoginPageState extends State<LoginPage> {
                     Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
                     Colors.black,
                     Colors.transparent,
-
-                    // Theme.of(context).scaffoldBackgroundColor.withOpacity(1.0)
                   ],
                   stops: const [0.1, 0.0, 0.7, 0],
                   begin: Alignment.bottomCenter,
                   end: Alignment.center,
                 ),
                 image: DecorationImage(
-                    image: const AssetImage(
-                      "assets/images/auth_bg.jpeg",
-                    ),
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(
-                        Colors.black.withOpacity(0.9), BlendMode.dstATop)),
+                  image: const AssetImage(
+                    "assets/images/auth_bg.jpeg",
+                  ),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                      Colors.black.withOpacity(0.9), BlendMode.dstATop),
+                ),
               ),
             ),
             Padding(
@@ -168,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                       : MediaQuery.of(context).size.height * 0.1),
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.35,
-                height: MediaQuery.of(context).size.height * 0.80,
+                height: MediaQuery.of(context).size.height * 0.85,
                 decoration: BoxDecoration(
                   color: DarkModeColors.backgroundVariant,
                   borderRadius: BorderRadius.circular(8),
@@ -177,9 +157,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 36, vertical: 30),
+                    const EdgeInsets.symmetric(horizontal: 36, vertical: 20),
                 child: Form(
-                  key: formKey,
+                  key: formKey!,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -187,14 +167,15 @@ class _LoginPageState extends State<LoginPage> {
                       Actions(
                         actions: <Type, Action<Intent>>{
                           DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                              onInvoke: (intent) =>
-                                  _changeNodeFocus(context, _emailNode!))
+                            onInvoke: (intent) =>
+                                _changeNodeFocus(context, _emailNode!),
+                          )
                         },
                         child: Focus(
                           focusNode: _imageNode,
                           child: Container(
                             alignment: Alignment.topLeft,
-                            margin: const EdgeInsets.only(bottom: 8),
+                            // margin: const EdgeInsets.only(bottom: 8),
                             child: Text(
                               'Login',
                               style: TextStyle(
@@ -217,32 +198,33 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       // const SizedBox(height: 18.0),
                       Actions(
-                          actions: <Type, Action<Intent>>{
-                            DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                                onInvoke: (Intent) => {
-                                      _changeNodeFocus(context, _passwordNode!),
-                                      setState(() {
-                                        keyboardV = true;
-                                      }),
+                        actions: <Type, Action<Intent>>{
+                          DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                              onInvoke: (Intent) => {
+                                    _changeNodeFocus(context, _passwordNode!),
+                                    setState(() {
+                                      keyboardV = true;
                                     }),
-                            UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                                onInvoke: (Intent) => {
-                                      _changeNodeFocus(context, _imageNode!),
-                                      setState(() {
-                                        keyboardV = false;
-                                      }),
-                                    })
-                          },
-                          child: LoginForm(
-                            emailNode: _emailNode,
-                            hint: 'Email',
-                            icon: const Icon(
-                              Icons.mail,
-                              color: Colors.white54,
-                            ),
-                            initialValue: loginController.email,
-                            controller: loginController.emailController,
-                          )),
+                                  }),
+                          UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                              onInvoke: (Intent) => {
+                                    _changeNodeFocus(context, _imageNode!),
+                                    setState(() {
+                                      keyboardV = false;
+                                    }),
+                                  })
+                        },
+                        child: LoginForm(
+                          emailNode: _emailNode,
+                          hint: 'Email',
+                          icon: const Icon(
+                            Icons.mail,
+                            color: Colors.white54,
+                          ),
+                          initialValue: loginController.email,
+                          controller: loginController.emailController,
+                        ),
+                      ),
                       const SizedBox(height: 24.0),
                       Actions(
                         actions: <Type, Action<Intent>>{
@@ -272,12 +254,13 @@ class _LoginPageState extends State<LoginPage> {
                           controller: loginController.passwordController,
                         ),
                       ),
+
                       const SizedBox(
-                        height: 36.0,
+                        height: 24.0,
                       ),
                       KeepMeIn(loginController: loginController),
                       const SizedBox(
-                        height: 36.0,
+                        height: 24.0,
                       ),
                       Actions(
                         actions: <Type, Action<Intent>>{
@@ -299,11 +282,34 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-            // )
           ],
         ),
       ),
     );
+  }
+
+  void loginUser() {
+    print("Error message is ${loginController.errorMesseg}");
+
+    if (formKey!.currentState!.validate()) {
+      loginController.authenticateUser(
+        loginController.emailController.text,
+        loginController.passwordController.text,
+      )
+          ? Get.to(() => MoviesPage())
+          : ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: DarkModeColors.backgroundVariant,
+                content: Text(
+                  textAlign: TextAlign.center,
+                  "${loginController.errorMesseg}",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+            );
+    }
   }
 }
 
