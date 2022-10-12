@@ -8,6 +8,8 @@ import 'package:smart_tv/features/common/services/keys.dart';
 
 import 'package:tmdb_api/tmdb_api.dart';
 
+import '../service/movie_service.dart';
+
 class MoviesController extends GetxController {
   final CommonKeys _commonKeys = Get.put(CommonKeys());
   List trendingmovies = [].obs;
@@ -29,14 +31,7 @@ class MoviesController extends GetxController {
 
   loadmovies() async {
     try {
-      TMDB tmdbWithCustomLogs = TMDB(
-        // ApiKeys(apikey, readaccesstoken),
-        ApiKeys(_commonKeys.apikey!, _commonKeys.readaccesstoken!),
-        logConfig: const ConfigLogger(
-          showLogs: true,
-          showErrorLogs: true,
-        ),
-      );
+      TMDB tmdbWithCustomLogs = MovieService.fetchMovie();
 
       Map trendingresult = await tmdbWithCustomLogs.v3.trending.getTrending();
       Map topratedresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
@@ -59,6 +54,8 @@ class MoviesController extends GetxController {
       print("Server message is $serverMessage");
     }
   }
+
+ 
 
   Color borderColor = Colors.black;
 }
