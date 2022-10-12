@@ -1,65 +1,170 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-//import 'package:smart_tv/features/authentication/view/login_page.dart';
+import 'package:smart_tv/features/authentication/view/login_page.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
+import 'package:smart_tv/features/common/controller/intent_controllers.dart';
+import 'package:smart_tv/features/common/theme/colors_utility.dart';
+import 'package:smart_tv/features/common/theme/icon_themes.dart';
+import 'package:smart_tv/features/common/theme/text_themes.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
+import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
+import 'package:smart_tv/features/profile/controllers/user_controller.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+import '../../../config/intentFiles/button_intents.dart';
+import '../../movie_list/controller/movie_controller.dart';
 
-  // final TextEditingController _firstNameController = TextEditingController();
- // FocusNode? _firstNameNode = FocusNode();
+class ProfilePage extends StatefulWidget {
+  ProfilePage({Key? key}) : super(key: key);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _sexController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  FocusNode? _firstNameNode = FocusNode();
+  MoviesController controller = Get.find();
+  IntentController _intentController = Get.find();
+  UserController _userController = Get.put(UserController());
+
+  GlobalController _globalController = Get.find();
+
+  @override
+  void initState() {
+    for (var i = 0; i < 8; i++) {
+      _intentController.profileNodes!.add(FocusNode(debugLabel: "profile $i"));
+      print(_intentController.profileNodes![i]);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: GetPlatform.isDesktop || GetPlatform.isWeb
-              ? IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              : const SizedBox.shrink()),
-      backgroundColor: Colors.black,
-      body: Align(
-        alignment: Alignment.topCenter,
+      // backgroundColor: Colors.black,
+      backgroundColor: DarkModeColors.backgroundColor,
+      body: Container(
+        alignment: Alignment.center,
         child: Container(
           alignment: Alignment.center,
-          height: MediaQuery.of(context).size.height * 0.5,
-          width: 500,
+          height: Get.height * 0.9,
+          width: Get.width * 0.7,
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.3),
+            color: DarkModeColors.backgroundVariant,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: Colors.white60,
-            ),
+            // border: Border.all(
+            //   color: Colors.white60,
+            // ),
           ),
-          child: SingleChildScrollView(
-            child: Form(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const[
-                  ProfileTextFields(
-                    // textController: _firstNameController,
-                    label: "Alem",
+          child: FocusableActionDetector(
+            shortcuts: _globalController.navigationIntents,
+            actions: <Type, Action<Intent>>{
+              DownbuttonIntent:
+                  CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
+                if (_intentController.profileIndex <
+                    _intentController.profileNodes!.length - 1) {
+                  FocusScope.of(context).requestFocus(_intentController
+                      .profileNodes![++_intentController.profileIndex]);
+                  _intentController.profileNodes!.refresh();
+                  //_intentController.profileIndex++;
+                }
+                // moveDown(context);
+                //moveDown(context);
+              }),
+              LeftbuttonIntent:
+                  CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
+                FocusScope.of(context)
+                    .requestFocus(_intentController.sideNodes![0]);
+                _intentController.profileNodes!.refresh();
+                _intentController.sideNodes!.refresh();
+
+                //moveLeft(context);
+                //moveLeft(context);
+              }),
+              UpbuttonIntent:
+                  CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
+                if (_intentController.profileIndex > 0) {
+                  FocusScope.of(context).requestFocus(_intentController
+                      .profileNodes![--_intentController.profileIndex]);
+                  _intentController.profileNodes!.refresh();
+                  //profileIndex--;
+                  // favPageScrollController.animateTo(favPageScrollController.offset - 200,
+                  //     duration: Duration(microseconds: 50), curve: Curves.ease);
+                }
+                //moveRight(context);
+                // moveRight(context);
+              })
+            },
+            child: SingleChildScrollView(
+              child: Form(
+                child: Obx(
+                  () => Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ProfileAvatar(
+                        node: _intentController.profileNodes![0],
+                      ),
+                      ProfileTile(
+                        name: "Alem",
+                        label: "First Name",
+                        node: _intentController.profileNodes![1],
+                        widget:
+                            KabbeeIcons.profile(color: Colors.grey, size: 25),
+                      ),
+                      ProfileTile(
+                        name: "Russom",
+                        label: "Last Name",
+                        node: _intentController.profileNodes![2],
+                        widget:
+                            KabbeeIcons.profile(color: Colors.grey, size: 25),
+                      ),
+                      ProfileTile(
+                        name: "Male",
+                        label: "Gender",
+                        node: _intentController.profileNodes![3],
+                        widget:
+                            KabbeeIcons.gender(color: Colors.grey, size: 25),
+                      ),
+                      ProfileTile(
+                        name: "September 29 2022",
+                        label: "Date of Birth",
+                        node: _intentController.profileNodes![4],
+                        widget:
+                            KabbeeIcons.profile(color: Colors.grey, size: 25),
+                      ),
+                      ProfileTile(
+                        name: "Ethiopia",
+                        label: "Country",
+                        node: _intentController.profileNodes![5],
+                        widget: KabbeeIcons.web(color: Colors.grey, size: 25),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 30),
+                        height: 60,
+                        width: 400,
+                        child: TextButton(
+                            focusNode: _intentController.profileNodes![6],
+                            style: ElevatedButton.styleFrom(
+                              primary: DarkModeColors.surfaceColor,
+                            ),
+                            onPressed: () {
+                              print("pressed logout button");
+                              _globalController.logOutUser(context: context);
+                            },
+                            child: const Center(
+                              child: KabbeeText.headline5(
+                                "Log out",
+                                customStyle: TextStyle(color: Colors.white),
+                              ),
+                            )),
+                      )
+                    ],
                   ),
-                  ProfileTextFields(
-                    // textController: _lastNameController,
-                    label: "Russom",
-                  ),
-                  ProfileTextFields(
-                    // textController: _sexController,
-                    label: "Male",
-                  ),
-                  ProfileTextFields(
-                    // textController: _countryController,
-                    label: "Ethiopia",
-                  ),
-                ],
+                ),
               ),
             ),
           ),
@@ -69,35 +174,86 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
-class ProfileTextFields extends StatelessWidget {
-  const ProfileTextFields({
-    Key? key,
-    // required this.textController,
-    required this.label,
-  }) : super(key: key);
+class ProfileTile extends StatelessWidget {
+  ProfileTile({Key? key, this.name, this.label, this.widget, this.node})
+      : super(key: key);
 
- // final TextEditingController textController;
-  final String? label;
+  String? name;
+  String? label;
+  dynamic node;
+
+  Widget? widget;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 16),
-      child: SizedBox(
-        height: 30,
-        width: 300,
-        child: TextFormField(
-          focusNode: FocusNode(),
-          initialValue: label,
-          // controller: textController,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.grey.withOpacity(0.9),
-            // label: label,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
+    return Center(
+      child: Focus(
+        focusNode: node,
+        child: Container(
+          margin: EdgeInsets.only(
+            top: 8,
+          ),
+          decoration: BoxDecoration(
+              color: DarkModeColors.surfaceColor,
+              borderRadius: BorderRadius.circular(4),
+              border: node.hasFocus
+                  ? Border.all(color: PrimaryColorTones.mainColor)
+                  : null),
+          width: 400,
+          height: 50,
+          alignment: Alignment.center,
+          child: ListTile(
+            dense: true,
+            leading: widget,
+            subtitle: Container(
+              margin: EdgeInsets.only(bottom: 8, top: 2),
+              child: KabbeeText.subtitle1(
+                name!,
+                customStyle: TextStyle(color: Colors.white),
+              ),
+            ),
+            title: Container(
+              margin: EdgeInsets.only(top: 6),
+              child: KabbeeText.subtitle2(label!,
+                  customStyle: TextStyle(color: Colors.grey, fontSize: 12)),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileAvatar extends StatelessWidget {
+  ProfileAvatar({this.node, super.key});
+  dynamic node;
+  @override
+  Widget build(BuildContext context) {
+    return Focus(
+      focusNode: node,
+      child: Container(
+        margin: EdgeInsets.only(
+          bottom: 8,
+        ),
+        decoration: BoxDecoration(
+            color: DarkModeColors.surfaceColor,
+            borderRadius: BorderRadius.circular(4),
+            border: node.hasFocus
+                ? Border.all(color: PrimaryColorTones.mainColor)
+                : null),
+        width: 400,
+        height: 70,
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Theme.of(context).backgroundColor,
+            child: Text("AR"),
+          ),
+          title: KabbeeText.subtitle1(
+            "Alem Russom",
+            customStyle: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+          subtitle: KabbeeText.subtitle2("alem@gmail.com",
+              customStyle: TextStyle(color: Colors.grey, fontSize: 14)),
         ),
       ),
     );
