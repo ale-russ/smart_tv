@@ -47,3 +47,5 @@ app.*.map.json
 # node modules
 /mock_server/node_modules
 
+#keystore file
+/android/key.properties

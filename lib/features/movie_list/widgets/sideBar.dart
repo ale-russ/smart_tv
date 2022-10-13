@@ -1,246 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:smart_tv/config/intentFiles/right_intent.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
+import 'package:smart_tv/features/common/controller/intent_controllers.dart';
+import 'package:smart_tv/features/common/theme/icon_themes.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
-
-import '../../../config/intentFiles/down_intent.dart';
-import '../../../config/intentFiles/up_intent.dart';
-import '../utilits/text.dart';
+import 'package:smart_tv/features/movie_list/widgets/navItems.dart';
+import '../utilits/logo.dart';
 import '../view/Movies.dart';
 
-class NavRail extends StatefulWidget {
-  final FocusNode sideNode;
-  NavRail({
+class SideBar extends StatefulWidget {
+  SideBar({
     Key? key,
-    required int selectedIndex,
-    // required this.groupAlignment,
+    required this.selectedIndex,
     this.callback,
-    required this.sideNode,
   }) : super(key: key);
 
-  // final double groupAlignment;
-
   final setIndexCallback? callback;
-
-  // IconData _selectedIcon = Icons.home;
-
-  // FocusNode? _home = FocusNode();
-  // FocusNode? _searchNode;
-  // FocusNode? _movies;
-  // FocusNode? _search;
-  // FocusNode? _profile;
-
+  final int selectedIndex;
   @override
-  State<NavRail> createState() => _NavRailState();
+  State<SideBar> createState() => _SideBarState();
 }
 
-class _NavRailState extends State<NavRail> {
+class _SideBarState extends State<SideBar> {
   FocusNode? _home;
   MoviesController controller = Get.find();
-  Color homeColor = Colors.white;
+  GlobalController gController = Get.find();
+  IntentController _intentController = Get.find();
 
-  FocusNode? _search;
-  Color searchColor = Colors.white;
-
-  FocusNode? _upcoming;
-  Color upComingColor = Colors.white;
-
-  FocusNode? _profile;
-  Color profileColor = Colors.white;
-
-  _setFirstFocus(BuildContext context) {
-    if (_home == null) {
-      _home = FocusNode();
-      _search = FocusNode();
-      _upcoming = FocusNode();
-      _profile = FocusNode();
-      controller.rightPage = FocusNode();
-
-      // FocusScope.of(context).focusedChild!.unfocus();
-      FocusScope.of(context).requestFocus(_home);
-      setState(() {
-        homeColor = Colors.blue;
-        searchColor = upComingColor = profileColor = Colors.white;
-      });
-
-      print(" side bar  er " + widget.sideNode.hasFocus.toString());
-      print(" home " + _home!.hasFocus.toString());
-    }
-  }
-
+  @override
   void dispose() {
-    _home!.dispose();
-    _search!.dispose();
-    _upcoming!.dispose();
-    _profile!.dispose();
+    super.dispose();
   }
 
-  _changeNodeFocus(BuildContext context, FocusNode focus, String name) {
-    FocusScope.of(context).requestFocus(focus);
-    print(name);
-    if (name == "home") {
-      setState(() {
-        homeColor = Colors.blue;
-        searchColor = upComingColor = profileColor = Colors.white;
-      });
-    } else if (name == "search") {
-      setState(() {
-        searchColor = Colors.blue;
-        homeColor = upComingColor = profileColor = Colors.white;
-      });
-    } else if (name == "upComing") {
-      print("this is upcomning please");
-      setState(() {
-        upComingColor = Colors.blue;
-        searchColor = homeColor = profileColor = Colors.white;
-      });
-    } else if (name == "profile") {
-      setState(() {
-        profileColor = Colors.blue;
-        searchColor = upComingColor = homeColor = Colors.white;
-      });
-    } else if (name == "right page") {
-      FocusScope.of(context).unfocus();
-      FocusScope.of(context).requestFocus(focus);
-    }
-    print("home on change " + _home!.hasFocus.toString());
-    print("search on change " + _search!.hasFocus.toString());
-    print("object" + focus.hasFocus.toString());
-  }
+  //int? index;
 
-  int? _selectedIndex;
+  // final selectedColor = Colors.amber;
+  // final unselectedColor = Colors.white;
+  // final labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 15);
 
   @override
   Widget build(BuildContext context) {
-    if (_home == null) {
-      _setFirstFocus(context);
-    }
-    return Shortcuts(
-      shortcuts: {
-        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowRight): RightbuttonIntent(),
-        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
-      },
-      child: Container(
+    return Container(
         decoration: BoxDecoration(
-            color: Colors.transparent,
-            border: widget.sideNode.hasFocus
-                ? Border.all(color: Colors.black)
-                : Border.all(color: Colors.black)),
-        height: MediaQuery.of(context).size.height,
-        width: 100,
-        // color: Colors.transparent,
-        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          NavigationRail(
-            labelType: NavigationRailLabelType.all,
-            groupAlignment: -0.5,
-            backgroundColor: Colors.transparent,
-            // selectedLabelTextStyle: labelStyle.copyWith(color: selectedColor),
-            // unselectedLabelTextStyle:
-            //       labelStyle.copyWith(color: unselectedColor),
-            selectedIndex: _selectedIndex,
-            minWidth: 45,
-            selectedIconTheme:
-                const IconThemeData(color: Colors.amber, size: 10),
-            unselectedIconTheme:
-                const IconThemeData(color: Colors.white, size: 30),
-            // groupAlignment: groupAlignment,
-            onDestinationSelected: (int index) {
-              // _selectedIndex = index;
-              widget.callback!(index);
-            },
-            destinations: [
-              NavigationRailDestination(
-                  icon: Actions(
-                    actions: <Type, Action<Intent>>{
-                      DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                          onInvoke: (Intent) =>
-                              _changeNodeFocus(context, _search!, "search")),
-                      RightbuttonIntent:
-                          CallbackAction<RightbuttonIntent>(onInvoke: (Intent) {
-                        _changeNodeFocus(
-                            context, controller.rightPage!, "right page");
-                        controller.borderColor = Colors.blue;
-                      })
-                    },
-                    child: Focus(
-                      focusNode: _home!,
-                      child: Icon(Icons.home_rounded, color: homeColor
-                          //_home!.hasFocus ? Colors.blueAccent : Colors.grey,
-                          //size: 30,
-                          ),
-                    ),
-                  ),
-                  label: const ModifiedText(
-                      text: 'Home', color: Colors.white, size: 15)),
-              NavigationRailDestination(
-                icon: Actions(
-                  actions: <Type, Action<Intent>>{
-                    DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                        onInvoke: (Intent) =>
-                            _changeNodeFocus(context, _upcoming!, "upComing")),
-                    UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                        onInvoke: (Intent) =>
-                            _changeNodeFocus(context, _home!, "home"))
-                  },
-                  child: Focus(
-                    focusNode: _search,
-                    child: Icon(Icons.search_rounded, color: searchColor
-                        //_search!.hasFocus ? Colors.blueAccent : Colors.grey,
-                        ),
-                  ),
-                ),
-                label: const ModifiedText(
-                    text: 'Search', color: Colors.white, size: 15),
+          color: DarkModeColors.backgroundVariant,
+        ),
+        height: Get.height,
+        width: 120,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Logo(),
+              IconNav(
+                callback: widget.callback,
               ),
-              NavigationRailDestination(
-                icon: Actions(
-                  actions: <Type, Action<Intent>>{
-                    DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                        onInvoke: (Intent) =>
-                            _changeNodeFocus(context, _profile!, "profile")),
-                    UpbuttonIntent: CallbackAction<UpbuttonIntent>(
-                        onInvoke: (Intent) =>
-                            _changeNodeFocus(context, _search!, "search"))
-                  },
-                  child: Focus(
-                    focusNode: _upcoming,
-                    child: Icon(
-                      Icons.movie,
-                      color:
-                          _upcoming!.hasFocus ? Colors.blueAccent : Colors.grey,
-                    ),
-                  ),
-                ),
-                label: const ModifiedText(
-                    text: 'Upcomming', color: Colors.white, size: 15),
-              ),
-              NavigationRailDestination(
-                icon: Focus(
-                  focusNode: _profile,
-                  child: Icon(
-                    Icons.favorite_border,
-                    color: _profile!.hasFocus ? Colors.blueAccent : Colors.grey,
-                  ),
-                ),
-                label: const ModifiedText(
-                    text: 'Favorites', color: Colors.white, size: 15),
-              ),
-              const NavigationRailDestination(
-                icon: Icon(Icons.person),
-                label: ModifiedText(
-                  text: 'Profile',
-                  color: Colors.white,
-                  size: 15,
-                ),
-              ),
+              NavItem(
+                icon: KabbeeIcons.profileFilled(color: Colors.grey, size: 30),
+                active: false,
+                index: 4,
+                // title: 'Profile',
+                callback: widget.callback,
+                onPressed: (index) {},
+              )
             ],
           ),
-        ]),
-      ),
-    );
+        ));
   }
 }
