@@ -50,8 +50,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.1"
-<<<<<<< HEAD
-=======
   checked_yaml:
     dependency: transitive
     description:
@@ -66,7 +64,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.5"
->>>>>>> 5b3d3dc2308328aa1213acf571157fa10e25abe3
   clock:
     dependency: transitive
     description:
@@ -74,8 +71,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
-<<<<<<< HEAD
-=======
   cloud_firestore:
     dependency: "direct main"
     description:
@@ -97,7 +92,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.9"
->>>>>>> 5b3d3dc2308328aa1213acf571157fa10e25abe3
   collection:
     dependency: transitive
     description:
@@ -365,11 +359,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.2"
-<<<<<<< HEAD
-  path_provider:
-=======
   path_drawing:
->>>>>>> 5b3d3dc2308328aa1213acf571157fa10e25abe3
     dependency: transitive
     description:
       name: path_drawing

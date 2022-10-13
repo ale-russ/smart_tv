@@ -48,11 +48,11 @@ class _TrendingMoviesState extends State<TrendingMovies> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    widget.focusNode;
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   widget.focusNode;
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../config/intentFiles/button_intents.dart';
 import '../../movie_list/controller/movie_controller.dart';
 
 class IntentController extends GetxController {
@@ -15,8 +16,8 @@ class IntentController extends GetxController {
   ScrollController homePageScrollController = ScrollController();
   Rx<ScrollController> comingPageScrollController = ScrollController().obs;
   ScrollController favPageScrollController = ScrollController();
-  ScrollController descPageScrollController = ScrollController();
-  ScrollController videoPlayerScrollController = ScrollController();
+  Rx<ScrollController> descPageScrollController = ScrollController().obs;
+  //Rx<ScrollController> descScrollController = ScrollController();
 
   RxList<dynamic>? trendingNodes = [].obs;
   RxList<dynamic>? topRatedNodes = [].obs;
@@ -28,9 +29,12 @@ class IntentController extends GetxController {
   RxList<dynamic>? comingNodes = [].obs;
   RxList<dynamic>? favNodes = [].obs;
   RxList<dynamic>? profileNodes = [].obs;
+  RxList<dynamic>? descNodes = [].obs;
+  // FocusNode testing = FocusNode();
+  // testing.dispose()
 
-  List<FocusNode>? descNodes = [];
-  List<FocusNode>? videoPlayerNodes = [];
+  // List<FocusNode>? descNodes = [];
+  RxList<dynamic>? videoPlayerNodes = [].obs;
 
   bool side = false;
   bool trend = false;
@@ -64,6 +68,49 @@ class IntentController extends GetxController {
   Color borderColor = Colors.black;
   void unFocus() {
     side = coming = fav = profile = top = trend = tvShow = false;
+  }
+
+  Map<Type, Action<Intent>> actionIntents(
+      {BuildContext? context,
+      Rx<ScrollController>? scrollController,
+      int index = 1,
+      RxList<dynamic>? nodes}) {
+    print("scrollController is ${scrollController}");
+    return <Type, Action<Intent>>{
+      DownbuttonIntent: CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
+        // moveDown(context);
+        scrollController!.value.animateTo(scrollController.value.offset + 150,
+            duration: Duration(milliseconds: 800), curve: Curves.ease);
+        scrollController.refresh();
+      }),
+      LeftbuttonIntent: CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
+        print("index in left is $index");
+        //moveLeft(context);
+        // print("left " + _intentController.descIndex.toString());
+        print("left " + index.toString());
+
+        if (index > 0) {
+          FocusScope.of(context!).requestFocus(nodes!.value[--index]);
+          nodes.refresh();
+        }
+      }),
+      RightbuttonIntent: CallbackAction<RightbuttonIntent>(onInvoke: (intent) {
+        //moveRight(context);
+        print("right");
+        if (index < 1) {
+          FocusScope.of(context!).requestFocus(nodes!.value[++index]);
+          nodes.refresh();
+        }
+      }),
+      UpbuttonIntent: CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
+        scrollController!.value.animateTo(
+          scrollController.value.offset - 150,
+          duration: Duration(milliseconds: 800),
+          curve: Curves.ease,
+        );
+        scrollController.refresh();
+      })
+    };
   }
 
   DownNavActions(BuildContext context) {
@@ -124,20 +171,10 @@ class IntentController extends GetxController {
       if (descIndex < descNodes!.length - 1) {
         FocusScope.of(context).requestFocus(descNodes![descIndex + 1]);
         descIndex++;
-        descPageScrollController.animateTo(
-            descPageScrollController.offset + 150,
-            duration: Duration(milliseconds: 800),
-            curve: Curves.ease);
-      } else if (videoP == true) {
-        if (videoIndex < videoPlayerNodes!.length - 1) {
-          FocusScope.of(context)
-              .requestFocus(videoPlayerNodes![videoIndex + 1]);
-          videoIndex++;
-          videoPlayerScrollController.animateTo(
-              videoPlayerScrollController.offset + 150,
-              duration: Duration(milliseconds: 800),
-              curve: Curves.ease);
-        }
+        // descPageScrollController.animateTo(
+        //     descPageScrollController.offset + 150,
+        //     duration: Duration(milliseconds: 800),
+        //     curve: Curves.ease);
       } else
         print("I know hwy is is coming here ");
     }
@@ -192,20 +229,10 @@ class IntentController extends GetxController {
       if (descIndex > 0) {
         FocusScope.of(context).requestFocus(descNodes![descIndex - 1]);
         descIndex--;
-        descPageScrollController.animateTo(
-            descPageScrollController.offset - 150,
-            duration: Duration(milliseconds: 800),
-            curve: Curves.ease);
-      } else if (videoP == true) {
-        if (videoIndex > 0) {
-          FocusScope.of(context)
-              .requestFocus(videoPlayerNodes![videoIndex - 1]);
-          videoIndex--;
-          videoPlayerScrollController.animateTo(
-              videoPlayerScrollController.offset + 150,
-              duration: Duration(milliseconds: 800),
-              curve: Curves.ease);
-        }
+        // descPageScrollController.animateTo(
+        //     descPageScrollController.offset - 150,
+        //     duration: Duration(milliseconds: 800),
+        //     curve: Curves.ease);
       } else
         print("I know hwy is is coming here ");
     }
@@ -292,6 +319,7 @@ class IntentController extends GetxController {
       }
     } else if (videoP == true && desc == false) {
       FocusScope.of(context).requestFocus(videoPlayerNodes![videoIndex]);
+      print("here");
     }
     //print("out of range");
   }

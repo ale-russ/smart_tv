@@ -40,6 +40,7 @@ class Library extends StatelessWidget {
             ),
             LibraryTile(
               nodes: _intentController.favNodes!,
+              // nodes: _intentController.comingNodes!,
               movies: _moviesController.trendingmovies,
               label: "Watch Later",
             ),
@@ -70,6 +71,8 @@ class _LibraryTileState extends State<LibraryTile> {
   CommonKeys _movieUrl = Get.put(CommonKeys());
 
   GlobalController _globalController = Get.find();
+
+  final CommonKeys _commonKeys = Get.find();
 
   IntentController _intentController = Get.find();
 
@@ -174,31 +177,35 @@ class _LibraryTileState extends State<LibraryTile> {
                   // itemCount: movies!.length,
                   itemCount: 3,
                   itemBuilder: (context, index) {
+                    print("index in Library is $index");
                     return InkWell(
                       onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: ((context) => Description(
-                                    bannerurl:
-                                        "${_movieUrl.movieUrl}${widget.movies![index]['backdrop_path']}",
-                                    description:
-                                        "${_movieUrl.movieUrl}${widget.movies![index]['overview']}",
-                                    lauchOn:
-                                        "${_movieUrl.movieUrl}${widget.movies![index]['release_date']}",
-                                    name:
-                                        "${_movieUrl.movieUrl}${widget.movies![index]['title']}",
-                                    posterurl:
-                                        "${_movieUrl.movieUrl}${widget.movies![index]['backdrop_path']}",
-                                    vote:
-                                        "${_movieUrl.movieUrl}${widget.movies![index]['vote_average'].toString()}"))));
+                                      bannerurl:
+                                          '${_commonKeys.movieUrl}${widget.movies![index]['backdrop_path']}',
+                                      description: widget.movies![index]
+                                          ['overview'],
+                                      lauchOn: widget.movies![index]
+                                              ['release_date'] ??
+                                          "",
+                                      name:
+                                          widget.movies![index]['title'] ?? "",
+                                      posterurl:
+                                          '${_commonKeys.movieUrl}${widget.movies![index]['backdrop_path']}',
+                                      vote: widget.movies![index]
+                                              ['vote_average']
+                                          .toString(),
+                                    ))));
                       },
                       child: Focus(
                         focusNode: widget.nodes![index],
                         child: Obx(
                           () => Container(
                             margin: EdgeInsets.symmetric(horizontal: 10),
-                            width: 250,
+                            width: 200,
                             height: 140,
                             decoration: BoxDecoration(
                                 border: widget.nodes![index]!.hasFocus

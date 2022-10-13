@@ -30,14 +30,7 @@ class MoviesController extends GetxController {
 
   loadmovies() async {
     try {
-      TMDB tmdbWithCustomLogs = TMDB(
-        // ApiKeys(apikey, readaccesstoken),
-        ApiKeys(_commonKeys.apikey!, _commonKeys.readaccesstoken!),
-        logConfig: const ConfigLogger(
-          showLogs: true,
-          showErrorLogs: true,
-        ),
-      );
+      TMDB tmdbWithCustomLogs = fetchMovies();
 
       Map trendingresult = await tmdbWithCustomLogs.v3.trending.getTrending();
       Map topratedresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
@@ -59,6 +52,18 @@ class MoviesController extends GetxController {
       log("Server Message is $serverMessage");
       print("Server message is $serverMessage");
     }
+  }
+
+  TMDB fetchMovies() {
+    TMDB tmdbWithCustomLogs = TMDB(
+      // ApiKeys(apikey, readaccesstoken),
+      ApiKeys(_commonKeys.apikey!, _commonKeys.readaccesstoken!),
+      logConfig: const ConfigLogger(
+        showLogs: true,
+        showErrorLogs: true,
+      ),
+    );
+    return tmdbWithCustomLogs;
   }
 
   Color borderColor = Colors.black;

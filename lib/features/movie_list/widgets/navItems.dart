@@ -4,6 +4,8 @@ import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/common/theme/icon_themes.dart';
 import 'package:smart_tv/features/common/theme/themes.dart';
+import 'package:smart_tv/features/models/movies_model.dart';
+import 'package:smart_tv/features/profile/screen/profile_page.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
 import '../view/Movies.dart';
@@ -112,7 +114,7 @@ class _NavItemState extends State<NavItem> {
                 alignment: Alignment.center,
                 decoration: _intentController.sideNodes![widget.index!].hasFocus
                     ? BoxDecoration(
-                        color: const Color(0XFFFFA500).withOpacity(0.1),
+                        color: PrimaryColorTones.mainColor.withOpacity(0.1),
                         border: const Border(
                           right: BorderSide(
                             width: 2,
@@ -123,22 +125,29 @@ class _NavItemState extends State<NavItem> {
                     : null,
                 height: 70,
                 width: Get.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: widget.icon,
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      textAlign: TextAlign.center,
-                      widget.title ?? "",
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
-                    )
-                  ],
-                ),
+                child: index == 4
+                    ? ProfileAvatar()
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: widget.icon,
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          SizedBox(
+                            width: 80,
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              widget.title ?? "",
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 14),
+                            ),
+                          )
+                        ],
+                      ),
               ),
             ),
           ),

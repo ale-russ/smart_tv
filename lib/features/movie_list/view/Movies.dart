@@ -59,7 +59,7 @@ class _MoviesPage extends State<MoviesPage> {
         _controller.descNodes!.add(FocusNode(debugLabel: "desc node ${i}"));
         //  print("side node ${_controller.descNodes![i]}");
       }
-      for (var i = 0; i < 1; i++) {
+      for (var i = 0; i < 4; i++) {
         _controller.videoPlayerNodes!
             .add(FocusNode(debugLabel: "video node ${i}"));
       }
@@ -126,9 +126,6 @@ class _MoviesPage extends State<MoviesPage> {
             movie: controller.trendingmovies,
           ),
           SearchPage(number: 0),
-          // ComingSoon(
-          //   movie: controller.tv,
-          // ),
           Library(),
           ProfilePage(),
         ];

@@ -49,6 +49,7 @@ class _SideBarState extends State<SideBar> {
         width: 120,
         child: Center(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Logo(),
@@ -67,52 +68,4 @@ class _SideBarState extends State<SideBar> {
           ),
         ));
   }
-
-  // void moveRight() {
-  // if (_intentController.clickedIndex == 1) {
-  //   FocusScope.of(context)
-  //       .requestFocus(_intentController.searchOptionsNodes!.value[0]);
-  //   _intentController.searchOptionsNodes!.refresh();
-  // } else if (_intentController.clickedIndex == 3) {
-  //   FocusScope.of(context).requestFocus(_intentController.trendingNodes![0]);
-  //   _intentController.navSelectedIndex = 0;
-  //   _intentController.trendingNodes!.refresh();
-  // } else if (_intentController.clickedIndex == 4) {
-  //   FocusScope.of(context).requestFocus(_intentController.profileNodes![0]);
-  // } else if (_intentController.clickedIndex == 2) {
-  //   FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
-
-  //   _intentController.navSelectedIndex = 0;
-  //   _intentController.comingNodes!.refresh();
-  //   _intentController.coming = true;
-  // } else {
-  //   //print(_intentController.posterNodes![0].hasFocus);
-  //   //Get.focusScope!.requestFocus(_intentController.trendingNodes![0]);
-  //   FocusScope.of(context).requestFocus(_intentController.posterNodes![0]);
-  //   _intentController.posterNodes!.refresh();
-  // }
-  // //print("out the trading icon ");
-  // _intentController.navSelectedIndex = 0;
-  // _intentController.trendingNodes!.refresh();
-  // setState(() {});
-  // }
-
-  // void moveUp() {
-  //   if (_intentController.navSelectedIndex > -1) {
-  //     FocusScope.of(context).requestFocus(
-  //         _intentController.sideNodes![_intentController.navSelectedIndex - 1]);
-  //     _intentController.navSelectedIndex--;
-  //     print("reaching here ");
-  //     setState(() {});
-  //   }
-  // }
-
-  // void moveDown() {
-  //   if (_intentController.navSelectedIndex < 4) {
-  //     FocusScope.of(context).requestFocus(
-  //         _intentController.sideNodes![_intentController.navSelectedIndex + 1]);
-  //     _intentController.navSelectedIndex++;
-  //     setState(() {});
-  //   }
-  // }
 }

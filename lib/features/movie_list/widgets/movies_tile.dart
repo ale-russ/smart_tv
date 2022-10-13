@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
@@ -61,8 +62,6 @@ class _MoviesTileState extends State<MoviesTile> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  FocusScope.of(context)
-                      .requestFocus(_intentController.descNodes![0]);
                   _intentController.desc = true;
                   // _intentController.unFocus();
                   Navigator.push(
@@ -160,8 +159,11 @@ class _ComingSoonState extends State<ComingSoon> {
   MoviesController mController = Get.put(MoviesController());
   //IntentController _intentController = Get.find();
 
+  User? user;
+
   @override
   Widget build(BuildContext context) {
+    print("width is ${Get.width}");
     if (MediaQuery.of(context).size.width < 650) {
       count = 2;
     } else if (MediaQuery.of(context).size.width > 1100) {
@@ -191,10 +193,12 @@ class _ComingSoonState extends State<ComingSoon> {
                   .comingNodes![_intentController.comingIndex - 3]);
               _intentController.comingIndex = _intentController.comingIndex - 3;
               _intentController.comingNodes!.refresh();
-              // comingPageScrollController.animateTo(
-              //     comingPageScrollController.offset - 200,
-              //     duration: const Duration(milliseconds: 800),
-              //     curve: Curves.ease);
+              _intentController.comingPageScrollController.value.animateTo(
+                  _intentController.comingPageScrollController.value.offset -
+                      Get.height * 0.5,
+                  // 180,
+                  duration: const Duration(milliseconds: 800),
+                  curve: Curves.ease);
             } else {
               FocusScope.of(context)
                   .requestFocus(_intentController.comingNodes![0]);
@@ -211,6 +215,12 @@ class _ComingSoonState extends State<ComingSoon> {
                   .comingNodes![_intentController.comingIndex + 3]);
               _intentController.comingIndex = _intentController.comingIndex + 3;
               _intentController.comingNodes!.refresh();
+              _intentController.comingPageScrollController.value.animateTo(
+                  _intentController.comingPageScrollController.value.offset +
+                      Get.height * 0.5,
+                  // 200,
+                  duration: const Duration(milliseconds: 800),
+                  curve: Curves.ease);
               // moveDown(context);
             }
           }),
@@ -273,7 +283,7 @@ class _ComingSoonState extends State<ComingSoon> {
                                   widget.movie![index]['release_date'] ?? "",
                               name: widget.movie![index]['title'] ?? "",
                               posterurl:
-                                  "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
+                                  "${_commonKeys.movieUrl}${widget.movie![index]['country']}",
                               vote: widget.movie![index]['vote_average']
                                   .toString(),
                             )),
