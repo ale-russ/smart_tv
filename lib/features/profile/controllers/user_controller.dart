@@ -1,17 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:smart_tv/features/common/services/dbAccess.dart';
 import 'package:smart_tv/features/profile/models/user_models.dart';
 
+import '../../common/controller/intent_controllers.dart';
 import '../services/user_service.dart';
 
 class UserController extends GetxController {
+  IntentController _intentController = Get.find();
   UserDetail? user;
   String errorMesseg = "";
 
   @override
   void onInit() async {
     super.onInit();
+    intializNodes();
     await UserService.fetchUser();
   }
 
@@ -34,5 +38,12 @@ class UserController extends GetxController {
     }
     errorMesseg = "Wrong email address";
     return false;
+  }
+
+  void intializNodes() {
+    for (var i = 0; i < 8; i++) {
+      _intentController.profileNodes!.add(FocusNode(debugLabel: "profile $i"));
+      print(_intentController.profileNodes![i]);
+    }
   }
 }

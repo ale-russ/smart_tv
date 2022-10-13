@@ -13,34 +13,28 @@ import 'package:smart_tv/features/profile/controllers/user_controller.dart';
 import '../../../config/intentFiles/button_intents.dart';
 import '../../movie_list/controller/movie_controller.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   ProfilePage({Key? key}) : super(key: key);
 
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
+  // final TextEditingController _firstNameController = TextEditingController();
 
-class _ProfilePageState extends State<ProfilePage> {
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _sexController = TextEditingController();
-  final TextEditingController _countryController = TextEditingController();
-  FocusNode? _firstNameNode = FocusNode();
+  // final TextEditingController _lastNameController = TextEditingController();
+
+  // final TextEditingController _sexController = TextEditingController();
+
+  // final TextEditingController _countryController = TextEditingController();
+
+  //FocusNode? _firstNameNode = FocusNode();
+
   MoviesController controller = Get.find();
+
   IntentController _intentController = Get.find();
+
   UserController _userController = Get.put(UserController());
 
   GlobalController _globalController = Get.find();
 
-  @override
-  void initState() {
-    for (var i = 0; i < 8; i++) {
-      _intentController.profileNodes!.add(FocusNode(debugLabel: "profile $i"));
-      print(_intentController.profileNodes![i]);
-    }
-    super.initState();
-  }
-
+  // @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:hive_flutter/hive_flutter.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -30,8 +30,8 @@ class MyApp extends GetView<GlobalController> {
     return GetMaterialApp(
       title: 'Kabbee Movies',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
-      home: const LoginPage(),
-      // home: MoviesPage(),
+    //  home: const LoginPage(),
+       home: MoviesPage(),
       debugShowCheckedModeBanner: false,
     );
   }
