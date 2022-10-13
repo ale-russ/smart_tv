@@ -16,8 +16,9 @@ import '../../../features/common/theme/themes.dart';
 import '../../../config/intentFiles/button_intents.dart';
 // import '../../../config/intentFiles/up_intent.dart';
 import '../../app_preference/widgets/widgets/language_selector.dart';
-import '../../common/theme/text_themes.dart';
+// import '../../common/theme/text_themes.dart';
 import '../../movie_list/view/Movies.dart';
+import '../widgets/remember_me.dart';
 // import '../controller/login_controller.dart';
 
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -143,9 +144,10 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                  top: keyboardV
-                      ? MediaQuery.of(context).size.height * 0.01
-                      : MediaQuery.of(context).size.height * 0.1),
+                top: keyboardV
+                    ? MediaQuery.of(context).size.height * 0.01
+                    : MediaQuery.of(context).size.height * 0.1,
+              ),
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.35,
                 height: MediaQuery.of(context).size.height * 0.85,
@@ -258,7 +260,7 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: 24.0,
                       ),
-                      KeepMeIn(loginController: loginController),
+                      RememberMe(loginController: loginController),
                       const SizedBox(
                         height: 24.0,
                       ),
@@ -312,49 +314,3 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 }
-
-class KeepMeIn extends StatelessWidget {
-  const KeepMeIn({
-    Key? key,
-    required this.loginController,
-  }) : super(key: key);
-
-  final LoginController loginController;
-
-  @override
-  Widget build(BuildContext context) {
-    print("Rememberme is ${loginController.isRememberMe}");
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 5),
-          constraints: const BoxConstraints(maxWidth: 18, maxHeight: 18),
-          child: Obx(
-            () => Checkbox(
-              activeColor: PrimaryColorTones.mainColor,
-              value: loginController.isRememberMe.value,
-              onChanged: loginController.setRememberMe,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              splashRadius: 0.0,
-              side: BorderSide(color: Colors.white),
-            ),
-          ),
-        ),
-        const SizedBox(width: 5),
-        KabbeeText.subtitle1(
-          'Remember me',
-          customStyle: TextStyle(color: Colors.white),
-        ),
-      ],
-    );
-  }
-}
-
-// Future SignIn() async {
-//   await FirebaseAuth.instance.signInWithEmailAndPassword(
-//     email: emailController.text.trim(),
-//     password: passwordController.text.trim(),
-//   );
-// }
