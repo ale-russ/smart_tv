@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.3.0+5
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
@@ -30,7 +30,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -38,6 +37,18 @@ dependencies:
   video_player: ^2.4.7
   video_player_web_hls: ^0.1.11+4
   video_player_tizen: ^2.4.0
+
+  # web view
+  webview_flutter: ^3.0.4
+
+  # webview for desktop
+  desktop_webview_window: ^0.1.6
+
+  # path-provider
+  path_provider: ^2.0.7
+  path_provider_tizen: ^2.0.3
+
+  flutter_inappwebview: ^5.4.3+7
 
   progress_indicators: ^1.0.0
   get: ^4.6.5
@@ -52,13 +63,30 @@ dependencies:
   # tmdb_api
   tmdb_api: ^2.1.4
 
-  # side menu 
+  # side menu
   easy_sidemenu: ^0.3.1
-  
+
+  # firebase
+  firebase_core: ^1.23.0
+  cloud_firestore: ^3.5.0
+  firebase_auth: ^3.11.0 
+
+  # custom icon launcher
+  flutter_launcher_icons: "^0.10.0"
+
+  # loading svgs 
+  flutter_svg: ^1.1.5
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter 
+    sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/appicon.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -72,10 +100,9 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
-  # the material Icons class.
+  # the material Icons class. 
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
@@ -84,7 +111,9 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/
-    # - images/a_dot_ham.jpeg
+    - assets/icons/
+    - assets/
+  
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -97,10 +126,13 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: WorkSans
+      fonts:
+        - asset: assets/fonts/WorkSans-VariableFont_wght.ttf
+        - asset: assets/fonts/WorkSans-Italic-VariableFont_wght.ttf
+
+          # - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -1,55 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:smart_tv/features/movie_list/view/Movies.dart';
-import 'package:smart_tv/features/movie_list/view/landingPage.dart';
-import 'package:smart_tv/features/screen/movieScreen.dart';
-import 'package:smart_tv/features/upcoming_movies/upcoming_movies.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
 
-void main() {
+import 'features/common/services/dbAccess.dart';
+import 'features/movie_list/view/Movies.dart';
+
+// import 'package:firebase_core/firebase_core.dart';
+// import 'firebase_options.dart';
+
+void main(List<String>? args) async {
+  debugPrint('args: $args');
+
+  await preLauncherSetup();
+
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends GetView<GlobalController> {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Shortcuts(
-      shortcuts: {
-        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent(),
-        // LogicalKeySet(LogicalKeyboardKey.arrowLeft): const ActivateIntent()
-      },
-      child: GetMaterialApp(
-        title: 'Kabbe Movies',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        // home: LoginPage(), //const HomeScreen()
-        // home: LandingPage(),
-        home: const LoginPage(), //MoviesPage(),
-        // home: HomePage(title: "Login page"),
-        debugShowCheckedModeBanner: false,
-      ),
+    return GetMaterialApp(
+      title: 'Kabbee Movies',
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
+      home: const LoginPage(),
+      // home: MoviesPage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
+Future preLauncherSetup() async {
+  GetPlatform.isAndroid || GetPlatform.isDesktop
+      ? await DbAccess.initHive()
+      : null;
 
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: LoginPage(),
-    );
-  }
+  Get.put(GlobalController(), permanent: true);
 }

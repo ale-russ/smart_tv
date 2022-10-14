@@ -1,100 +1,71 @@
 import 'package:flutter/material.dart';
-
-import '../utilits/text.dart';
+import 'package:get/get.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
+import 'package:smart_tv/features/common/controller/intent_controllers.dart';
+import 'package:smart_tv/features/common/theme/icon_themes.dart';
+import 'package:smart_tv/features/common/theme/themes.dart';
+import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
+import 'package:smart_tv/features/movie_list/widgets/navItems.dart';
+import '../utilits/logo.dart';
 import '../view/Movies.dart';
 
-class NavRail extends StatefulWidget {
-  NavRail({
+class SideBar extends StatefulWidget {
+  SideBar({
     Key? key,
-    required int selectedIndex,
-    // required this.groupAlignment,
+    required this.selectedIndex,
     this.callback,
   }) : super(key: key);
 
   final setIndexCallback? callback;
-
-  // IconData _selectedIcon = Icons.home;
-
-  // FocusNode? _home = FocusNode();
-  // FocusNode? _searchNode;
-  // FocusNode? _movies;
-  // FocusNode? _search;
-  // FocusNode? _profile;
-
+  final int selectedIndex;
   @override
-  State<NavRail> createState() => _NavRailState();
+  State<SideBar> createState() => _SideBarState();
 }
 
-class _NavRailState extends State<NavRail> {
-  int? _selectedIndex;
+class _SideBarState extends State<SideBar> {
+  FocusNode? _home;
+  MoviesController controller = Get.find();
+  GlobalController gController = Get.find();
+  IntentController _intentController = Get.find();
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  //int? index;
+
+  // final selectedColor = Colors.amber;
+  // final unselectedColor = Colors.white;
+  // final labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 15);
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      return Container(
-        height: MediaQuery.of(context).size.height,
-        width: 100,
-        color: Colors.transparent,
-        child: Container(
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Focus(
-              // focusNode: _home,
-              child: NavigationRail(
-                labelType: NavigationRailLabelType.selected,
-                groupAlignment: -0.5,
-                backgroundColor: Colors.transparent,
-                // selectedLabelTextStyle: labelStyle.copyWith(color: selectedColor),
-                // unselectedLabelTextStyle:
-                //       labelStyle.copyWith(color: unselectedColor),
-                selectedIndex: _selectedIndex,
-                minWidth: 45,
-                selectedIconTheme: IconThemeData(color: Colors.amber, size: 40),
-                unselectedIconTheme:
-                    IconThemeData(color: Colors.white, size: 30),
-                // groupAlignment: groupAlignment,
-                onDestinationSelected: (int index) {
-                  _selectedIndex = index;
-                  widget.callback!(index);
-                },
-                destinations: const [
-                  NavigationRailDestination(
-                      icon: Icon(
-                        Icons.home,
-                        //size: 30,
-                      ),
-                      label: Modified_text(
-                          text: 'Home', color: Colors.white, size: 15)),
-                  NavigationRailDestination(
-                    icon: Icon(
-                      Icons.search,
-                    ),
-                    label: Modified_text(
-                        text: 'Search', color: Colors.white, size: 15),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(
-                      Icons.movie,
-                    ),
-                    label: Modified_text(
-                        text: 'Upcomming', color: Colors.white, size: 15),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(
-                      Icons.favorite,
-                    ),
-                    label: Modified_text(
-                        text: 'Favorite', color: Colors.white, size: 15),
-                  ),
-                  NavigationRailDestination(
-                      icon: Icon(Icons.person),
-                      label: Modified_text(
-                          text: 'Profile', color: Colors.white, size: 15))
-                ],
-              ),
-            ),
-          ]),
+    return Container(
+        decoration: BoxDecoration(
+          color: DarkModeColors.backgroundVariant,
         ),
-      );
-    });
+        height: Get.height,
+        width: 120,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Logo(),
+              IconNav(
+                callback: widget.callback,
+              ),
+              NavItem(
+                icon: KabbeeIcons.profileFilled(color: Colors.grey, size: 30),
+                active: false,
+                index: 4,
+                // title: 'Profile',
+                callback: widget.callback,
+                onPressed: (index) {},
+              )
+            ],
+          ),
+        ));
   }
 }

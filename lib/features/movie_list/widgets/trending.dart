@@ -1,127 +1,137 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_interpolation_to_compose_strings, prefer_if_null_operators, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:smart_tv/features/movie_list/widgets/description.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/movie_list/utilits/text.dart';
+import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
+import 'package:smart_tv/features/movie_list/widgets/movies_tile.dart';
+import 'package:smart_tv/features/movie_list/widgets/toprated.dart';
 
-class TrendingMovies extends StatelessWidget {
+import '../../../config/intentFiles/button_intents.dart';
+import '../../common/controller/intent_controllers.dart';
+import 'description.dart';
+
+class TrendingMovies extends StatefulWidget {
   final List trending;
   List<FocusNode>? nodes;
 
-  TrendingMovies({Key? key, required this.trending}) : super(key: key);
-
-  _setfirstfocus(BuildContext context) {
-    nodes ??= List.filled(trending.length, FocusNode());
-    print(trending.length);
-
-    FocusScope.of(context).requestFocus(nodes![0]);
-    print("this is " + nodes![0].hasFocus.toString());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (nodes == null) {
-      _setfirstfocus(context);
-    }
-    return Container(
-      padding: const EdgeInsets.all(10),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Modified_text(
-          text: "Trending Movies",
-          size: 26,
-          color: Colors.white70,
-        ),
-        SizedBox(
-          height: 270,
-          child: ListView.builder(
-            itemCount: trending.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              print("this " + trending.length.toString());
-              print(
-                  index.toString() + "  " + nodes![index].hasFocus.toString());
-              return InkWell(
-                onTap: () => OnMovieTap(context, index),
-                child: trending[index]['title'] != null
-                    ? MovieCard(
-                        node: nodes![index],
-                        index: index,
-                        trending: trending,
-                        borderColor: !nodes![index].hasFocus
-                            ? Colors.blueAccent
-                            : Colors.black)
-                    : Container(),
-              );
-            },
-          ),
-        )
-      ]),
-    );
-  }
-
-  OnMovieTap(BuildContext context, int index) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: ((context) => Description(
-              bannerurl:
-                  "https://image.tmdb.org/t/p/w500${trending[index]['backdrop_path']}",
-              description: trending[index]['overview'],
-              lauchOn: trending[index]['release_date'],
-              name: trending[index]['title'],
-              posterurl: 'https://image.tmdb.org/t/p/w500' +
-                  trending[index]['backdrop_path'],
-              vote: trending[index]['vote_average'].toString(),
-            )),
-      ),
-    );
-  }
-}
-
-class MovieCard extends StatelessWidget {
-  const MovieCard({
+  TrendingMovies({
     Key? key,
     required this.trending,
-    required this.index,
-    required this.borderColor,
-    required this.node,
+    this.focusNode,
   }) : super(key: key);
 
-  final List trending;
-  final int index;
-  final Color borderColor;
-  final FocusNode node;
+  FocusNode? focusNode = FocusNode();
+
+  @override
+  State<TrendingMovies> createState() => _TrendingMoviesState();
+}
+
+class _TrendingMoviesState extends State<TrendingMovies> {
+  Color textColor = Colors.white70;
+  MoviesController _controller = Get.find();
+  IntentController _intentController = Get.find();
+  GlobalController _globalController = Get.find();
+
+  @override
+  void initState() {
+    // if (mounted) {
+    if (_intentController.trendingNodes!.isEmpty) {
+      for (var i = 0; i < _controller.trendingmovies.length; i++) {
+        var temp = FocusNode();
+        _intentController.trendingNodes!.add(temp);
+      }
+      // }
+    }
+
+    super.initState();
+  }
+
+  // @override
+  // void dispose() {
+  //   widget.focusNode;
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: borderColor // Colors.blueAccent,
-              )),
-      padding: const EdgeInsets.all(5),
-      width: 250,
-      child: Column(
-        children: [
-          Container(
-              width: 250,
-              height: 140,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                      image: NetworkImage(
-                        "https://image.tmdb.org/t/p/w500${trending[index]['backdrop_path']}",
-                      ),
-                      fit: BoxFit.cover))),
-          SizedBox(
-            child: Modified_text(
-              text: trending[index]['title'] ?? 'Loading',
-              color: Colors.white60,
-              size: 15,
-            ),
-          )
-        ],
+    return FocusableActionDetector(
+      shortcuts: _globalController.navigationIntents,
+      actions: <Type, Action<Intent>>{
+        DownbuttonIntent: CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
+          moveDown(context);
+        }),
+        LeftbuttonIntent: CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
+          moveLeft(context);
+        }),
+        RightbuttonIntent:
+            CallbackAction<RightbuttonIntent>(onInvoke: (intent) {
+          moveRight(context);
+        }),
+        UpbuttonIntent: CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
+          moveUp(context);
+        })
+      },
+      child: MoviesTile(
+        title: "Trending Movies",
+        movie: widget.trending,
+        nodes: _intentController.trendingNodes!,
+        borderColor: Colors.grey.withOpacity(0.3),
+        scrollController: _intentController.trendingScrollController.value,
       ),
     );
+  }
+
+  void moveUp(BuildContext context) {
+    FocusScope.of(context).requestFocus(_intentController.posterNodes![0]);
+    _intentController.posterIndex = 0;
+    _intentController.trendingNodes!.refresh();
+    _intentController.posterNodes!.refresh();
+  }
+
+  void moveLeft(BuildContext context) {
+    if (_intentController.trendingIndex <= 0) {
+      FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
+    } else {
+      FocusScope.of(context).requestFocus(_intentController
+          .trendingNodes![_intentController.trendingIndex - 1]);
+      _intentController.trendingNodes!.refresh();
+      _intentController.trendingScrollController.value.animateTo(
+          _intentController.trendingScrollController.value.offset - 230,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 800));
+      _intentController.trendingIndex--;
+    }
+    _intentController.trendingNodes!.refresh();
+    _intentController.sideNodes!.refresh();
+  }
+
+  void moveRight(BuildContext context) {
+    if (_intentController.trendingIndex <
+        _controller.trendingmovies.length - 1) {
+      FocusScope.of(context).requestFocus(
+          _intentController.trendingNodes![++_intentController.trendingIndex]);
+
+      _intentController.trendingScrollController.value.animateTo(
+          _intentController.trendingScrollController.value.offset + 230,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 800));
+    }
+    _intentController.trendingNodes!.refresh();
+  }
+
+  void moveDown(BuildContext context) {
+    _intentController.topRatedScrollController.value.animateTo(0,
+        duration: Duration(milliseconds: 800), curve: Curves.ease);
+    FocusScope.of(context).requestFocus(_intentController.topRatedNodes![0]);
+    _intentController.homePageScrollController.animateTo(
+        _intentController.homePageScrollController.offset + 220,
+        duration: Duration(milliseconds: 800),
+        curve: Curves.ease);
+    _intentController.trendingIndex = 0;
+    setState(() {});
+    _intentController.trendingNodes!.refresh();
+    _intentController.topRatedNodes!.refresh();
   }
 }
