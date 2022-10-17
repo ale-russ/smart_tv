@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:smart_tv/config/intentFiles/button_intents.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/theme/themes.dart';
+import 'package:smart_tv/features/video_player/controller/video_controller.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../common/controller/intent_controllers.dart';
@@ -11,80 +12,25 @@ import '../../common/controller/intent_controllers.dart';
 //void main() => runApp(const VideoApp());
 
 /// Stateful widget to fetch and then display video content.
-class VideoApp extends StatefulWidget {
-  const VideoApp({Key? key}) : super(key: key);
+class VideoApp extends StatelessWidget {
+  VideoApp({Key? key}) : super(key: key);
 
-  @override
-  _VideoAppState createState() => _VideoAppState();
-}
-
-class _VideoAppState extends State<VideoApp> {
-  VideoPlayerController? _controller;
-  Duration? videolength;
-  Duration? videopostion;
-  double volume = 0;
+  final VideoController _videoController = Get.put(VideoController());
 
   final IntentController _intentController = Get.find();
+
   final GlobalController _globalController = Get.find();
 
   // _changeNodeFocus(BuildContext build, String direction) {
-  //   if (direction == "Down") {
-  //     _intentController.DownNavActions(context);
-  //     setState(() {});
-  //   } else if (direction == "Up") {
-  //     _intentController.UpNavActions(context);
-  //     setState(() {});
-  //   } else if (direction == "Right") {
-  //     _intentController.RightNavActions(context);
-  //     setState(() {});
-  //   } else if (direction == "Left") {
-  //     _intentController.LeftNavActions(context);
-  //     setState(() {});
-  //   }
-  // }
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
-      ..addListener(() {
-        setState(() {
-          videopostion = _controller!.value.position;
-        });
-      })
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {
-          videolength = _controller!.value.position;
-        });
-      });
-    // print("gone");
-    print("gone  " +
-        _intentController.videoPlayerNodes!.value[0].hasFocus.toString());
-    if (_intentController.videoPlayerNodes!.isEmpty) {}
-  }
-
-  // _setFirstFocus() {
-  //   FocusScope.of(context).requestFocus(_intentController.videoPlayerNodes![0]);
-  //   _intentController.videoPlayerNodes!.refresh();
-  //   //print("play focus");
-  // }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller!.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     // print("aspectRatio is ${_controller!.value.aspectRatio}");
     print(" focused" + FocusScope.of(context).focusedChild.toString());
-
-    if (!_intentController.videoPlayerNodes!.value[0].hasFocus) {
-      // _setFirstFocus();
-    }
+    _videoController.initializeNode();
+    print("videoNode");
+    // if (!_intentController.videoPlayerNodes!.value[0].hasFocus) {
+    //   // _setFirstFocus();
+    // }
     return Scaffold(
       backgroundColor: DarkModeColors.backgroundColor,
       body: FocusableActionDetector(
@@ -115,8 +61,9 @@ class _VideoAppState extends State<VideoApp> {
         child: SingleChildScrollView(
           child: Container(
             height: Get.height,
-            child: !_controller!.value.isInitialized
+            child: !_videoController.controller!.value.isInitialized
                 //  videopostion == null
+
                 ? Align(
                     alignment: Alignment.center,
                     child: CircularProgressIndicator(
@@ -126,14 +73,17 @@ class _VideoAppState extends State<VideoApp> {
                 : Stack(
                     children: [
                       Column(children: [
-                        if (_controller!.value.isInitialized) ...[
+                        if (_videoController
+                            .controller!.value.isInitialized) ...[
+                          // change here
                           Expanded(
                             child: AspectRatio(
                               aspectRatio: 2,
                               // aspectRatio: _controller!.value.aspectRatio,
                               child: SizedBox(
                                 width: double.infinity,
-                                child: VideoPlayer(_controller!),
+                                child:
+                                    VideoPlayer(_videoController.controller!),
                               ),
                             ),
                           ),
@@ -150,25 +100,26 @@ class _VideoAppState extends State<VideoApp> {
                           ),
                           child: Obx(
                             () => IconButton(
-                                focusNode: _intentController
-                                    .videoPlayerNodes!.value[0],
+                                // focusNode: _intentController
+                                //     .videoPlayerNodes!.value[0],
                                 icon: FocusableActionDetector(
                                   child: Icon(
-                                    _controller!.value.isPlaying
+                                    _videoController.controller!.value.isPlaying
                                         ? Icons.pause
                                         : Icons.play_arrow,
-                                    color: _intentController
+                                    color: _videoController
                                             .videoPlayerNodes!.value[0].hasFocus
                                         ? Colors.amber
                                         : Colors.white,
                                   ),
                                 ),
                                 onPressed: () {
-                                  setState(() {
-                                    _controller!.value.isPlaying
-                                        ? _controller!.pause()
-                                        : _controller!.play();
-                                  });
+                                  // setState(() {
+                                  _videoController.controller!.value
+                                          .isPlaying //change here too
+                                      ? _videoController.controller!.pause()
+                                      : _videoController.controller!.play();
+                                  // });
                                 }),
                           ),
                         ),
@@ -179,7 +130,7 @@ class _VideoAppState extends State<VideoApp> {
                           width: Get.width,
                           height: 25,
                           child: VideoProgressIndicator(
-                            _controller!,
+                            _videoController.controller!,
                             allowScrubbing: true,
                             padding: EdgeInsets.all(10),
                             colors: VideoProgressColors(
@@ -197,7 +148,7 @@ class _VideoAppState extends State<VideoApp> {
                               children: [
                                 Focus(
                                   focusNode:
-                                      _intentController.videoPlayerNodes![1],
+                                      _videoController.videoPlayerNodes![1],
                                   child: Icon(
                                     Icons.skip_previous,
                                     color: Colors.white,
@@ -206,7 +157,7 @@ class _VideoAppState extends State<VideoApp> {
                                 ),
                                 Focus(
                                   focusNode:
-                                      _intentController.videoPlayerNodes![2],
+                                      _videoController.videoPlayerNodes![2],
                                   child: Icon(
                                     Icons.skip_next,
                                     color: Colors.white,
@@ -217,9 +168,10 @@ class _VideoAppState extends State<VideoApp> {
                                 ),
                                 Focus(
                                   focusNode:
-                                      _intentController.videoPlayerNodes![3],
+                                      _videoController.videoPlayerNodes![3],
                                   child: Icon(
-                                    animatedvolumeicon(volume),
+                                    animatedvolumeicon(
+                                        _videoController.volume.value),
                                     color: Colors.white,
                                   ),
                                 ),
@@ -228,15 +180,16 @@ class _VideoAppState extends State<VideoApp> {
                                     activeColor: Colors.orange,
                                     min: 0,
                                     max: 1,
-                                    value: volume,
+                                    value: _videoController
+                                        .volume.value, // volume,
                                     onChanged: (changevolume) {
-                                      setState(() {
-                                        volume = changevolume;
-                                        _controller!.setVolume(changevolume);
-                                      });
+                                      // setState(() {
+                                      //   volume = changevolume;
+                                      //   _controller!.setVolume(changevolume);
+                                      // });
                                     }),
                                 Text(
-                                  '${convertToMinutesSeconds(videopostion!)} / ${convertToMinutesSeconds(videolength!)}',
+                                  '${convertToMinutesSeconds(_videoController.videopostion!.value)} / ${convertToMinutesSeconds(_videoController.videolength!.value)}',
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ],

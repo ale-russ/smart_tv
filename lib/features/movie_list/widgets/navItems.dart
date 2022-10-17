@@ -4,20 +4,15 @@ import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/common/theme/icon_themes.dart';
 import 'package:smart_tv/features/common/theme/themes.dart';
+import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
+import 'package:smart_tv/features/profile/controllers/user_controller.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
 import '../view/Movies.dart';
 
-class IconNav extends StatefulWidget {
+class IconNav extends StatelessWidget {
   IconNav({Key? key, this.index, this.callback}) : super(key: key);
 
-  @override
-  State<IconNav> createState() => _IconNavState();
-  final setIndexCallback? callback;
-  int? index;
-}
-
-class _IconNavState extends State<IconNav> {
   List<bool> selected = [true, false, false, false, false];
 
   List<Widget> icons = [
@@ -45,19 +40,20 @@ class _IconNavState extends State<IconNav> {
             icon: icons[index],
             title: labels[index],
             index: index,
-            callback: widget.callback,
-            onPressed: () {
-              setState(() {});
-            },
+            callback: callback,
+            onPressed: () {},
             active: selected[index],
           );
         },
       ),
     );
   }
+
+  final setIndexCallback? callback;
+  int? index;
 }
 
-class NavItem extends StatefulWidget {
+class NavItem extends StatelessWidget {
   final Widget icon;
   final Function onPressed;
   final bool active;
@@ -76,20 +72,21 @@ class NavItem extends StatefulWidget {
 
   final setIndexCallback? callback;
 
-  @override
-  State<NavItem> createState() => _NavItemState();
-}
-
-class _NavItemState extends State<NavItem> {
   IntentController _intentController = Get.find();
+
   GlobalController _globalController = Get.find();
+
+  UserController _userController = Get.find();
+
+  MoviesController _moviesController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: (() {
-          widget.callback!(widget.index!);
+          callback!(index!);
         }),
         splashColor: DarkModeColors.backgroundVariant,
         // hoverColor: Colors.white12,
@@ -97,20 +94,19 @@ class _NavItemState extends State<NavItem> {
           shortcuts: _globalController.navigationIntents,
           actions: <Type, Action<Intent>>{
             DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                onInvoke: (intent) => moveDown()),
-            UpbuttonIntent:
-                CallbackAction<UpbuttonIntent>(onInvoke: (intent) => moveUp()),
+                onInvoke: (intent) => moveDown(context)),
+            UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                onInvoke: (intent) => moveUp(context)),
             RightbuttonIntent: CallbackAction<RightbuttonIntent>(
-                onInvoke: (intent) => moveRight() // moveRight()
+                onInvoke: (intent) => moveRight(context) // moveRight()
                 ),
           },
-          //focusNode: _intentController.sideNodes![widget.index!],
-          child: Obx(
-            () => Focus(
-              focusNode: _intentController.sideNodes![widget.index!],
+          child: Obx(() {
+            return Focus(
+              focusNode: _moviesController.sideNodes![index!],
               child: Container(
                 alignment: Alignment.center,
-                decoration: _intentController.sideNodes![widget.index!].hasFocus
+                decoration: _moviesController.sideNodes![index!].hasFocus
                     ? BoxDecoration(
                         color: const Color(0XFFFFA500).withOpacity(0.1),
                         border: const Border(
@@ -127,82 +123,80 @@ class _NavItemState extends State<NavItem> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      child: widget.icon,
+                      child: icon,
                     ),
                     SizedBox(
                       height: 4,
                     ),
                     Text(
                       textAlign: TextAlign.center,
-                      widget.title ?? "",
+                      title ?? "",
                       style: TextStyle(color: Colors.grey, fontSize: 14),
                     )
                   ],
                 ),
               ),
-            ),
-          ),
+            );
+          }),
         ),
       ),
     );
   }
 
-  void moveUp() {
+  void moveUp(BuildContext context) {
     print("hereee i am ");
     if (_intentController.navSelectedIndex > 0) {
       FocusScope.of(context).requestFocus(
-          _intentController.sideNodes![--_intentController.navSelectedIndex]);
+          _moviesController.sideNodes![--_intentController.navSelectedIndex]);
       //_intentController.navSelectedIndex--;
-      _intentController.sideNodes!.refresh();
+      _moviesController.sideNodes!.refresh();
       print("hereee");
-      //widget.index = widget.index! - 1;
-      setState(() {});
-      print("index ${widget.index}");
+
+      print("index $index");
     }
   }
 
-  void moveDown() {
+  void moveDown(BuildContext context) {
     if (_intentController.navSelectedIndex < 4) {
       FocusScope.of(context).requestFocus(
-          _intentController.sideNodes![++_intentController.navSelectedIndex]);
-      _intentController.sideNodes!.refresh();
+          _moviesController.sideNodes![++_intentController.navSelectedIndex]);
+      _moviesController.sideNodes!.refresh();
       //widget.index = widget.index! + 1;
-      setState(() {});
+
     }
   }
 
-  void moveRight() {
-    if (_intentController.clickedIndex == 2) {
+  void moveRight(BuildContext context) {
+    if (_moviesController.clickedIndex == 2) {
       FocusScope.of(context)
           .requestFocus(_intentController.searchOptionsNodes!.value[0]);
       print("in search ");
       _intentController.searchOptionsNodes!.refresh();
-    } else if (_intentController.clickedIndex == 1) {
+    } else if (_moviesController.clickedIndex == 1) {
       FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
       _intentController.navSelectedIndex = 0;
       _intentController.comingNodes!.refresh();
       _intentController.coming = true;
       print("coming");
-    } else if (_intentController.clickedIndex == 3) {
+    } else if (_moviesController.clickedIndex == 3) {
       FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
       _intentController.navSelectedIndex = 0;
       _intentController.comingNodes!.refresh();
       _intentController.coming = true;
       print("trending");
-    } else if (_intentController.clickedIndex == 4) {
-      FocusScope.of(context).requestFocus(_intentController.profileNodes![0]);
-      _intentController.profileNodes!.refresh();
+    } else if (_moviesController.clickedIndex == 4) {
+      FocusScope.of(context).requestFocus(_userController.profileNodes![0]);
+      _userController.profileNodes!.refresh();
       print("profile");
     } else {
-      //print(_intentController.posterNodes![0].hasFocus);
-      //Get.focusScope!.requestFocus(_intentController.trendingNodes![0]);
-      FocusScope.of(context).requestFocus(_intentController.posterNodes![0]);
-      _intentController.posterNodes!.refresh();
+      FocusScope.of(context).requestFocus(_moviesController.posterNodes![0]);
+      _moviesController.posterNodes!.refresh();
+      _moviesController.sideNodes!.refresh();
+
       print("poster");
     }
     //print("out the trading icon ");
     _intentController.navSelectedIndex = 0;
     _intentController.trendingNodes!.refresh();
-    setState(() {});
   }
 }

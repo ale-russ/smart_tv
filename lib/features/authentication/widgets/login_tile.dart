@@ -34,9 +34,9 @@ class LoginTextField extends StatelessWidget {
       height: MediaQuery.of(context).size.width * 0.04,
       child: TextFormField(
         textInputAction: TextInputAction.done,
-        // autofocus: true,
-        // initialValue: initialValue!,
-        // obscureText: isObscure.value,
+
+        //initialValue: initialValue!,
+        //obscureText: isObscure.value,
         obscureText: obscure!,
         focusNode: focusNode,
         controller: controller,
@@ -59,9 +59,9 @@ class LoginTextField extends StatelessWidget {
               },
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
-            borderSide: focusNode!.hasFocus
-                ? BorderSide(color: DarkModeColors.borderColor)
-                : BorderSide(color: Colors.red),
+            borderSide: !focusNode!.hasFocus
+                ? BorderSide(color: PrimaryColorTones.mainColor)
+                : BorderSide(color: DarkModeColors.borderColor),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),

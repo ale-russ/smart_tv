@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
 import '../../app_preference/widgets/widgets/language_selector.dart';
@@ -35,11 +36,12 @@ class LoginForm extends StatelessWidget {
           actions: <Type, Action<Intent>>{
             DownbuttonIntent:
                 CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
-              print("donw");
               if (_loginController.loginIndex <
                   _loginController.loginNodes.length) {
                 FocusScope.of(context).requestFocus(_loginController
                     .loginNodes.value[++_loginController.loginIndex]);
+                print("donw " + _loginController.loginIndex.toString());
+                _loginController.loginNodes.refresh();
               }
             }),
             UpbuttonIntent: CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
@@ -62,72 +64,76 @@ class LoginForm extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 30),
             child: Form(
               key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.topLeft,
-                    margin: const EdgeInsets.only(bottom: 8),
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: MediaQuery.of(context).size.width * 0.019,
-                          fontWeight: FontWeight.w600),
+              child: Obx(() {
+                print(" text field focus is " +
+                    _loginController.loginNodes.value[0].hasFocus.toString());
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.topLeft,
+                      margin: const EdgeInsets.only(bottom: 8),
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: MediaQuery.of(context).size.width * 0.019,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
-                  ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    margin: const EdgeInsets.only(bottom: 8, top: 8),
-                    child: const Text(
-                      "Please login to continue",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.grey),
+                    Container(
+                      alignment: Alignment.topLeft,
+                      margin: const EdgeInsets.only(bottom: 8, top: 8),
+                      child: const Text(
+                        "Please login to continue",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(color: Colors.grey),
+                      ),
                     ),
-                  ),
-                  // const SizedBox(height: 18.0),
+                    // const SizedBox(height: 18.0),
 
-                  LoginTextField(
-                    focusNode:
-                        _loginController.loginNodes.value[0], //_emailNode,
-                    hint: 'Email',
-                    icon: const Icon(
-                      Icons.mail,
-                      color: Colors.white54,
+                    LoginTextField(
+                      focusNode:
+                          _loginController.loginNodes.value[0], //_emailNode,
+                      hint: 'Email',
+                      icon: const Icon(
+                        Icons.mail,
+                        color: Colors.white54,
+                      ),
+                      //initialValue: _loginController.email,
+                      controller: _loginController.emailController,
                     ),
-                    initialValue: _loginController.email,
-                    controller: _loginController.emailController,
-                  ),
 
-                  const SizedBox(height: 24.0),
-                  LoginTextField(
-                    focusNode: _loginController.loginNodes[1],
-                    obscure: true,
-                    hint: 'Password',
-                    icon: const Icon(
-                      Icons.lock,
-                      color: Colors.white54,
+                    const SizedBox(height: 24.0),
+                    LoginTextField(
+                      focusNode: _loginController.loginNodes.value[1],
+                      obscure: true,
+                      hint: 'Password',
+                      icon: const Icon(
+                        Icons.lock,
+                        color: Colors.white54,
+                      ),
+                      controller: _loginController.passwordController,
                     ),
-                    controller: _loginController.passwordController,
-                  ),
-                  const SizedBox(
-                    height: 36.0,
-                  ),
-                  KeepMeIn(loginController: _loginController),
-                  const SizedBox(
-                    height: 36.0,
-                  ),
-                  Center(
-                      child: KpButton(
-                          loginController: _loginController,
-                          formKey: formKey,
-                          context: context)),
-                  Center(
-                    child: LangaugeSelector(),
-                  )
-                ],
-              ),
+                    const SizedBox(
+                      height: 36.0,
+                    ),
+                    KeepMeIn(loginController: _loginController),
+                    const SizedBox(
+                      height: 36.0,
+                    ),
+                    Center(
+                        child: KpButton(
+                            loginController: _loginController,
+                            formKey: formKey,
+                            context: context)),
+                    Center(
+                      child: LangaugeSelector(),
+                    )
+                  ],
+                );
+              }),
             ),
           ),
         ));

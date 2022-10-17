@@ -3,38 +3,18 @@
 
 import 'dart:async';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:smart_tv/features/authentication/controller/login_controller.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:smart_tv/features/authentication/widgets/login_tile.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
-import 'package:smart_tv/features/common/controller/intent_controllers.dart';
-import 'package:smart_tv/features/common/theme/icon_themes.dart';
-import 'package:smart_tv/features/profile/controllers/user_controller.dart';
-import '../../../features/common/theme/themes.dart';
 
-import '../../../config/intentFiles/button_intents.dart';
-// import '../../../config/intentFiles/up_intent.dart';
-import '../../app_preference/widgets/widgets/language_selector.dart';
-import '../../common/theme/text_themes.dart';
-import '../../movie_list/view/Movies.dart';
-import '../controller/login_controller.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
-
-import '../widgets/button.dart';
-import '../widgets/checkBox.dart';
 import '../widgets/loginForm.dart';
 
 class LoginPage extends StatelessWidget {
   final _loginController = Get.put(LoginController());
-  final _globalController = Get.put(GlobalController());
-  final _intentController = Get.put(IntentController());
-  GlobalKey<FormState>? formKey = GlobalKey<FormState>();
-  Rx<FocusNode>? testing = FocusNode().obs;
+  final _globalController = Get.find();
+  final GlobalKey<FormState>? formKey = GlobalKey<FormState>();
+
   // bool keyboardV = false;
 
   // String dropdownValue = languages.first;
@@ -59,7 +39,7 @@ class LoginPage extends StatelessWidget {
 
   void initializeFocus(BuildContext context) {
     Timer(const Duration(seconds: 1), () {
-      FocusScope.of(context).autofocus(_loginController.loginNodes.value[2]);
+      FocusScope.of(context).autofocus(_loginController.loginNodes.value[0]);
       print("timer");
     });
   }

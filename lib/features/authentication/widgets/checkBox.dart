@@ -28,7 +28,7 @@ class KeepMeIn extends StatelessWidget {
               focusNode: loginController.loginNodes.value[2],
               focusColor: Colors.red,
               activeColor: PrimaryColorTones.mainColor,
-              value: !loginController.isRememberMe.value,
+              value: loginController.isRememberMe.value,
               onChanged: loginController.setRememberMe,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               splashRadius: 0.0,

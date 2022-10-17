@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:smart_tv/features/common/services/dbAccess.dart';
@@ -10,10 +11,12 @@ class UserController extends GetxController {
   UserDetail? user;
   Users? allUsers;
   String errorMesseg = "";
+  RxList<dynamic>? profileNodes = [].obs;
 
   @override
   void onInit() async {
     super.onInit();
+    initializNodes();
     // await fetchUser();
   }
 
@@ -52,5 +55,11 @@ class UserController extends GetxController {
     }
     errorMesseg = "Wrong email address";
     return false;
+  }
+
+  initializNodes() {
+    for (var i = 0; i < 7; i++) {
+      profileNodes!.add(FocusNode(debugLabel: "profile node $i"));
+    }
   }
 }

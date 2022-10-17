@@ -21,7 +21,7 @@ class LoginController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  RxBool isRememberMe = true.obs;
+  RxBool isRememberMe = false.obs;
 
   String? email;
   String? password;
@@ -97,6 +97,7 @@ class LoginController extends GetxController {
   void setRememberMe(bool? value) {
     isRememberMe.value = value!;
     isRememberMe.refresh();
+    print("remembre ehre" + value.toString());
     DbAccess.writeData("rememberMe", isRememberMe(value));
   }
 }

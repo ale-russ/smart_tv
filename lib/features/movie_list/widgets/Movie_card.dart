@@ -46,7 +46,7 @@ class Movie_card extends StatelessWidget {
               : _moviesController.currentPage.value = 1;
         },
         child: FocusableActionDetector(
-          focusNode: _intentController.posterNodes!.value[0],
+          focusNode: _moviesController.posterNodes!.value[0],
           shortcuts: _globalController.navigationIntents,
           actions: <Type, Action<Intent>>{
             DownbuttonIntent:
@@ -66,7 +66,7 @@ class Movie_card extends StatelessWidget {
           child: MovieCardWithDescription(
               intentController: _intentController,
               movieUrl: movieUrl,
-              controller: _moviesController,
+              moviesController: _moviesController,
               index: index,
               widthSize: widthSize,
               heightSize: heightSize,
@@ -88,9 +88,9 @@ class Movie_card extends StatelessWidget {
 
   void moveDown(BuildContext context) {
     FocusScope.of(context)
-        .requestFocus(_intentController.trendingNodes!.value[0]);
-    _intentController.trendingNodes!.refresh();
-    _intentController.posterNodes!.refresh();
+        .requestFocus(_moviesController.trendingNodes!.value[0]);
+    _moviesController.trendingNodes!.refresh();
+    _moviesController.posterNodes!.refresh();
     _intentController.trendingIndex = 0;
     _intentController.trendingScrollController.value.animateTo(0,
         duration: const Duration(milliseconds: 800), curve: Curves.ease);
@@ -108,9 +108,9 @@ class Movie_card extends StatelessWidget {
     //   _intentController.posterNodes!.refresh();
     // } else {
     print("left in ");
-    FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
-    _intentController.posterNodes!.refresh();
-    _intentController.sideNodes!.refresh();
+    FocusScope.of(context).requestFocus(_moviesController.sideNodes![0]);
+    _moviesController.posterNodes!.refresh();
+    _moviesController.sideNodes!.refresh();
     //_intentController.searchNode.refresh();
     // }
   }
@@ -120,7 +120,7 @@ class MovieCardWithDescription extends StatelessWidget {
   const MovieCardWithDescription({
     Key? key,
     required this.movieUrl,
-    required this.controller,
+    required this.moviesController,
     required this.index,
     required this.widthSize,
     required this.heightSize,
@@ -129,7 +129,7 @@ class MovieCardWithDescription extends StatelessWidget {
   }) : super(key: key);
 
   final CommonKeys movieUrl;
-  final MoviesController controller;
+  final MoviesController moviesController;
   final int index;
   final IntentController intentController;
   final double widthSize;
@@ -148,24 +148,24 @@ class MovieCardWithDescription extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.6),
               borderRadius: BorderRadius.circular(8),
-              border: !intentController.posterNodes!.value[0].hasFocus
+              border: !moviesController.posterNodes!.value[0].hasFocus
                   ? Border.all(color: Colors.grey.withOpacity(0.3))
                   : Border.all(color: PrimaryColorTones.mainColor),
               image: DecorationImage(
                 image: NetworkImage(
-                  "${movieUrl.movieUrl}${controller.topratedmovies[index]['backdrop_path']}",
+                  "${movieUrl.movieUrl}${moviesController.topratedmovies[index]['backdrop_path']}",
                 ),
                 fit: BoxFit.fill,
               ),
             ),
-            child: controller.currentPage == 1
+            child: moviesController.currentPage == 1
                 ? BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.6,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          border: !intentController
+                          border: !moviesController
                                   .posterNodes!.value[0].hasFocus
                               ? Border.all(
                                   width: 1, color: PrimaryColorTones.mainColor)
@@ -180,19 +180,19 @@ class MovieCardWithDescription extends StatelessWidget {
       ),
       PlayWatchButton(widthSize: widthSize, heightSize: heightSize),
       Obx(
-        () => controller.currentPage == 1
+        () => moviesController.currentPage == 1
             ? Positioned(
                 top: 100,
                 left: 30,
-                child: MovieInfo(controller: controller, index: index))
+                child: MovieInfo(controller: moviesController, index: index))
             : Container(),
       ),
-      Obx( 
-        () => controller.currentPage == 1
+      Obx(
+        () => moviesController.currentPage == 1
             ? Positioned(
                 top: 30,
                 left: 430,
-                child: MovieSummary(controller: controller, index: index))
+                child: MovieSummary(controller: moviesController, index: index))
             : Container(),
       ),
       Positioned(
@@ -205,10 +205,10 @@ class MovieCardWithDescription extends StatelessWidget {
               children: [
                 Obx(
                   () => Container(
-                    width: controller.currentPage == 0 ? 20 : 10,
+                    width: moviesController.currentPage == 0 ? 20 : 10,
                     height: 10,
                     child: Divider(
-                      color: controller.currentPage == 0
+                      color: moviesController.currentPage == 0
                           ? Color(0xFFFFA500)
                           : Colors.white,
                     ),
@@ -216,10 +216,10 @@ class MovieCardWithDescription extends StatelessWidget {
                 ),
                 Obx(
                   () => Container(
-                    width: controller.currentPage == 1 ? 20 : 10,
+                    width: moviesController.currentPage == 1 ? 20 : 10,
                     height: 10,
                     child: Divider(
-                      color: controller.currentPage == 1
+                      color: moviesController.currentPage == 1
                           ? Color(0xFFFFA500)
                           : Colors.white,
                     ),

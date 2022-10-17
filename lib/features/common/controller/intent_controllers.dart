@@ -93,6 +93,7 @@ class IntentController extends GetxController {
       trendingIndex = 0;
     } else if (top == true && desc == false) {
       FocusScope.of(context).requestFocus(tvShowsNodes![0]);
+      print("description");
       tvShowScrollController.value.animateTo(0,
           duration: Duration(milliseconds: 800), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset + 250,

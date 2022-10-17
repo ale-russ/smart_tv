@@ -6,6 +6,8 @@ import 'package:smart_tv/features/authentication/view/login_page.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
+import 'package:smart_tv/features/common/controller/initialBinding.dart';
+import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 
 import 'features/common/services/dbAccess.dart';
 import 'features/movie_list/view/Movies.dart';
@@ -25,28 +27,22 @@ void main(List<String>? args) async {
   //   );
   //   await FirebaseAuth.instance.useAuthEmulator('localhot', 9099);
   // }
-
+  //KbinitialBinding().dependencies;
   runApp(const MyApp());
 }
 
 class MyApp extends GetView<GlobalController> {
   const MyApp({Key? key}) : super(key: key);
-
+  //KbinitialBinding()
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      shortcuts: {
-        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowRight): RightbuttonIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowLeft): LeftbuttonIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowUp): UpbuttonIntent(),
-        LogicalKeySet(LogicalKeyboardKey.arrowDown): DownbuttonIntent(),
-        LogicalKeySet(LogicalKeyboardKey.goBack): BackButtonIntent()
-      },
       title: 'Kabbee Movies',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
-      home: LoginPage(),
-      //home: MoviesPage(),
+      //home: LoginPage(),
+      //initialRoute: MoviesPage(),
+      initialBinding: KbinitialBinding(),
+      home: MoviesPage(),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -55,5 +51,5 @@ class MyApp extends GetView<GlobalController> {
 Future preLauncherSetup() async {
   GetPlatform.isAndroid ? await DbAccess.initHive() : null;
 
-  Get.put(GlobalController(), permanent: true);
+  //Get.put(GlobalController(), permanent: true);
 }

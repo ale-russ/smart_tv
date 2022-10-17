@@ -63,22 +63,16 @@ class _MoviesTileState extends State<MoviesTile> {
                 onTap: () {
                   _intentController.desc = true;
                   // _intentController.unFocus();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: ((context) => Description(
-                            bannerurl:
-                                "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
-                            description: widget.movie![index]['overview'],
-                            lauchOn: widget.movie![index]['release_date'] ?? "",
-                            name: widget.movie![index]['title'] ?? "",
-                            posterurl:
-                                "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
-                            vote:
-                                widget.movie![index]['vote_average'].toString(),
-                          )),
-                    ),
-                  );
+                  Get.to(() => Description(
+                        bannerurl:
+                            "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
+                        description: widget.movie![index]['overview'],
+                        lauchOn: widget.movie![index]['release_date'] ?? "",
+                        name: widget.movie![index]['title'] ?? "",
+                        posterurl:
+                            "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
+                        vote: widget.movie![index]['vote_average'].toString(),
+                      ));
                 },
                 child: widget.movie!.isNotEmpty
                     ? Obx(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
+import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/theme/themes.dart';
 
 import 'package:smart_tv/features/movie_list/controller/landing_controller.dart';
@@ -28,23 +29,17 @@ import '../widgets/sideBar.dart';
 import '../widgets/trending.dart';
 import '../controller/movie_controller.dart';
 
-class MoviesPage extends StatefulWidget {
-  @override
-  _MoviesPage createState() => _MoviesPage();
-}
+// class MoviesPage extends StatefulWidget {
+//   @override
+//   _MoviesPage createState() => _MoviesPage();
+// }
 
-class _MoviesPage extends State<MoviesPage> {
-  List<FocusNode>? rightFocusNodes;
-  FocusNode? firstFocus = FocusNode();
-  MoviesController controller = Get.put(MoviesController());
-  final IntentController _controller = Get.put(IntentController());
-
-  bool hasData = false;
-  RxBool data = false.obs;
+class MoviesPage extends GetView<MoviesController> {
+  GlobalController _globalController = Get.put(GlobalController());
 
   List<Widget> pages = [];
 
-  int _selectedIndex = 0;
+  RxInt _selectedIndex = 0.obs;
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
   bool showLeading = false;
   bool showTrailing = false;
@@ -53,62 +48,57 @@ class _MoviesPage extends State<MoviesPage> {
   // final unselectedColor = Colors.white60;
   // final labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
 
-  _setFirstFocus(BuildContext context) {
-    if (_controller.sideNodes!.isEmpty) {
-      for (var i = 0; i < 5; i++) {
-        _controller.descNodes!.add(FocusNode(debugLabel: "desc node ${i}"));
-        //  print("side node ${_controller.descNodes![i]}");
-      }
-      for (var i = 0; i < 4; i++) {
-        _controller.videoPlayerNodes!
-            .add(FocusNode(debugLabel: "video node ${i}"));
-      }
-      for (var i = 0; i < 3; i++) {
-        _controller.posterNodes!.add(
-          FocusNode(
-            debugLabel: "poster $i",
-          ),
-        );
-        printInfo(info: "video Node is $i");
-      }
-      for (var i = 0; i < 5; i++) {
-        //var temp = FocusNode();
-        _controller.sideNodes!.add(FocusNode(debugLabel: "side node $i"));
-      }
-      for (var i = 0; i < controller.trendingmovies.length; i++) {
-        _controller.trendingNodes!
-            .add(FocusNode(debugLabel: "trending node $i"));
-        _controller.comingNodes!.add(FocusNode(debugLabel: "coming node $i"));
-        print("herh");
-      }
-      for (var i = 0; i < controller.topratedmovies.length; i++) {
-        var temp = FocusNode();
-        _controller.topRatedNodes!.add(FocusNode(debugLabel: "top node $i"));
-      }
-      for (var i = 0; i < controller.tv.length; i++) {
-        var temp = FocusNode();
-        _controller.tvShowsNodes!.add(FocusNode(debugLabel: "Tv node $i"));
-      }
-      _controller.searchNode = FocusNode();
-      FocusScope.of(context).requestFocus(_controller.sideNodes![0]);
-      _controller.side = true;
-      print("help me ");
-      setState(() {});
-    }
-  }
+  // _setFirstFocus(BuildContext context) {
+  //   if (_controller.sideNodes!.isEmpty) {
+  //     for (var i = 0; i < 5; i++) {
+  //       _controller.descNodes!.add(FocusNode(debugLabel: "desc node ${i}"));
+  //       //  print("side node ${_controller.descNodes![i]}");
+  //     }
+  //     for (var i = 0; i < 4; i++) {
+  //       _controller.videoPlayerNodes!
+  //           .add(FocusNode(debugLabel: "video node ${i}"));
+  //     }
+  // for (var i = 0; i < 3; i++) {
+  //   _controller.posterNodes!.add(
+  //     FocusNode(
+  //       debugLabel: "poster $i",
+  //     ),
+  //   );
+  //   printInfo(info: "video Node is $i");
+  // }
+  //     for (var i = 0; i < 5; i++) {
+  //       //var temp = FocusNode();
+  //       _controller.sideNodes!.add(FocusNode(debugLabel: "side node $i"));
+  //     }
+  //     for (var i = 0; i < controller.trendingmovies.length; i++) {
+  //       _controller.trendingNodes!
+  //           .add(FocusNode(debugLabel: "trending node $i"));
+  //       _controller.comingNodes!.add(FocusNode(debugLabel: "coming node $i"));
+  //       print("herh");
+  //     }
+  //     for (var i = 0; i < controller.topratedmovies.length; i++) {
+  //       var temp = FocusNode();
+  //       _controller.topRatedNodes!.add(FocusNode(debugLabel: "top node $i"));
+  //     }
+  //     for (var i = 0; i < controller.tv.length; i++) {
+  //       var temp = FocusNode();
+  //       _controller.tvShowsNodes!.add(FocusNode(debugLabel: "Tv node $i"));
+  //     }
+  //     _controller.searchNode = FocusNode();
+  //     FocusScope.of(context).requestFocus(_controller.sideNodes![0]);
+  //     _controller.side = true;
+  //     print("help me ");
+  //     setState(() {});
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
-    controller.loadmovies();
-
-    if (_controller.sideNodes!.isEmpty) {
-      _setFirstFocus(context);
-    }
-
-    Timer(const Duration(seconds: 10), () {
-      print("timer");
-      if (controller.trendingmovies.isNotEmpty) {
-        data.value = true;
+    controller.loadmovies().then((value) {
+      if (controller.sideNodes!.isEmpty) {
+        controller.initializeFocusNodes().then((value) => FocusScope.of(context)
+            .requestFocus(controller.sideNodes!.value[0]));
+        controller.sideNodes!.refresh();
       }
     });
 
@@ -120,45 +110,37 @@ class _MoviesPage extends State<MoviesPage> {
             trendingmovies: controller.trendingmovies,
             topratedmovies: controller.topratedmovies,
             tv: controller.tv,
-            focusNode: firstFocus,
           ),
           ComingSoon(
             movie: controller.trendingmovies,
           ),
           SearchPage(number: 0),
-          // ComingSoon(
-          //   movie: controller.tv,
-          // ),
           Library(),
           ProfilePage(),
         ];
-        return Row(
-          children: [
-            Container(
-              // color: DarkModeColors.backgroundVariant,
-              child: Center(
-                child: SideBar(
-                  selectedIndex: _selectedIndex,
-                  callback: (index) => setState(() {
-                    print("index is $index");
-
-                    _controller.clickedIndex = _selectedIndex = index;
-                  }),
-                ),
-              ),
-              height: double.infinity,
-            ),
-            const VerticalDivider(),
-            Expanded(
-              child: data.isFalse
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                      color: PrimaryColorTones.mainColor,
-                    ))
-                  : pages[_selectedIndex],
-            ),
-          ],
-        );
+        return !_globalController.initialised.value
+            ? Center(
+                child: CircularProgressIndicator(
+                color: PrimaryColorTones.mainColor,
+              ))
+            : Row(
+                children: [
+                  Container(
+                    // color: DarkModeColors.backgroundVariant,
+                    child: Center(
+                      child: SideBar(
+                          selectedIndex: _selectedIndex.value,
+                          callback: (index) => controller.clickedIndex.value =
+                              _selectedIndex.value = index),
+                    ),
+                    height: double.infinity,
+                  ),
+                  const VerticalDivider(),
+                  Expanded(
+                    child: pages[_selectedIndex.value],
+                  ),
+                ],
+              );
       }),
     );
   }
@@ -166,7 +148,7 @@ class _MoviesPage extends State<MoviesPage> {
 
 typedef void setIndexCallback(int index);
 
-class Movies extends StatefulWidget {
+class Movies extends StatelessWidget {
   Movies({
     Key? key,
     required this.trendingmovies,
@@ -183,27 +165,22 @@ class Movies extends StatefulWidget {
   final IntentController _controller = Get.find();
 
   @override
-  State<Movies> createState() => _MoviesState();
-}
-
-class _MoviesState extends State<Movies> {
-  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(),
       ),
       child: ListView(
-        controller: widget._controller.homePageScrollController,
+        controller: _controller.homePageScrollController,
         children: [
           Movie_card(),
           TrendingMovies(
-            trending: widget.trendingmovies,
+            trending: trendingmovies,
           ),
           TopRated(
-            toprated: widget.topratedmovies,
+            toprated: topratedmovies,
           ),
-          TV(tv: widget.tv),
+          TV(tv: tv),
         ],
       ),
     );
