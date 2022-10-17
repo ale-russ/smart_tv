@@ -40,7 +40,7 @@ class VideoController extends GetxController {
   initializeNode() {
     for (var i = 0; i < 4; i++) {
       videoPlayerNodes!.add(FocusNode(debugLabel: "video Node $i"));
-      print(videoPlayerNodes![i]);
+      //print(videoPlayerNodes![i]);
       videoPlayerNodes!.refresh();
     }
   }

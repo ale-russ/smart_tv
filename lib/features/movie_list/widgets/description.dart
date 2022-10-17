@@ -135,6 +135,7 @@ class Description extends StatelessWidget {
                                       child: ElevatedButton.icon(
                                           focusNode: _moviesController
                                               .descNodes.value[0],
+                                          autofocus: true,
                                           style: ElevatedButton.styleFrom(
                                             primary: Colors.orange,
                                             minimumSize: Size(150, 40),
