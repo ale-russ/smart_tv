@@ -9,6 +9,7 @@ class VideoController extends GetxController {
   Rx<Duration>? videopostion = Rx(Duration());
   RxList<dynamic>? videoPlayerNodes = [].obs;
   RxDouble volume = 0.0.obs;
+  RxBool videoInitialised = false.obs;
 
   @override
   void onInit() {
@@ -23,8 +24,9 @@ class VideoController extends GetxController {
         ..initialize().then((_) {
           // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
           //initializeNode();
-
+          initializeNode();
           print("player initialilsed ");
+          videoInitialised.value = true;
           videolength!.value = controller!.value.position;
         });
     } on Exception catch (e) {
