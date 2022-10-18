@@ -39,6 +39,8 @@ class _MoviesPage extends State<MoviesPage> {
   MoviesController controller = Get.put(MoviesController());
   final IntentController _controller = Get.put(IntentController());
 
+  final navigatorKey = GlobalKey<NavigatorState>();
+
   bool hasData = false;
   RxBool data = false.obs;
 
@@ -147,13 +149,21 @@ class _MoviesPage extends State<MoviesPage> {
             ),
             const VerticalDivider(),
             Expanded(
-              child: data.isFalse
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                      color: PrimaryColorTones.mainColor,
-                    ))
-                  : pages[_selectedIndex],
-            ),
+                child: data.isFalse
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                        color: PrimaryColorTones.mainColor,
+                      ))
+                    :
+                    // Focus(
+                    //     child: Navigator(
+                    //       key: navigatorKey,
+                    //       onGenerateRoute: (route) => MaterialPageRoute(
+                    //         builder: (context) => pages[_selectedIndex],
+                    //       ),
+                    //     ),
+                    //   ))
+                    pages[_selectedIndex]),
           ],
         );
       }),

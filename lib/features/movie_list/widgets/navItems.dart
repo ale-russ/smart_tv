@@ -1,3 +1,6 @@
+import 'dart:core';
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
@@ -8,6 +11,7 @@ import 'package:smart_tv/features/models/movies_model.dart';
 import 'package:smart_tv/features/profile/screen/profile_page.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
+import '../../common/theme/text_themes.dart';
 import '../view/Movies.dart';
 
 class IconNav extends StatefulWidget {
@@ -85,75 +89,104 @@ class NavItem extends StatefulWidget {
 class _NavItemState extends State<NavItem> {
   IntentController _intentController = Get.find();
   GlobalController _globalController = Get.find();
+
+  @override
+  void initState() {
+    for (var i = 0; i < 8; i++) {
+      _intentController.profileNodes!.add(FocusNode(debugLabel: "profile $i"));
+      print(_intentController.profileNodes![i]);
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: (() {
-          widget.callback!(widget.index!);
-        }),
-        splashColor: DarkModeColors.backgroundVariant,
-        // hoverColor: Colors.white12,
-        child: FocusableActionDetector(
-          shortcuts: _globalController.navigationIntents,
-          actions: <Type, Action<Intent>>{
-            DownbuttonIntent: CallbackAction<DownbuttonIntent>(
-                onInvoke: (intent) => moveDown()),
-            UpbuttonIntent:
-                CallbackAction<UpbuttonIntent>(onInvoke: (intent) => moveUp()),
-            RightbuttonIntent: CallbackAction<RightbuttonIntent>(
-                onInvoke: (intent) => moveRight() // moveRight()
-                ),
-          },
-          //focusNode: _intentController.sideNodes![widget.index!],
-          child: Obx(
-            () => Focus(
-              focusNode: _intentController.sideNodes![widget.index!],
-              child: Container(
-                alignment: Alignment.center,
-                decoration: _intentController.sideNodes![widget.index!].hasFocus
-                    ? BoxDecoration(
-                        color: PrimaryColorTones.mainColor.withOpacity(0.1),
-                        border: const Border(
-                          right: BorderSide(
-                            width: 2,
-                            color: Color(0XFFFFA500),
-                          ),
+        color: Colors.transparent,
+        child: Obx(
+          (() => InkWell(
+                onTap: (() {
+                  widget.callback!(widget.index!);
+                }),
+                splashColor: DarkModeColors.backgroundVariant,
+                // hoverColor: Colors.white12,
+                child: FocusableActionDetector(
+                  shortcuts: _globalController.navigationIntents,
+                  actions: <Type, Action<Intent>>{
+                    DownbuttonIntent: CallbackAction<DownbuttonIntent>(
+                        onInvoke: (intent) => moveDown()),
+                    UpbuttonIntent: CallbackAction<UpbuttonIntent>(
+                        onInvoke: (intent) => moveUp()),
+                    RightbuttonIntent: CallbackAction<RightbuttonIntent>(
+                        onInvoke: (intent) => moveRight() // moveRight()
                         ),
-                      )
-                    : null,
-                height: 70,
-                width: Get.width,
-                child: index == 4
-                    ? ProfileAvatar()
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            child: widget.icon,
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          SizedBox(
-                            width: 80,
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              widget.title ?? "",
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 14),
+                  },
+                  child: Focus(
+                    focusNode: _intentController.sideNodes![widget.index!],
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: _intentController
+                              .sideNodes![widget.index!].hasFocus
+                          ? BoxDecoration(
+                              color:
+                                  PrimaryColorTones.mainColor.withOpacity(0.1),
+                              border: const Border(
+                                right: BorderSide(
+                                  width: 2,
+                                  color: Color(0XFFFFA500),
+                                ),
+                              ),
+                            )
+                          : null,
+                      height: 70,
+                      width: Get.width,
+                      child: widget.index != 4
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  child: widget.icon,
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                SizedBox(
+                                  width: 80,
+                                  child: Text(
+                                    textAlign: TextAlign.center,
+                                    widget.title ?? "",
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 14),
+                                  ),
+                                )
+                              ],
+                            )
+                          : Container(
+                              alignment: Alignment.bottomCenter,
+                              margin: EdgeInsets.only(
+                                bottom: 8,
+                              ),
+                              padding: EdgeInsets.only(left: 20),
+                              width: 400,
+                              // height: 70,
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                    // backgroundColor:
+                                    //     Theme.of(context).backgroundColor,
+                                    backgroundImage:
+                                        AssetImage('assets/images/lilo.jpg')
+                                    // child: Text("AR"),
+
+                                    ),
+                              ),
                             ),
-                          )
-                        ],
-                      ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+                    ),
+                    // }),
+                  ),
+                ),
+              )),
+        ));
   }
 
   void moveUp() {
