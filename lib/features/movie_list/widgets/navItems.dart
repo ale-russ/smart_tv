@@ -167,19 +167,11 @@ class _NavItemState extends State<NavItem> {
                               margin: EdgeInsets.only(
                                 bottom: 8,
                               ),
-                              padding: EdgeInsets.only(left: 20),
                               width: 400,
-                              // height: 70,
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                    // backgroundColor:
-                                    //     Theme.of(context).backgroundColor,
-                                    backgroundImage:
-                                        AssetImage('assets/images/lilo.jpg')
-                                    // child: Text("AR"),
-
-                                    ),
-                              ),
+                              child: CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage:
+                                      AssetImage('assets/images/lilo.jpg')),
                             ),
                     ),
                     // }),

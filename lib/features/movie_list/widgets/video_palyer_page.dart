@@ -214,22 +214,35 @@ class _VideoAppState extends State<VideoApp> {
                             Row(
                               children: [
                                 Focus(
-                                  focusNode:
-                                      _intentController.videoPlayerNodes![1],
-                                  child: Icon(
-                                    Icons.skip_previous,
-                                    color: Colors.white,
-                                    // color: Colors.white,
-                                  ),
-                                ),
+                                    focusNode:
+                                        _intentController.videoPlayerNodes![1],
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.replay_5_outlined,
+                                        color: Colors.white,
+                                        size: 30,
+                                      ),
+                                      onPressed: () {
+                                        _controller!
+                                            .seekTo(Duration(seconds: 1));
+                                      },
+                                    )),
                                 Focus(
-                                  focusNode:
-                                      _intentController.videoPlayerNodes![2],
-                                  child: Icon(
-                                    Icons.skip_next,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                                    focusNode:
+                                        _intentController.videoPlayerNodes![2],
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.forward_5_rounded,
+                                        color: Colors.white,
+                                        size: 30,
+                                      ),
+                                      onPressed: () {
+                                        _controller!.seekTo(Duration(
+                                            seconds: _controller!
+                                                    .value.position.inSeconds +
+                                                1));
+                                      },
+                                    )),
                                 SizedBox(
                                   width: 15,
                                 ),
