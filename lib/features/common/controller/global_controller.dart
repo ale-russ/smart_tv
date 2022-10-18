@@ -24,7 +24,7 @@ class GlobalController extends GetxController {
 
   Locale? _locale;
 
-  Locale get appLocale => _locale ?? const Locale('en', "US");
+  Locale get appLocale => _locale ?? const Locale('en', 'US');
 
   Future setAppLanguage({String? selectedLanguage}) async {
     defaultLanguage =
@@ -32,11 +32,11 @@ class GlobalController extends GetxController {
 
     switch (defaultLanguage) {
       case 'English':
-        _locale = const Locale('en', "US");
+        _locale = const Locale('en', 'US');
         break;
 
-      case 'Tigrigna':
-        _locale = const Locale('tig', "ER");
+      case 'tigrinya':
+        _locale = const Locale('ti', 'ER');
     }
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/authentication/controller/translation_controller.dart';
 
 import '../../../common/controller/global_controller.dart';
 import '../../../common/theme/icon_themes.dart';
@@ -13,20 +14,32 @@ class LangaugeSelector extends GetView<GlobalController> {
     Key? key,
   }) : super(key: key);
 
+  MyController myController = Get.put(MyController());
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 20),
+      margin: EdgeInsets.only(top: 16),
       height: 40,
       width: 90,
       child: Center(
         child: DropdownButton(
           onChanged: (String? value) async {
             if (value != null) {
-              await controller.setAppLanguage(selectedLanguage: value);
+              myController.langValue.value = value.toString();
+            }
+            //print(value);
+            if (value == 'ትግርኛ') {
+              print('value is before $value');
+              myController.changeLanguage('ti', 'ER');
+              //print('value is after $value');
+            }
+            //myController.changeLanguage('en', 'US')
+            else {
+              myController.changeLanguage('en', 'US');
             }
           },
-          value: controller.defaultLanguage,
+          value: myController.langValue.value,
           style: TextStyle(color: Colors.white, fontSize: 16),
           // style: Theme.of(context).textTheme.subtitle1!,
           underline: Container(

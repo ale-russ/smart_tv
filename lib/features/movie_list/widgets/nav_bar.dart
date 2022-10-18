@@ -32,6 +32,8 @@ class _navBarState extends State<navBar> {
           Align(
               alignment: Alignment.bottomCenter,
               child: NavItem(
+                index: 0,
+                callback: ((index) {}),
                 icon: KabbeeIcons.profile(color: Colors.grey, size: 25),
                 active: false,
                 title: 'profile',

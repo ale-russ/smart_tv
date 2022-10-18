@@ -131,9 +131,9 @@ class _LoginPageState extends State<LoginPage> {
                 : loginController.errorMesseg //LandingPage())
             : loginController.errorMesseg;
       },
-      child: const Center(
+      child: Center(
           child: Text(
-        "Login",
+        "Login".tr,
         style: TextStyle(color: Colors.black),
       )),
     );
@@ -218,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.topLeft,
                             margin: const EdgeInsets.only(bottom: 8),
                             child: Text(
-                              'Login',
+                              'Login'.tr,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize:
@@ -231,8 +231,8 @@ class _LoginPageState extends State<LoginPage> {
                       Container(
                         alignment: Alignment.topLeft,
                         margin: const EdgeInsets.only(bottom: 8, top: 8),
-                        child: const Text(
-                          "Please login to continue",
+                        child: Text(
+                          "Please login to continue".tr,
                           textAlign: TextAlign.left,
                           style: TextStyle(color: Colors.grey),
                         ),
@@ -257,7 +257,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           child: LoginForm(
                             emailNode: _emailNode,
-                            hint: 'Email',
+                            hint: 'Email'.tr,
                             icon: const Icon(
                               Icons.mail,
                               color: Colors.white54,
@@ -286,7 +286,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: LoginForm(
                           emailNode: _passwordNode,
                           obscure: true,
-                          hint: 'Password',
+                          hint: 'Password'.tr,
                           icon: const Icon(
                             Icons.lock,
                             color: Colors.white54,
@@ -360,7 +360,7 @@ class KeepMeIn extends StatelessWidget {
         ),
         const SizedBox(width: 5),
         KabbeeText.subtitle1(
-          'Remember me',
+          'Remember me'.tr,
           customStyle: TextStyle(color: Colors.white),
         ),
       ],
