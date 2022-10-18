@@ -36,7 +36,7 @@ class RememberMe extends StatelessWidget {
         ),
         const SizedBox(width: 5),
         KabbeeText.subtitle1(
-          'Remember me',
+          'Remember me'.tr,
           customStyle: TextStyle(color: Colors.white),
         ),
       ],

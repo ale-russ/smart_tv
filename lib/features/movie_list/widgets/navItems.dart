@@ -33,7 +33,12 @@ class _IconNavState extends State<IconNav> {
     KabbeeIcons.library(color: Colors.grey, size: 25),
   ];
 
-  List<String> labels = ["Home", "Comming Soon", "Search", "Library"];
+  List<String> labels = [
+    "Home".tr,
+    "Comming Soon".tr,
+    "Search".tr,
+    "Library".tr
+  ];
 
   @override
   Widget build(BuildContext context) {

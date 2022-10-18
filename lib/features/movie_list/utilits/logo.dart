@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_tv/features/common/theme/themes.dart';
 
@@ -19,7 +20,7 @@ class Logo extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: 'K',
+                  text: 'K'.tr,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: PrimaryColorTones.mainColor,
                         fontFamily: GoogleFonts.roboto().fontFamily,
@@ -27,7 +28,7 @@ class Logo extends StatelessWidget {
                       ),
                 ),
                 TextSpan(
-                  text: "abbee",
+                  text: "abbee".tr,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: DarkModeColors.onBackgroundColor.withAlpha(255),
                         fontFamily: GoogleFonts.roboto().fontFamily,
@@ -35,7 +36,7 @@ class Logo extends StatelessWidget {
                       ),
                 ),
                 TextSpan(
-                  text: '+',
+                  text: '+'.tr,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: PrimaryColorTones.mainColor,
                         fontFamily: GoogleFonts.roboto().fontFamily,

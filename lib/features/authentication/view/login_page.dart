@@ -2,8 +2,10 @@
 // import 'dart:ui';
 
 // import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:smart_tv/features/authentication/controller/login_controller.dart';
 // import 'package:email_validator/email_validator.dart';
+import 'package:smart_tv/features/authentication/controller/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -31,8 +33,36 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  Future signIn() async {
+    showDialog(
+        context: context,
+        // barrierDismissible: false,
+        builder: (context) => Center(
+              child: CircularProgressIndicator(),
+            ));
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim())
+          .then((value) => Get.to(MoviesPage()));
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+    //navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    //  Navigator.of(context).pop();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
+  }
 
   FocusNode? _emailNode;
   FocusNode? _passwordNode;
@@ -63,14 +93,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (_emailNode == null) {
       _setFirstFocus(context);
@@ -80,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
       focusNode: _buttonNode,
       style: ElevatedButton.styleFrom(
         primary: PrimaryColorTones.mainColor,
-        fixedSize: const Size(150, 40),
+        // fixedSize: const Size(150, 40),
         textStyle: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
@@ -93,9 +115,9 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () {
         loginUser();
       },
-      child: const Center(
+      child: Center(
           child: Text(
-        "Login",
+        "Login".tr,
         style: TextStyle(color: Colors.black),
       )),
     );
@@ -179,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.topLeft,
                             // margin: const EdgeInsets.only(bottom: 8),
                             child: Text(
-                              'Login',
+                              'Login'.tr,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize:
@@ -192,8 +214,8 @@ class _LoginPageState extends State<LoginPage> {
                       Container(
                         alignment: Alignment.topLeft,
                         margin: const EdgeInsets.only(bottom: 8, top: 8),
-                        child: const Text(
-                          "Please login to continue",
+                        child: Text(
+                          "Please login to continue".tr,
                           textAlign: TextAlign.left,
                           style: TextStyle(color: Colors.grey),
                         ),
@@ -218,7 +240,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         child: LoginForm(
                           emailNode: _emailNode,
-                          hint: 'Email',
+                          hint: 'Email'.tr,
                           icon: const Icon(
                             Icons.mail,
                             color: Colors.white54,
@@ -248,7 +270,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: LoginForm(
                           emailNode: _passwordNode,
                           obscure: true,
-                          hint: 'Password',
+                          hint: 'Password'.tr,
                           icon: const Icon(
                             Icons.lock,
                             color: Colors.white54,

@@ -100,9 +100,9 @@ app.put("/updateMovie:id", function (rq, res) {
   });
 });
 
-app.put("/updateProfile/:id", (rq,res) =>{
-  fs.readFile(__dirname + "/" + "users.json",function (err,data) {
-    id= rq.params.id-1
+app.put("/updateProfile/:id", (rq, res) => {
+  fs.readFile(__dirname + "/" + "users.json", function (err, data) {
+    id = rq.params.id - 1
     data = JSON.parse(data);
     arr = rq.body
     data["users"][id]["email"] = rq.body.email//arr[Object.keys(arr)[0]];

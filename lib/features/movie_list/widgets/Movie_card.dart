@@ -187,7 +187,7 @@ class MovieCardWithDescription extends StatelessWidget {
                 child: MovieInfo(controller: controller, index: index))
             : Container(),
       ),
-      Obx( 
+      Obx(
         () => controller.currentPage == 1
             ? Positioned(
                 top: 30,
@@ -262,13 +262,13 @@ class PlayWatchButton extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Icon(
                   Icons.play_arrow_rounded,
                   size: 20,
                 ),
                 Text(
-                  "Play",
+                  "Play".tr,
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.black,
@@ -293,13 +293,13 @@ class PlayWatchButton extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Icon(
                   Icons.play_arrow_rounded,
                   size: 20,
                 ),
                 Text(
-                  "Watch Trailer",
+                  "Watch Trailer".tr,
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -333,8 +333,8 @@ class MovieSummary extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Text(
-              "Plot Summary",
+            Text(
+              "Plot Summary".tr,
               style:
                   TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             ),
@@ -345,8 +345,8 @@ class MovieSummary extends StatelessWidget {
               style: TextStyle(
                   fontSize: 9, color: const Color(0xFFFFFFFF).withOpacity(0.6)),
             ),
-            const Text(
-              "Cast & Crew ",
+            Text(
+              "Cast & Crew ".tr,
               style:
                   TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
             ),
@@ -388,7 +388,7 @@ class CircularAvatar extends StatelessWidget {
             height: 4,
           ),
           Text(
-            "Artist Role",
+            "Artist Role".tr,
             style: TextStyle(
                 fontSize: 9, color: const Color(0xFFFFFFFF).withOpacity(0.6)),
           )
@@ -420,7 +420,7 @@ class MovieInfo extends StatelessWidget {
         children: [
           Text(
             //"honor student with a perfect score on the entrance",
-            controller.topratedmovies[index]['title'],
+            controller.topratedmovies[index]['title'.tr],
             // overflow: TextOverflow.ellipsis,
             maxLines: 2,
             style: const TextStyle(
@@ -437,7 +437,7 @@ class MovieInfo extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  controller.topratedmovies[index]['release_date']
+                  controller.topratedmovies[index]['release_date'.tr]
                       .toString()
                       .substring(0, 4),
                   //"2021 ",
@@ -448,15 +448,15 @@ class MovieInfo extends StatelessWidget {
                   // thickness: 6,
                   // width: 5,
                 ),
-                const Text(
-                  "Kabbee ",
+                Text(
+                  "Kabbee ".tr,
                   style: const TextStyle(fontSize: 16, color: Colors.white),
                 ),
                 const VerticalDivider(
                   color: Colors.white,
                 ),
                 Text(
-                  controller.topratedmovies[index]['original_language']
+                  controller.topratedmovies[index]['original_language'.tr]
                       .toString()
                       .toUpperCase(),
                   //"tigrinia",
@@ -465,8 +465,8 @@ class MovieInfo extends StatelessWidget {
                 const VerticalDivider(
                   color: Colors.white,
                 ),
-                const Text(
-                  "1 hr 30 min",
+                Text(
+                  "1 hr 30 min".tr,
                   style: const TextStyle(fontSize: 16, color: Colors.white),
                 )
               ],
