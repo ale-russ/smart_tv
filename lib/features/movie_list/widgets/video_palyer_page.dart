@@ -213,22 +213,23 @@ class _VideoAppState extends State<VideoApp> {
                           children: [
                             Row(
                               children: [
+                               SizedBox(width: 15,),
                                 Focus(
                                   focusNode:
                                       _intentController.videoPlayerNodes![1],
-                                  child: Icon(
-                                    Icons.skip_previous,
-                                    color: Colors.white,
-                                    // color: Colors.white,
-                                  ),
+                                  child:IconButton( icon: Icon(Icons.replay_5_outlined,color: Colors.white,),onPressed: (){
+                                    _controller!.seekTo(Duration (seconds: 1));
+                                  },)
+                                  
                                 ),
+                                SizedBox(width: 10,),
                                 Focus(
                                   focusNode:
                                       _intentController.videoPlayerNodes![2],
-                                  child: Icon(
-                                    Icons.skip_next,
-                                    color: Colors.white,
-                                  ),
+                                  child: IconButton(icon:Icon(Icons.forward_5_rounded,color: Colors.white,),
+                                  onPressed: (){
+                                    _controller!.seekTo(Duration(seconds: _controller!.value.position.inSeconds + 1));
+                                  },)
                                 ),
                                 SizedBox(
                                   width: 15,
@@ -292,3 +293,4 @@ IconData animatedvolumeicon(double volume) {
   else
     return Icons.volume_up;
 }
+
