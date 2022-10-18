@@ -29,7 +29,7 @@ class LoginController extends GetxController {
   GlobalKey<FormState> get loginFormKey => formKey ??= GlobalKey<FormState>();
 
   authenticateUser(String emailAddress, String password) {
-    printInfo(info: "users are ${UserService.allUsers}");
+    printInfo(info: "users are ${UserService.allUsers!.users![3].email}");
     for (var lUser in UserService.allUsers!.users!) {
       if (lUser.email == emailAddress) {
         user = lUser;

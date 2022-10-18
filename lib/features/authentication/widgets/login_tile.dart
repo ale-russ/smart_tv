@@ -45,7 +45,7 @@ class LoginForm extends StatelessWidget {
       focusNode: _emailNode,
       controller: controller,
       style: const TextStyle(fontSize: 16.0, color: Colors.white60),
-      validator: hint == 'Email'
+      validator: hint == 'Email'.tr
           ? (email) {
               if (!EmailValidator.validate(email!)) {
                 return ("Invalide email address ");

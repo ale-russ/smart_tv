@@ -56,20 +56,12 @@ class _LoginPageState extends State<LoginPage> {
     //  Navigator.of(context).pop();
   }
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-
-    super.dispose();
-  }
-
   FocusNode? _emailNode;
   FocusNode? _passwordNode;
   FocusNode? _buttonNode;
   FocusNode? _imageNode;
   LoginController loginController = Get.put(LoginController());
-  UserController userController = Get.put(UserController());
+
   GlobalKey<FormState>? formKey = GlobalKey<FormState>();
   bool keyboardV = false;
 
@@ -90,6 +82,14 @@ class _LoginPageState extends State<LoginPage> {
 
   _changeNodeFocus(BuildContext context, FocusNode focus) {
     FocusScope.of(context).requestFocus(focus);
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -296,7 +296,8 @@ class _LoginPageState extends State<LoginPage> {
                                     }),
                                   })
                         },
-                        child: Center(child: loginButton),
+                        child: Center(
+                            child: SizedBox(width: 150, child: loginButton)),
                       ),
                       Center(
                         child: LangaugeSelector(),

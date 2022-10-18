@@ -29,6 +29,8 @@ const Map<String, String> English = {
   'Trending Movies': 'Trending Movies',
   'Top Rated Movies': 'Top Rated Movies',
   'Tv Shows': 'Tv Shows',
+  'history': 'History',
+  'see_all': 'See All'
 };
 
 const Map<String, String> tigrinya = {
@@ -45,12 +47,14 @@ const Map<String, String> tigrinya = {
   'Library': 'ከብሒ',
   'K': 'ካ',
   'abbee': 'ቢ',
-  '+': '',
+  '+': '+',
   'Play': 'ርኣይ',
-  'Watch Trailer': 'Watch Trailer',
-  'Watch Later': 'Watch Later',
-  'Trending Movies': 'Trending Movies',
+  'Watch Trailer': 'ዝርአ መቃልዒ',
+  'Watch Later': 'ዝርአ ደሓር',
+  'Trending Movies': 'ህሉው ፊልምታት',
   'Top Rated Movies': 'Top Rated Movies',
-  'Tv Shows': 'Tv Shows',
-  'Cast & Crew': 'ተዋሳእትን ክኢላታትን'
+  'Tv Shows': 'ተኸታታሊ ፊልምታት',
+  'Cast & Crew': 'ተዋሳእትን ክኢላታትን',
+  'history': 'ዝተራአዩ ፊልምታት',
+  'see_all': 'ኩሉ ርአ'
 };

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/authentication/controller/login_controller.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
@@ -21,14 +22,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _sexController = TextEditingController();
-  final TextEditingController _countryController = TextEditingController();
-  FocusNode? _firstNameNode = FocusNode();
   MoviesController controller = Get.find();
   IntentController _intentController = Get.find();
-  UserController _userController = Get.put(UserController());
+  LoginController _loginController = Get.put(LoginController());
 
   GlobalController _globalController = Get.find();
 
@@ -107,37 +103,40 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       ProfileAvatar(
                         node: _intentController.profileNodes![0],
+                        firstName: _loginController.user!.firtName,
+                        lastName: _loginController.user!.lastName,
+                        email: _loginController.user!.email,
                       ),
                       ProfileTile(
-                        name: "Alem",
+                        name: _loginController.user!.firtName,
                         label: "First Name",
                         node: _intentController.profileNodes![1],
                         widget:
                             KabbeeIcons.profile(color: Colors.grey, size: 25),
                       ),
                       ProfileTile(
-                        name: "Russom",
+                        name: _loginController.user!.lastName,
                         label: "Last Name",
                         node: _intentController.profileNodes![2],
                         widget:
                             KabbeeIcons.profile(color: Colors.grey, size: 25),
                       ),
                       ProfileTile(
-                        name: "Male",
+                        name: _loginController.user!.sex ?? "",
                         label: "Gender",
                         node: _intentController.profileNodes![3],
                         widget:
                             KabbeeIcons.gender(color: Colors.grey, size: 25),
                       ),
                       ProfileTile(
-                        name: "September 29 2022",
+                        name: _loginController.user!.dateOfBirth ?? "",
                         label: "Date of Birth",
                         node: _intentController.profileNodes![4],
                         widget:
                             KabbeeIcons.profile(color: Colors.grey, size: 25),
                       ),
                       ProfileTile(
-                        name: "Ethiopia",
+                        name: _loginController.user!.country ?? "",
                         label: "Country",
                         node: _intentController.profileNodes![5],
                         widget: KabbeeIcons.web(color: Colors.grey, size: 25),
@@ -225,8 +224,17 @@ class ProfileTile extends StatelessWidget {
 }
 
 class ProfileAvatar extends StatelessWidget {
-  ProfileAvatar({this.node, super.key});
+  ProfileAvatar({
+    Key? key,
+    this.node,
+    this.firstName,
+    this.lastName,
+    this.email,
+  }) : super(key: key);
   dynamic node;
+  String? firstName;
+  String? lastName;
+  String? email;
   @override
   Widget build(BuildContext context) {
     return Focus(
@@ -246,13 +254,13 @@ class ProfileAvatar extends StatelessWidget {
         child: ListTile(
           leading: CircleAvatar(
             backgroundColor: Theme.of(context).backgroundColor,
-            child: Text("AR"),
+            child: Text("${firstName![0]}${lastName![0]}"),
           ),
           title: KabbeeText.subtitle1(
-            "Alem Russom",
+            "$firstName $lastName",
             customStyle: TextStyle(color: Colors.white, fontSize: 16),
           ),
-          subtitle: KabbeeText.subtitle2("alem@gmail.com",
+          subtitle: KabbeeText.subtitle2("$email",
               customStyle: TextStyle(color: Colors.grey, fontSize: 14)),
         ),
       ),

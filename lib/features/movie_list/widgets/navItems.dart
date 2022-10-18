@@ -174,9 +174,11 @@ class _NavItemState extends State<NavItem> {
                               ),
                               width: 400,
                               child: CircleAvatar(
-                                  radius: 30,
-                                  backgroundImage:
-                                      AssetImage('assets/images/lilo.jpg')),
+                                radius: 30,
+                                // child: Text("AR"),
+                                backgroundImage:
+                                    AssetImage('assets/images/lilo.jpg'),
+                              ),
                             ),
                     ),
                     // }),

@@ -74,7 +74,7 @@ class _TrendingMoviesState extends State<TrendingMovies> {
         })
       },
       child: MoviesTile(
-        title: "Trending Movies",
+        title: "Trending Movies".tr,
         movie: widget.trending,
         nodes: _intentController.trendingNodes!,
         borderColor: Colors.grey.withOpacity(0.3),

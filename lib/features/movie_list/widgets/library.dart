@@ -33,7 +33,7 @@ class Library extends StatelessWidget {
             LibraryTile(
               nodes: _intentController.comingNodes!,
               movies: _moviesController.trendingmovies,
-              label: "History",
+              label: "History".tr,
             ),
             SizedBox(
               height: 40,
@@ -42,7 +42,7 @@ class Library extends StatelessWidget {
               nodes: _intentController.favNodes!,
               // nodes: _intentController.comingNodes!,
               movies: _moviesController.trendingmovies,
-              label: "Watch Later",
+              label: "Watch Later".tr,
             ),
           ],
         ),
@@ -148,7 +148,7 @@ class _LibraryTileState extends State<LibraryTile> {
                   padding: EdgeInsets.only(right: 10),
                   child: TextButton(
                     child: KabbeeText.subtitle1(
-                      "See All",
+                      "see_all".tr,
                       customStyle:
                           TextStyle(color: PrimaryColorTones.mainColor),
                     ),
