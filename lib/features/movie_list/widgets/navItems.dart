@@ -1,3 +1,6 @@
+import 'dart:core';
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
@@ -8,6 +11,7 @@ import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
 import 'package:smart_tv/features/profile/controllers/user_controller.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
+import '../../common/theme/text_themes.dart';
 import '../view/Movies.dart';
 
 class IconNav extends StatelessWidget {
@@ -181,9 +185,9 @@ class NavItem extends StatelessWidget {
       _moviesController.sideNodes!.refresh();
       print("coming");
     } else if (_moviesController.clickedIndex == 3) {
-      FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
+      FocusScope.of(context).requestFocus(_moviesController.comingNodes![0]);
       _intentController.navSelectedIndex = 0;
-      _intentController.comingNodes!.refresh();
+      _moviesController.comingNodes!.refresh();
       _intentController.coming = true;
       _moviesController.sideNodes!.refresh();
       print("trending");

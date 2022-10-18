@@ -37,6 +37,12 @@ import '../controller/movie_controller.dart';
 class MoviesPage extends GetView<MoviesController> {
   GlobalController _globalController = Get.put(GlobalController());
   MoviesController controller = Get.put(MoviesController());
+  final IntentController _controller = Get.put(IntentController());
+
+  final navigatorKey = GlobalKey<NavigatorState>();
+
+  bool hasData = false;
+  RxBool data = false.obs;
 
   List<Widget> pages = [];
 

@@ -10,6 +10,8 @@ import 'package:smart_tv/features/common/services/keys.dart';
 
 import 'package:tmdb_api/tmdb_api.dart';
 
+import '../service/movie_service.dart';
+
 class MoviesController extends GetxController {
   final CommonKeys _commonKeys = Get.put(CommonKeys());
   final GlobalController _globalController = Get.put(GlobalController());
@@ -30,6 +32,7 @@ class MoviesController extends GetxController {
   RxList<dynamic>? posterNodes = [].obs;
   RxList<dynamic>? sideNodes = [].obs;
   RxList<dynamic>? comingNodes = [].obs;
+  RxList<dynamic>? favNodes = [].obs;
   RxList<dynamic>? profileNodes = [].obs;
   var isDataLoading = false.obs;
 
@@ -50,7 +53,7 @@ class MoviesController extends GetxController {
 
   Future loadmovies() async {
     try {
-      TMDB tmdbWithCustomLogs = fetchMovies();
+      TMDB tmdbWithCustomLogs = MovieService().fetchMovies();
 
       Map trendingresult = await tmdbWithCustomLogs.v3.trending.getTrending();
       Map topratedresult = await tmdbWithCustomLogs.v3.movies.getTopRated();
@@ -76,6 +79,20 @@ class MoviesController extends GetxController {
 
   Future initializeFocusNodes() async {
     if (sideNodes!.isEmpty) {
+      if (comingNodes!.isEmpty) {
+        for (var i = 0; i < trendingmovies.length; i++) {
+          var temp = FocusNode();
+          comingNodes!.add(temp);
+
+          print("hereeeee");
+        }
+        for (var i = 0; i < topratedmovies.length; i++) {
+          var temp = FocusNode();
+          favNodes!.add(temp);
+          print("hereeeee");
+        }
+        // }
+      }
       for (var i = 0; i < 5; i++) {
         sideNodes!.add(FocusNode(debugLabel: "side node $i"));
         print(sideNodes!.value[i]);
