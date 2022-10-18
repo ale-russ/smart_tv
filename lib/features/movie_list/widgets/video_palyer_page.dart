@@ -218,7 +218,7 @@ class _VideoAppState extends State<VideoApp> {
                                   focusNode:
                                       _intentController.videoPlayerNodes![1],
                                   child:IconButton( icon: Icon(Icons.replay_5_outlined,color: Colors.white,),onPressed: (){
-                                    _controller!.seekTo(Duration (seconds: 1));
+                                    _controller!.seekTo(Duration (seconds: _controller!.value.position.inSeconds-1));
                                   },)
                                   
                                 ),
