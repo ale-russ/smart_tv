@@ -12,15 +12,23 @@ import '../widgets/loginForm.dart';
 
 class LoginPage extends StatelessWidget {
   final _loginController = Get.put(LoginController());
-  final _globalController = Get.find();
+  GlobalController _globalController = Get.put(GlobalController());
   final GlobalKey<FormState>? formKey = GlobalKey<FormState>();
 
   // bool keyboardV = false;
 
   // String dropdownValue = languages.first;
+  // @override
+  // void dispose() {
+  //   emailController.dispose();
+  //   passwordController.dispose();
+
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
-    initializeFocus(context);
+    // initializeFocus(context);
     return Scaffold(
       body: Stack(
         alignment: Alignment.topCenter,
@@ -39,24 +47,10 @@ class LoginPage extends StatelessWidget {
 
   void initializeFocus(BuildContext context) {
     Timer(const Duration(seconds: 1), () {
-      FocusScope.of(context).autofocus(_loginController.loginNodes.value[0]);
+      FocusScope.of(context).requestFocus(_loginController.loginNodes.value[0]);
+      _loginController.loginNodes.refresh();
       print("timer");
     });
-  }
-
-  void moveUp(BuildContext context) {
-    if (_loginController.loginIndex > 0) {
-      FocusScope.of(context).requestFocus(
-          _loginController.loginNodes.value[--_loginController.loginIndex]);
-    }
-  }
-
-  void moveDown(BuildContext context) {
-    print("donw");
-    if (_loginController.loginIndex < _loginController.loginNodes.length) {
-      FocusScope.of(context).requestFocus(
-          _loginController.loginNodes.value[++_loginController.loginIndex]);
-    }
   }
 
   Container backGroundContianer(BuildContext context) {
@@ -93,12 +87,6 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-}
-
-
-
-
-
 
 // Future SignIn() async {
 //   await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -106,3 +94,4 @@ class LoginPage extends StatelessWidget {
 //     password: passwordController.text.trim(),
 //   );
 // }
+}

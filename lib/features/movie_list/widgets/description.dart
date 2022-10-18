@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
@@ -61,6 +60,15 @@ class Description extends StatelessWidget {
     }
     return Scaffold(
       backgroundColor: DarkModeColors.backgroundColor,
+      appBar: GetPlatform.isAndroid
+          ? null
+          : AppBar(
+              backgroundColor: Colors.transparent,
+              leading: IconButton(
+                onPressed: (() => {Navigator.pop(context)}),
+                icon: Icon(Icons.arrow_back),
+              ),
+            ),
       body: Container(
         child: FocusableActionDetector(
           shortcuts: _globalController.navigationIntents,

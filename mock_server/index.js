@@ -115,5 +115,5 @@ var server = app.listen(8080, function () {
   var host = "10.0.2.2"; //server.address().address
   var port = 8080; //server.address.port
 
-  console.log("Server is running at http://10.0.2.2:8080", host, port);
+  console.log("Server is running at ", host, port);
 });

@@ -54,4 +54,28 @@ class KpButton extends StatelessWidget {
       )),
     );
   }
+
+  void loginUser() {
+    print("Error message is ${_loginController.errorMesseg}");
+
+    if (formKey!.currentState!.validate()) {
+      _loginController.authenticateUser(
+        _loginController.emailController.text,
+        _loginController.passwordController.text,
+      )
+          ? Get.to(() => MoviesPage())
+          : ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: DarkModeColors.backgroundVariant,
+                content: Text(
+                  textAlign: TextAlign.center,
+                  "${_loginController.errorMesseg}",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+            );
+    }
+  }
 }

@@ -108,7 +108,7 @@ class NavItem extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: _moviesController.sideNodes![index!].hasFocus
                     ? BoxDecoration(
-                        color: const Color(0XFFFFA500).withOpacity(0.1),
+                        color: PrimaryColorTones.mainColor.withOpacity(0.1),
                         border: const Border(
                           right: BorderSide(
                             width: 2,
@@ -172,21 +172,25 @@ class NavItem extends StatelessWidget {
           .requestFocus(_intentController.searchOptionsNodes!.value[0]);
       print("in search ");
       _intentController.searchOptionsNodes!.refresh();
+      _moviesController.sideNodes!.refresh();
     } else if (_moviesController.clickedIndex == 1) {
       FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
       _intentController.navSelectedIndex = 0;
       _intentController.comingNodes!.refresh();
       _intentController.coming = true;
+      _moviesController.sideNodes!.refresh();
       print("coming");
     } else if (_moviesController.clickedIndex == 3) {
       FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
       _intentController.navSelectedIndex = 0;
       _intentController.comingNodes!.refresh();
       _intentController.coming = true;
+      _moviesController.sideNodes!.refresh();
       print("trending");
     } else if (_moviesController.clickedIndex == 4) {
       FocusScope.of(context).requestFocus(_userController.profileNodes![0]);
       _userController.profileNodes!.refresh();
+      _moviesController.sideNodes!.refresh();
       print("profile");
     } else {
       FocusScope.of(context).requestFocus(_moviesController.posterNodes![0]);

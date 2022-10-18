@@ -36,6 +36,7 @@ class SideBar extends StatelessWidget {
         width: 120,
         child: Center(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Logo(),

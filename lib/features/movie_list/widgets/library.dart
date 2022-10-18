@@ -40,6 +40,7 @@ class Library extends StatelessWidget {
             ),
             LibraryTile(
               nodes: _intentController.favNodes!,
+              // nodes: _intentController.comingNodes!,
               movies: _moviesController.trendingmovies,
               label: "Watch Later",
             ),
@@ -176,6 +177,7 @@ class _LibraryTileState extends State<LibraryTile> {
                   // itemCount: movies!.length,
                   itemCount: 3,
                   itemBuilder: (context, index) {
+                    print("index in Library is $index");
                     return InkWell(
                       onTap: () {
                         Navigator.push(
@@ -232,7 +234,8 @@ class _LibraryTileState extends State<LibraryTile> {
     print("left");
     if (_intentController.coming) {
       if (_intentController.comingIndex <= 0) {
-        FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
+        FocusScope.of(context).requestFocus(_movieController.sideNodes![0]);
+        _movieController.sideNodes!.refresh();
       } else {
         FocusScope.of(context).requestFocus(
             _intentController.comingNodes![--_intentController.comingIndex]);
@@ -246,7 +249,8 @@ class _LibraryTileState extends State<LibraryTile> {
       }
     } else {
       if (_intentController.favIndex <= 0) {
-        FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
+        FocusScope.of(context).requestFocus(_movieController.sideNodes![0]);
+        _movieController.sideNodes!.refresh();
       } else {
         FocusScope.of(context).requestFocus(
             _intentController.favNodes![--_intentController.favIndex]);

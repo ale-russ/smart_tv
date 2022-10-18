@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:smart_tv/features/common/services/dbAccess.dart';
+import 'package:smart_tv/features/profile/services/user_service.dart';
 
 import '../../profile/models/user_models.dart';
 
@@ -14,9 +12,10 @@ class LoginController extends GetxController {
 
   UserDetail? user;
   Users? allUsers;
-  String errorMesseg = "";
+  //String errorMesseg = "";
   int loginIndex = 0;
   Rx<FocusNode>? testing123 = FocusNode().obs;
+  RxString errorMesseg = "".obs;
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -25,8 +24,6 @@ class LoginController extends GetxController {
 
   String? email;
   String? password;
-
-  String? serverMessage;
 
   @override
   void onInit() async {
@@ -37,27 +34,15 @@ class LoginController extends GetxController {
     print("coning0");
 
     super.onInit();
+    await UserService.fetchUser();
+    await rememberMe();
   }
 
   GlobalKey<FormState> get loginFormKey => formKey ??= GlobalKey<FormState>();
 
-  Future<Users> fetchUser() async {
-    print("fetch begins 123");
-    final response =
-        await http.get(Uri.parse("http://10.0.2.2:8080/listUsers"));
-    // await http.get(Uri.parse("http://10.0.2.2:8080/listUsers"));
-
-    if (response.statusCode == 200) {
-      allUsers = Users.fromJson(jsonDecode(response.body));
-      return Users.fromJson(jsonDecode(response.body));
-    } else {
-      print("Error is ${response.hashCode}");
-      throw Exception("Failed to load Users");
-    }
-  }
-
   authenticateUser(String emailAddress, String password) {
-    for (var lUser in allUsers!.users!) {
+    printInfo(info: "users are ${UserService.allUsers}");
+    for (var lUser in UserService.allUsers!.users!) {
       if (lUser.email == emailAddress) {
         user = lUser;
         print(user!.email);
@@ -71,7 +56,9 @@ class LoginController extends GetxController {
 
         return true;
       } else {
-        errorMesseg = "User Not Found, Please check your email address";
+        errorMesseg =
+            "User Not Found, Please check your email address and try again".obs;
+        print("error is $errorMesseg");
         return false;
       }
     }

@@ -39,9 +39,10 @@ class MyApp extends GetView<GlobalController> {
     return GetMaterialApp(
       title: 'Kabbee Movies',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
-      //home: LoginPage(),
+
       //initialRoute: MoviesPage(),
       initialBinding: KbinitialBinding(),
+      //home: LoginPage(),
       home: MoviesPage(),
       debugShowCheckedModeBanner: false,
     );
@@ -49,7 +50,9 @@ class MyApp extends GetView<GlobalController> {
 }
 
 Future preLauncherSetup() async {
-  GetPlatform.isAndroid ? await DbAccess.initHive() : null;
+  GetPlatform.isAndroid || GetPlatform.isDesktop
+      ? await DbAccess.initHive()
+      : null;
 
   //Get.put(GlobalController(), permanent: true);
 }
