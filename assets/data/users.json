@@ -1,0 +1,67 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "alem@gmail.com",
+      "firt_name": "Alem",
+      "last_name": "Russom",
+      "sex": "Male",
+      "country": "Eritrea",
+      "dateOfBirth": "Mar 23 2000"
+    },
+    {
+      "id": 2,
+      "email": "hamie@gmail.com",
+      "firt_name": "Mohammed",
+      "last_name": "Gemal",
+      "sex": "Male",
+      "country": "Ethiopia",
+      "dateOfBirth": "Jun 29 2010"
+    },
+    {
+      "id": 3,
+      "email": "yoel@gmail.com",
+      "firt_name": "Yoel",
+      "last_name": "Fsehastion",
+      "sex": "Male",
+      "country": "Sudan",
+      "dateOfBirth": "Sep 29 2000"
+    },
+    {
+      "id": 4,
+      "email": "kidane@gmail.com",
+      "firt_name": "Kidane",
+      "last_name": "Gerezghier",
+      "sex": "Male",
+      "country": "Ethiopia",
+      "dateOfBirth": "Dec 25 1999"
+    },
+    {
+      "id": 5,
+      "email": "ruth@gmail.com",
+      "firt_name": "Ruth",
+      "last_name": "Asmelash",
+      "sex": "Female",
+      "country": "Ethiopia",
+      "dateOfBirth":"Sep 29 2000"
+    },
+    {
+      "id": 6,
+      "email": "user@gmail.com",
+      "firt_name": "User",
+      "last_name": "User",
+      "sex": "Male",
+      "country": "Ethiopia",
+      "dateOfBirth":"Jan 01 2001"
+    },
+    {
+      "id": 8,
+      "email": "tester@gmail.com",
+      "firt_name": "Tester",
+      "last_name": "Tester",
+      "sex": "Male",
+      "country": "Uganda",
+      "dateOfBirth":"Jul 04 2002"
+    }
+  ]
+}

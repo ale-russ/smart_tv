@@ -28,9 +28,17 @@ class ProfilePage extends GetView {
 
   GlobalController _globalController = Get.find();
 
+  void profileNodes() {
+    for (var i = 0; i < 8; i++) {
+      _intentController.profileNodes!.add(FocusNode(debugLabel: "profile $i"));
+      print(_intentController.profileNodes![i]);
+    }
+  }
+
   // @override
   @override
   Widget build(BuildContext context) {
+    profileNodes();
     return Scaffold(
       // backgroundColor: Colors.black,
       backgroundColor: DarkModeColors.backgroundColor,

@@ -7,14 +7,16 @@ import '../../../common/theme/icon_themes.dart';
 import '../../../common/theme/text_themes.dart';
 import '../../../common/theme/themes.dart';
 
-const List<String> languages = <String>['English', 'ትግርኛ'];
+// const List<String> languages = <String>['English', 'ትግርኛ'];
+
+const List<String> languages = <String>['ትግርኛ', 'English'];
 
 class LangaugeSelector extends GetView<GlobalController> {
   LangaugeSelector({
     Key? key,
   }) : super(key: key);
 
-  MyController myController = Get.put(MyController());
+  LanguageController myController = Get.put(LanguageController());
 
   @override
   Widget build(BuildContext context) {

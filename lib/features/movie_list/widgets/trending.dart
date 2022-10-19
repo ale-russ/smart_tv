@@ -52,7 +52,7 @@ class TrendingMovies extends StatelessWidget {
         })
       },
       child: MoviesTile(
-        title: "Trending Movies",
+        title: "Trending Movies".tr,
         movie: trending,
         nodes: _controller.trendingNodes!,
         borderColor: Colors.grey.withOpacity(0.3),

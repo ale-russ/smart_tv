@@ -32,10 +32,7 @@ class LoginForm extends StatelessWidget {
     //FocusScope.of(context).requestFocus(_loginController.loginNodes.value[0]);
     //_loginController.loginNodes.refresh();
     return Padding(
-      padding: EdgeInsets.only(
-          top: true
-              ? MediaQuery.of(context).size.height * 0.01
-              : MediaQuery.of(context).size.height * 0.1),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
       child: FocusableActionDetector(
         shortcuts: _globalController.navigationIntents,
         actions: <Type, Action<Intent>>{
@@ -113,7 +110,7 @@ class LoginForm extends StatelessWidget {
                       controller: _loginController.emailController,
                     ),
 
-                    const SizedBox(height: 23.0),
+                    const SizedBox(height: 20.0),
                     LoginTextField(
                       autoFocus: false,
                       focusNode: _loginController.loginNodes.value[1],
@@ -133,10 +130,11 @@ class LoginForm extends StatelessWidget {
                       height: 28.0,
                     ),
                     Center(
-                        child: KpButton(
-                            loginController: _loginController,
-                            formKey: formKey,
-                            context: context)),
+                      child: KpButton(
+                          loginController: _loginController,
+                          formKey: formKey,
+                          context: context),
+                    ),
                     Center(
                       child: LangaugeSelector(),
                     )

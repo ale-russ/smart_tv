@@ -6,62 +6,59 @@ import '../../movie_list/view/Movies.dart';
 import '../controller/login_controller.dart';
 
 class KpButton extends StatelessWidget {
-  const KpButton({
+  KpButton({
     Key? key,
-    required LoginController loginController,
+    required this.loginController,
     required this.formKey,
     required this.context,
-    //required LoginController _loginController,
-  })  : _loginController = loginController,
-        super(key: key);
+    //required LoginController loginController,
+  }) : super(key: key);
 
-  final LoginController _loginController;
+  final LoginController loginController;
   final GlobalKey<FormState>? formKey;
   final BuildContext context;
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      focusNode: _loginController.loginNodes.value[3],
-      onFocusChange: (bool) {
-        print("button true");
-      },
-      style: ElevatedButton.styleFrom(
-        primary: PrimaryColorTones.mainColor,
-        fixedSize: const Size(150, 40),
-        textStyle: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
+    return Obx(
+      () => ElevatedButton(
+        focusNode: loginController.loginNodes.value[3],
+        onFocusChange: (bool) {
+          print("button true");
+        },
+        style: ElevatedButton.styleFrom(
+          primary: PrimaryColorTones.mainColor,
+          fixedSize: const Size(150, 40),
+          textStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(2),
+          ),
+          side: BorderSide(color: Theme.of(context).dividerColor),
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(2),
-        ),
-        side: BorderSide(color: Theme.of(context).dividerColor),
+        onPressed: () {
+          formKey!.currentState!.validate()
+              ? loginUser() //LandingPage())
+              : loginController.errorMesseg;
+        },
+        child: Center(
+            child: Text(
+          "Login".tr,
+          style: TextStyle(color: Colors.black),
+        )),
       ),
-      onPressed: () {
-        formKey!.currentState!.validate()
-            ? _loginController.authenticateUser(
-                    _loginController.emailController.text,
-                    _loginController.passwordController.text)
-                ? Get.to(() => MoviesPage())
-                : _loginController.errorMesseg //LandingPage())
-            : _loginController.errorMesseg;
-      },
-      child: const Center(
-          child: Text(
-        "Login",
-        style: TextStyle(color: Colors.black),
-      )),
     );
   }
 
   void loginUser() {
-    print("Error message is ${_loginController.errorMesseg}");
+    print("Error message is ${loginController.errorMesseg}");
 
     if (formKey!.currentState!.validate()) {
-      _loginController.authenticateUser(
-        _loginController.emailController.text,
-        _loginController.passwordController.text,
+      loginController.authenticateUser(
+        loginController.emailController.text,
+        loginController.passwordController.text,
       )
           ? Get.to(() => MoviesPage())
           : ScaffoldMessenger.of(context).showSnackBar(
@@ -69,7 +66,7 @@ class KpButton extends StatelessWidget {
                 backgroundColor: DarkModeColors.backgroundVariant,
                 content: Text(
                   textAlign: TextAlign.center,
-                  "${_loginController.errorMesseg}",
+                  "${loginController.errorMesseg}",
                   style: TextStyle(
                     color: Colors.red,
                   ),

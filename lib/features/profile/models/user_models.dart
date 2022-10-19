@@ -3,6 +3,7 @@
 //     final users = usersFromJson(jsonString);
 
 import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
 
 Users usersFromJson(String str) => Users.fromJson(json.decode(str));
 
@@ -15,10 +16,15 @@ class Users {
 
   List<UserDetail>? users;
 
+  Future<String> getData() {
+    return rootBundle.loadString('user.json');
+  }
+
   factory Users.fromJson(Map<String, dynamic> json) => Users(
         users: List<UserDetail>.from(
             json["users"].map((x) => UserDetail.fromJson(x))),
       );
+  // factory Users.fromJson(Map<String, dynamic> json) => Users(users: List<UserDetail>.from(getData()));
 
   Map<String, dynamic> toJson() => {
         "users": List<dynamic>.from(users!.map((x) => x.toJson())),

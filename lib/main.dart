@@ -42,7 +42,7 @@ class MyApp extends GetView<GlobalController> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       translations: translate(),
-      locale: Locale('en', 'US'),
+      locale: Locale('ti', 'Eri'),
       fallbackLocale: Locale('en', 'US'),
       title: 'Kabbee Movies',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
