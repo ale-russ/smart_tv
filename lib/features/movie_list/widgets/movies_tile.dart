@@ -64,22 +64,16 @@ class _MoviesTileState extends State<MoviesTile> {
                 onTap: () {
                   _intentController.desc = true;
                   // _intentController.unFocus();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: ((context) => Description(
-                            bannerurl:
-                                "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
-                            description: widget.movie![index]['overview'],
-                            lauchOn: widget.movie![index]['release_date'] ?? "",
-                            name: widget.movie![index]['title'] ?? "",
-                            posterurl:
-                                "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
-                            vote:
-                                widget.movie![index]['vote_average'].toString(),
-                          )),
-                    ),
-                  );
+                  Get.to(() => Description(
+                        bannerurl:
+                            "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
+                        description: widget.movie![index]['overview'],
+                        lauchOn: widget.movie![index]['release_date'] ?? "",
+                        name: widget.movie![index]['title'] ?? "",
+                        posterurl:
+                            "${_commonKeys.movieUrl}${widget.movie![index]['backdrop_path']}",
+                        vote: widget.movie![index]['vote_average'].toString(),
+                      ));
                 },
                 child: widget.movie!.isNotEmpty
                     ? Obx(
@@ -227,11 +221,10 @@ class _ComingSoonState extends State<ComingSoon> {
           LeftbuttonIntent:
               CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
             if (_intentController.comingIndex % 3 == 0) {
-              FocusScope.of(context)
-                  .requestFocus(_intentController.sideNodes![0]);
+              FocusScope.of(context).requestFocus(mController.sideNodes![0]);
               _intentController.comingIndex = 0;
               _intentController.comingNodes!.refresh();
-              _intentController.sideNodes!.refresh();
+              mController.sideNodes!.refresh();
             } else {
               if (_intentController.comingIndex > 0) {
                 FocusScope.of(context).requestFocus(_intentController

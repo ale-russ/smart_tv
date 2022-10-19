@@ -8,7 +8,13 @@ import '../../profile/models/user_models.dart';
 class LoginController extends GetxController {
   GlobalKey<FormState>? formKey;
 
+  RxList<FocusNode> loginNodes = <FocusNode>[].obs;
+
   UserDetail? user;
+  Users? allUsers;
+  //String errorMesseg = "";
+  int loginIndex = 0;
+  Rx<FocusNode>? testing123 = FocusNode().obs;
   RxString errorMesseg = "".obs;
 
   TextEditingController emailController = TextEditingController();
@@ -21,6 +27,12 @@ class LoginController extends GetxController {
 
   @override
   void onInit() async {
+    initializeNodes();
+    print("coning0");
+    //await fetchUser();
+    await rememberMe();
+    print("coning0");
+
     super.onInit();
     await UserService.fetchUser();
     await rememberMe();
@@ -58,8 +70,23 @@ class LoginController extends GetxController {
     if (isRememberMe.isTrue) email = DbAccess.readData("email");
   }
 
-  void setRememberMe(bool? value) =>
-      DbAccess.writeData("rememberMe", isRememberMe(value));
+  initializeNodes() async {
+    for (var i = 0; i < 4; i++) {
+      loginNodes.add(FocusNode(debugLabel: "loginNode $i"));
+      print(loginNodes[i]);
+    }
+    testing123!.value = FocusNode(debugLabel: "testing node");
+    print("this is hte node " + testing123!.value.toString());
+    //Get.focusScope!.requestFocus(loginNodes.value[0]);
+    //FocusScope.of(context).requestFocus(l)
+  }
+
+  void setRememberMe(bool? value) {
+    isRememberMe.value = value!;
+    isRememberMe.refresh();
+    print("remembre ehre" + value.toString());
+    DbAccess.writeData("rememberMe", isRememberMe(value));
+  }
 }
 
 

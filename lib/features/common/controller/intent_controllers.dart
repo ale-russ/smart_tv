@@ -5,11 +5,10 @@ import '../../../config/intentFiles/button_intents.dart';
 import '../../movie_list/controller/movie_controller.dart';
 
 class IntentController extends GetxController {
-  MoviesController _controller = Get.find();
+  MoviesController _controller = Get.put(MoviesController());
 
   //ScrollController
   Rx<ScrollController> trendingScrollController = ScrollController().obs;
-  //ScrollController tvShowScrollController = ScrollController();
   Rx<ScrollController> searchScroller = ScrollController().obs;
   Rx<ScrollController> tvShowScrollController = ScrollController().obs;
   Rx<ScrollController> topRatedScrollController = ScrollController().obs;
@@ -138,6 +137,7 @@ class IntentController extends GetxController {
       trendingIndex = 0;
     } else if (top == true && desc == false) {
       FocusScope.of(context).requestFocus(tvShowsNodes![0]);
+      print("description");
       tvShowScrollController.value.animateTo(0,
           duration: Duration(milliseconds: 800), curve: Curves.ease);
       homePageScrollController.animateTo(homePageScrollController.offset + 250,

@@ -5,25 +5,24 @@ import 'package:smart_tv/features/authentication/controller/login_controller.dar
 
 import '../../common/theme/themes.dart';
 
-class LoginForm extends StatelessWidget {
-  LoginForm({
-    Key? key,
-    FocusNode? emailNode,
-    bool obscure = false,
-    required this.hint,
-    required this.controller,
-    required this.icon,
-    this.initialValue = "",
-  })  : _emailNode = emailNode,
-        _obscure = obscure,
-        super(key: key);
-
-  final FocusNode? _emailNode;
-  FocusNode? _iconFocus;
-  bool? _obscure;
+class LoginTextField extends StatelessWidget {
+  LoginTextField(
+      {Key? key,
+      this.focusNode,
+      this.obscure = false,
+      required this.hint,
+      required this.controller,
+      required this.icon,
+      this.initialValue = "",
+      this.autoFocus})
+      : super(key: key);
+  FocusNode? focusNode;
+  bool? obscure;
   final String? hint;
   final String? initialValue;
   final TextEditingController controller;
+  bool? autoFocus = false;
+  //Rx<FocusNode>? _emailNode;
 
   GlobalKey<FormState>? formKey = GlobalKey<FormState>();
 
@@ -41,8 +40,9 @@ class LoginForm extends StatelessWidget {
       textInputAction: TextInputAction.done,
       // initialValue: initialValue!,
       // obscureText: isObscure.value,
-      obscureText: _obscure!,
-      focusNode: _emailNode,
+      autofocus: autoFocus!,
+      obscureText: obscure!,
+      focusNode: focusNode,
       controller: controller,
       style: const TextStyle(fontSize: 16.0, color: Colors.white60),
       validator: hint == 'Email'.tr
@@ -76,7 +76,7 @@ class LoginForm extends StatelessWidget {
           child: IconButton(
             icon: icon,
             onPressed: () {
-              print("Obscure is $_obscure");
+              // print("Obscure is $_obscure");
               // isObscure.value = !isObscure.value;
               // _iconFocus!.canRequestFocus = false;
             },
@@ -92,6 +92,5 @@ class LoginForm extends StatelessWidget {
         ),
       ),
     );
-    // );
   }
 }

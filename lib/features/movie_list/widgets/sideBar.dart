@@ -9,7 +9,7 @@ import 'package:smart_tv/features/movie_list/widgets/navItems.dart';
 import '../utilits/logo.dart';
 import '../view/Movies.dart';
 
-class SideBar extends StatefulWidget {
+class SideBar extends StatelessWidget {
   SideBar({
     Key? key,
     required this.selectedIndex,
@@ -18,27 +18,14 @@ class SideBar extends StatefulWidget {
 
   final setIndexCallback? callback;
   final int selectedIndex;
-  @override
-  State<SideBar> createState() => _SideBarState();
-}
 
-class _SideBarState extends State<SideBar> {
-  FocusNode? _home;
   MoviesController controller = Get.find();
-  GlobalController gController = Get.find();
-  IntentController _intentController = Get.find();
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  GlobalController gController = Get.find();
+
+  //IntentController _intentController = Get.find();
 
   //int? index;
-
-  // final selectedColor = Colors.amber;
-  // final unselectedColor = Colors.white;
-  // final labelStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 15);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,14 +41,14 @@ class _SideBarState extends State<SideBar> {
             children: [
               Logo(),
               IconNav(
-                callback: widget.callback,
+                callback: callback,
               ),
               NavItem(
                 icon: KabbeeIcons.profileFilled(color: Colors.grey, size: 30),
                 active: false,
                 index: 4,
                 // title: 'Profile',
-                callback: widget.callback,
+                callback: callback,
                 onPressed: (index) {},
               )
             ],

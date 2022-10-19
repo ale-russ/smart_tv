@@ -31,7 +31,7 @@ class Library extends StatelessWidget {
               height: 40,
             ),
             LibraryTile(
-              nodes: _intentController.comingNodes!,
+              nodes: _moviesController.comingNodes!,
               movies: _moviesController.trendingmovies,
               label: "History".tr,
             ),
@@ -39,7 +39,7 @@ class Library extends StatelessWidget {
               height: 40,
             ),
             LibraryTile(
-              nodes: _intentController.favNodes!,
+              nodes: _moviesController.favNodes!,
               // nodes: _intentController.comingNodes!,
               movies: _moviesController.trendingmovies,
               label: "Watch Later".tr,
@@ -51,7 +51,7 @@ class Library extends StatelessWidget {
   }
 }
 
-class LibraryTile extends StatefulWidget {
+class LibraryTile extends StatelessWidget {
   LibraryTile(
       {Key? key,
       required this.movies,
@@ -63,11 +63,6 @@ class LibraryTile extends StatefulWidget {
   String? label;
   RxList? nodes;
 
-  @override
-  State<LibraryTile> createState() => _LibraryTileState();
-}
-
-class _LibraryTileState extends State<LibraryTile> {
   CommonKeys _movieUrl = Get.put(CommonKeys());
 
   GlobalController _globalController = Get.find();
@@ -77,30 +72,11 @@ class _LibraryTileState extends State<LibraryTile> {
   IntentController _intentController = Get.find();
 
   MoviesController _movieController = Get.find();
-  void initState() {
-    // if (mounted) {
-    print("hereeeee");
 
-    if (_intentController.comingNodes!.isEmpty) {
-      for (var i = 0; i < _movieController.trendingmovies.length; i++) {
-        var temp = FocusNode();
-        _intentController.comingNodes!.add(temp);
-
-        print("hereeeee");
-      }
-      for (var i = 0; i < _movieController.topratedmovies.length; i++) {
-        var temp = FocusNode();
-        _intentController.favNodes!.add(temp);
-        print("hereeeee");
-      }
-      // }
-    }
-    super.initState();
-  }
-
+  // void initState() {
   @override
   Widget build(BuildContext context) {
-    print("Movies are ${widget.movies!.length}");
+    print("Movies are ${movies!.length}");
 
     return FocusableActionDetector(
       shortcuts: _globalController.navigationIntents,
@@ -119,11 +95,10 @@ class _LibraryTileState extends State<LibraryTile> {
           // moveRight(context);
         }),
         UpbuttonIntent: CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
-          FocusScope.of(context)
-              .requestFocus(_intentController.comingNodes![0]);
-          _intentController.coming = true;
-          _intentController.favNodes!.refresh();
-          _intentController.comingNodes!.refresh();
+          FocusScope.of(context).requestFocus(_movieController.comingNodes![0]);
+          // _intentController.coming = true;
+          _movieController.favNodes!.refresh();
+          _movieController.comingNodes!.refresh();
           _intentController.favIndex = 0;
           //moveUp(context);
         })
@@ -140,7 +115,7 @@ class _LibraryTileState extends State<LibraryTile> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: KabbeeText.subtitle1(
-                    widget.label!,
+                    label!,
                     customStyle: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -157,7 +132,7 @@ class _LibraryTileState extends State<LibraryTile> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ComingSoon(
-                            movie: widget.movies,
+                            movie: movies,
                           ),
                         ),
                       );
@@ -185,37 +160,33 @@ class _LibraryTileState extends State<LibraryTile> {
                             MaterialPageRoute(
                                 builder: ((context) => Description(
                                       bannerurl:
-                                          '${_commonKeys.movieUrl}${widget.movies![index]['backdrop_path']}',
-                                      description: widget.movies![index]
-                                          ['overview'],
-                                      lauchOn: widget.movies![index]
-                                              ['release_date'] ??
-                                          "",
-                                      name:
-                                          widget.movies![index]['title'] ?? "",
+                                          '${_commonKeys.movieUrl}${movies![index]['backdrop_path']}',
+                                      description: movies![index]['overview'],
+                                      lauchOn:
+                                          movies![index]['release_date'] ?? "",
+                                      name: movies![index]['title'] ?? "",
                                       posterurl:
-                                          '${_commonKeys.movieUrl}${widget.movies![index]['backdrop_path']}',
-                                      vote: widget.movies![index]
-                                              ['vote_average']
+                                          '${_commonKeys.movieUrl}${movies![index]['backdrop_path']}',
+                                      vote: movies![index]['vote_average']
                                           .toString(),
                                     ))));
                       },
                       child: Focus(
-                        focusNode: widget.nodes![index],
+                        focusNode: nodes![index],
                         child: Obx(
                           () => Container(
                             margin: EdgeInsets.symmetric(horizontal: 10),
                             width: 200,
                             height: 140,
                             decoration: BoxDecoration(
-                                border: widget.nodes![index]!.hasFocus
+                                border: nodes![index]!.hasFocus
                                     ? Border.all(color: Colors.amber)
                                     : Border.all(
                                         color: DarkModeColors.borderColor),
                                 borderRadius: BorderRadius.circular(8),
                                 image: DecorationImage(
                                   image: NetworkImage(
-                                    "${_movieUrl.movieUrl}${widget.movies![index]['backdrop_path']}",
+                                    "${_movieUrl.movieUrl}${movies![index]['backdrop_path']}",
                                   ),
                                 )),
                           ),
@@ -234,12 +205,13 @@ class _LibraryTileState extends State<LibraryTile> {
     print("left");
     if (_intentController.coming) {
       if (_intentController.comingIndex <= 0) {
-        FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
+        FocusScope.of(context).requestFocus(_movieController.sideNodes![0]);
+        _movieController.sideNodes!.refresh();
       } else {
         FocusScope.of(context).requestFocus(
-            _intentController.comingNodes![--_intentController.comingIndex]);
-        _intentController.comingNodes!.refresh();
-        _intentController.sideNodes!.refresh();
+            _movieController.comingNodes![--_intentController.comingIndex]);
+        _movieController.comingNodes!.refresh();
+        // _intentController.sideNodes!.refresh();
         // _intentController.trendingScrollController.value.animateTo(
         //     _intentController.trendingScrollController.value.offset - 230,
         //     curve: Curves.ease,
@@ -248,11 +220,12 @@ class _LibraryTileState extends State<LibraryTile> {
       }
     } else {
       if (_intentController.favIndex <= 0) {
-        FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
+        FocusScope.of(context).requestFocus(_movieController.sideNodes![0]);
+        _movieController.sideNodes!.refresh();
       } else {
         FocusScope.of(context).requestFocus(
-            _intentController.favNodes![--_intentController.favIndex]);
-        _intentController.favNodes!.refresh();
+            _movieController.favNodes![--_intentController.favIndex]);
+        _movieController.favNodes!.refresh();
 
         // _intentController.trendingScrollController.value.animateTo(
         //     _intentController.trendingScrollController.value.offset - 230,
@@ -261,9 +234,9 @@ class _LibraryTileState extends State<LibraryTile> {
         //_intentController.favIndex--;
       }
     }
-    _intentController.sideNodes!.refresh();
-    _intentController.comingNodes!.refresh();
-    _intentController.favNodes!.refresh();
+    _movieController.sideNodes!.refresh();
+    _movieController.comingNodes!.refresh();
+    _movieController.favNodes!.refresh();
   }
 
   void moveRight(BuildContext context) {
@@ -272,8 +245,8 @@ class _LibraryTileState extends State<LibraryTile> {
       if (_intentController.comingIndex <
           _movieController.trendingmovies.length - 1) {
         FocusScope.of(context).requestFocus(
-            _intentController.comingNodes![++_intentController.comingIndex]);
-
+            _movieController.comingNodes![++_intentController.comingIndex]);
+        print("right coming");
         // _intentController.comingPageScrollController.value.animateTo(
         //     _intentController.comingPageScrollController.value.offset + 230,
         //     curve: Curves.ease,
@@ -283,7 +256,7 @@ class _LibraryTileState extends State<LibraryTile> {
       if (_intentController.favIndex <
           _movieController.topratedmovies.length - 1) {
         FocusScope.of(context).requestFocus(
-            _intentController.favNodes![++_intentController.favIndex]);
+            _movieController.favNodes![++_intentController.favIndex]);
 
         // _intentController.comingPageScrollController.value.animateTo(
         //     _intentController.comingPageScrollController.value.offset + 230,
@@ -291,16 +264,16 @@ class _LibraryTileState extends State<LibraryTile> {
         //     duration: Duration(milliseconds: 800));
       }
     }
-    _intentController.favNodes!.refresh();
-    _intentController.comingNodes!.refresh();
+    _movieController.favNodes!.refresh();
+    _movieController.comingNodes!.refresh();
   }
 
   void moveDown(BuildContext context) {
     // _intentController.comingPageScrollController.value.animateTo(0,
     //     duration: Duration(milliseconds: 800), curve: Curves.ease);
-    FocusScope.of(context).requestFocus(_intentController.favNodes![0]);
-    _intentController.favNodes!.refresh();
-    _intentController.comingNodes!.refresh();
+    FocusScope.of(context).requestFocus(_movieController.favNodes![0]);
+    _movieController.favNodes!.refresh();
+    _movieController.comingNodes!.refresh();
     _intentController.coming = false;
     //print("top");
     _intentController.comingIndex = 0;

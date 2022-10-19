@@ -14,29 +14,21 @@ import 'package:smart_tv/features/profile/controllers/user_controller.dart';
 import '../../../config/intentFiles/button_intents.dart';
 import '../../movie_list/controller/movie_controller.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends GetView {
   ProfilePage({Key? key}) : super(key: key);
 
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
+  //MoviesController _moviesController = Get.find();
 
-class _ProfilePageState extends State<ProfilePage> {
-  MoviesController controller = Get.find();
   IntentController _intentController = Get.find();
+
+  UserController _userController = Get.put(UserController());
+  MoviesController controller = Get.find();
+  // IntentController _intentController = Get.find();
   LoginController _loginController = Get.put(LoginController());
 
   GlobalController _globalController = Get.find();
 
-  @override
-  void initState() {
-    for (var i = 0; i < 8; i++) {
-      _intentController.profileNodes!.add(FocusNode(debugLabel: "profile $i"));
-      print(_intentController.profileNodes![i]);
-    }
-    super.initState();
-  }
-
+  // @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,9 +43,6 @@ class _ProfilePageState extends State<ProfilePage> {
           decoration: BoxDecoration(
             color: DarkModeColors.backgroundVariant,
             borderRadius: BorderRadius.circular(8),
-            // border: Border.all(
-            //   color: Colors.white60,
-            // ),
           ),
           child: FocusableActionDetector(
             shortcuts: _globalController.navigationIntents,
@@ -65,10 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   FocusScope.of(context).requestFocus(_intentController
                       .profileNodes![++_intentController.profileIndex]);
                   _intentController.profileNodes!.refresh();
-                  //_intentController.profileIndex++;
                 }
-                // moveDown(context);
-                //moveDown(context);
               }),
               LeftbuttonIntent:
                   CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
@@ -109,36 +95,36 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       ProfileTile(
                         name: _loginController.user!.firtName,
-                        label: "First Name",
-                        node: _intentController.profileNodes![1],
+                        label: "First Name".tr,
+                        node: _userController.profileNodes![1],
                         widget:
                             KabbeeIcons.profile(color: Colors.grey, size: 25),
                       ),
                       ProfileTile(
                         name: _loginController.user!.lastName,
-                        label: "Last Name",
-                        node: _intentController.profileNodes![2],
+                        label: "Last Name".tr,
+                        node: _userController.profileNodes![2],
                         widget:
                             KabbeeIcons.profile(color: Colors.grey, size: 25),
                       ),
                       ProfileTile(
                         name: _loginController.user!.sex ?? "",
-                        label: "Gender",
-                        node: _intentController.profileNodes![3],
+                        label: "Gender".tr,
+                        node: _userController.profileNodes![3],
                         widget:
                             KabbeeIcons.gender(color: Colors.grey, size: 25),
                       ),
                       ProfileTile(
                         name: _loginController.user!.dateOfBirth ?? "",
-                        label: "Date of Birth",
-                        node: _intentController.profileNodes![4],
+                        label: "Date of Birth".tr,
+                        node: _userController.profileNodes![4],
                         widget:
                             KabbeeIcons.profile(color: Colors.grey, size: 25),
                       ),
                       ProfileTile(
                         name: _loginController.user!.country ?? "",
-                        label: "Country",
-                        node: _intentController.profileNodes![5],
+                        label: "Country".tr,
+                        node: _userController.profileNodes![5],
                         widget: KabbeeIcons.web(color: Colors.grey, size: 25),
                       ),
                       Container(
@@ -146,7 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 60,
                         width: 400,
                         child: TextButton(
-                            focusNode: _intentController.profileNodes![6],
+                            focusNode: _userController.profileNodes![6],
                             style: ElevatedButton.styleFrom(
                               primary: DarkModeColors.surfaceColor,
                             ),

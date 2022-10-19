@@ -3,14 +3,17 @@ import 'package:get/get.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/movie_list/controller/movie_controller.dart';
-import 'package:smart_tv/features/movie_list/widgets/video_palyer_page.dart';
+import 'package:smart_tv/features/video_player/views/video_palyer_page.dart';
+import '../../../config/intentFiles/button_intents.dart';
 import '../../common/theme/icon_themes.dart';
 import '../../common/theme/themes.dart';
 
-class Description extends StatefulWidget {
+import '../../../config/intentFiles/button_intents.dart';
+
+class Description extends StatelessWidget {
   final String name, description, bannerurl, posterurl, vote, lauchOn;
 
-  const Description({
+  Description({
     Key? key,
     required this.bannerurl,
     required this.description,
@@ -20,66 +23,41 @@ class Description extends StatefulWidget {
     required this.vote,
   }) : super(key: key);
 
-  @override
-  State<Description> createState() => _DescriptionState();
-}
-
-class _DescriptionState extends State<Description> {
   final GlobalController _globalController = Get.find();
 
   final IntentController _intentController = Get.find();
 
-  final MoviesController moviesController = Get.find();
+  final MoviesController _moviesController = Get.find();
 
   MoviesController controller = Get.find();
 
-  @override
-  void initState() {
-    // FocusScope.of(context).requestFocus(_intentController.descNodes!.value[0]);
-    // _intentController.descNodes!.refresh();
-    super.initState();
-  }
+  // @override
+  // _setFistFocus() {
+  //   if (!_intentController.descNodes!.isEmpty) {
+  //     print("is empty planed");
+  //     FocusScope.of(context)
+  //         .requestFocus(_intentController.descNodes!.value[0]);
+  //     _intentController.descNodes!.refresh();
+  //     // for (var i = 0; i < 5; i++) {
+  //     //   _intentController.descNodes!
+  //     //       .add(FocusNode(debugLabel: "desc node ${i}"));
+  //     //   //  print("side node ${_controller.descNodes![i]}");
+  //     // }
+  //   }
+  // }
 
-  _setFistFocus() {
-    if (!_intentController.descNodes!.isEmpty) {
-      print("is empty");
-      FocusScope.of(context)
-          .requestFocus(_intentController.descNodes!.value[0]);
-      _intentController.descNodes!.refresh();
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    // _intentController.descNodes![0].dispose();
-    // _intentController.descNodes![1].dispose();
-  }
-
-  _changeNodeFocus(BuildContext build, String direction) {
-    if (direction == "Down") {
-      _intentController.DownNavActions(context);
-      setState(() {});
-    } else if (direction == "Up") {
-      _intentController.UpNavActions(context);
-      setState(() {});
-    } else if (direction == "Right") {
-      _intentController.RightNavActions(context);
-      setState(() {});
-    } else if (direction == "Left") {
-      _intentController.LeftNavActions(context);
-      setState(() {});
-    }
-  }
-
+  // @override
   @override
   Widget build(BuildContext context) {
-    if (moviesController.serverMessage.isNotEmpty) {
+    if (_moviesController.serverMessage.isNotEmpty) {
       return Container(
         child: const Text("Content Not Found"),
       );
+    } else {
+      print(FocusScope.of(context).focusedChild);
+
+      //FocusScope.of(context).requestFocus(_moviesController.descNodes.value[0]);
     }
-    _setFistFocus();
     return Scaffold(
       backgroundColor: DarkModeColors.backgroundColor,
       appBar: GetPlatform.isAndroid
@@ -94,166 +72,214 @@ class _DescriptionState extends State<Description> {
       body: Container(
         child: FocusableActionDetector(
           shortcuts: _globalController.navigationIntents,
-          actions: _intentController.actionIntents(
-            context: context,
-            scrollController: _intentController.descPageScrollController,
-            index: _intentController.descIndex,
-            nodes: _intentController.descNodes!,
-          ),
+          actions: <Type, Action<Intent>>{
+            DownbuttonIntent:
+                CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
+              // moveDown(context);
+              _intentController.descPageScrollController.value.animateTo(
+                  _intentController.descPageScrollController.value.offset + 150,
+                  duration: Duration(milliseconds: 800),
+                  curve: Curves.ease);
+              _intentController.descPageScrollController.refresh();
+            }),
+            LeftbuttonIntent:
+                CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
+              //moveLeft(context);
+              print("left " + _intentController.descIndex.toString());
+              if (_intentController.descIndex > 0) {
+                FocusScope.of(context).requestFocus(_moviesController
+                    .descNodes.value[--_intentController.descIndex]);
+                _moviesController.descNodes.refresh();
+              }
+            }),
+            RightbuttonIntent:
+                CallbackAction<RightbuttonIntent>(onInvoke: (intent) {
+              //moveRight(context);
+              print("right");
+              if (_intentController.descIndex < 1) {
+                FocusScope.of(context).requestFocus(_moviesController
+                    .descNodes.value[++_intentController.descIndex]);
+                _moviesController.descNodes.refresh();
+              }
+            }),
+            UpbuttonIntent: CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
+              // moveUp(context);
+              _intentController.descPageScrollController.value.animateTo(
+                  _intentController.descPageScrollController.value.offset - 150,
+                  duration: Duration(milliseconds: 800),
+                  curve: Curves.ease);
+              _intentController.descPageScrollController.refresh();
+            })
+          },
           child: SingleChildScrollView(
             controller: _intentController.descPageScrollController.value,
-            child: Column(children: <Widget>[
-              SafeArea(
-                child: widget.bannerurl.isEmpty
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                        color: Colors.amber,
-                      ))
-                    : Container(
-                        width: double.infinity,
-                        height: Get.height * 0.8,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              widget.bannerurl,
+            child: Obx(
+              () => Column(children: <Widget>[
+                SafeArea(
+                  child: bannerurl.isEmpty
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                          color: Colors.amber,
+                        ))
+                      : Container(
+                          width: double.infinity,
+                          height: Get.height * 0.8,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                bannerurl,
+                              ),
+                              fit: BoxFit.fill,
                             ),
-                            fit: BoxFit.fill,
                           ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 30),
-                                    child: ElevatedButton.icon(
-                                        focusNode: _intentController
-                                            .descNodes!.value[0],
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 30),
+                                      child: ElevatedButton.icon(
+                                          focusNode: _moviesController
+                                              .descNodes.value[0],
+                                          autofocus: true,
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.orange,
+                                            minimumSize: Size(150, 40),
+                                          ),
+                                          onPressed: () {
+                                            // FocusScope.of(context).requestFocus(
+                                            //     _intentController
+                                            //         .videoPlayerNodes!
+                                            //         .value[0]);
+                                            print("what " +
+                                                FocusScope.of(context)
+                                                    .focusedChild
+                                                    .toString());
+                                            _intentController.videoPlayerNodes!
+                                                .refresh();
+                                            Get.to(VideoApp());
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //       builder: (context) =>
+                                            //           VideoApp()),
+                                            // );
+                                          },
+                                          icon: KabbeeIcons.play(
+                                              color: DarkModeColors
+                                                  .backgroundVariant,
+                                              size: 25),
+                                          label: Text(
+                                            'Play',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15),
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      width: 40,
+                                    ),
+                                    ElevatedButton.icon(
+                                        focusNode: _moviesController
+                                            .descNodes.value[1],
                                         style: ElevatedButton.styleFrom(
-                                          primary: Colors.orange,
+                                          side: _moviesController
+                                                  .descNodes.value[1].hasFocus
+                                              ? BorderSide(
+                                                  color: PrimaryColorTones
+                                                      .mainColor)
+                                              : null,
+                                          primary: DarkModeColors
+                                              .backgroundVariant
+                                              .withOpacity(0.1),
                                           minimumSize: Size(150, 40),
                                         ),
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    VideoApp()),
-                                          );
-                                        },
+                                        onPressed: () {},
                                         icon: KabbeeIcons.play(
-                                            color: DarkModeColors
-                                                .backgroundVariant,
-                                            size: 25),
+                                          // color: DarkModeColors.backgroundVariant,
+                                          size: 25,
+                                        ),
                                         label: Text(
-                                          'Play',
+                                          'Watch Later',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 15),
-                                        )),
-                                  ),
-                                  SizedBox(
-                                    width: 40,
-                                  ),
-                                  ElevatedButton.icon(
-                                      focusNode:
-                                          _intentController.descNodes!.value[1],
-                                      style: ElevatedButton.styleFrom(
-                                        side: _intentController
-                                                .descNodes!.value[0].hasFocus
-                                            ? BorderSide(
-                                                color:
-                                                    PrimaryColorTones.mainColor)
-                                            : null,
-                                        primary: DarkModeColors
-                                            .backgroundVariant
-                                            .withOpacity(0.1),
-                                        minimumSize: Size(150, 40),
-                                      ),
-                                      onPressed: () {},
-                                      icon: KabbeeIcons.play(
-                                        // color: DarkModeColors.backgroundVariant,
-                                        size: 25,
-                                      ),
-                                      label: Text(
-                                        'Watch Later',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
-                                      ))
-                                ]),
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Text(widget.name,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 45,
-                                  )),
-                            )
-                          ],
-                        ),
-                      ),
-              ),
-              Container(
-                color: Colors.black,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MovieInfo(
-                      lauchOn: widget.lauchOn,
-                      movieLanguage: "Tigrigna",
-                      producer: "Kabbee",
-                      duration: "1 hr 25 min",
-                      title: widget.name,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: PlotSummary(
-                        descritpion: widget.description,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                color: Colors.black,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 6,
-                        ),
-                        Text(
-                          'Cast & Crew',
-                          style: TextStyle(color: Colors.grey, fontSize: 20),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          height: 120,
-                          width: 300,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 5,
-                            itemBuilder: (context, index) => CastCrew(),
+                                        ))
+                                  ]),
+                              Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Text(name,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 45,
+                                    )),
+                              )
+                            ],
                           ),
-                        )
-                      ],
-                    ),
-                    Center(
-                        child: Trailers(
-                      banneerUrl: widget.bannerurl,
-                    ))
-                  ],
+                        ),
                 ),
-              ),
-            ]),
+                Container(
+                  color: Colors.black,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MovieInfo(
+                        lauchOn: lauchOn,
+                        movieLanguage: "Tigrigna",
+                        producer: "Kabbee",
+                        duration: "1 hr 25 min",
+                        title: name,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: PlotSummary(
+                          descritpion: description,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  color: Colors.black,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 6,
+                          ),
+                          Text(
+                            'Cast & Crew',
+                            style: TextStyle(color: Colors.grey, fontSize: 20),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: 120,
+                            width: 300,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 5,
+                              itemBuilder: (context, index) => CastCrew(),
+                            ),
+                          )
+                        ],
+                      ),
+                      Center(
+                          child: Trailers(
+                        banneerUrl: bannerurl,
+                      ))
+                    ],
+                  ),
+                ),
+              ]),
+            ),
           ),
         ),
       ),

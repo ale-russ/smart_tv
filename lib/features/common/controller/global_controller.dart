@@ -11,6 +11,8 @@ class GlobalController extends GetxController {
   BuildContext? globalContext;
 
   String defaultLanguage = "English";
+  RxBool initialised = false.obs;
+  RxBool data = false.obs;
 
   Map<ShortcutActivator, Intent> navigationIntents = {
     LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),

@@ -240,9 +240,9 @@ class _SearchPageState extends State<SearchPage> {
           .searchOptionsNodes!.value[--_intentController.searchoptionIndex]);
       _intentController.searchOptionsNodes!.refresh();
     } else {
-      FocusScope.of(context).requestFocus(_intentController.sideNodes![0]);
+      FocusScope.of(context).requestFocus(mController.sideNodes![0]);
       _intentController.searchOptionsNodes!.refresh();
-      _intentController.sideNodes!.refresh();
+      mController.sideNodes!.refresh();
     }
   }
 
