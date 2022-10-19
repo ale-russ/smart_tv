@@ -12,10 +12,10 @@ class LoginController extends GetxController {
 
   UserDetail? user;
   Users? allUsers;
-  //String errorMesseg = "";
+  String errorMesseg = "";
   int loginIndex = 0;
   Rx<FocusNode>? testing123 = FocusNode().obs;
-  RxString errorMesseg = "".obs;
+  // RxString errorMesseg = "".obs;
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -56,8 +56,7 @@ class LoginController extends GetxController {
 
         return true;
       } else {
-        errorMesseg =
-            "User Not Found, Please check your email address and try again".obs;
+        errorMesseg = "user_not_found".tr;
         print("error is $errorMesseg");
         return false;
       }
