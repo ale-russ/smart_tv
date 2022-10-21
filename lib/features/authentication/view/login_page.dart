@@ -3,6 +3,7 @@
 
 import 'dart:async';
 
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:smart_tv/features/authentication/controller/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,9 +12,13 @@ import 'package:smart_tv/features/common/controller/global_controller.dart';
 import '../widgets/loginForm.dart';
 
 class LoginPage extends StatelessWidget {
+  LoginPage({Key? key, this.googleSignIn}) : super(key: key);
+
   final _loginController = Get.put(LoginController());
   GlobalController _globalController = Get.put(GlobalController());
   final GlobalKey<FormState>? formKey = GlobalKey<FormState>();
+
+  final GoogleSignIn? googleSignIn;
 
   // bool keyboardV = false;
 
@@ -36,9 +41,11 @@ class LoginPage extends StatelessWidget {
           backGroundContianer(context),
 
           LoginForm(
-              globalController: _globalController,
-              loginController: _loginController,
-              formKey: formKey),
+            globalController: _globalController,
+            loginController: _loginController,
+            formKey: formKey,
+            googleSignIn: googleSignIn,
+          ),
           // )
         ],
       ),

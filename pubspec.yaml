@@ -78,6 +78,10 @@ dependencies:
   flutter_svg: ^1.1.5
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+
+  # google signin
+  google_sign_in: ^5.4.1
+  google_sign_in_tizen: ^0.1.2
   
 
 dev_dependencies:

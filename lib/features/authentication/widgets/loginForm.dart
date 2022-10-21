@@ -2,11 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:convert' show json;
+import 'package:http/http.dart' as http;
 
 import '../../../config/intentFiles/button_intents.dart';
 import '../../app_preference/widgets/widgets/language_selector.dart';
 import '../../common/controller/global_controller.dart';
 import '../../common/theme/themes.dart';
+import '../../movie_list/view/Movies.dart';
 import '../controller/login_controller.dart';
 import 'button.dart';
 import 'checkBox.dart';
@@ -18,6 +22,7 @@ class LoginForm extends StatelessWidget {
     required GlobalController globalController,
     required LoginController loginController,
     required this.formKey,
+    this.googleSignIn,
   })  : _globalController = globalController,
         _loginController = loginController,
         super(key: key);
@@ -25,6 +30,8 @@ class LoginForm extends StatelessWidget {
   final GlobalController _globalController;
   final LoginController _loginController;
   final GlobalKey<FormState>? formKey;
+
+  final GoogleSignIn? googleSignIn;
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +71,10 @@ class LoginForm extends StatelessWidget {
               color: DarkModeColors.borderColor.withOpacity(0.1),
             ),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 10),
           child: Form(
               key: formKey,
-              child:
-                  // print(" text field focus is " +
-                  //     _loginController.loginNodes.value[0].hasFocus.toString());
-                  Obx(
+              child: Obx(
                 () => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -122,6 +126,7 @@ class LoginForm extends StatelessWidget {
                       ),
                       controller: _loginController.passwordController,
                     ),
+                    SignInWithGoogle(),
                     const SizedBox(
                       height: 28.0,
                     ),
@@ -153,5 +158,178 @@ class LoginForm extends StatelessWidget {
       //_loginController.loginNodes.refresh();
       print("timer");
     });
+  }
+}
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  scopes: <String>[
+    'email',
+    'profile',
+  ],
+);
+
+class SignInWithGoogle extends StatefulWidget {
+  SignInWithGoogle({
+    Key? key,
+  }) : super(key: key);
+  GlobalController globalController = Get.find();
+
+  @override
+  State<SignInWithGoogle> createState() => _SignInWithGoogleState();
+}
+
+class _SignInWithGoogleState extends State<SignInWithGoogle> {
+  GoogleSignInAccount? _currentUser;
+  String _contactText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    print("In init state");
+    try {
+      widget.globalController.googleSignIn.onCurrentUserChanged
+          .listen((GoogleSignInAccount? account) {
+        setState(() {
+          print("Account is $account");
+          _currentUser = account;
+        });
+        if (_currentUser != null) {
+          _handleGetContact(_currentUser!);
+        }
+      });
+    } on Exception catch (err) {
+      // TODO
+      print("Error is $err");
+    }
+    widget.globalController.googleSignIn.signInSilently();
+  }
+
+  Future<void> _handleGetContact(GoogleSignInAccount user) async {
+    setState(() {
+      _contactText = 'Loading contact info...';
+    });
+    final http.Response response = await http.get(
+      Uri.parse('https://people.googleapis.com/v1/people/me/connections'
+          '?requestMask.includeField=person.names'),
+      headers: await user.authHeaders,
+    );
+    if (response.statusCode != 200) {
+      setState(() {
+        _contactText = 'People API gave a ${response.statusCode} '
+            'response. Check logs for details.';
+      });
+      print('People API ${response.statusCode} response: ${response.body}');
+      return;
+    }
+    final Map<String, dynamic> data =
+        json.decode(response.body) as Map<String, dynamic>;
+    final String? namedContact = _pickFirstNamedContact(data);
+    setState(() {
+      if (namedContact != null) {
+        _contactText = 'I see you know $namedContact!';
+      } else {
+        _contactText = 'No contacts to display.';
+      }
+    });
+  }
+
+  String? _pickFirstNamedContact(Map<String, dynamic> data) {
+    final List<dynamic>? connections = data['connections'] as List<dynamic>?;
+    final Map<String, dynamic>? contact = connections?.firstWhere(
+      (dynamic contact) => contact['names'] != null,
+      orElse: () => null,
+    ) as Map<String, dynamic>?;
+    if (contact != null) {
+      final Map<String, dynamic>? name = contact['names'].firstWhere(
+        (dynamic name) => name['displayName'] != null,
+        orElse: () => null,
+      ) as Map<String, dynamic>?;
+      if (name != null) {
+        return name['displayName'] as String?;
+      }
+    }
+    return null;
+  }
+
+  Future<void> _handleSignIn() async {
+    try {
+      await widget.globalController.googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> _handleSignOut() =>
+      widget.globalController.googleSignIn.disconnect();
+
+  Future<void> handleSignIn() async {
+    print("User is Siging in");
+    try {
+      await widget.globalController.googleSignIn.signIn().then((value) {
+        print("vlaue is $value");
+        final GoogleSignInAccount? user = _currentUser;
+        // if (user != null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MoviesPage(
+                user: _currentUser,
+              ),
+            ));
+        // }
+      });
+    } catch (err) {
+      print("Error is $err");
+    }
+  }
+
+  // Widget _buildBody() {
+  //   final GoogleSignInAccount? user = _currentUser;
+  //   if (user != null) {
+  //     return Column(
+  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //       children: <Widget>[
+  //         ListTile(
+  //           leading: GoogleUserCircleAvatar(
+  //             identity: user,
+  //           ),
+  //           title: Text(user.displayName ?? ''),
+  //           subtitle: Text(user.email),
+  //         ),
+  //         const Text('Signed in successfully.'),
+  //         Text(_contactText),
+  //         ElevatedButton(
+  //           onPressed: _handleSignOut,
+  //           child: const Text('SIGN OUT'),
+  //         ),
+  //         ElevatedButton(
+  //           child: const Text('REFRESH'),
+  //           onPressed: () => _handleGetContact(user),
+  //         ),
+  //       ],
+  //     );
+  //   } else {
+  //     return Column(
+  //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //       children: <Widget>[
+  //         const Text('You are not currently signed in.'),
+  //         ElevatedButton(
+  //           onPressed: _handleSignIn,
+  //           child: const Text('SIGN IN'),
+  //         ),
+  //       ],
+  //     );
+  //   }
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    // final GoogleSignInAccount? user = _currentUser;
+    return Container(
+      child: TextButton(
+        onPressed: handleSignIn,
+        child: Text("Sign in with Google"),
+      ),
+    );
   }
 }

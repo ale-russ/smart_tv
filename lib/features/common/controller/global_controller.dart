@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
 import 'package:smart_tv/features/common/services/dbAccess.dart';
 
@@ -13,6 +14,15 @@ class GlobalController extends GetxController {
   String defaultLanguage = "English";
   RxBool initialised = false.obs;
   RxBool data = false.obs;
+
+  GoogleSignIn googleSignIn = GoogleSignIn(
+    scopes: <String>[
+      'email',
+      'profile',
+    ],
+  );
+
+  GoogleSignInAccount? user;
 
   Map<ShortcutActivator, Intent> navigationIntents = {
     LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),

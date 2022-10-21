@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_tv/features/authentication/controller/login_controller.dart';
 import 'package:smart_tv/features/authentication/view/login_page.dart';
+import 'package:smart_tv/features/authentication/widgets/loginForm.dart';
 import 'package:smart_tv/features/common/controller/global_controller.dart';
 import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'package:smart_tv/features/common/theme/colors_utility.dart';
@@ -18,6 +19,10 @@ class ProfilePage extends GetView {
   ProfilePage({Key? key}) : super(key: key);
 
   //MoviesController _moviesController = Get.find();
+
+  GlobalController globalController = Get.put(GlobalController());
+
+  SignInWithGoogle? _signInWithGoogle;
 
   IntentController _intentController = Get.find();
 
@@ -90,79 +95,90 @@ class ProfilePage extends GetView {
             },
             child: SingleChildScrollView(
               child: Form(
-                child: Obx(
-                  () => Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      ProfileAvatar(
-                        node: _intentController.profileNodes![0],
-                        firstName: _loginController.user!.firtName,
-                        lastName: _loginController.user!.lastName,
-                        email: _loginController.user!.email,
-                      ),
-                      ProfileTile(
-                        name: _loginController.user!.firtName,
-                        label: "First Name".tr,
-                        node: _userController.profileNodes![1],
-                        widget:
-                            KabbeeIcons.profile(color: Colors.grey, size: 25),
-                      ),
-                      ProfileTile(
-                        name: _loginController.user!.lastName,
-                        label: "Last Name".tr,
-                        node: _userController.profileNodes![2],
-                        widget:
-                            KabbeeIcons.profile(color: Colors.grey, size: 25),
-                      ),
-                      ProfileTile(
-                        name: _loginController.user!.sex ?? "",
-                        label: "Gender".tr,
-                        node: _userController.profileNodes![3],
-                        widget:
-                            KabbeeIcons.gender(color: Colors.grey, size: 25),
-                      ),
-                      ProfileTile(
-                        name: _loginController.user!.dateOfBirth ?? "",
-                        label: "Date of Birth".tr,
-                        node: _userController.profileNodes![4],
-                        widget:
-                            KabbeeIcons.profile(color: Colors.grey, size: 25),
-                      ),
-                      ProfileTile(
-                        name: _loginController.user!.country ?? "",
-                        label: "Country".tr,
-                        node: _userController.profileNodes![5],
-                        widget: KabbeeIcons.web(color: Colors.grey, size: 25),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 30),
-                        height: 60,
-                        width: 400,
-                        child: TextButton(
-                            focusNode: _userController.profileNodes![6],
-                            style: ElevatedButton.styleFrom(
-                              primary: DarkModeColors.surfaceColor,
+                child:
+                    //  Obx(
+                    //   () =>
+                    Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ProfileAvatar(
+                      node: _intentController.profileNodes![0],
+                      // firstName: _loginController.user!.firtName,
+                      // lastName: _loginController.user!.lastName,
+                      firstName: "Alem",
+                      lastName: "Russom",
+                      email: "alem@gmail.com",
+                      // email: _loginController.user!.email,
+                    ),
+                    ProfileTile(
+                      // name: _loginController.user!.firtName,
+                      name: "Alem",
+                      label: "First Name".tr,
+                      node: _userController.profileNodes![1],
+                      widget: KabbeeIcons.profile(color: Colors.grey, size: 25),
+                    ),
+                    ProfileTile(
+                      // name: _loginController.user!.lastName,
+                      name: "Russom",
+                      label: "Last Name".tr,
+                      node: _userController.profileNodes![2],
+                      widget: KabbeeIcons.profile(color: Colors.grey, size: 25),
+                    ),
+                    ProfileTile(
+                      // name: _loginController.user!.sex ?? "",
+                      name: "Male",
+                      label: "Gender".tr,
+                      node: _userController.profileNodes![3],
+                      widget: KabbeeIcons.gender(color: Colors.grey, size: 25),
+                    ),
+                    ProfileTile(
+                      // name: _loginController.user!.dateOfBirth ?? "",
+                      name: "01-01-1999",
+                      label: "Date of Birth".tr,
+                      node: _userController.profileNodes![4],
+                      widget: KabbeeIcons.profile(color: Colors.grey, size: 25),
+                    ),
+                    ProfileTile(
+                      // name: _loginController.user!.country ?? "",
+                      name: "Eritrea",
+                      label: "Country".tr,
+                      node: _userController.profileNodes![5],
+                      widget: KabbeeIcons.web(color: Colors.grey, size: 25),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 30),
+                      height: 60,
+                      width: 400,
+                      child: TextButton(
+                          focusNode: _userController.profileNodes![6],
+                          style: ElevatedButton.styleFrom(
+                            primary: DarkModeColors.surfaceColor,
+                          ),
+                          onPressed: () {
+                            print("pressed logout button");
+                            globalController.googleSignIn.disconnect().then(
+                                (value) => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LoginPage())));
+                            // _globalController.logOutUser(context: context);
+                          },
+                          child: const Center(
+                            child: KabbeeText.headline5(
+                              "Log out",
+                              customStyle: TextStyle(color: Colors.white),
                             ),
-                            onPressed: () {
-                              print("pressed logout button");
-                              _globalController.logOutUser(context: context);
-                            },
-                            child: const Center(
-                              child: KabbeeText.headline5(
-                                "Log out",
-                                customStyle: TextStyle(color: Colors.white),
-                              ),
-                            )),
-                      )
-                    ],
-                  ),
+                          )),
+                    )
+                  ],
                 ),
               ),
             ),
           ),
         ),
       ),
+      // ),
     );
   }
 }
