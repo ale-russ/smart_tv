@@ -70,7 +70,7 @@ class LoginController extends GetxController {
   }
 
   initializeNodes() async {
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 6; i++) {
       loginNodes.add(FocusNode(debugLabel: "loginNode $i"));
       print(loginNodes[i]);
     }

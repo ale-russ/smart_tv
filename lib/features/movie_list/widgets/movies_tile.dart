@@ -220,6 +220,7 @@ class _ComingSoonState extends State<ComingSoon> {
           }),
           LeftbuttonIntent:
               CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
+            print("Left index in comming is ${mController.sideNodes!.value}");
             if (_intentController.comingIndex % 3 == 0) {
               FocusScope.of(context).requestFocus(mController.sideNodes![0]);
               _intentController.comingIndex = 0;

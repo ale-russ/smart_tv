@@ -85,7 +85,7 @@ class NavItem extends StatelessWidget {
 
   GlobalController _globalController = Get.find();
 
-  UserController _userController = Get.find();
+  UserController _userController = Get.put(UserController());
 
   MoviesController _moviesController = Get.find();
 
@@ -189,19 +189,19 @@ class NavItem extends StatelessWidget {
   }
 
   void moveRight(BuildContext context) {
-    if (_moviesController.clickedIndex == 2) {
-      FocusScope.of(context)
-          .requestFocus(_intentController.searchOptionsNodes!.value[0]);
-      print("in search ");
-      _intentController.searchOptionsNodes!.refresh();
-      _moviesController.sideNodes!.refresh();
-    } else if (_moviesController.clickedIndex == 1) {
+    if (_moviesController.clickedIndex == 1) {
       FocusScope.of(context).requestFocus(_intentController.comingNodes![0]);
       _intentController.navSelectedIndex = 0;
       _intentController.comingNodes!.refresh();
       _intentController.coming = true;
       _moviesController.sideNodes!.refresh();
       print("coming");
+    } else if (_moviesController.clickedIndex == 2) {
+      FocusScope.of(context)
+          .requestFocus(_intentController.searchOptionsNodes!.value[0]);
+      print("in search ");
+      _intentController.searchOptionsNodes!.refresh();
+      _moviesController.sideNodes!.refresh();
     } else if (_moviesController.clickedIndex == 3) {
       FocusScope.of(context).requestFocus(_moviesController.comingNodes![0]);
       _intentController.navSelectedIndex = 0;
@@ -211,6 +211,7 @@ class NavItem extends StatelessWidget {
       print("trending");
     } else if (_moviesController.clickedIndex == 4) {
       FocusScope.of(context).requestFocus(_userController.profileNodes![0]);
+      _intentController.navSelectedIndex = 0;
       _userController.profileNodes!.refresh();
       _moviesController.sideNodes!.refresh();
       print("profile");

@@ -25,7 +25,7 @@ class KeepMeIn extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 18, maxHeight: 18),
           child: Obx(
             () => Checkbox(
-              focusNode: loginController.loginNodes.value[2],
+              focusNode: loginController.loginNodes.value[3],
               focusColor: Colors.red,
               activeColor: PrimaryColorTones.mainColor,
               value: loginController.isRememberMe.value,

@@ -65,16 +65,17 @@ class MyApp extends GetView<GlobalController> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      navigatorKey: GetPlatform.isAndroid ? navigatorKey : navigatorKeyTizen,
+      navigatorKey: navigatorKeyTizen,
+      // GetPlatform.isAndroid ? navigatorKey : navigatorKeyTizen,
       translations: translate(),
       locale: Locale('ti', 'Eri'),
       fallbackLocale: Locale('en', 'US'),
       title: 'Kabbee Movies',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
-      home: LoginPage(
-        googleSignIn: globalController!.googleSignIn,
-      ),
-      // home: MoviesPage(),
+      // home: LoginPage(
+      //   googleSignIn: globalController!.googleSignIn,
+      // ),
+      home: MoviesPage(),
 
       //initialRoute: MoviesPage(),
       initialBinding: KbinitialBinding(),

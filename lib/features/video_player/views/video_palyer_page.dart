@@ -87,35 +87,84 @@ class VideoApp extends StatelessWidget {
                         Positioned(
                           top: Get.height * 0.5,
                           right: Get.width * 0.45,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: DarkModeColors.backgroundVariant
-                                  .withAlpha(150),
-                            ),
-                            child: IconButton(
-                                focusNode:
-                                    _videoController.videoPlayerNodes!.value[0],
-                                icon: FocusableActionDetector(
-                                  child: Icon(
-                                    _videoController.controller!.value.isPlaying
-                                        ? Icons.pause
-                                        : Icons.play_arrow,
-                                    color: _videoController
-                                            .videoPlayerNodes!.value[0].hasFocus
-                                        ? Colors.amber
-                                        : Colors.white,
-                                  ),
+                          child: Row(
+                            children: [
+                              // Focus(
+                              //     focusNode:
+                              //         _videoController.videoPlayerNodes![1],
+                              //     child: IconButton(
+                              //       icon: Icon(
+                              //         Icons.replay_5_outlined,
+                              //         color: Colors.white,
+                              //         size: 30,
+                              //       ),
+                              //       onPressed: () {
+                              //         _videoController.controller!.seekTo(
+                              //           Duration(
+                              //               seconds: _videoController
+                              //                       .controller!
+                              //                       .value
+                              //                       .position
+                              //                       .inSeconds -
+                              //                   1),
+                              //         );
+                              //       },
+                              //     )),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color: DarkModeColors.backgroundVariant
+                                      .withAlpha(150),
                                 ),
-                                onPressed: () {
-                                  // setState(() {
-                                  _videoController.controller!.value
-                                          .isPlaying //change here too
-                                      ? _videoController.controller!.pause()
-                                      : _videoController.controller!.play();
-                                  _videoController.videoPlayerNodes!.refresh();
-                                  // });
-                                }),
+                                child: IconButton(
+                                    focusNode: _videoController
+                                        .videoPlayerNodes!.value[0],
+                                    icon: FocusableActionDetector(
+                                      child: Icon(
+                                        _videoController
+                                                .controller!.value.isPlaying
+                                            ? Icons.pause
+                                            : Icons.play_arrow,
+                                        color: _videoController
+                                                .videoPlayerNodes!
+                                                .value[0]
+                                                .hasFocus
+                                            ? Colors.amber
+                                            : Colors.white,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      // setState(() {
+                                      _videoController.controller!.value
+                                              .isPlaying //change here too
+                                          ? _videoController.controller!.pause()
+                                          : _videoController.controller!.play();
+                                      _videoController.videoPlayerNodes!
+                                          .refresh();
+                                      // });
+                                    }),
+                              ),
+                              // Focus(
+                              //     focusNode:
+                              //         _videoController.videoPlayerNodes![2],
+                              //     child: IconButton(
+                              //       icon: Icon(
+                              //         Icons.forward_5_rounded,
+                              //         color: Colors.white,
+                              //         size: 30,
+                              //       ),
+                              //       onPressed: () {
+                              //         _videoController.controller!.seekTo(
+                              //             Duration(
+                              //                 seconds: _videoController
+                              //                         .controller!
+                              //                         .value
+                              //                         .position
+                              //                         .inSeconds +
+                              //                     1));
+                              //       },
+                              //     )),
+                            ],
                           ),
                         ),
                         Positioned(
@@ -141,28 +190,46 @@ class VideoApp extends StatelessWidget {
                               Row(
                                 children: [
                                   Focus(
-                                    focusNode:
-                                        _videoController.videoPlayerNodes![1],
-                                    child: Icon(
-                                      Icons.skip_previous,
-                                      color: !_videoController
-                                              .videoPlayerNodes![1].hasFocus
-                                          ? Colors.white
-                                          : Colors.amber,
-                                      // color: Colors.white,
-                                    ),
-                                  ),
+                                      focusNode:
+                                          _videoController.videoPlayerNodes![1],
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.replay_5_outlined,
+                                          color: Colors.white,
+                                          size: 30,
+                                        ),
+                                        onPressed: () {
+                                          _videoController.controller!.seekTo(
+                                            Duration(
+                                                seconds: _videoController
+                                                        .controller!
+                                                        .value
+                                                        .position
+                                                        .inSeconds -
+                                                    1),
+                                          );
+                                        },
+                                      )),
                                   Focus(
-                                    focusNode:
-                                        _videoController.videoPlayerNodes![2],
-                                    child: Icon(
-                                      Icons.skip_next,
-                                      color: !_videoController
-                                              .videoPlayerNodes![2].hasFocus
-                                          ? Colors.white
-                                          : Colors.amber,
-                                    ),
-                                  ),
+                                      focusNode:
+                                          _videoController.videoPlayerNodes![2],
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.forward_5_rounded,
+                                          color: Colors.white,
+                                          size: 30,
+                                        ),
+                                        onPressed: () {
+                                          _videoController.controller!.seekTo(
+                                              Duration(
+                                                  seconds: _videoController
+                                                          .controller!
+                                                          .value
+                                                          .position
+                                                          .inSeconds +
+                                                      1));
+                                        },
+                                      )),
                                   SizedBox(
                                     width: 15,
                                   ),

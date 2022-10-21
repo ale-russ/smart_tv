@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:convert' show json;
 import 'package:http/http.dart' as http;
+import 'package:smart_tv/features/authentication/view/login_page.dart';
 
 import '../../../config/intentFiles/button_intents.dart';
 import '../../app_preference/widgets/widgets/language_selector.dart';
@@ -32,6 +33,15 @@ class LoginForm extends StatelessWidget {
   final GlobalKey<FormState>? formKey;
 
   final GoogleSignIn? googleSignIn;
+
+  void initializeFocus(BuildContext context) {
+    print("ouside timee");
+    Timer(const Duration(seconds: 1), () {
+      //FocusScope.of(context).requestFocus(_loginController.loginNodes.value[0]);
+      //_loginController.loginNodes.refresh();
+      print("timer");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,23 +160,7 @@ class LoginForm extends StatelessWidget {
       ),
     );
   }
-
-  void initializeFocus(BuildContext context) {
-    print("ouside timee");
-    Timer(const Duration(seconds: 1), () {
-      //FocusScope.of(context).requestFocus(_loginController.loginNodes.value[0]);
-      //_loginController.loginNodes.refresh();
-      print("timer");
-    });
-  }
 }
-
-GoogleSignIn _googleSignIn = GoogleSignIn(
-  scopes: <String>[
-    'email',
-    'profile',
-  ],
-);
 
 class SignInWithGoogle extends StatefulWidget {
   SignInWithGoogle({
@@ -181,6 +175,8 @@ class SignInWithGoogle extends StatefulWidget {
 class _SignInWithGoogleState extends State<SignInWithGoogle> {
   GoogleSignInAccount? _currentUser;
   String _contactText = '';
+
+  LoginController _loginController = Get.find();
 
   @override
   void initState() {
@@ -263,21 +259,25 @@ class _SignInWithGoogleState extends State<SignInWithGoogle> {
       widget.globalController.googleSignIn.disconnect();
 
   Future<void> handleSignIn() async {
-    print("User is Siging in");
     try {
-      await widget.globalController.googleSignIn.signIn().then((value) {
-        print("vlaue is $value");
-        final GoogleSignInAccount? user = _currentUser;
-        // if (user != null) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MoviesPage(
-                user: _currentUser,
-              ),
-            ));
-        // }
-      });
+      await widget.globalController.googleSignIn.signIn();
+      // .then((value) {
+      final GoogleSignInAccount? user = _currentUser;
+      print("User after sigin in is $user");
+      // if (user == null) return null;
+      if (user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MoviesPage(
+              user: _currentUser,
+            ),
+          ),
+        );
+      } else {
+        LoginPage();
+      }
+      // });
     } catch (err) {
       print("Error is $err");
     }
@@ -327,8 +327,21 @@ class _SignInWithGoogleState extends State<SignInWithGoogle> {
     // final GoogleSignInAccount? user = _currentUser;
     return Container(
       child: TextButton(
+        focusNode: _loginController.loginNodes.value[2],
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(
+                _loginController.loginNodes.value[2].hasFocus
+                    ? Colors.transparent
+                    : Colors.transparent)),
         onPressed: handleSignIn,
-        child: Text("Sign in with Google"),
+        child: Text(
+          "Sign in with Google",
+          style: TextStyle(
+            color: _loginController.loginNodes.value[2].hasFocus
+                ? Colors.amber
+                : Colors.white,
+          ),
+        ),
       ),
     );
   }

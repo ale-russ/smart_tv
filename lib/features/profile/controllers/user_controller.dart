@@ -20,6 +20,7 @@ class UserController extends GetxController {
   UserDetail? user;
   RxString errorMesseg = "".obs;
   RxList<dynamic>? profileNodes = [].obs;
+  RxList<dynamic>? sideNodes = [].obs;
 
   @override
   void onInit() async {
@@ -52,6 +53,10 @@ class UserController extends GetxController {
   initializNodes() {
     for (var i = 0; i < 7; i++) {
       profileNodes!.add(FocusNode(debugLabel: "profile node $i"));
+    }
+    for (var i = 0; i < 5; i++) {
+      sideNodes!.add(FocusNode(debugLabel: "side node $i"));
+      print(sideNodes!.value[i]);
     }
   }
 }

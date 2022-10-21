@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_tv/features/authentication/controller/login_controller.dart';
 import 'package:smart_tv/features/authentication/controller/translation_controller.dart';
 
 import '../../../common/controller/global_controller.dart';
@@ -17,6 +18,7 @@ class LangaugeSelector extends GetView<GlobalController> {
   }) : super(key: key);
 
   LanguageController myController = Get.put(LanguageController());
+  LoginController _loginController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class LangaugeSelector extends GetView<GlobalController> {
       width: 90,
       child: Center(
         child: DropdownButton(
+          focusNode: _loginController.loginNodes.value[5],
           onChanged: (String? value) async {
             if (value != null) {
               myController.langValue.value = value.toString();

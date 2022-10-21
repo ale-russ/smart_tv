@@ -29,7 +29,7 @@ class ProfilePage extends GetView {
   UserController _userController = Get.put(UserController());
   MoviesController controller = Get.find();
   // IntentController _intentController = Get.find();
-  LoginController _loginController = Get.put(LoginController());
+  // LoginController _loginController = Get.put(LoginController());
 
   GlobalController _globalController = Get.find();
 
@@ -63,17 +63,18 @@ class ProfilePage extends GetView {
               DownbuttonIntent:
                   CallbackAction<DownbuttonIntent>(onInvoke: (intent) {
                 if (_intentController.profileIndex <
-                    _intentController.profileNodes!.length - 1) {
-                  FocusScope.of(context).requestFocus(_intentController
+                    _userController.profileNodes!.length - 1) {
+                  FocusScope.of(context).requestFocus(_userController
                       .profileNodes![++_intentController.profileIndex]);
-                  _intentController.profileNodes!.refresh();
+                  _userController.profileNodes!.refresh();
+                  // _intentController.profileIndex -= 1;
                 }
               }),
               LeftbuttonIntent:
                   CallbackAction<LeftbuttonIntent>(onInvoke: (intent) {
-                FocusScope.of(context)
-                    .requestFocus(_intentController.sideNodes![0]);
-                _intentController.profileNodes!.refresh();
+                print("left index is ${_intentController.sideNodes!.value}");
+                FocusScope.of(context).requestFocus(controller.sideNodes![0]);
+                _userController.profileNodes!.refresh();
                 _intentController.sideNodes!.refresh();
 
                 //moveLeft(context);
@@ -82,12 +83,9 @@ class ProfilePage extends GetView {
               UpbuttonIntent:
                   CallbackAction<UpbuttonIntent>(onInvoke: (intent) {
                 if (_intentController.profileIndex > 0) {
-                  FocusScope.of(context).requestFocus(_intentController
+                  FocusScope.of(context).requestFocus(_userController
                       .profileNodes![--_intentController.profileIndex]);
-                  _intentController.profileNodes!.refresh();
-                  //profileIndex--;
-                  // favPageScrollController.animateTo(favPageScrollController.offset - 200,
-                  //     duration: Duration(microseconds: 50), curve: Curves.ease);
+                  _userController.profileNodes!.refresh();
                 }
                 //moveRight(context);
                 // moveRight(context);
@@ -95,90 +93,93 @@ class ProfilePage extends GetView {
             },
             child: SingleChildScrollView(
               child: Form(
-                child:
-                    //  Obx(
-                    //   () =>
-                    Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ProfileAvatar(
-                      node: _intentController.profileNodes![0],
-                      // firstName: _loginController.user!.firtName,
-                      // lastName: _loginController.user!.lastName,
-                      firstName: "Alem",
-                      lastName: "Russom",
-                      email: "alem@gmail.com",
-                      // email: _loginController.user!.email,
-                    ),
-                    ProfileTile(
-                      // name: _loginController.user!.firtName,
-                      name: "Alem",
-                      label: "First Name".tr,
-                      node: _userController.profileNodes![1],
-                      widget: KabbeeIcons.profile(color: Colors.grey, size: 25),
-                    ),
-                    ProfileTile(
-                      // name: _loginController.user!.lastName,
-                      name: "Russom",
-                      label: "Last Name".tr,
-                      node: _userController.profileNodes![2],
-                      widget: KabbeeIcons.profile(color: Colors.grey, size: 25),
-                    ),
-                    ProfileTile(
-                      // name: _loginController.user!.sex ?? "",
-                      name: "Male",
-                      label: "Gender".tr,
-                      node: _userController.profileNodes![3],
-                      widget: KabbeeIcons.gender(color: Colors.grey, size: 25),
-                    ),
-                    ProfileTile(
-                      // name: _loginController.user!.dateOfBirth ?? "",
-                      name: "01-01-1999",
-                      label: "Date of Birth".tr,
-                      node: _userController.profileNodes![4],
-                      widget: KabbeeIcons.profile(color: Colors.grey, size: 25),
-                    ),
-                    ProfileTile(
-                      // name: _loginController.user!.country ?? "",
-                      name: "Eritrea",
-                      label: "Country".tr,
-                      node: _userController.profileNodes![5],
-                      widget: KabbeeIcons.web(color: Colors.grey, size: 25),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 30),
-                      height: 60,
-                      width: 400,
-                      child: TextButton(
-                          focusNode: _userController.profileNodes![6],
-                          style: ElevatedButton.styleFrom(
-                            primary: DarkModeColors.surfaceColor,
-                          ),
-                          onPressed: () {
-                            print("pressed logout button");
-                            globalController.googleSignIn.disconnect().then(
-                                (value) => Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginPage())));
-                            // _globalController.logOutUser(context: context);
-                          },
-                          child: const Center(
-                            child: KabbeeText.headline5(
-                              "Log out",
-                              customStyle: TextStyle(color: Colors.white),
+                child: Obx(
+                  () => Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ProfileAvatar(
+                        // node: _intentController.profileNodes![0],
+                        node: _userController.profileNodes![0],
+                        // firstName: _loginController.user!.firtName,
+                        // lastName: _loginController.user!.lastName,
+                        firstName: "Alem",
+                        lastName: "Russom",
+                        email: "alem@gmail.com",
+                        // email: _loginController.user!.email,
+                      ),
+                      ProfileTile(
+                        // name: _loginController.user!.firtName,
+                        name: "Alem",
+                        label: "First Name".tr,
+                        node: _userController.profileNodes![1],
+                        widget:
+                            KabbeeIcons.profile(color: Colors.grey, size: 25),
+                      ),
+                      ProfileTile(
+                        // name: _loginController.user!.lastName,
+                        name: "Russom",
+                        label: "Last Name".tr,
+                        node: _userController.profileNodes![2],
+                        widget:
+                            KabbeeIcons.profile(color: Colors.grey, size: 25),
+                      ),
+                      ProfileTile(
+                        // name: _loginController.user!.sex ?? "",
+                        name: "Male",
+                        label: "Gender".tr,
+                        node: _userController.profileNodes![3],
+                        widget:
+                            KabbeeIcons.gender(color: Colors.grey, size: 25),
+                      ),
+                      ProfileTile(
+                        // name: _loginController.user!.dateOfBirth ?? "",
+                        name: "01-01-1999",
+                        label: "Date of Birth".tr,
+                        node: _userController.profileNodes![4],
+                        widget:
+                            KabbeeIcons.profile(color: Colors.grey, size: 25),
+                      ),
+                      ProfileTile(
+                        // name: _loginController.user!.country ?? "",
+                        name: "Eritrea",
+                        label: "Country".tr,
+                        node: _userController.profileNodes![5],
+                        widget: KabbeeIcons.web(color: Colors.grey, size: 25),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 30),
+                        height: 60,
+                        width: 400,
+                        child: TextButton(
+                            focusNode: _userController.profileNodes![6],
+                            style: ElevatedButton.styleFrom(
+                              primary: DarkModeColors.surfaceColor,
                             ),
-                          )),
-                    )
-                  ],
+                            onPressed: () {
+                              print("pressed logout button");
+                              globalController.googleSignIn.disconnect().then(
+                                  (value) => Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginPage())));
+                              // _globalController.logOutUser(context: context);
+                            },
+                            child: const Center(
+                              child: KabbeeText.headline5(
+                                "Log out",
+                                customStyle: TextStyle(color: Colors.white),
+                              ),
+                            )),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
       ),
-      // ),
     );
   }
 }
@@ -247,6 +248,7 @@ class ProfileAvatar extends StatelessWidget {
   String? email;
   @override
   Widget build(BuildContext context) {
+    print("node is ${node.hasFocus}");
     return Focus(
       focusNode: node,
       child: Container(
