@@ -18,25 +18,15 @@ import 'package:smart_tv/features/common/controller/intent_controllers.dart';
 import 'features/common/services/dbAccess.dart';
 import 'features/movie_list/view/Movies.dart';
 import 'firebase_options.dart';
-
-const String tvClient =
-    '194524823935-k8pbemjbd3q0247pe7c0gmsssqnph3m3.apps.googleusercontent.com';
-const String clientId =
-    "194524823935-s82038q0hlslsv0gm5og0jmf4somouqc.apps.googleusercontent.com";
-const String clientSecret = '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';
-
-// GoogleSignIn _googleSignIn = GoogleSignIn(scopes: <String>[
-//   'email',
-//   'profile',
-// ]);
+import 'creds.dart' as creds;
 
 void main(List<String>? args) async {
   debugPrint('args: $args');
 
   GoogleSignInTizen.setCredentials(
     // clientId: clientId,
-    clientId: GetPlatform.isAndroid ? clientId : tvClient,
-    clientSecret: clientSecret,
+    clientId: GetPlatform.isAndroid ? creds.clientId : creds.tvClient,
+    clientSecret: creds.clientSecret,
   );
 
   await preLauncherSetup();

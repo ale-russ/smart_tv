@@ -274,9 +274,11 @@ class _SignInWithGoogleState extends State<SignInWithGoogle> {
             ),
           ),
         );
-      } else {
-        LoginPage();
       }
+      // else {
+      //   return null;
+      //   // LoginPage();
+      // }
       // });
     } catch (err) {
       print("Error is $err");

@@ -49,3 +49,6 @@ app.*.map.json
 
 #keystore file
 /android/key.properties
+
+# Credentials 
+lib/creds.dart
