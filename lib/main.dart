@@ -72,10 +72,10 @@ class MyApp extends GetView<GlobalController> {
       fallbackLocale: Locale('en', 'US'),
       title: 'Kabbee Movies',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "WorkSans"),
-      // home: LoginPage(
-      //   googleSignIn: globalController!.googleSignIn,
-      // ),
-      home: MoviesPage(),
+      home: LoginPage(
+        googleSignIn: globalController!.googleSignIn,
+      ),
+      // home: MoviesPage(),
 
       //initialRoute: MoviesPage(),
       initialBinding: KbinitialBinding(),
